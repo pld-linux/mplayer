@@ -96,16 +96,16 @@ URL:		http://www.mplayerhq.hu/
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-%{!?_without_mad:BuildRequires:		libmad-devel}
+%{!?_without_mad:BuildRequires:		mad-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	audiofile-devel
-BuildRequires:	freetype-devel
 BuildRequires:	awk
 BuildRequires:	esound-devel
 BuildRequires:	faad2-devel
+BuildRequires:	freetype-devel
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
@@ -239,13 +239,10 @@ export CC CFLAGS
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d \
-	$RPM_BUILD_ROOT%{_bindir} \
+	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
 	$RPM_BUILD_ROOT%{_mandir}/{de,fr,hu,pl,zh,}/man1 \
-	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer \
-	$RPM_BUILD_ROOT%{_datadir}/mplayer/Skin \
-	$RPM_BUILD_ROOT%{_libdir}/mplayer/vidix \
-	$RPM_BUILD_ROOT%{_applnkdir}/Multimedia \
-	$RPM_BUILD_ROOT%{_pixmapsdir}
+	$RPM_BUILD_ROOT{%{_datadir}/mplayer/Skin,%{_libdir}/mplayer/vidix} \
+	$RPM_BUILD_ROOT%{_applnkdir}/Multimedia 
 
 # default config files
 awk '/Delete this default/{a++};{if(!a){print}}' etc/example.conf > etc/mplayer.conf
