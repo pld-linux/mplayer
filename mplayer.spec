@@ -51,7 +51,7 @@
 %define		snap		20030810
 %define		ffmpeg_ver	0.4.5
 
-%define	pre	pre4
+%define	pre	pre5
 Summary:	Yet another movie player
 Summary(es):	Otro reproductor de películas
 Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
@@ -59,7 +59,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.7
+Release:	0.%{pre}.1
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -71,7 +71,7 @@ Source1:	libavcodec-%{snap}.tar.bz2
 # Source1-md5:	8c32cd38df314638624bf5ef76081265
 %else
 Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	83ebac0f05b192516a41fca2350ca01a
+# Source0-md5:	fbe6919eb025526e8ed129cd61a49969
 %endif
 Source3:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -91,10 +91,7 @@ Patch6:		%{name}-gtk+2.patch
 Patch7:		%{name}-alpha.patch
 Patch8:		%{name}-altivec.patch
 Patch9:		%{name}-iconv-in-libc.patch
-# Fix for remote buffer overflow vulnerabilities in the GUI code.
-# Taken from http://www.mplayerhq.hu/MPlayer/patches/vuln04-fix.diff
-Patch10:	%{name}-vuln04-fix.diff
-Patch11:	%{name}-assembly.patch
+Patch10:	%{name}-assembly.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
@@ -221,8 +218,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-%patch10 -p0
-%patch11 -p1
+%patch10 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -300,7 +296,7 @@ export CC CFLAGS
 rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
-	$RPM_BUILD_ROOT%{_mandir}/{de,es,fr,hu,pl,zh_CN,}/man1 \
+	$RPM_BUILD_ROOT%{_mandir}/{de,es,fr,hu,it,pl,zh_CN,}/man1 \
 	$RPM_BUILD_ROOT{%{_datadir}/mplayer/Skin,%{_libdir}/mplayer/vidix} \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
@@ -323,7 +319,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/*/CVS
 
 # libraries
 %ifarch %{ix86}
-install libdha/libdha.so.0.1 $RPM_BUILD_ROOT%{_libdir}
+install libdha/libdha.so.1.0 $RPM_BUILD_ROOT%{_libdir}
 install vidix/drivers/*.so $RPM_BUILD_ROOT%{_libdir}/mplayer/vidix
 %endif
 
@@ -337,6 +333,7 @@ install DOCS/man/en/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install DOCS/man/es/*.1 $RPM_BUILD_ROOT%{_mandir}/es/man1
 install DOCS/man/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
 install DOCS/man/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
+install DOCS/man/it/*.1 $RPM_BUILD_ROOT%{_mandir}/it/man1
 install DOCS/man/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
 install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
 find DOCS -name CVS -print | xargs rm -rf
@@ -355,7 +352,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(de) %doc DOCS/de
 %lang(es) %doc DOCS/HTML/es
 %lang(fr) %doc DOCS/HTML/fr
-%lang(hu) %doc DOCS/hu
+%lang(hu) %doc DOCS/HTML/hu
 %lang(it) %doc DOCS/it
 %lang(pl) %doc DOCS/HTML/pl
 %lang(ru) %doc DOCS/HTML/ru
@@ -374,6 +371,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es) %{_mandir}/es/man1/*
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
+%lang(it) %{_mandir}/it/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/*
