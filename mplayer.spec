@@ -1,5 +1,5 @@
 #
-# TODO: bcond for libsmbclient and maybe theora, libdv?
+# TODO: bcond for libsmbclient and maybe libdv?
 #
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
@@ -32,6 +32,7 @@
 				#  where it was compiled
 %bcond_without	select		# disable audio select() support (for example
 				# required this option ALSA or Vortex2 driver)
+%bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
 %bcond_without	vorbis		# without ogg-vorbis audio support
 
@@ -130,7 +131,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libmatroska-devel >= 0.6.3-2
 BuildRequires:	libpng-devel
 BuildRequires:	libsmbclient-devel
-BuildRequires:	libtheora-devel
+%{?with_theora:BuildRequires:	libtheora-devel}
 BuildRequires:	libungif-devel
 BuildRequires:	lzo-devel
 BuildRequires:	ncurses-devel
