@@ -12,7 +12,7 @@
 # _without_vorbis	- without ogg-vorbis support
 # _with_divx4linux	- with divx4linux support (binaries, instead of included OpenDivx)
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
-# _without_win32	- disable requirement fro win32 codecs (req: avi-codecs)
+# _without_win32	- disable requirement for win32 codecs (req: w23codec)
 #
 
 %define sname	MPlayer
@@ -33,7 +33,7 @@ Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
-#%{?_without_win32:Patch2:	%{name}-comment_w32.patch}
+%{?_without_win32:Patch2:	%{name}-codesc_no_win32.patch}
 URL:		http://mplayer.sourceforge.net/
 %{!?_without_win32:Requires:	w32codec}
 Requires:	OpenGL
@@ -80,7 +80,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %setup  -q -n %{sname}-%{snap} -a 1
 %patch0 -p1
 %patch1 -p1
-#%{?_without_win32:%patch2 -p1}
+%{?_without_win32:%patch2 -p1}
 
 cp -ar ffmpeg/libavcodec/* libavcodec
 
