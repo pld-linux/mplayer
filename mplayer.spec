@@ -6,7 +6,7 @@
 # bcond_off_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 #
 
-%define	snap	20010427
+%define	snap	20010501
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla linuxa
 Name:		mplayer
