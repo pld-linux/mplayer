@@ -142,6 +142,7 @@ export CFLAGS
 ./configure \
 			--prefix=%{_prefix} \
 			--confdir=%{_sysconfdir}/mplayer \
+			--with-x11incdir=/usr/X11R6/include \
 			--enable-mencoder \
 %{!?_without_lirc:	--enable-lirc} \
 %{?_without_lirc:	--disable-lirc} \
