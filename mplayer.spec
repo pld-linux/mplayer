@@ -55,7 +55,6 @@ Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default.tar.bz2
 Source5:	g%{name}.desktop
 Source6:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-1.tar.bz2
 Patch0:		%{name}-make.patch
-Patch1:		%{name}-confpath.patch
 Patch2:		%{name}-no_libnsl.patch
 Patch3:		%{name}-cp1250-fontdesc.patch
 Patch4:		%{name}-codec.patch
@@ -124,7 +123,6 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 %endif
 
 %patch0 -p1
-#%patch1 -p1
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch2 -p1
 %patch3 -p0
