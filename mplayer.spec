@@ -45,26 +45,26 @@
 %define		_without_qt	1
 %endif
 
+%define	pre	pre1
 Summary:	Yet another movie player for Linux
 Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
-Version:	0.91
-Release:	0.1
+Version:	1.0
+Release:	0.%{pre}.1
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
 #Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
-Source0:	%{name}-%{snap}.tar.bz2
-# Source 0-md5:	bb09138564ddf954392d20dbc4b88ebd
+#Source0:	%{name}-%{snap}.tar.bz2
 #Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source1:	libavcodec-%{snap}.tar.bz2
 # Source1-md5:	8c32cd38df314638624bf5ef76081265
 %else
-Source0:	ftp://ftp3.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
-# Source0-md5:	bb09138564ddf954392d20dbc4b88ebd
+Source0:	ftp://ftp3.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
+# Source0-md5:	657ff738f19a8a42739b76b46585a783
 %endif
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -161,15 +161,15 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 %if %{snapshot}
 %setup -q -n %{name}-%{snap} -a 1 -a 3 -a 6
 %else
-%setup -q -n %{sname}-%{version} -a 3 -a 6
+%setup -q -n %{name}-%{version}%{pre} -a 3 -a 6
 %endif
 
 %patch0 -p1
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch2 -p1
 %patch3 -p0
-#%patch4 -p1
-#%patch5 -p1	-- old home_etc behavior
+##%patch4 -p1
+##%patch5 -p1	-- old home_etc behavior
 %patch6 -p1
 
 %build
@@ -270,14 +270,14 @@ install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # man pages
-install DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
-install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-install DOCS/French/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
-install DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
-install DOCS/Polish/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
-install DOCS/Chinese/*.1 $RPM_BUILD_ROOT%{_mandir}/zh/man1
+install DOCS/de/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
+install DOCS/en/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+install DOCS/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
+install DOCS/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
+install DOCS/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
+install DOCS/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh/man1
 find DOCS -name CVS -print | xargs rm -rf
-find DOCS -name \*1 -print | xargs rm
+find DOCS -name \*1 -print | xargs rm -f
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -285,13 +285,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %{?!_without_win32: %doc etc/codecs.win32.conf}
-%doc DOCS/*.html
-%lang(de) %doc DOCS/German
-%lang(fr) %doc DOCS/French
-%lang(hu) %doc DOCS/Hungarian
-%lang(it) %doc DOCS/Italian
-%lang(pl) %doc DOCS/Polish
-%lang(zh) %doc DOCS/Chinese
+%doc DOCS/en/*.html
+%lang(de) %doc DOCS/de
+%lang(fr) %doc DOCS/fr
+%lang(hu) %doc DOCS/hu
+%lang(it) %doc DOCS/it
+%lang(pl) %doc DOCS/pl
+%lang(zh) %doc DOCS/zh
 %doc README AUTHORS ChangeLog
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
