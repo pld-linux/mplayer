@@ -51,7 +51,8 @@
 %define		snap		20030810
 %define		ffmpeg_ver	0.4.5
 
-%define	pre	pre5
+%define		pre		pre5
+
 Summary:	Yet another movie player
 Summary(es):	Otro reproductor de películas
 Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
