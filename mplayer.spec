@@ -267,7 +267,7 @@ export CC CFLAGS
 %{!?with_win32:--disable-win32} \
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
-%{?with_theora:--enable-theora} \
+%{!?with_theora:--disable-theora} \
 			--enable-dga \
 			--enable-fbdev \
 			--enable-gl \
