@@ -37,7 +37,7 @@
 %define		snapshot	1
 
 %define		sname		MPlayer
-%define		snap		20030810
+%define		snap		20030514
 %define		ffmpeg_ver	0.4.5
 
 %ifnarch %{ix86}
@@ -58,20 +58,20 @@ Group:		X11/Applications/Multimedia
 %if %{snapshot}
 #Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 Source0:	%{name}-%{snap}.tar.bz2
-# Source0-md5:	1d99c2bf1268c3a72495cc0689326a1d
+# Source0-md5:	9a9f294bbaab2071ecbc327f4e870be8
 #Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source1:	libavcodec-%{snap}.tar.bz2
-# Source1-md5:	8c32cd38df314638624bf5ef76081265
+# Source1-md5:	ec80b8794125730bcef4a25d3a72ff7c
 %else
-#Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
-# Source3-md5:	7b47904a925cf58ea546ca15f3df160c
+# Source3-md5: 0f9a5d53f836e2d2d2bde207dc641044
 Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default-1.7.tar.bz2
-# Source4-md5:	7e1d16c2f8a32469f4354cb043eecc5d
+# Source4-md5: 2ab41a197fec2df1caddd97a00e7237f
 Source5:	g%{name}.desktop
 Source6:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
-# Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
+# Source6-md5: 6c3f032ddf401ca522900291de03fee5
 Source7:	%{name}.png
 Patch0:		%{name}-make.patch
 Patch2:		%{name}-no_libnsl.patch
@@ -181,6 +181,15 @@ export CC CFLAGS
 			--confdir=%{_sysconfdir}/mplayer \
 			--with-x11incdir=/usr/X11R6/include \
 			--with-extraincdir=/usr/include/xvid \
+%ifnarch %{ix86}
+			--disable-mmx \
+			--disable-mmx2 \
+			--disable-3dnow \
+			--disable-3dnowex \
+			--disable-sse \
+			--disable-sse2 \
+			--disable-fastmemcpy \
+%endif
 %{!?_with_directfb:	--disable-directfb} \
 %{!?_with_divx4linux:	--disable-divx4linux} \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
@@ -217,6 +226,7 @@ export CC CFLAGS
 			--enable-xmga \
 			--enable-xv \
 			--enable-xvid \
+			--disable-dvdnav \
 			--enable-largefiles \
 			--with-win32libdir=%{_libdir}/codecs
 
