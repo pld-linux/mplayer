@@ -66,7 +66,7 @@ BuildRequires:	XFree86-devel >= 4.0.2
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	audiofile-devel
-%{!?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
+%{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
 BuildRequires:	esound-devel
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_gui:BuildRequires:		libpng-devel}
@@ -183,7 +183,7 @@ export CFLAGS
 %{!?_without_alsa:	--enable-alsa --disable-select} \
 %{?_without_select:	--disable-select} \
 %{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
-%{!?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
+%{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 			--disable-dvdnav
 
 %{__make}
