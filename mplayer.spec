@@ -64,7 +64,6 @@ Source1:	libavcodec-%{snap}.tar.bz2
 # Source1-md5:	ec80b8794125730bcef4a25d3a72ff7c
 %else
 Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
-# Source0-md5:	fa95df6c5106f5f6b8cff38a26cfc748
 %endif
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5: 0f9a5d53f836e2d2d2bde207dc641044
