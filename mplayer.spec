@@ -162,7 +162,8 @@ export CFLAGS
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_bindir},%{_libdir}/mplayer/vidix,%{_mandir}/{,hu/}man1} \
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_bindir},%{_libdir}/mplayer/vidix} \
+	$RPM_BUILD_ROOT%{_mandir}/{,de/,hu/,pl/}man1 \
 	$RPM_BUILD_ROOT{%{_applnkdir}/Multimedia,%{_datadir}/mplayer/{arial-{14,18,24,28},Skin}}
 
 perl -p -i -e 'exit if /this default/' etc/example.conf
@@ -183,20 +184,22 @@ install font-arial-28-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf arial-24 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+install DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
 install DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
+# not translated yet
+#install DOCS/Polish/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
-gzip -9nf DOCS/{DVB,DXR3,Polish/DVB,French/exemple.conf}
-gzip -9nf etc/{example,codecs.win32}.conf
+rm -f DOCS/{German,Hungarian,Polish}/*.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc DOCS/*.gz DOCS/*.html
-%doc etc/example.conf.gz
-%{?!_without_win32: %doc etc/codecs.win32.conf.gz}
+%doc DOCS/{DVB,DXR3} DOCS/*.html
+%doc etc/example.conf
+%{?!_without_win32: %doc etc/codecs.win32.conf}
 %lang(de) %doc DOCS/German
 %lang(hu) %doc DOCS/Hungarian
 %lang(pl) %doc DOCS/Polish
@@ -206,6 +209,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/mplayer
 %{_mandir}/man1/*
+%lang(de) %{_mandir}/de/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
+#%lang(pl) %{_mandir}/pl/man1/*
 %{_applnkdir}/*/*
-%{_libdir}
+%attr(755,root,root) %{_libdir}/*
