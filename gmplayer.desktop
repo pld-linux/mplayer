@@ -5,5 +5,5 @@ Comment[pl]=Odtwarzacz Filmów pod Linuxa
 Exec=gmplayer -nofs
 Terminal=0
 Type=Application
-MimeType=video/x-msvideo;video/mpeg
+MimeType=video/x-msvideo;video/mpeg;video/x-wmv
 # vi: encoding=utf-8
