@@ -45,7 +45,7 @@ Group:		X11/Applications/Multimedia
 Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 %else
-Source0:	http://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-2.tar.bz2
