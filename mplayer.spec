@@ -94,7 +94,7 @@ URL:		http://www.mplayerhq.hu/
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-%{!?_without_mad:BuildRequires:		mad-devel}
+%{!?_without_mad:BuildRequires:		libmad-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
@@ -139,7 +139,6 @@ Xv, DGA, OpenGL, SVGAlib, fbdev와 작동하며, SDL이나
 크기조절 (scaling)을 지원하므로, 전체화면으로 영상을 감상할 수
 있습니다. 뿐만아니라, 한국어, 영어, 헝가리어, 체코어, 러시아어등의
 부드러운(antialiased) 자막폰트도 사용할 수 있습니다.
-
 
 %description -l pl
 Odtwarzacz wideo dla Linuksa. Wspierane formaty wej턢iowe: VCD
