@@ -1,0 +1,8 @@
+- fixed docs, which I broke
+- added menoder binary
+- removed cpu-capability switches, now use for exmaple -with k7, which
+  chooses all needed switches (no chance to forgot to set needed switch,
+  there were bugs repoerted about it)
+- use mplayer.conf from SOURCE2, exmaple.conf move to docs
+- cosmetics
+- release 4
