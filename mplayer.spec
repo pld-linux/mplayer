@@ -28,7 +28,7 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.60
-Release:	2
+Release:	3
 License:	GPL w/o binaries
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -173,8 +173,11 @@ ln -sf arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_prefix}/share/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
+install -d $RPM_BUILD_ROOT%{_mandir}/hu/man1
+mv DOCS/hu/mplayer.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
+
 rm -rf DOCS/*/CVS
-gzip -9nfq DOCS/{DVB,{Polish,German,Hungarian}/*}
+gzip -9nfq DOCS/{DVB,DXR3,Polish/DVB,French/example.conf}
 gzip -9nf etc/codecs-win32.conf
 
 %clean
@@ -194,5 +197,6 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
+%lang(hu) %{_mandir}/hu/man1/*
 %{_prefix}/share/mplayer
 %{_applnkdir}/*/*
