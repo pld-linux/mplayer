@@ -33,7 +33,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90pre4
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -75,7 +75,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
-%define		_sysconfdir	/etc
 
 %description
 Movie player for Linux. Supported input formats: VCD (VideoCD),
@@ -134,10 +133,8 @@ fi
 export CFLAGS
 ./configure \
 			--prefix=%{_prefix} \
-			--with-x11incdir=%{_includedir}\
+			--confdir=%{_sysconfdir}/mplayer \
 			--datadir=%{_datadir}/mplayer \
-			--with-win32libdir="/usr/lib/win32" \
-%{!?_without_divx4linux:--with-extraincdir=/usr/include/divx} \
 %{?_without_alsa:	--disable-alsa} \
 %{!?_without_alsa:	--enable-alsa --disable-select} \
 			--enable-dga \
@@ -162,7 +159,10 @@ export CFLAGS
 %{?_without_divx4linux: --disable-divx4linux} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
-%{?_without_dshow:	--disable-dshow}
+%{?_without_dshow:	--disable-dshow} \
+			--with-x11incdir=%{_includedir} \
+			--with-win32libdir="/usr/lib/win32" \
+%{!?_without_divx4linux:--with-extraincdir=/usr/include/divx}
 
 %{__make}
 
@@ -173,8 +173,8 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_bindir},%{_libdir}/mplayer/
 	$RPM_BUILD_ROOT{%{_applnkdir}/Multimedia,%{_datadir}/mplayer/{arial-{14,18,24,28},Skin}}
 
 perl -p -i -e 'exit if /this default/' etc/example.conf
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
-install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
+install etc/codecs.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
 install mplayer $RPM_BUILD_ROOT%{_bindir}
 install mencoder $RPM_BUILD_ROOT%{_bindir}
 %ifarch %{ix86}
@@ -189,27 +189,31 @@ install font-arial-24-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer
 install font-arial-28-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-28
 ln -sf arial-24 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
+install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
 install DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 # not translated yet
 #install DOCS/Polish/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
-install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
 rm -f DOCS/{German,Hungarian,Polish}/*.1
+
+gzip -9nf DOCS/{{,Polish/}{DVB,DXR3},French/exemple.conf,Hungarian/example.conf}
+gzip -9nf etc/{example,codecs.win32}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc DOCS/{DVB,DXR3} DOCS/*.html
-%doc etc/example.conf
-%{?!_without_win32: %doc etc/codecs.win32.conf}
+%doc DOCS/*.gz DOCS/*.html
+%doc etc/example.conf.gz
+%{?!_without_win32: %doc etc/codecs.win32.conf.gz}
 %lang(de) %doc DOCS/German
-%lang(hu) %doc DOCS/Hungarian
-%lang(pl) %doc DOCS/Polish
 %lang(fr) %doc DOCS/French
+%lang(hu) %doc DOCS/Hungarian
+%lang(it) %doc DOCS/Italian
+%lang(pl) %doc DOCS/Polish
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
