@@ -89,8 +89,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %{?_with_k6:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx --disable-mtrr}
 %{?_with_k623:%define	_cpu_opts --disable-3dnowex  --enable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx --disable-mtrr}
-%{?_with_k7:%define	_cpu_opts  --enable-3dnowex  --enable-3dnow --disable-sse2 --disable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr}
-%{?_with_k7xp:%define	_cpu_opts  --enable-3dnowex  --enable-3dnow  --enable-sse2  --enable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr}
+%{?_with_k7:%define	_cpu_opts  --enable-3dnowex  --enable-3dnow --disable-sse2 --disable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr --enable-fastmemcpy}
+%{?_with_k7xp:%define	_cpu_opts  --enable-3dnowex  --enable-3dnow  --enable-sse2  --enable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr --enable-fastmemcpy}
 %{?_with_pmmx:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx --disable-mtrr}
 %{?_with_ppro:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2 --disable-mmx  --enable-mtrr}
 %{?_with_p2:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx  --enable-mtrr}
@@ -156,6 +156,7 @@ CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}" \
 			--enable-xmga \
 			--enable-sdl \
 			--enable-fbdev \
+			--enable-tdfxfb \
 %{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
 %{?_without_divx4linux: --disable-divx4linux} \
