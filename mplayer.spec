@@ -1,3 +1,4 @@
+#
 # Conditional build:
 #
 # _with_directfb	- with DirectFB video output
@@ -32,7 +33,6 @@
 # _without_win32	- without win32 codecs support
 # _without_vorbis	- without ogg-vorbis audio support
 #
-#
 
 # set it to 0, or 1
 %define		snapshot	0
@@ -60,7 +60,7 @@ Group:		X11/Applications/Multimedia
 %if %{snapshot}
 #Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 #Source0:	%{name}-%{snap}.tar.bz2
-#Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
+#Source1:	http://dl.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source1:	libavcodec-%{snap}.tar.bz2
 # Source1-md5:	8c32cd38df314638624bf5ef76081265
 %else
@@ -96,7 +96,7 @@ URL:		http://www.mplayerhq.hu/
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-%{!?_without_mad:BuildRequires:		mad-devel}
+%{!?_without_mad:BuildRequires:		libmad-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
