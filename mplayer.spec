@@ -3,7 +3,7 @@
 # bcond_on_3dnow	- with 3dnow support
 # bcond_on_sse		- with sse support
 # bcond_on_mmx2		- with mmx2 support
-# bcond_on_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
+# bcond_off_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 #
 
 %define	snap	20010420
@@ -76,7 +76,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 	--enable-sdl \
 	--enable-fbdev \
 	--enable-termcap \
-%{?bcond_on_select:	--disable-select} 
+%{?bcond_off_select:	--disable-select} 
 
 %{__make}
 
