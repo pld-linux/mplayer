@@ -59,7 +59,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.2
+Release:	0.%{pre}.3
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -90,6 +90,7 @@ Patch5:		%{name}-configure.patch
 Patch6:		%{name}-gtk+2.patch
 Patch7:		%{name}-alpha.patch
 Patch8:		%{name}-altivec.patch
+Patch9:		%{name}-iconv-in-libc.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
@@ -118,7 +119,7 @@ BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	audiofile-devel
 BuildRequires:	cdparanoia-III-devel
 BuildRequires:	esound-devel
-#BuildRequires:	faad2-devel
+BuildRequires:	faad2-devel >= 2.0
 BuildRequires:	freetype-devel
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
@@ -215,6 +216,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %endif
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -268,6 +270,7 @@ export CC CFLAGS
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
+			--enable-external-faad \
 			--enable-dga \
 			--enable-fbdev \
 			--enable-gl \
