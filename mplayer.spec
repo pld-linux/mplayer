@@ -26,6 +26,7 @@
 %bcond_without	libdv		# disable libdv en/decoding support
 %bcond_without	lirc		# without lirc support
 %bcond_without	mad		# without mad (audio MPEG) support
+%bcond_without	polyp		# without polyp audio output
 %bcond_without	quicktime	# without binary quicktime dll support
 %bcond_without	real		# without Real* 8/9 codecs support
 %bcond_without	runtime		# disable runtime cpu detection, just detect CPU
@@ -138,7 +139,7 @@ BuildRequires:	libxslt-progs
 BuildRequires:	lzo-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
-BuildRequires:	polypaudio-devel
+%{?with_polyp:BuildRequires:	polypaudio-devel}
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
 BuildRequires:	xvid-devel >= 1:0.9.0
@@ -273,6 +274,7 @@ export CC CFLAGS
 %{!?with_libdv:--disable-libdv} \
 %{!?with_lirc:--disable-lirc} \
 %{!?with_mad:--disable-mad} \
+%{!?with_polyp:--disable-polyp} \
 %{!?with_quicktime:--disable-qtx} \
 %{!?with_real:--disable-real} \
 %{!?with_runtime:--disable-runtime-cpudetection} \
