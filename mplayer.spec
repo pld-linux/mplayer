@@ -73,7 +73,7 @@ Patch3:		%{name}-cp1250-fontdesc.patch
 Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
-URL:		http://mplayer.sourceforge.net/
+URL:		http://www.mplayerhq.hu/
 %{?_with_directfb:BuildRequires:	DirectFB-devel}
 %{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
 %{?_with_dxr3:BuildRequires:		em8300-devel}
