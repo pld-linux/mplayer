@@ -20,7 +20,7 @@
 %bcond_without	alsa		# without ALSA audio output
 %bcond_without	arts		# without arts audio output
 %bcond_without	dshow		# disable DirectShow support
-%bcond_without	gui		# without gui gtk+ interfeace
+%bcond_without	gui		# without gui GTK+ interfeace
 %bcond_without	joystick	# disable joystick support
 %bcond_without	libdv		# disable libdv en/decoding support
 %bcond_without	lirc		# without lirc support
