@@ -33,7 +33,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90pre4
-Release:	4
+Release:	5
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -46,6 +46,7 @@ Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-2.tar.bz2
 Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default.tar.bz2
 Source5:	g%{name}.desktop
+Source6:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-1.tar.bz2
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
 Patch2:		%{name}-configure.patch
@@ -109,9 +110,9 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 
 %prep
 %if %{snapshot}
-%setup -q -n %{sname}-%{snap} -a 1 -a 3
+%setup -q -n %{sname}-%{snap} -a 1 -a 3 -a 6
 %else
-%setup -q -n %{sname}-%{version} -a 1 -a 3
+%setup -q -n %{sname}-%{version} -a 1 -a 3 -a 6
 %endif
 
 %patch0 -p1
@@ -172,7 +173,7 @@ export CFLAGS
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_bindir},%{_libdir}/mplayer/vidix} \
 	$RPM_BUILD_ROOT%{_mandir}/{,de/,hu/,pl/}man1 \
-	$RPM_BUILD_ROOT{%{_applnkdir}/Multimedia,%{_datadir}/mplayer/{arial-{14,18,24,28},Skin}}
+	$RPM_BUILD_ROOT{%{_applnkdir}/Multimedia,%{_datadir}/mplayer/Skin}
 
 perl -p -i -e 'exit if /this default/' etc/example.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
@@ -185,11 +186,8 @@ ln -sf libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}/libdha.so
 install vidix/drivers/*.so $RPM_BUILD_ROOT/%{_libdir}/mplayer/vidix
 %endif
 ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
-install font-arial-14-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-14
-install font-arial-18-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-18
-install font-arial-24-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-24
-install font-arial-28-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-28
-ln -sf arial-24 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
+cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
+ln -sf font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
