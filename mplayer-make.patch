@@ -1,41 +1,41 @@
-diff -urN main.org/configure main/configure
---- main.org/configure	Fri Apr 27 14:29:55 2001
-+++ main/configure	Fri Apr 27 14:30:54 2001
-@@ -185,6 +185,7 @@
+diff -durN MPlayer-0.18pre4.orig/configure MPlayer-0.18pre4/configure
+--- MPlayer-0.18pre4.orig/configure	Fri Jul  6 05:22:14 2001
++++ MPlayer-0.18pre4/configure	Fri Jul  6 11:40:02 2001
+@@ -343,6 +343,7 @@
  if [ -z "$pparam" ]; then
-   pparam=`cat /proc/cpuinfo | grep 'flags' | cut -d ':' -f 2`
+   pparam=`$_cpuinfo | grep 'flags' | cut -d ':' -f 2`
  fi
 +pparam=""
- pvendor=`cat /proc/cpuinfo | grep 'vendor_id' | cut -d ':' -f 2  | cut -d ' ' -f 2`
- pfamily=`cat /proc/cpuinfo | grep 'cpu family' | cut -d ':' -f 2 | cut -d ' ' -f 2`
- pmodel=`cat /proc/cpuinfo | grep "model$TAB" | cut -d ':' -f 2 | cut -d ' ' -f 2`
-@@ -400,8 +401,6 @@
+ pvendor=`$_cpuinfo | grep 'vendor_id' | cut -d ':' -f 2  | cut -d ' ' -f 2`
+ pfamily=`$_cpuinfo | grep 'cpu family' | cut -d ':' -f 2 | cut -d ' ' -f 2`
+ pmodel=`$_cpuinfo | grep -v 'model name' | grep 'model' | cut -d ':' -f 2 | cut -d ' ' -f 2`
+@@ -584,8 +585,6 @@
  #echo "DONE (${proc})."
  
  
--$_cc $TMPC -o $TMPO -lvgagl -lvga &> /dev/null && _svga=yes
+-$_cc $_extraincdir $_extralibdir $TMPC -o $TMPO -lvgagl -lvga > /dev/null 2>&1 && _svga=yes
 -
- $_cc $TMPC -o $TMPO -lpthread &> /dev/null || \
-  { echo "Lib pthread not found."; rm -f $TMPC $TMPO ; exit 1; }
- 
-@@ -416,7 +415,7 @@
- fi	
- 
+ if [ "$system_name" = "FreeBSD" ]; then
+ $_cc $TMPC -o $TMPO -pthread > /dev/null 2>&1 || \
+  { echo "Lib pthread not found."; rm -f $TMPC $TMPO $TMPS ; exit 1; }
+@@ -632,7 +631,7 @@
+ fi
+ 	
  _termcap=no
--$_cc $TMPC -o $TMPO -ltermcap &> /dev/null && _termcap=yes
-+$_cc $TMPC -o $TMPO -lncurses &> /dev/null && _termcap=yes
+-$_cc $TMPC -o $TMPO -ltermcap > /dev/null 2>&1 && _termcap=yes
++$_cc $TMPC -o $TMPO -ltinfo > /dev/null 2>&1 && _termcap=yes
  
  _png=no
- $_cc $TMPC -o $TMPO -lpng &> /dev/null && _png=yes
-@@ -433,7 +432,6 @@
+ $_cc $_extraincdir $_extralibdir $TMPC -o $TMPO -lpng -lz -lm > /dev/null 2>&1 && _png=yes
+@@ -664,7 +663,6 @@
  
  if [ $_x11 = yes ]; then
  
--$_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXdpms &> /dev/null && _xdpms=yes
- $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXv &> /dev/null && _xv=yes
- $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXxf86vm &> /dev/null && _vm=yes
+-$_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXdpms $_socklib > /dev/null 2>&1 && _xdpms=yes
+ $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXv $_socklib > /dev/null 2>&1 && _xv=yes
+ $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXxf86vm $_socklib > /dev/null 2>&1 && _vm=yes
  
-@@ -746,7 +744,7 @@
+@@ -1250,7 +1248,7 @@
  
  if [ "$_termcap" = "yes" ]; then
   _termcap='#define USE_TERMCAP'
@@ -44,56 +44,16 @@ diff -urN main.org/configure main/configure
  else
   _termcap='#undef USE_TERMCAP'
   _libtermcap=''
-@@ -781,7 +779,7 @@
+@@ -1523,9 +1521,9 @@
+ AR=ar
  CC=$_cc
- X11DIR=$_x11libdir
- # OPTFLAGS=-O4 -march=$proc -mcpu=$proc -pipe -fomit-frame-pointer -ffast-math
--OPTFLAGS=-O4 -march=$proc -mcpu=$proc -pipe -ffast-math
+ # OPTFLAGS=-O4 $_profile $_debug -march=$proc -mcpu=$proc -pipe -fomit-frame-pointer -ffast-math
+-OPTFLAGS=$CFLAGS
 +OPTFLAGS=$CFLAGS -pipe -ffast-math
- # LIBS=-L/usr/lib -L/usr/local/lib $_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib
- X_LIBS=$_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib $_vmlib $_svgalib $_libpng
- TERMCAP_LIB=$_libtermcap
-@@ -789,7 +787,7 @@
- LIRC_LIBS = $_lirclibs
- CSS_LIB = $_csslib
- CSS_INC = $_cssinc
+ EXTRA_INC=$_extraincdir
 -WIN32_PATH=-DWIN32_PATH=\"$_win32libdir\"
 +WIN32_PATH=-DWIN32_PATH=\\"$_win32libdir\\"
- DS_DEP = $_dshowdep
- DS_LIB = $_dshowlib
  
-diff -urN main.org/libvo/Makefile main/libvo/Makefile
---- main.org/libvo/Makefile	Fri Apr 27 14:29:55 2001
-+++ main/libvo/Makefile	Fri Apr 27 14:30:09 2001
-@@ -6,7 +6,7 @@
- SRCS=osd.c font_load.c rgb15to16mmx.c yuv2rgb_mmx.c yuv2rgb.c video_out.c vo_null.c vo_pgm.c vo_md5.c vo_odivx.c x11_common.c $(OPTIONAL_SRCS)
- OBJS=osd.o font_load.o rgb15to16mmx.o yuv2rgb_mmx.o yuv2rgb.o video_out.o vo_null.o vo_pgm.o vo_md5.o vo_odivx.o x11_common.o $(OPTIONAL_OBJS)
- 
--CFLAGS  = $(OPTFLAGS) -I. -I.. -DMPG12PLAY
-+CFLAGS  = $(OPTFLAGS) -I. -I.. -DMPG12PLAY -I/usr/X11R6/include
- # -I/usr/X11R6/include/
- 
- .SUFFIXES: .c .o
-diff -urN main.org/mplayer.c main/mplayer.c
---- main.org/mplayer.c	Fri Apr 27 14:29:55 2001
-+++ main/mplayer.c	Fri Apr 27 14:30:09 2001
-@@ -440,7 +440,7 @@
- 
-   printf("%s",banner_text);
- 
--if (parse_config_file(conf, "/etc/mplayer.conf") < 0)
-+if (parse_config_file(conf, "/etc/mplayer/mplayer.conf") < 0)
-   exit(1);
- if ((conffile = get_path("")) == NULL) {
-   printf("Can't find HOME dir\n");
-@@ -505,8 +505,10 @@
- 
- // check codec.conf
- if(!parse_codec_cfg(get_path("codecs.conf"))){
-+    if (!parse_codec_cfg("/etc/mplayer/codecs.conf")) {
-     printf("(copy/link DOCS/codecs.conf to ~/.mplayer/codecs.conf)\n");
-     exit(1);
-+    }
- }
- 
- // check font
+ X11_INC=$_x11incdir
+ X11DIR=$_x11libdir
+
