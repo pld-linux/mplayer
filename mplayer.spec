@@ -5,21 +5,21 @@
 
 # Conditional build:
 #
+# _with_aa		- with aalib video output
 # _with_directfb	- with DirectFB video output
 # _with_divx4linux	- with divx4linux a/v support (binaries, instead of included OpenDivx)
 # _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder
 # _with_ggi		- with ggi video output
+# _with_lirc		- with lirc support
 # _with_live		- enable use of live.com libraries
 # _with_nas		- with NAS audio output
 # _with_svga		- with svgalib video output
 #
-# _without_aa		- without aalib video output
 # _without_alsa		- without ALSA audio output
 # _without_arts		- without arts audio output
 # _without_dshow	- disable DirectShow support
 # _without_gui		- without gui gtk+ interfeace
 # _without_joystick	- disable joystick support
-# _without_lirc		- without lirc support
 # _without_mad		- without mad (audio MPEG) support
 # _without_qt		- without binary qt dll support
 # _without_real		- without Real* 8/9 codecs support
@@ -73,19 +73,19 @@ Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
 URL:		http://mplayer.sourceforge.net/
+%{?_with_aa:BuildRequires:		aalib-devel}
 %{?_with_directfb:BuildRequires:	DirectFB-devel}
 %{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
 %{?_with_dxr3:BuildRequires:		em8300-devel}
 %{?_with_ggi:BuildRequires:		libggi-devel}
+%{?_with_lirc:BuildRequires:		lirc-devel}
 %{?_with_live:BuildRequires:		live}
 %{?_with_nas:BuildRequires:		nas-devel}
 %{?_with_svga:BuildRequires:		svgalib-devel}
-%{!?_without_aa:BuildRequires:		aalib-devel}
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_gui:BuildRequires:		gtk+-devel}
-%{!?_without_lirc:BuildRequires:	lirc-devel}
 %{!?_without_mad:BuildRequires:		mad-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	OpenGL-devel
@@ -182,36 +182,32 @@ export CC CFLAGS
 			--disable-sse2 \
 			--disable-fastmemcpy \
 %endif
+%{!?_with_aa:		--disable-aa} \
 %{!?_with_directfb:	--disable-directfb} \
-%{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %{!?_with_divx4linux:	--disable-divx4linux} \
-%{?_with_dxr3:		--enable-dxr3} \
+%{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %{!?_with_dxr3:		--disable-dxr3} \
-%{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
+%{!?_with_lirc:		--disable-lirc} \
 %{?_with_live:		--enable-live --with-livelibdir=/usr/lib/liveMedia --with-extraincdir=/usr/include/liveMedia } \
 %{!?_with_nas:		--disable-nas} \
 %{!?_with_svga:		--disable-svga} \
-%{?_without_aa:		--disable-aa} \
-%{!?_without_aa:	--enable-aa} \
 %{?_without_alsa:	--disable-alsa} \
 %{!?_without_alsa:	--enable-alsa --disable-select} \
 %{?_without_arts:	--disable-arts} \
 %{?_without_dshow:	--disable-dshow} \
 %{!?_without_gui:	--enable-gui} \
 %{!?_without_joystick:	--enable-joystick} \
-%{?_without_lirc:	--disable-lirc} \
-%{!?_without_lirc:	--enable-lirc} \
 %{?_without_mad:	--disable-mad} \
 %{!?_without_qt:	--enable-qtx-codecs} \
-%{!?_without_real:	--enable-real --with-reallibdir=/usr/lib/win32} \
+%{?_without_real:	--disable-real} \
+%{!?_without_real:	--with-reallibdir=/usr/lib/win32} \
 %{?_without_runtime:	--disable-runtime-cpudetection} \
 %{!?_without_runtime:	--enable-runtime-cpudetection} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
 %{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
 %{?_without_vorbis:	--disable-vorbis} \
-%{!?_without_vorbis:	--enable-vorbis} \
 			--enable-dga \
 			--enable-fbdev \
 			--enable-gl \
