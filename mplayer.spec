@@ -59,7 +59,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.6
+Release:	0.%{pre}.7
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -94,6 +94,7 @@ Patch9:		%{name}-iconv-in-libc.patch
 # Fix for remote buffer overflow vulnerabilities in the GUI code.
 # Taken from http://www.mplayerhq.hu/MPlayer/patches/vuln04-fix.diff
 Patch10:	%{name}-vuln04-fix.diff
+Patch11:	%{name}-assembly.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
@@ -221,6 +222,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch8 -p1
 %patch9 -p1
 %patch10 -p0
+%patch11 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
