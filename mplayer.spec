@@ -36,7 +36,7 @@
 %bcond_without	vorbis		# without ogg-vorbis audio support
 
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
-%bcond_without	xlibs
+%bcond_with	xlibs
 
 %ifnarch %{ix86}
 %undefine	with_win32
