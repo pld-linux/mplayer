@@ -24,7 +24,7 @@
 %endif
 
 # Current snapshot. They are generated daily these days.
-%define snap   20011106
+%define snap   20011101
 
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
@@ -57,7 +57,7 @@ BuildRequires:	ncurses-devel
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
-%{!?_without_divx4linux:BuildRequires:	divx4linux-devel}
+%{!?_without_divx4linux:%{!?_without_encoder:BuildRequires:	divx4linux-devel}}
 %{?_with_ggi:BuildRequires:		libggi-devel}
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
@@ -65,6 +65,7 @@ BuildRequires:	audiofile-devel
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_gui:BuildRequires:		libpng-devel}
+%{!?_without_encoder:BuildRequires:	lame-libs-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
