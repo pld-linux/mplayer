@@ -47,21 +47,3 @@ diff -urN main.org/libvo/Makefile main/libvo/Makefile
  # -I/usr/X11R6/include/
  
  .SUFFIXES: .c .o
-diff -urN main.org/loader/Makefile main/loader/Makefile
---- main.org/loader/Makefile	Sat Mar 31 23:04:27 2001
-+++ main/loader/Makefile	Sat Mar 31 23:23:21 2001
-@@ -2,13 +2,11 @@
- 
- # Generated automatically from Makefile.in by configure.
- DEFINES=-rdynamic -fPIC $(WIN32_PATH) $(CDOPT) -D__WINE__ -Ddbg_printf=__vprintf \
--	-DTRACE=__vprintf # -DDETAILED_OUT
-+	-DTRACE=__vprintf -I. # -DDETAILED_OUT
- 
- LIB_OBJECTS= setup_FS.o pe_image.o module.o \
- ext.o win32.o driver.o pe_resource.o \
- resource.o registry.o elfdll.o afl.o vfl.o
--
--CFLAGS=-g -I.
- 
- CDOPT=-g
- all: libloader.a
