@@ -164,7 +164,7 @@ export CFLAGS
 %{?_without_alsa:	--disable-alsa} \
 %{!?_without_alsa:	--enable-alsa --disable-select} \
 %{?_without_select:	--disable-select} \
-%{!?_without_win32:	--with-win32libdir=/usr/lib/win32 \
+%{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
 %{!?_without_divx4linux:--with-extraincdir=/usr/include/divx}
 
 %{__make}
