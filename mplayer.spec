@@ -170,9 +170,11 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 install mplayer $RPM_BUILD_ROOT%{_bindir}
 install mencoder $RPM_BUILD_ROOT%{_bindir}
+%ifnarch ppc
 install libdha/libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}
 ln -sf libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}/libdha.so
 install vidix/drivers/*.so $RPM_BUILD_ROOT/%{_libdir}/mplayer/vidix
+%endif
 ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
 install font-arial-14-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-14
 install font-arial-18-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-18
