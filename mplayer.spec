@@ -17,7 +17,7 @@ Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.18
-Release:	4.pre5
+Release:	5.pre5
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -38,8 +38,8 @@ BuildRequires:	ncurses-devel
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		_prefix		/usr/X11R6
