@@ -1,0 +1,90 @@
+diff -Nur Mplayer-0.90pre4.orig/get_path.c MPlayer-0.90pre4.chng/get_path.c
+--- Mplayer-0.90pre4.orig/get_path.c	Tue Dec 25 21:41:04 2001
++++ MPlayer-0.90pre4.chng/get_path.c	Tue Jun  4 11:46:43 2002
+@@ -2,22 +2,30 @@
+ char *get_path(char *filename){
+ 	char *homedir;
+ 	char *buff;
+-	static char *config_dir = "/.mplayer";
++	static char *config_dir;
++	char *cfgdir;
+ 	int len;
+ 
+ 	if ((homedir = getenv("HOME")) == NULL)
+ 		return NULL;
+-	len = strlen(homedir) + strlen(config_dir) + 1;
+-	if (filename == NULL) {
+-		if ((buff = (char *) malloc(len)) == NULL)
+-			return NULL;
+-		sprintf(buff, "%s%s", homedir, config_dir);
++		
++	cfgdir = getenv("CONFIG_DIR");
++	if (filename) {
++	    if (cfgdir) config_dir = "/mplayer/";
++	    else { config_dir = "/.mplayer/"; cfgdir = ""; }
+ 	} else {
+-		len += strlen(filename) + 1;
+-		if ((buff = (char *) malloc(len)) == NULL)
+-			return NULL;
+-		sprintf(buff, "%s%s/%s", homedir, config_dir, filename);
++	    filename = "";
++	    if (cfgdir) config_dir = "/mplayer";
++	    else { config_dir = "/.mplayer"; cfgdir = ""; }
+ 	}
++	
++	len += strlen(cfgdir) + strlen(config_dir) 
++		+ strlen(homedir) + strlen(filename);
++	
++	if ((buff = (char *) malloc(len)) == NULL)
++	    return NULL;
++
++	sprintf(buff, "%s/%s%s/%s", homedir, cfgdir, config_dir, filename);
+ 	mp_msg(MSGT_GLOBAL,MSGL_V,"get_path('%s') -> '%s'\n",filename,buff);
+ 	return buff;
+ }
+diff -Nur Mplayer-0.90pre4.orig/libmpdvdkit/get_path.c MPlayer-0.90pre4.chng/libmpdvdkit/get_path.c
+--- Mplayer-0.90pre4.orig/libmpdvdkit/get_path.c	Wed Apr 24 21:28:03 2002
++++ MPlayer-0.90pre4.chng/libmpdvdkit/get_path.c	Tue Jun  4 11:44:57 2002
+@@ -2,22 +2,31 @@
+ static char *get_path(char *filename){
+ 	char *homedir;
+ 	char *buff;
+-	static char *config_dir = "/.mplayer";
+-	int len;
++	static char *config_dir;
++	char *cfgdir;
++	int len = 3;
+ 
+ 	if ((homedir = getenv("HOME")) == NULL)
+ 		return NULL;
+-	len = strlen(homedir) + strlen(config_dir) + 1;
+-	if (filename == NULL) {
+-		if ((buff = (char *) malloc(len)) == NULL)
+-			return NULL;
+-		sprintf(buff, "%s%s", homedir, config_dir);
++
++	cfgdir = getenv("CONFIG_DIR");
++	if (filename) {
++	    if (cfgdir) config_dir = "/mplayer/";
++	    else { config_dir = "/.mplayer/"; cfgdir = ""; }
+ 	} else {
+-		len += strlen(filename) + 1;
+-		if ((buff = (char *) malloc(len)) == NULL)
+-			return NULL;
+-		sprintf(buff, "%s%s/%s", homedir, config_dir, filename);
++	    filename = "";
++	    if (cfgdir) config_dir = "/mplayer";
++	    else { config_dir = "/.mplayer"; cfgdir = ""; }
+ 	}
++	
++	len += strlen(cfgdir) + strlen(config_dir) 
++		+ strlen(homedir) + strlen(filename);
++	
++	if ((buff = (char *) malloc(len)) == NULL)
++	    return NULL;
++
++	sprintf(buff, "%s/%s%s/%s", homedir, cfgdir, config_dir, filename);
++
+ //	mp_msg(MSGT_GLOBAL,MSGL_V,"get_path('%s') -> '%s'\n",filename,buff);
+ 	return buff;
+ }
