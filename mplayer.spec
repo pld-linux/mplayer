@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _with_3dnow	- with 3Dnow! support
+# _with_3dnow		- with 3Dnow! support
 # _with_sse		- with SSE support
 # _with_mmx		- with MMX support
 # _with_mmx2		- with MMX2 support
@@ -29,6 +29,10 @@ BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	OpenGL-devel
 BuildRequires:	ncurses-devel
+BuildRequires:	alsa-lib-devel
+BuildRequires:	arts-devel
+BuildRequires:	esound-devel
+BuildRequires:	audiofile-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
 
