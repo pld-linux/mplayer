@@ -139,6 +139,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
 %{?with_xmms:BuildRequires:	xmms-libs}
+Requires(post,postun):	/sbin/ldconfig
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -381,8 +382,15 @@ ln -sf libpostproc.so.0 $RPM_BUILD_ROOT%{_libdir}/libpostproc.so
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post
+umask 022
+/sbin/ldconfig
+[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
+
+%postun
+umask 022
+/sbin/ldconfig
+[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
 
 %files
 %defattr(644,root,root,755)
