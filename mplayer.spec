@@ -2,6 +2,7 @@
 # TODO: bcond for libsmbclient and maybe libdv?
 #
 # Conditional build:
+%bcond_with	altivec		# with altivec support
 %bcond_with	directfb	# with DirectFB video output
 %bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead
 				#  of included OpenDivx)
@@ -14,7 +15,6 @@
 %bcond_with	osd		# with osd menu support
 %bcond_with	theora		# with theora support
 
-%bcond_without	altivec		# without altivec support
 
 %bcond_without	aalib		# without aalib video output
 %bcond_without	alsa		# without ALSA audio output
