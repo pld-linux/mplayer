@@ -54,7 +54,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.2
+Release:	0.%{pre}.3
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -118,8 +118,12 @@ BuildRequires:	libpng-devel
 BuildRequires:	libungif-devel
 BuildRequires:	lzo-devel
 BuildRequires:	ncurses-devel
+BuildRequires:	openquicktime-devel
+BuildRequires:	quicktime4linux-devel
 BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
+
+
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -266,8 +270,12 @@ export CC CFLAGS
 			--enable-xvid \
 			--enable-largefiles \
 			--enable-matroska \
+			--language=all \
 			--with-codecsdir=%{_libdir}/codecs \
-			--language=all
+			--with-extraincdir=/usr/include/quicktime \
+			--with-extraincdir=/usr/include/openquicktime
+
+
 %{__make}
 
 %install
