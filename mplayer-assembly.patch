@@ -1,0 +1,44 @@
+--- MPlayer-1.0pre4/configure.orig	2004-07-11 12:56:31.000000000 +0000
++++ MPlayer-1.0pre4/configure	2004-07-11 13:31:30.000000000 +0000
+@@ -6307,15 +6307,19 @@
+ 
+ /* Define this if your system has strlcpy */
+ $_def_strlcpy
++#ifndef __ASSEMBLY__
+ #ifndef HAVE_STRLCPY
+ unsigned int strlcpy (char *dest, char *src, unsigned int size);
+ #endif
++#endif
+ 
+ /* Define this if your system has strlcat */
+ $_def_strlcat
++#ifndef __ASSEMBLY__
+ #ifndef HAVE_STRLCAT
+ unsigned int strlcat (char *dest, char *src, unsigned int size);
+ #endif
++#endif
+ 
+ /* Define this if your system has fseeko */
+ $_def_fseeko
+@@ -6323,8 +6327,10 @@
+ /* Need these for FILE and off_t an config.h is usually before other includes*/
+ #include <stdio.h>
+ #include <sys/types.h>
++#ifndef __ASSEMBLY__
+ int fseeko(FILE *, off_t, int);
+ #endif
++#endif
+ 
+ $_def_localtime_r
+ 
+--- MPlayer-1.0pre4/libavcodec/Makefile.orig	2004-04-27 23:21:27.000000000 +0000
++++ MPlayer-1.0pre4/libavcodec/Makefile	2004-07-11 13:58:24.000000000 +0000
+@@ -209,7 +209,7 @@
+ 	$(CC) $(CFLAGS) -c -o $@ $< 
+ 
+ %.o: %.S
+-	$(CC) $(CFLAGS) -c -o $@ $<
++	$(CC) $(CFLAGS) -D__ASSEMBLY__ -c -o $@ $<
+ 
+ depend: $(SRCS)
+ 	$(CC) -MM $(CFLAGS) $^ 1>.depend
