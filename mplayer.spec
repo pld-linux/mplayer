@@ -56,7 +56,7 @@ Source5:	g%{name}.desktop
 Source6:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-1.tar.bz2
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
-Patch2:		%{name}-configure.patch
+Patch2:		%{name}-no_libnsl.patch
 Patch3:		%{name}-cp1250-fontdesc.patch
 Patch4:		%{name}-codec.patch
 Patch5:		%{name}-libpng12.patch
