@@ -16,7 +16,6 @@
 #
 
 %define sname	MPlayer
-%define snap 	20010902
 %define ffmpeg_ver 	0.4.5
 
 %ifnarch %{ix86}
@@ -26,18 +25,18 @@
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
-Version:	0.18.%{snap}
-Release:	10
+Version:	0.50
+Release:	0
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://www.mplayerhq.hu/${sname}/cvs/%{sname}-%{snap}.tar.bz2
+Source0:	http://www.mplayerhq.hu/{sname}/cvs/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
-Patch0:		%{name}-make.patch
-Patch1:		%{name}-confpath.patch
-Patch2:		%{name}-codecs_no_w32.patch
+#Patch0:		%{name}-make.patch
+#Patch1:		%{name}-confpath.patch
+#Patch2:		%{name}-codecs_no_w32.patch
 URL:		http://mplayer.sourceforge.net/
 %{!?_without_win32:Requires:	w32codec}
 Requires:	OpenGL
@@ -80,10 +79,10 @@ rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
 G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
-%setup  -q -n %{sname}-%{snap} -a 1
-%patch0 -p1
-%patch1 -p1
-%{?_without_win32:%patch2 -p1}
+%setup  -q -n %{sname}-%{version} -a 1
+#%patch0 -p1
+#%patch1 -p1
+#%{?_without_win32:%patch2 -p1}
 
 cp -ar ffmpeg/libavcodec/* libavcodec
 
@@ -116,7 +115,6 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 			--enable-xmga \
 			--enable-sdl \
 			--enable-fbdev \
-			--enable-termcap \
 			--enable-esd \
 %{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
@@ -127,8 +125,9 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 %{!?_without_vorbis:	--enable-oggvorbis} \
 %{?_without_vorbis:	--disable-oggvorbis} \
 %{?_without_select:	--disable-select} \
-%{?_without_win32:	--disable-win32}
-
+%{?_without_win32:	--disable-win32} \
+			--enable-gui
+			
 %{__make}
 
 %install
@@ -140,7 +139,7 @@ install DOCS/*.1	$RPM_BUILD_ROOT%{_mandir}/man1
 install etc/example.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 
-gzip -9nf -r DOCS/{[A-Z]*,*.html}
+#gzip -9nf -r DOCS/{[A-Z]*,*.html}
 gzip -9nf -r etc/example.conf
 
 %clean
