@@ -233,7 +233,8 @@ export CC CFLAGS
 			--enable-xvid \
 			--enable-largefiles \
 			--enable-matroska \
-			--with-codecsdir=%{_libdir}/codecs
+			--with-codecsdir=%{_libdir}/codecs \
+			--language=all
 %{__make}
 
 %install
