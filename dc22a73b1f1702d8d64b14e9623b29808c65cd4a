@@ -1,0 +1,5 @@
+- finished update to version 0.50
+- changed to build default without win32 support
+  but can be changed by --with win32 switch
+- added gui
+- added _without_gui_ switch to build without gui and gtk+ support
