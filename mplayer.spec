@@ -97,23 +97,6 @@ Patch9:		%{name}-assembly.patch
 Patch10:	%{name}-pcmsplit.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
-%{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
-%{?with_dxr3:BuildRequires:		em8300-devel}
-%{?with_ggi:BuildRequires:		libggi-devel}
-%{?with_live:BuildRequires:		live}
-%{?with_nas:BuildRequires:		nas-devel}
-%{?with_svga:BuildRequires:		svgalib-devel}
-%{?with_aalib:BuildRequires:	aalib-devel}
-%{?with_alsa:BuildRequires:	alsa-lib-devel}
-%{?with_arts:BuildRequires:	artsc-devel}
-%{?with_caca:BuildRequires:	libcaca-devel}
-%{?with_dshow:BuildRequires:	libstdc++-devel}
-%if %{with gui}
-BuildRequires:	gtk+%{?with_gtk2:2}-devel
-%endif
-%{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_mad:BuildRequires:		libmad-devel}
-%{?with_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
 %if %{with xlibs}
@@ -121,27 +104,45 @@ BuildRequires:	libXv-devel
 %else
 BuildRequires:	XFree86-devel >= 4.0.2
 %endif
+%{?with_aalib:BuildRequires:	aalib-devel}
+%{?with_alsa:BuildRequires:	alsa-lib-devel}
+%{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	audiofile-devel
 BuildRequires:	cdparanoia-III-devel
+%{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
+%{?with_dxr3:BuildRequires:	em8300-devel}
 BuildRequires:	esound-devel
 BuildRequires:	faad2-devel >= 2.0
 BuildRequires:	freetype-devel
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
+%if %{with gui}
+BuildRequires:	gtk+%{?with_gtk2:2}-devel
+%endif
 BuildRequires:	lame-libs-devel
+%{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdv:BuildRequires:	libdv-devel}
+%{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libjpeg-devel
+%{?with_mad:BuildRequires:	libmad-devel}
 BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
+%{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
+%{?with_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	libungif-devel
 BuildRequires:	libxslt-progs
+%{?with_lirc:BuildRequires:	lirc-devel}
+%{?with_live:BuildRequires:	live}
 BuildRequires:	lzo-devel
+%{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
+BuildRequires:	polypaudio-devel
+%{?with_svga:BuildRequires:	svgalib-devel}
+%{?with_xmms:BuildRequires:	xmms-libs}
 BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
-%{?with_xmms:BuildRequires:	xmms-libs}
 Requires(post,postun):	/sbin/ldconfig
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -244,7 +245,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 ##%patch2 -p1
 ##%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
-##%patch5 -p1
+%patch5 -p1
 %if %{with gtk2}
 %patch6 -p1
 %endif
@@ -261,18 +262,18 @@ CFLAGS="%{rpmcflags}"
 CC="%{__cc}"
 export CC CFLAGS
 ./configure \
-			--prefix=%{_prefix} \
-			--confdir=%{_sysconfdir}/mplayer \
---with-x11incdir=%{_prefix}/X11R6/include \
-			--with-extraincdir=%{_includedir}/xvid \
+	--prefix=%{_prefix} \
+	--confdir=%{_sysconfdir}/mplayer \
+	--with-x11incdir=%{_prefix}/X11R6/include \
+	--with-extraincdir=%{_includedir}/xvid \
 %ifnarch %{ix86}
-			--disable-mmx \
-			--disable-mmx2 \
-			--disable-3dnow \
-			--disable-3dnowex \
-			--disable-sse \
-			--disable-sse2 \
-			--disable-fastmemcpy \
+	--disable-mmx \
+	--disable-mmx2 \
+	--disable-3dnow \
+	--disable-3dnowex \
+	--disable-sse \
+	--disable-sse2 \
+	--disable-fastmemcpy \
 %endif
 %ifarch ppc
 %{!?with_altivec:--disable-altivec} \
@@ -306,26 +307,26 @@ export CC CFLAGS
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
-%{?with_xmms: --enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
-%{!?with_mencoder: --disable-mencoder} \
-			--enable-external-faad \
-			--enable-dga \
-			--enable-fbdev \
-			--enable-gl \
-			--enable-mga \
-			--enable-sdl \
-			--enable-tdfxfb \
-			--enable-vm \
-			--enable-x11 \
-			--enable-xmga \
-			--enable-xv \
-			--enable-xvmc \
-			--enable-xvid \
-			--enable-largefiles \
-			--language=all \
-			--with-codecsdir=%{_libdir}/codecs \
-			--enable-dynamic-plugins \
-			--enable-shared-pp
+%{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
+%{!?with_mencoder:--disable-mencoder} \
+	--enable-external-faad \
+	--enable-dga \
+	--enable-fbdev \
+	--enable-gl \
+	--enable-mga \
+	--enable-sdl \
+	--enable-tdfxfb \
+	--enable-vm \
+	--enable-x11 \
+	--enable-xmga \
+	--enable-xv \
+	--enable-xvmc \
+	--enable-xvid \
+	--enable-largefiles \
+	--language=all \
+	--with-codecsdir=%{_libdir}/codecs \
+	--enable-dynamic-plugins \
+	--enable-shared-pp
 
 %{__make}
 
