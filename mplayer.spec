@@ -92,7 +92,7 @@ Patch8:		%{name}-altivec.patch
 Patch9:		%{name}-gcc34.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
-%{?with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
+%{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
 %{?with_dxr3:BuildRequires:		em8300-devel}
 %{?with_ggi:BuildRequires:		libggi-devel}
 %{?with_live:BuildRequires:		live}
