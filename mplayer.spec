@@ -77,8 +77,6 @@ BuildRequires:	esound-devel
 BuildRequires:	xvid-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
-BuildRequires:	libdvdnav-devel
-BuildRequires:	libdvdread-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -184,7 +182,7 @@ export CC CFLAGS
 %{?_without_select:	--disable-select} \
 %{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
-			--enable-dvdnav
+			--disable-dvdnav
 
 %{__make}
 
