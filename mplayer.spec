@@ -79,11 +79,11 @@ BuildRequires:	aalib-devel
 %{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	audiofile-devel
 %{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
-%{?_with_dxr3:	BuildRequires:	em8300-devel}
+%{?_with_dxr3:BuildRequires:	em8300-devel}
 BuildRequires:	esound-devel
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 BuildRequires:	lame-libs-devel
-%{?_with_ggi:	BuildRequires:		libggi-devel}
+%{?_with_ggi:BuildRequires:		libggi-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
@@ -94,8 +94,8 @@ BuildRequires:	lzo-devel
 %{!?_without_mad:BuildRequires:	mad-devel}
 %{!?_without_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
-%{?_with_svga:	BuildRequires:	svgalib-devel}
-%{?_with_live:  BuildRequires:  live}
+%{?_with_svga:BuildRequires:	svgalib-devel}
+%{?_with_live:BuildRequires:  live}
 BuildRequires:	xvid-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
