@@ -1,3 +1,10 @@
+#
+# Conditional build:
+# bcond_on_3dnow	- with 3dnow support
+# bcond_on_sse		- with sse support
+# bcond_on_mmx2		- with mmx2 support
+#
+
 %define	snap	20010420
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla linuxa
@@ -54,6 +61,9 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 	--with-win32libdir="/usr/lib/win32" \
 %ifarch i586 i686
 	--enable-mmx \
+%{?bcond_on_3dnow:	--enable-3dnow} \
+%{?bcond_on_sse:	--enable-sse} \
+%{?bcond_on_mmx2:	--enable-mmx2} \
 %endif
 	--enable-gl \
 	--enable-dga \
@@ -64,7 +74,8 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 	--enable-xmga \
 	--enable-sdl \
 	--enable-fbdev \
-	--enable-termcap
+	--enable-termcap \
+
 %{__make}
 
 %install
