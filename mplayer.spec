@@ -41,6 +41,7 @@ Patch1:		%{name}-confpath.patch
 Patch2:		%{name}-configure.patch
 Patch3:		%{name}-cp1250-fontdesc.patch
 Patch4:		%{name}-codec.patch
+Patch5:		%{name}-libpng12.patch
 URL:		http://mplayer.sourceforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
@@ -102,12 +103,13 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch2 -p1
 %patch3 -p0
 #%patch4 -p1
+%patch5 -p1
 
 # needed in snapshots
 # cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
-CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}" \
+CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} `pkg-config --cflags libpng12 || echo -n`" \
 ./configure \
 			--prefix=%{_prefix} \
 			--with-x11incdir=%{_includedir}\

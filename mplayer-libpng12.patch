@@ -1,0 +1,11 @@
+--- MPlayer-0.90pre1/configure.orig	Tue Apr 23 21:18:32 2002
++++ MPlayer-0.90pre1/configure	Tue Apr 23 21:20:46 2002
+@@ -2107,7 +2107,7 @@
+   return (strcmp(PNG_LIBPNG_VER_STRING, png_get_libpng_ver(NULL)));
+ }
+ EOF
+-    if cc_check -lpng -lz -lm ; then
++    if cc_check `pkg-config --cflags libpng12 2>/dev/null || echo -n` -lpng -lz -lm ; then
+       if "$TMPO" >> "$TMPLOG" ; then
+         _png=yes
+         echores yes
