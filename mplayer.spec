@@ -34,10 +34,10 @@
 #
 
 # set it to 0, or 1
-%define		snapshot	0
+%define		snapshot	1
 
 %define		sname		MPlayer
-%define		snap		20021202
+%define		snap		20030514
 %define		ffmpeg_ver	0.4.5
 
 %ifnarch %{ix86}
@@ -51,14 +51,15 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90
-Release:	2
+Release:	2.%{snap}.1
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
-Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+#Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+Source0:	%{name}-%{snap}.tar.bz2
 #Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
-Source1:	libavcodec-20021203.tar.bz2
+Source1:	libavcodec-%{snap}.tar.bz2
 %else
 Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
@@ -153,7 +154,7 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 
 %prep
 %if %{snapshot}
-%setup -q -n %{sname}-%{snap} -a 1 -a 3 -a 6
+%setup -q -n %{name}-%{snap} -a 1 -a 3 -a 6
 %else
 %setup -q -n %{sname}-%{version} -a 3 -a 6
 %endif
@@ -163,7 +164,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch2 -p1
 %patch3 -p0
 #%patch4 -p1
-%patch5 -p1
+#%patch5 -p1	-- old home_etc behavior
 %patch6 -p1
 
 %build
@@ -201,7 +202,7 @@ export CC CFLAGS
 %{!?_without_joystick:	--enable-joystick} \
 %{?_without_lirc:	--disable-lirc} \
 %{?_without_mad:	--disable-mad} \
-%{!?_without_qt:	--enable-qtx-codecs} \
+%{?_without_qt:		--disable-qtx-codecs} \
 %{?_without_real:	--disable-real} \
 %{!?_without_real:	--with-reallibdir=/usr/lib/win32} \
 %{?_without_runtime:	--disable-runtime-cpudetection} \
@@ -222,7 +223,8 @@ export CC CFLAGS
 			--enable-xmga \
 			--enable-xv \
 			--enable-xvid \
-			--disable-dvdnav
+			--disable-dvdnav \
+			--enable-largefiles
 
 %{__make}
 
@@ -230,7 +232,7 @@ export CC CFLAGS
 rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT%{_bindir} \
-	$RPM_BUILD_ROOT%{_mandir}/{,de,hu,pl}/man1 \
+	$RPM_BUILD_ROOT%{_mandir}/{de,en,fr,hu,pl,zh,}/man1 \
 	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer \
 	$RPM_BUILD_ROOT%{_datadir}/mplayer/Skin \
 	$RPM_BUILD_ROOT%{_libdir}/mplayer/vidix \
@@ -265,23 +267,28 @@ install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # man pages
-install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-install DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
-install DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
-install DOCS/Polish/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
+install DOCS/de/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
+install DOCS/en/*.1 $RPM_BUILD_ROOT%{_mandir}/man1/
+install DOCS/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
+install DOCS/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
+install DOCS/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
+install DOCS/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh/man1
+find DOCS -name CVS -print | xargs rm -r
+find DOCS -name \*1 -print | xargs rm
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc DOCS/*.html
 %{?!_without_win32: %doc etc/codecs.win32.conf}
-%lang(de) %doc DOCS/German
-#%lang(fr) %doc DOCS/French
-%lang(hu) %doc DOCS/Hungarian
-%lang(it) %doc DOCS/Italian
-%lang(pl) %doc DOCS/Polish
+%doc DOCS/en/*.html
+%lang(de) %doc DOCS/de
+%lang(fr) %doc DOCS/fr
+%lang(hu) %doc DOCS/hu
+%lang(it) %doc DOCS/it
+%lang(pl) %doc DOCS/pl
+%lang(zh) %doc DOCS/zh
 %doc README AUTHORS ChangeLog
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
@@ -289,8 +296,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mplayer
 %{_mandir}/man1/*
 %lang(de) %{_mandir}/de/man1/*
+%lang(fr) %{_mandir}/fr/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
+%lang(zh) %{_mandir}/zh/man1/*
 %{_applnkdir}/*/*
 %{_pixmapsdir}/*
 %attr(755,root,root) %{_libdir}/*
