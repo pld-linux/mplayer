@@ -1,7 +1,9 @@
 # Conditional build:
 #
 # _with_directfb	- with DirectFB video output
-# _with_divx4linux	- with divx4linux a/v support (binaries, instead of included OpenDivx)
+# _with_divx4linux	- with divx4linux a/v support (binaries, instead of 
+#			  included OpenDivx)
+#
 # _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder
 # _with_ggi		- with ggi video output
 # _with_live		- enable use of live.com libraries
@@ -23,7 +25,9 @@
 #			  compiletime (advertised by mplayer authors as
 #			  working faster); in this case mplayer may not
 #			  work on machine other then where it was compiled
-# _without_select	- disable audio select() support (for example required this option
+# _without_select	- disable audio select() support (for example required 
+#			  this option
+#
 #			  ALSA or Vortex2 driver)
 # _without_win32	- without win32 codecs support
 # _without_vorbis	- without ogg-vorbis audio support
