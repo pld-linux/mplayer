@@ -1,5 +1,6 @@
 #
 # Conditional build:
+# _with_license_agreement	- generates package
 # _with_3dnow		- with 3Dnow! support (AMD K6,K7)
 # _with_3dnowex		- with 3Dnow-dsp! support (AMD K7)
 # _with_sse		- with SSE support (Pentium III+)
@@ -14,31 +15,31 @@
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 # _without_win32	- disable requirement for win32 codecs
 # _without_gui		- without gui gtk+ interfeace
-# _without_dshow:       - disable DirectShow support
+# _without_dshow:	- disable DirectShow support
 
 %define sname	MPlayer
-%define ffmpeg_ver 	0.4.5
+%define ffmpeg_ver	0.4.5
 
 %ifnarch %{ix86}
 %define _without_win32 1
 %endif
 
 # Current snapshot. They are generated daily these days.
-%define snap   20011101
+%define snap	20011101
 
-Summary:	Yet another movie player for linux
+Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.50
-Release:	%{snap}.2
+Release:	%{snap}.3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 # This is location of CVS snapshots
-Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+%{?_with_license_agreement:Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2}
 # This is location of official (pre)releases
-# Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+# %{?_with_license_agreement:Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2}
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/mp-arial-iso-8859-2.zip
@@ -67,13 +68,13 @@ BuildRequires:	audiofile-devel
 %{!?_without_gui:BuildRequires:		libpng-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define 	_noautoreqdep	libGL.so.1 libGLU.so.1
+%define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
 %define		_sysconfdir	/etc
 
 %description
-Movie player for linux. Supported input formats: VCD (VideoCD),
+Movie player for Linux. Supported input formats: VCD (VideoCD),
 MPEG1/2, RIFF AVI, ASF 1.0. Supported audio codecs: PCM
 (uncompressed), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32 ACM.
 Supported video codecs: MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX.
@@ -92,7 +93,8 @@ rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
 G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
-%setup  -q -n %{sname}-%{snap} -a 1 -a 3
+%{!?_with_license_agreement:exit 1}
+%setup -q -n %{sname}-%{snap} -a 1 -a 3
 %patch0 -p1
 %patch1 -p1
 cp etc/codecs.conf etc/codecs-win32.conf
@@ -115,7 +117,7 @@ CFLAGS="%{rpmcflags}" \
 %{?_with_sse:		--enable-sse} \
 %{?_with_mmx2:		--enable-mmx2} \
 %endif
-%ifarch i686		
+%ifarch i686
 			--enable-mtrr \
 %else
 			--disable-mtrr \
@@ -143,8 +145,8 @@ CFLAGS="%{rpmcflags}" \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
 %{!?_without_gui:	--enable-gui} \
-%{?_without_dshow:	--disable-dshow} 
-			
+%{?_without_dshow:	--disable-dshow}
+
 %{__make}
 
 %install
