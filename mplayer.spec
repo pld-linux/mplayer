@@ -5,10 +5,12 @@
 # _with_sse		- with SSE support
 # _with_mmx		- with MMX support
 # _with_mmx2		- with MMX2 support
+# _with_ggi		- with ggi video output
 # _without_alsa		- without ALSA support
 # _without_arts		- without arts support
 # _without_lirc		- without lirc support
 # _without_vorbis	- without ogg-vorbis support
+# _with_divx4linux	- with divx4linux support (binaries, instead of included OpenDivx)
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 # _without_win32	- disable requirement fro win32 codecs (req: avi-codecs)
 #
@@ -21,7 +23,7 @@ Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.18.%{snap}
-Release:	1
+Release:	8
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -42,6 +44,8 @@ BuildRequires:	ncurses-devel
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
+%{?with_divx4linux:BuildRequires:	divx4linux-devel}
+%{?with_ggi:BuildRequires:		libggi-devel}
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
 %{!?_without_lirc:BuildRequires:	lirc-devel}
@@ -83,27 +87,42 @@ cp -ar ffmpeg/libavcodec/* libavcodec
 %build
 CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 %configure \
-	--with-win32libdir="/usr/lib/win32" \
+			--with-win32libdir="/usr/lib/win32" \
+			--disable-kernel-extchk \
+%{?with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %ifarch i586 i686
-%{?_with_mmx:	--enable-mmx} \
-%{?_with_3dnow:	--enable-3dnow} \
+%{?_with_mmx:		--enable-mmx} \
+%{?_with_3dnow:		--enable-3dnow} \
 %{?_with_3dnowex:	--enable-3dnowex} \
-%{?_with_sse:	--enable-sse} \
-%{?_with_mmx2:	--enable-mmx2} \
+%{?_with_sse:		--enable-sse} \
+%{?_with_mmx2:		--enable-mmx2} \
 %endif
-%{!?_without_alsa:--enable-alsa --disable-select} \
-	--enable-gl \
-	--enable-dga \
-	--enable-xv \
-	--enable-vm \
-	--enable-x11 \
-	--enable-mga \
-	--enable-xmga \
-	--enable-sdl \
-	--enable-fbdev \
-	--enable-termcap
+%ifarch i686		
+			--enable-mtrr \
+%else
+			--disable-mtrr \
+%endif
+%{!?_without_alsa:	--enable-alsa --disable-select} \
+%{?_without_alsa:	--disable-alsa} \
+			--enable-gl \
+			--enable-dga \
+			--enable-xv \
+			--enable-vm \
+			--enable-x11 \
+			--enable-mga \
+			--enable-xmga \
+			--enable-sdl \
+			--enable-fbdev \
+			--enable-termcap \
+			--enable-esd \
+%{?with_ggi:		--enable-ggi} \
+%{!?with_ggi:		--disable-ggi} \
+%{?with_divx4linux:	--enable-divx4} \
+%{!?with_divx4linux:	--disable-divx4} \
 %{!?_without_lirc:	--enable-lirc} \
-%{!?_without_lirc:	--enable-oggvorbis} \
+%{?_without_lirc:	--disable-lirc} \
+%{!?_without_vorbis:	--enable-oggvorbis} \
+%{?_without_vorbis:	--disable-oggvorbis} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32}
 
