@@ -174,7 +174,7 @@ install mencoder $RPM_BUILD_ROOT%{_bindir}
 ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 perl -p -i -e 'exit if /this default/' etc/example.conf
-install ${SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 install iso-8859-2/arial-14/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-14
 install iso-8859-2/arial-18/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-18
