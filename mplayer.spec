@@ -39,7 +39,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90pre7
-Release:	0.9
+Release:	0.10
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
