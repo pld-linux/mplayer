@@ -261,6 +261,7 @@ export CC CFLAGS
 %{!?with_dxr3:--disable-dxr3} \
 %{!?with_ggi:--disable-ggi} \
 %{?with_live:--enable-live --with-livelibdir=/usr/lib/liveMedia --with-extraincdir=/usr/include/liveMedia } \
+%{!?with_live:--disable-live} \
 %{!?with_nas:--disable-nas} \
 %{!?with_svga:--disable-svga} \
 %{!?with_aalib:--disable-aa} \
