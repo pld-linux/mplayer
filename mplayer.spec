@@ -76,8 +76,8 @@ install mplayer		$RPM_BUILD_ROOT%{_bindir}
 install DOCS/*.1	$RPM_BUILD_ROOT%{_mandir}/man1
 install %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}
 
-gzip -9nf DOCS/{AUTHORS,CODECS,Change*,INSTALL,LIRC,MPla*,MTRR,Open*}
-gzip -9nf DOCS/{README,SPEED,TODO,VIDEOCARDS,example.conf,*.txt}
+gzip -9nf DOCS/{AUTHORS,CODECS,Change*,INSTALL,LIRC,MPla*,MTRR,Open*} \
+	DOCS/{README,SPEED,TODO,VIDEOCARDS,example.conf,*.txt}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -85,6 +85,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc DOCS/*.gz
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
-%attr( 644,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
