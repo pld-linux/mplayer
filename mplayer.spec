@@ -1,6 +1,6 @@
 #
 # TODO
-# - select with divx codec will be used (xvid, divx4linux, opnedivx)
+# - select which divx codec will be used (xvid, divx4linux, opnedivx)
 #   (you can choose only one of it)
 
 # Conditional build:
