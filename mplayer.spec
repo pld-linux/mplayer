@@ -51,7 +51,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90
-Release:	1
+Release:	2
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -95,6 +95,7 @@ BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	audiofile-devel
 BuildRequires:	awk
 BuildRequires:	esound-devel
+BuildRequires:	faad2-devel
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
