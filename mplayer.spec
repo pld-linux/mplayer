@@ -5,6 +5,7 @@
 
 # Conditional build:
 #
+# _without_qt		- without binary qt dll support
 # _without_lirc		- without lirc support
 # _without_gui		- without gui gtk+ interfeace
 # _without_win32	- without win32 codecs support
@@ -27,14 +28,15 @@
 # _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder
 
 # set it to 0, or 1
-%define		snapshot	0
+%define		snapshot	1
 
 %define		sname		MPlayer
-%define		snap		20020602
+%define		snap		20021202
 %define		ffmpeg_ver	0.4.5
 
 %ifnarch %{ix86}
 %define		_without_win32	1
+%define		_without_qt	1
 %endif
 
 Summary:	Yet another movie player for Linux
@@ -42,7 +44,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90pre10
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -200,6 +202,7 @@ export CC CFLAGS
 %{?_without_select:	--disable-select} \
 %{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
+%{!?_without_qt:	--enable-qtx-codecs} \
 			--disable-dvdnav
 
 %{__make}
