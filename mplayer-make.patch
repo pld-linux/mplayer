@@ -1,7 +1,7 @@
-diff -urN MPlayer-20010902/configure MPlayer-20010902.new/configure
---- MPlayer-20010902/configure	Sat Sep  1 21:36:44 2001
-+++ MPlayer-20010902.new/configure	Wed Sep  5 14:15:58 2001
-@@ -447,6 +447,7 @@
+diff -urN MPlayer-0.50/configure MPlayer-0.50.new/configure
+--- MPlayer-0.50/configure	Sun Oct  7 23:36:29 2001
++++ MPlayer-0.50.new/configure	Tue Oct  9 19:00:38 2001
+@@ -479,6 +479,7 @@
      if [ -z "$pparam" ]; then
  	pparam=`$_cpuinfo | grep 'flags' | cut -d ':' -f 2 | head -1`
      fi
@@ -9,17 +9,17 @@ diff -urN MPlayer-20010902/configure MPlayer-20010902.new/configure
      pvendor=`$_cpuinfo | grep 'vendor_id' | cut -d ':' -f 2  | cut -d ' ' -f 2 | head -1`
      pfamily=`$_cpuinfo | grep 'cpu family' | cut -d ':' -f 2 | cut -d ' ' -f 2 | head -1`
      pmodel=`$_cpuinfo | grep -v 'model name' | grep 'model' | cut -d ':' -f 2 | cut -d ' ' -f 2 | head -1`
-@@ -762,8 +763,6 @@
+@@ -795,8 +796,6 @@
  fi
  echo Using ... "$_mp_help" file
  
 -$_cc $_extraincdir $_extralibdir $TMPC -o $TMPO -lvgagl -lvga > /dev/null 2>&1 && _svga=yes
 -
- if [ "$system_name" = "FreeBSD" -o "$system_name" = "OpenBSD" ]; then
+ if [ "$system_name" = "FreeBSD" -o "$system_name" = "OpenBSD" -o "$system_name" = "BSD/OS" ]; then
  $_cc $TMPC -o $TMPO -pthread > /dev/null 2>&1 || \
   { echo "Lib pthread not found."; rm -f $TMPC $TMPO $TMPS ; exit 1; }
-@@ -818,7 +817,7 @@
- $_cc $_extraincdir $_extralibdir $TMPC -o $TMPO -ldivxdecore > /dev/null 2>&1 && _divx4linux=yes
+@@ -851,7 +850,7 @@
+ $_cc $_extraincdir $_extralibdir $TMPC -o $TMPO -ldivxdecore -lm > /dev/null 2>&1 && _divx4linux=yes
  
  _termcap=no
 -$_cc  $_extraincdir $_extralibdir $TMPC -o $TMPO -ltermcap > /dev/null 2>&1 && _termcap=yes
@@ -27,15 +27,7 @@ diff -urN MPlayer-20010902/configure MPlayer-20010902.new/configure
  
  _png=no
  $_cc  $_extraincdir $_extralibdir $TMPC -o $TMPO -lpng -lz -lm > /dev/null 2>&1 && _png=yes
-@@ -853,7 +852,6 @@
- 
- if [ $_x11 = yes ]; then
- 
--$_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXdpms $_socklib > /dev/null 2>&1 && _xdpms=yes
- $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXv $_socklib > /dev/null 2>&1 && _xv=yes
- $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXxf86vm $_socklib > /dev/null 2>&1 && _vm=yes
- 
-@@ -1779,7 +1777,7 @@
+@@ -1810,7 +1809,7 @@
  
  if [ "$_termcap" = "yes" ]; then
   _termcap='#define USE_TERMCAP'
@@ -44,12 +36,12 @@ diff -urN MPlayer-20010902/configure MPlayer-20010902.new/configure
  else
   _termcap='#undef USE_TERMCAP'
   _libtermcap=''
-@@ -2120,7 +2118,7 @@
+@@ -2164,7 +2163,7 @@
  AR=ar
  CC=$_cc
  # OPTFLAGS=-O4 $_profile $_debug $_march $_mcpu -pipe -fomit-frame-pointer -ffast-math
 -OPTFLAGS=$CFLAGS
 +OPTFLAGS=$CFLAGS -pipe -ffast-math
- EXTRA_INC=$_extraincdir
+ EXTRA_INC=$_extraincdir $_gtkinc
  WIN32_PATH=-DWIN32_PATH=\\"$_win32libdir\\"
  

@@ -1,6 +1,6 @@
-diff -urN MPlayer-20010902/etc/codecs.conf MPlayer-20010902.new/etc/codecs.conf
---- MPlayer-20010902/etc/codecs.conf	Sat Sep  1 23:40:18 2001
-+++ MPlayer-20010902.new/etc/codecs.conf	Wed Sep 12 16:23:30 2001
+diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
+--- MPlayer-0.50/etc/codecs.conf	Sat Oct  6 13:30:07 2001
++++ MPlayer-0.50.new/etc/codecs.conf	Tue Oct  9 18:27:06 2001
 @@ -4,38 +4,7 @@
  ;                   VIDEO CODECS
  ;=============================================================================
@@ -37,14 +37,15 @@ diff -urN MPlayer-20010902/etc/codecs.conf MPlayer-20010902.new/etc/codecs.conf
 -;  out YV12
 -  out YUY2
 -  out BGR32,BGR24,BGR16,BGR15
-+; =============== libmpeg2/ProjectMayo MPEG CODECS =====================
++; =============== FFMPEG MPEG CODECS =========================
  
  videocodec mpeg12
    info "MPEG 1 or 2"
-@@ -47,45 +16,6 @@
+@@ -46,45 +15,6 @@
+   driver libmpeg2
    dll "libmpeg2"
    out YV12
- 
+-
 -videocodec mpeg4
 -  info "Microsoft MPEG-4 v1/v2"
 -  status working
@@ -83,14 +84,29 @@ diff -urN MPlayer-20010902/etc/codecs.conf MPlayer-20010902.new/etc/codecs.conf
 -  out YUY2 yuvhack
 -  out BGR32,BGR24,BGR15
 -
--  
+   
  videocodec odivx
    info "OpenDivX (MPEG-4 v2)"
-   comment "with postprocessing"
-@@ -118,27 +48,6 @@
+@@ -118,45 +48,6 @@
    out UYVY
    out BGR32,BGR24,BGR16,BGR15
  
+-videocodec divx4vfw
+-  info "DivX4Windows-VFW (DivX 3.x, DivX4)"
+-  status working
+-  comment "with postprocessing!!!"
+-  fourcc DIVX,divx        ; opendivx / divx4
+-  fourcc DIV1,div1 divx
+-  fourcc MP4S,mp4s	  ; ISO MPEG-4 Video V1
+-  fourcc MP43,mp43,DIV3,div3,DIV4,div4 DIV3  ; for DivX4Linux only!
+-  fourcc AP41 DIV3	  ; AngelPotion stuff
+-  format 0x4
+-  driver vfw
+-  dll "divx.dll"
+-;  out YV12   ; buggy
+-  out YUY2
+-  out BGR32,BGR24,BGR15
+-
 -videocodec i263
 -  info "I263"
 -  status working
@@ -112,14 +128,23 @@ diff -urN MPlayer-20010902/etc/codecs.conf MPlayer-20010902.new/etc/codecs.conf
 -  out UYVY
 -  out BGR32,BGR24,BGR15
 -
- ; =============== FFMPEG MPEG CODECS =========================
- 
+-; =============== FFMPEG MPEG CODECS =========================
+-
  videocodec ffmjpeg
-@@ -203,202 +112,6 @@
- 
- ; ============== OTHER STUFF =======================
+   info "FFmpeg MJPEG decoder"
+   status working
+@@ -216,7 +107,6 @@
+   dll "mpegvideo"
+   out YV12
  
 -
+ videocodec mpegpes
+   info "Mpeg PES output (.mpg or DVB card)"
+   comment "for hardware decoding"
+@@ -240,209 +130,6 @@
+   out YUY2
+   out BGR32,BGR24,BGR15
+ 
 -videocodec indeo5ds
 -  info "Intel Indeo 5"
 -  status working
@@ -315,10 +340,18 @@ diff -urN MPlayer-20010902/etc/codecs.conf MPlayer-20010902.new/etc/codecs.conf
 -  out UYVY
 -  out BGR32,BGR24,BGR15 flip
 -
+-videocodec msrle
+-  info "M$ RLE"
+-  status working
+-  format 0x1
+-  driver rle
+-  dll "xa_rle8"
+-  out BGR32,BGR24,BGR16,BGR15
+-
  videocodec null
    info "NULL codec (no decoding)"
    status working
-@@ -428,21 +141,6 @@
+@@ -473,21 +160,6 @@
    driver pcm
    dll "uncompressed"
  
@@ -340,14 +373,14 @@ diff -urN MPlayer-20010902/etc/codecs.conf MPlayer-20010902.new/etc/codecs.conf
  ; now mp3lib is stable enough!?
  audiocodec mp3
    info "MPEG layer-2, layer-3"
-@@ -454,38 +152,6 @@
-   dll "mp3lib (mpglib)"
+@@ -508,38 +180,6 @@
+   dll "mpegaudio"
    flags seekable
  
 -audiocodec mp3acm
 -  info "MPEG layer-3"
 -  status working
--  comment "Optimized to Intel MMX/SSE, conflicts with security kernel patches"
+-  comment "conflicts with security kernel patches"
 -  format 0x55
 -  driver acm
 -  dll "l3codeca.acm"
@@ -379,7 +412,7 @@ diff -urN MPlayer-20010902/etc/codecs.conf MPlayer-20010902.new/etc/codecs.conf
  audiocodec alaw
    info "aLaw"
    status working
-@@ -514,38 +180,6 @@
+@@ -568,38 +208,6 @@
    driver libac3
    dll "libac3"
  
@@ -417,8 +450,8 @@ diff -urN MPlayer-20010902/etc/codecs.conf MPlayer-20010902.new/etc/codecs.conf
 -
  audiocodec vorbis
    info "OggVorbis Audio Decoder"
-   status buggy
-@@ -554,7 +188,4 @@
+   status working
+@@ -608,7 +216,4 @@
    driver libvorbis
    dll "libvorbis"
    flags seekable
