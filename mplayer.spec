@@ -85,7 +85,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Movie player for Linux. Supported input formats: VCD (VideoCD),
-MPEG1/2, RIFF AVI, ASF 1.0. Supported audio codecs: PCM
+MPEG1/2, RIFF AVI, ASF 1.0, Quicktime. Supported audio codecs: PCM
 (uncompressed), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32 ACM.
 Supported video codecs: MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX.
 Supported output devices: Matrox G200/G400 hardware, Matrox G200/G400
@@ -98,12 +98,12 @@ codecs.win32.conf to your ~/.mplayer direcory as codecs.conf.
 
 %description -l pl
 Odtwarzacz wideo dla Linuksa. Wspierane formaty wej¶ciowe: VCD
-(VideoCD), MPEG1/2, RIFF AVI, ASF 1.0. Wspierane kodeki audio: PCM
-(nieskompresowane), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32 ACM.
-Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX.
-Wspierane urz±dzenia wyj¶ciowe: Matrox G200/G400, X11 opcjonalnie z
-rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
-G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
+(VideoCD), MPEG1/2, RIFF AVI, ASF 1.0, Quicktime. Wspierane kodeki
+audio: PCM (nieskompresowane), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32
+ACM.  Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW),
+OpenDivX.  Wspierane urz±dzenia wyj¶ciowe: Matrox G200/G400, X11
+opcjonalnie z rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer
+OpenGL, Matrox G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 Je¶li chcesz u¿ywaæ kodeków win32, zainstaluj pakiet w32codec i
 skopiuj codecs.win32.conf do katalogu ~/.mplayer jako codecs.conf.
