@@ -1,0 +1,17 @@
+--- MPlayer-1.0pre4/configure.orig	Fri May  7 12:07:31 2004
++++ MPlayer-1.0pre4/configure	Fri May  7 12:12:08 2004
+@@ -5031,11 +5031,11 @@
+ }
+ EOF
+   _iconv=no
+-  if cc_check -lm -liconv ; then
++  if cc_check -lm ; then
++    _iconv=yes
++  elif cc_check -lm -liconv ; then
+     _iconv=yes
+     _ld_iconv='-liconv'
+-  else
+-    cc_check -lm && _iconv=yes
+   fi
+ fi
+ if test "$_iconv" = yes ; then
