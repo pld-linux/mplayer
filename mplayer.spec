@@ -1,5 +1,7 @@
 #
-# TODO: bcond for libsmbclient and maybe libdv?
+# TODO:
+# - bcond for libsmbclient and maybe libdv?
+# - SECURITY: http://securitytracker.com/alerts/2004/Jun/1010600.html
 #
 # Conditional build:
 %bcond_with	altivec		# with altivec support
