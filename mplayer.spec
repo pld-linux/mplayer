@@ -19,6 +19,7 @@
 %bcond_without	aalib		# without aalib video output
 %bcond_without	alsa		# without ALSA audio output
 %bcond_without	arts		# without arts audio output
+%bcond_without	caca		# without libcaca video output
 %bcond_without	dshow		# disable DirectShow support
 %bcond_without	gui		# without GTK+ GUI
 %bcond_without	joystick	# disable joystick support
@@ -63,7 +64,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.5
+Release:	0.%{pre}.6
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -106,6 +107,7 @@ URL:		http://www.mplayerhq.hu/
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
+%{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %if %{with gui}
 BuildRequires:	gtk+%{?with_gtk2:2}-devel
@@ -288,6 +290,7 @@ export CC CFLAGS
 %{!?with_alsa:--disable-alsa} \
 %{?with_alsa:--enable-alsa --disable-select} \
 %{!?with_arts:--disable-arts} \
+%{!?with_caca:--disable-caca} \
 %{!?with_dshow:--disable-dshow} \
 %{?with_gui:--enable-gui} \
 %{?with_joystick:--enable-joystick} \
