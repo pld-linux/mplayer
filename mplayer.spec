@@ -34,6 +34,8 @@
 %bcond_without win32	# without win32 codecs support
 %bcond_without vorbis	# without ogg-vorbis audio support
 
+%bcond_with gtk2	# EXPERIMENTAL support for GTK+ version 2
+
 # set it to 0, or 1
 %define		snapshot	0
 
@@ -78,6 +80,7 @@ Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
 Patch7:		%{name}-configure.patch
+Patch8:		%{name}-gtk+2.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
@@ -90,7 +93,7 @@ URL:		http://www.mplayerhq.hu/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	arts-devel}
 %{?with_dshow:BuildRequires:	libstdc++-devel}
-%{?with_gui:BuildRequires:		gtk+-devel}
+%{?with_gui:BuildRequires:		gtk+2-devel}
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_mad:BuildRequires:		libmad-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
@@ -186,6 +189,9 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 ##%patch5 -p1	-- old home_etc behavior
 %patch6 -p1
 %patch7 -p1
+%if %{with gtk2}
+%patch8 -p1
+%endif
 
 %build
 CFLAGS="%{rpmcflags}"
