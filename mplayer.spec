@@ -28,7 +28,7 @@
 # _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder
 
 # set it to 0, or 1
-%define		snapshot	1
+%define		snapshot	0
 
 %define		sname		MPlayer
 %define		snap		20021202
@@ -43,8 +43,8 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
-Version:	0.90pre10
-Release:	3
+Version:	0.90rc1
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -144,10 +144,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 #%patch4 -p1
 %patch5 -p1
 %patch6 -p1
-
-#%if %{snapshot}
-#cp -ar ffmpeg/libavcodec/* libavcodec
-#%endif
 
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}"
