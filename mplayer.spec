@@ -140,6 +140,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch3 -p0
 #%patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %if %{snapshot}
 cp -ar ffmpeg/libavcodec/* libavcodec
