@@ -1,6 +1,6 @@
 diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
 --- MPlayer-0.50/etc/codecs.conf	Sat Oct  6 13:30:07 2001
-+++ MPlayer-0.50.new/etc/codecs.conf	Tue Oct  9 18:27:06 2001
++++ MPlayer-0.50.new/etc/codecs.conf	Tue Oct  9 22:39:33 2001
 @@ -4,38 +4,7 @@
  ;                   VIDEO CODECS
  ;=============================================================================
@@ -41,11 +41,10 @@ diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
  
  videocodec mpeg12
    info "MPEG 1 or 2"
-@@ -46,45 +15,6 @@
-   driver libmpeg2
+@@ -47,116 +16,6 @@
    dll "libmpeg2"
    out YV12
--
+ 
 -videocodec mpeg4
 -  info "Microsoft MPEG-4 v1/v2"
 -  status working
@@ -84,13 +83,39 @@ diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
 -  out YUY2 yuvhack
 -  out BGR32,BGR24,BGR15
 -
-   
- videocodec odivx
-   info "OpenDivX (MPEG-4 v2)"
-@@ -118,45 +48,6 @@
-   out UYVY
-   out BGR32,BGR24,BGR16,BGR15
- 
+-  
+-videocodec odivx
+-  info "OpenDivX (MPEG-4 v2)"
+-  comment "with postprocessing"
+-  status working
+-  fourcc DIVX,divx
+-  fourcc DIV1,div1 divx
+-  fourcc MP4S,mp4s	; ISO MPEG-4 Video V1
+-  fourcc MP43,mp43,DIV3,div3,DIV4,div4 DIV3  ; for DivX4Linux only!
+-  fourcc AP41 DIV3	  ; AngelPotion stuff
+-  format 0x4
+-  driver odivx
+-  dll "opendivx decore"
+-  out YV12
+-
+-videocodec divx4
+-  info "DivX4Linux (MPEG-4 v2,v3)"
+-  comment "with postprocessing"
+-  status working
+-  fourcc DIVX,divx
+-  fourcc DIV1,div1 divx
+-  fourcc MP4S,mp4s	; ISO MPEG-4 Video V1
+-  fourcc MP43,mp43,DIV3,div3,DIV4,div4 DIV3  ; for DivX4Linux only!
+-  fourcc AP41 DIV3	  ; AngelPotion stuff
+-  format 0x4
+-  driver divx4
+-  dll "libdivxdecore.0"
+-;  out YV12   ; works, but odivx driver is faster with YV12 (DEC_USER)
+-;  out I420
+-  out YUY2
+-  out UYVY
+-  out BGR32,BGR24,BGR16,BGR15
+-
 -videocodec divx4vfw
 -  info "DivX4Windows-VFW (DivX 3.x, DivX4)"
 -  status working
@@ -133,7 +158,7 @@ diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
  videocodec ffmjpeg
    info "FFmpeg MJPEG decoder"
    status working
-@@ -216,7 +107,6 @@
+@@ -216,7 +75,6 @@
    dll "mpegvideo"
    out YV12
  
@@ -141,10 +166,21 @@ diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
  videocodec mpegpes
    info "Mpeg PES output (.mpg or DVB card)"
    comment "for hardware decoding"
-@@ -240,209 +130,6 @@
-   out YUY2
-   out BGR32,BGR24,BGR15
+@@ -229,220 +87,6 @@
  
+ ; ============== OTHER STUFF =======================
+ 
+-
+-videocodec vp3
+-  info "On2 OpenSource VP3-Codec"
+-  status working
+-  comment "For SSE-systems use hacked dll from ftp://mplayerhq.hu/MPlayer/samples/drivers32/"
+-  fourcc VP31,vp31
+-  driver vfwex
+-  dll "vp31vfw.dll"
+-  out YUY2
+-  out BGR32,BGR24,BGR15
+-
 -videocodec indeo5ds
 -  info "Intel Indeo 5"
 -  status working
@@ -351,7 +387,7 @@ diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
  videocodec null
    info "NULL codec (no decoding)"
    status working
-@@ -473,21 +160,6 @@
+@@ -473,21 +117,6 @@
    driver pcm
    dll "uncompressed"
  
@@ -373,7 +409,7 @@ diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
  ; now mp3lib is stable enough!?
  audiocodec mp3
    info "MPEG layer-2, layer-3"
-@@ -508,38 +180,6 @@
+@@ -508,38 +137,6 @@
    dll "mpegaudio"
    flags seekable
  
@@ -412,7 +448,7 @@ diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
  audiocodec alaw
    info "aLaw"
    status working
-@@ -568,38 +208,6 @@
+@@ -568,38 +165,6 @@
    driver libac3
    dll "libac3"
  
@@ -451,11 +487,11 @@ diff -urN MPlayer-0.50/etc/codecs.conf MPlayer-0.50.new/etc/codecs.conf
  audiocodec vorbis
    info "OggVorbis Audio Decoder"
    status working
-@@ -608,7 +216,4 @@
+@@ -608,7 +173,3 @@
    driver libvorbis
    dll "libvorbis"
    flags seekable
 -; acm codec doesn't work, haven't tried zorannt dshow codec
 -;  driver acm
 -;  dll "vorbis.acm"
- 
+-
