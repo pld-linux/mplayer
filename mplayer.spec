@@ -1,19 +1,6 @@
 #
 # Conditional build:
 
-# _with_license_agreement	- generates package
-
-# CPU options
-# _with_pmmx		- enable mmx
-# _with_ppro		- enable mtrr (default for i686)
-# _with_p2		- enable mmx, mtrr
-# _with_p3		- enable sse, mmx2, mmx, mtrr (Pentium III and Celeron II)
-# _with_p4		- enable sse2, sse, mmx2, mmx, mtrr
-# _with_k6		- enable mmx
-# _with_k623		- enable 3dnow, mmx
-# _with_k7		- enable 3dnowex, 3dnow, mmx2, mmx, mtrr
-# _with_k7xp		- enable 3dnowex, 3dnow, mmx2, mmx, mtrr, sse, sse2 (athlon xp)
-
 # _with_ggi		- with ggi video output
 # _without_alsa		- without ALSA support
 # _without_arts		- without arts support
@@ -36,14 +23,14 @@
 Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
-Version:	0.60
-Release:	6.%{snap}
-License:	GPL w/o binaries
+Version:	0.90pre1
+Release:	0
+License:	GPL
 Group:		X11/Applications/Multimedia
 # This is location of CVS snapshots
-Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+#Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 # This is location of official (pre)releases
-#Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+Source0:	http://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-2.tar.bz2
@@ -79,21 +66,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_mandir		%{_prefix}/man
 %define		_sysconfdir	/etc
 
-%ifarch i686
-%{!?_with_k7xp:%{!?_with_k7:%{!?_with_p3:%{!?_with_p4:%{!?_with_p2:%define _with_ppro 1}}}}}
-%endif
-
-%{?_with_k6:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx --disable-mtrr}
-%{?_with_k623:%define	_cpu_opts --disable-3dnowex  --enable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx --disable-mtrr}
-%{?_with_k7:%define	_cpu_opts  --enable-3dnowex  --enable-3dnow --disable-sse2 --disable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr --enable-fastmemcpy}
-%{?_with_k7xp:%define	_cpu_opts  --enable-3dnowex  --enable-3dnow  --enable-sse2  --enable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr --enable-fastmemcpy}
-%{?_with_pmmx:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx --disable-mtrr}
-%{?_with_ppro:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2 --disable-mmx  --enable-mtrr}
-%{?_with_p2:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx  --enable-mtrr}
-%{?_with_p3:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2  --enable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr}
-%{?_with_p4:%define	_cpu_opts --disable-3dnowex --disable-3dnow  --enable-sse2  --enable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr}
-%{?!_cpu_opts:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2 --disable-mmx --disable-mtrr}
-
 %description
 Movie player for Linux. Supported input formats: VCD (VideoCD),
 MPEG1/2, RIFF AVI, ASF 1.0. Supported audio codecs: PCM
@@ -120,17 +92,16 @@ Je¶li chcesz u¿ywaæ kodeków win32, zainstaluj pakiet w32codec i
 skopiuj codecs.win32.conf do katalogu ~/.mplayer jako codecs.conf.
 
 %prep
-%{!?_with_license_agreement:exit 1}
 # snapshots:
-%setup -q -n %{sname}-%{snap} -a 1 -a 3
+#%setup -q -n %{sname}-%{snap} -a 1 -a 3
 # releases:
-#%setup -q -n %{sname}-%{version} -a 1 -a 3
+%setup -q -n %{sname}-%{version} -a 1 -a 3
 %patch0 -p1
 %patch1 -p1
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch2 -p1
 %patch3 -p0
-%patch4 -p1
+#%patch4 -p1
 
 # needed in snapshots
 # cp -ar ffmpeg/libavcodec/* libavcodec
@@ -138,6 +109,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}" \
 ./configure \
+			--prefix=%{_prefix} \
 			--with-x11incdir=%{_includedir}\
 			--datadir=%{_datadir}/mplayer \
 			--with-win32libdir="/usr/lib/win32" \
@@ -164,14 +136,13 @@ CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}" \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
 %{!?_without_gui:	--enable-gui} \
-%{?_without_dshow:	--disable-dshow} \
-			%{_cpu_opts}
+%{?_without_dshow:	--disable-dshow} 
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_bindir},%{_mandir}/{,hu/}man1} \
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_bindir},%{_libdir}/mplayer/vidix,%{_mandir}/{,hu/}man1} \
 	$RPM_BUILD_ROOT{%{_applnkdir}/Multimedia,%{_datadir}/mplayer/{arial-{14,18,24,28},Skin}}
 
 perl -p -i -e 'exit if /this default/' etc/example.conf
@@ -179,6 +150,9 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 install mplayer $RPM_BUILD_ROOT%{_bindir}
 install mencoder $RPM_BUILD_ROOT%{_bindir}
+install libdha/libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}
+ln -sf libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}/libdha.so
+install vidix/drivers/*.so $RPM_BUILD_ROOT/%{_libdir}/mplayer/vidix
 ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
 install font-arial-14-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-14
 install font-arial-18-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-18
@@ -212,3 +186,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
 %{_applnkdir}/*/*
+%{_libdir}
