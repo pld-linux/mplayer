@@ -13,7 +13,7 @@
 # _with_divx4linux	- with divx4linux support (binaries, instead of included OpenDivx)
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 # _without_win32	- disable requirement for win32 codecs (req: w23codec)
-#
+# _without_gui		- without gui gtk+ interfeace
 
 %define sname	MPlayer
 %define ffmpeg_ver 	0.4.5
@@ -40,9 +40,9 @@ Group(pl):	X11/Aplikacje/Multimedia
 Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
-#Patch0:		%{name}-make.patch
-#Patch1:		%{name}-confpath.patch
-#Patch2:		%{name}-codecs_no_w32.patch
+Patch0:		%{name}-make.patch
+Patch1:		%{name}-confpath.patch
+Patch2:		%{name}-codecs_no_w32.patch
 URL:		http://mplayer.sourceforge.net/
 %{!?_without_win32:Requires:	w32codec}
 Requires:	OpenGL
@@ -54,7 +54,7 @@ BuildRequires:	ncurses-devel
 %{!?_without_arts:BuildRequires:	arts-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 %{?_with_divx4linux:BuildRequires:	divx4linux-devel}
-%{?_with_ggi:BuildRequires:		libggi-devel}
+%{?_with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
 %{!?_without_lirc:BuildRequires:	lirc-devel}
@@ -86,9 +86,9 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
 %setup  -q -n %{sname}-%{version} -a 1
-#%patch0 -p1
-#%patch1 -p1
-#%{?_without_win32:%patch2 -p1}
+%patch0 -p1
+%patch1 -p1
+%{?_without_win32:%patch2 -p1}
 
 cp -ar ffmpeg/libavcodec/* libavcodec
 
@@ -132,7 +132,7 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 %{?_without_vorbis:	--disable-oggvorbis} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
-			--enable-gui
+%{!?_without_gui:	--enable-gui}
 			
 %{__make}
 
