@@ -58,8 +58,10 @@ Group:		X11/Applications/Multimedia
 %if %{snapshot}
 #Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 Source0:	%{name}-%{snap}.tar.bz2
+# Source0-md5:	fa95df6c5106f5f6b8cff38a26cfc748
 #Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source1:	libavcodec-%{snap}.tar.bz2
+# Source1-md5:	ec80b8794125730bcef4a25d3a72ff7c
 %else
 Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
