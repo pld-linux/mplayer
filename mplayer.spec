@@ -29,6 +29,8 @@
 #			  work on machine other then where it was compiled
 # _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder
 # _with_live		- enable use of live.com libraries
+# _without_joystick	- disable joystick support
+#
 
 # set it to 0, or 1
 %define		snapshot	0
@@ -48,7 +50,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90rc3
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -58,7 +60,6 @@ Source1:	libavcodec-20021203.tar.bz2
 %else
 Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
-Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default-1.7.tar.bz2
 Source5:	g%{name}.desktop
@@ -71,32 +72,33 @@ Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
 URL:		http://mplayer.sourceforge.net/
+%{!?_without_aa:BuildRequires:		aalib-devel}
+%{!?_without_alsa:BuildRequires:	alsa-lib-devel}
+%{!?_without_arts:BuildRequires:	arts-devel}
+%{!?_without_dshow:BuildRequires:	libstdc++-devel}
+%{!?_without_gui:BuildRequires:		gtk+-devel}
+%{!?_without_lirc:BuildRequires:	lirc-devel}
+%{!?_without_mad:BuildRequires:		mad-devel}
+%{!?_without_nas:BuildRequires:		nas-devel}
+%{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 %{?_with_directfb:BuildRequires:	DirectFB-devel}
+%{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
+%{?_with_dxr3:BuildRequires:		em8300-devel}
+%{?_with_ggi:BuildRequires:		libggi-devel}
+%{?_with_live:BuildRequires:		live}
+%{?_with_svga:BuildRequires:		svgalib-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
-%{!?_without_aa:BuildRequires:	aalib-devel}
-%{!?_without_alsa:BuildRequires:	alsa-lib-devel}
-%{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	audiofile-devel
-%{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
-%{?_with_dxr3:BuildRequires:	em8300-devel}
+BuildRequires:	awk
 BuildRequires:	esound-devel
-%{!?_without_gui:BuildRequires:		gtk+-devel}
 BuildRequires:	lame-libs-devel
-%{?_with_ggi:BuildRequires:		libggi-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
-%{!?_without_dshow:BuildRequires:	libstdc++-devel}
 BuildRequires:	libungif-devel
-%{!?_without_vorbis:BuildRequires:	libvorbis-devel}
-%{!?_without_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	lzo-devel
-%{!?_without_mad:BuildRequires:	mad-devel}
-%{!?_without_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
-%{?_with_svga:BuildRequires:	svgalib-devel}
-%{?_with_live:BuildRequires:  live}
 BuildRequires:	xvid-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
@@ -222,36 +224,54 @@ export CC CFLAGS
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %{!?_without_qt:	--enable-qtx-codecs} \
 %{?_with_live:		--enable-live --with-livelibdir=/usr/lib/liveMedia --with-extraincdir=/usr/include/liveMedia } \
-			--disable-dvdnav
+			--disable-dvdnav \
+%{!?_without_joystick:	--enable-joystick}
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/{,de/,hu/,pl/}man1} \
-	$RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_datadir}/mplayer/Skin} \
-	$RPM_BUILD_ROOT{%{_libdir}/mplayer/vidix,%{_applnkdir}/Multimedia} \
+install -d \
+	$RPM_BUILD_ROOT%{_bindir} \
+	$RPM_BUILD_ROOT%{_mandir}/{,de,hu,pl}/man1 \
+	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer \
+	$RPM_BUILD_ROOT%{_datadir}/mplayer/Skin \
+	$RPM_BUILD_ROOT%{_libdir}/mplayer/vidix \
+	$RPM_BUILD_ROOT%{_applnkdir}/Multimedia \
 	$RPM_BUILD_ROOT%{_pixmapsdir}
 
-perl -p -i -e 'exit if /this default/' etc/example.conf
-install %{SOURCE2} etc/codecs.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
+# default config files
+awk '/Delete this default/{a++};{if(!a){print}}' etc/example.conf > etc/mplayer.conf
+install etc/{codecs,mplayer,input}.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
+
+# executables
 install mplayer mencoder $RPM_BUILD_ROOT%{_bindir}
 ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
+
+# fonts
 rm -f font-*/runme
 cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
+
+# skin
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
 rm -rf $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/*/CVS
+
+# libraries
 %ifarch %{ix86}
 install libdha/libdha.so* $RPM_BUILD_ROOT/%{_libdir}
 install vidix/drivers/*.so $RPM_BUILD_ROOT/%{_libdir}/mplayer/vidix
 %endif
+
+# X-files
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
+
+# man pages
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-mv DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
-mv DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
-mv DOCS/Polish/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
+install DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
+install DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
+install DOCS/Polish/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -259,14 +279,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc DOCS/*.html
-%doc etc/example.conf
 %{?!_without_win32: %doc etc/codecs.win32.conf}
 %lang(de) %doc DOCS/German
 #%lang(fr) %doc DOCS/French
 %lang(hu) %doc DOCS/Hungarian
 %lang(it) %doc DOCS/Italian
 %lang(pl) %doc DOCS/Polish
-%doc AUTHORS ChangeLog
+%doc README AUTHORS ChangeLog
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
