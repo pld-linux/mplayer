@@ -146,6 +146,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %if %{with altivec}
 %define		specflags_ppc	-maltivec -mabi=altivec
 %endif
+%define		_desktopdir	%{_applnkdir}/Multimedia
 
 %description
 Movie player for Linux. Supported input formats: VCD (VideoCD),
