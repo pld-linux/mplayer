@@ -12,7 +12,7 @@
 # _without_vorbis	- without ogg-vorbis support
 # _with_divx4linux	- with divx4linux support (binaries, instead of included OpenDivx)
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
-# _with_win32		- enable requirement for win32 codecs (req: w32codec)
+# _without_win32	- disable requirement for win32 codecs
 # _without_gui		- without gui gtk+ interfeace
 
 %define sname	MPlayer
@@ -42,9 +42,8 @@ Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
-Patch2:		%{name}-codecs_no_w32.patch
+Patch2:		%{name}-codec.patch
 URL:		http://mplayer.sourceforge.net/
-%{?_with_win32:Requires:	w32codec}
 Requires:	OpenGL
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
@@ -88,14 +87,14 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %setup  -q -n %{sname}-%{version} -a 1
 %patch0 -p1
 %patch1 -p1
-%{!?_with_win32:%patch2 -p1}
+%patch2 -p1
 
 cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
 CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 %configure \
-%{?_with_win32:		--with-win32libdir="/usr/lib/win32"} \
+			--with-win32libdir="/usr/lib/win32" \
 			--disable-kernel-extchk \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %ifarch i586 i686
@@ -131,7 +130,7 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 %{!?_without_vorbis:	--enable-oggvorbis} \
 %{?_without_vorbis:	--disable-oggvorbis} \
 %{?_without_select:	--disable-select} \
-%{!?_with_win32:	--disable-win32} \
+%{?_without_win32:	--disable-win32} \
 %{!?_without_gui:	--enable-gui}
 			
 %{__make}
