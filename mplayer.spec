@@ -64,9 +64,12 @@ Source1:	libavcodec-%{snap}.tar.bz2
 Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
+# Source3-md5: 0f9a5d53f836e2d2d2bde207dc641044
 Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default-1.7.tar.bz2
+# Source4-md5: 2ab41a197fec2df1caddd97a00e7237f
 Source5:	g%{name}.desktop
 Source6:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
+# Source6-md5: 6c3f032ddf401ca522900291de03fee5
 Source7:	%{name}.png
 Patch0:		%{name}-make.patch
 Patch2:		%{name}-no_libnsl.patch
