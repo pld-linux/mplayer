@@ -1,6 +1,6 @@
 diff -urN main.org/configure main/configure
 --- main.org/configure	Fri Apr 20 20:11:52 2001
-+++ main/configure	Fri Apr 20 20:14:27 2001
++++ main/configure	Fri Apr 20 22:41:06 2001
 @@ -179,6 +179,7 @@
  if [ -z "$pparam" ]; then
    pparam=`cat /proc/cpuinfo | grep 'flags' | cut -d ':' -f 2`
@@ -9,7 +9,16 @@ diff -urN main.org/configure main/configure
  pvendor=`cat /proc/cpuinfo | grep 'vendor_id' | cut -d ':' -f 2  | cut -d ' ' -f 2`
  pfamily=`cat /proc/cpuinfo | grep 'cpu family' | cut -d ':' -f 2 | cut -d ' ' -f 2`
  pmodel=`cat /proc/cpuinfo | grep "model$TAB" | cut -d ':' -f 2 | cut -d ' ' -f 2`
-@@ -403,7 +404,7 @@
+@@ -392,8 +393,6 @@
+ #echo "DONE (${proc})."
+ 
+ 
+-$_cc $TMPC -o $TMPO -lvgagl -lvga &> /dev/null && _svga=yes
+-
+ $_cc $TMPC -o $TMPO -lpthread &> /dev/null || \
+  { echo "Lib pthread not found."; rm -f $TMPC $TMPO ; exit 1; }
+ 
+@@ -403,7 +402,7 @@
  $_cc $TMPC -o $TMPO -L/usr/local/lib/ -lSDL -lpthread &> /dev/null && _have_sdl=yes
  
  _termcap=no
@@ -18,7 +27,7 @@ diff -urN main.org/configure main/configure
  
  _png=no
  $_cc $TMPC -o $TMPO -lpng &> /dev/null && _png=yes
-@@ -420,7 +421,6 @@
+@@ -420,7 +419,6 @@
  
  if [ $_x11 = yes ]; then
  
@@ -26,7 +35,7 @@ diff -urN main.org/configure main/configure
  $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXv &> /dev/null && _xv=yes
  
  $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lGL &> /dev/null && _gl=yes
-@@ -710,7 +710,7 @@
+@@ -710,7 +708,7 @@
  
  if [ "$_termcap" = "yes" ]; then
   _termcap='#define USE_TERMCAP'
@@ -35,7 +44,7 @@ diff -urN main.org/configure main/configure
  else
   _termcap='#undef USE_TERMCAP'
   _libtermcap=''
-@@ -745,7 +745,7 @@
+@@ -745,7 +743,7 @@
  CC=$_cc
  X11DIR=$_x11libdir
  # OPTFLAGS=-O4 -march=$proc -mcpu=$proc -pipe -fomit-frame-pointer -ffast-math
@@ -44,7 +53,7 @@ diff -urN main.org/configure main/configure
  # LIBS=-L/usr/lib -L/usr/local/lib $_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib
  X_LIBS=$_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib $_vmlib $_svgalib $_libpng
  TERMCAP_LIB=$_libtermcap
-@@ -753,7 +753,7 @@
+@@ -753,7 +751,7 @@
  LIRC_LIBS = $_lirclibs
  CSS_LIB = $_csslib
  CSS_INC = $_cssinc
