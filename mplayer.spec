@@ -170,7 +170,7 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 install mplayer $RPM_BUILD_ROOT%{_bindir}
 install mencoder $RPM_BUILD_ROOT%{_bindir}
-%ifnarch ppc
+%ifarch %{ix86}
 install libdha/libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}
 ln -sf libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}/libdha.so
 install vidix/drivers/*.so $RPM_BUILD_ROOT/%{_libdir}/mplayer/vidix
