@@ -1,4 +1,4 @@
-%define	snap	20010418
+%define	snap	20010420
 Summary:	Yet another movie player for linux.
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla linuxa.
 Name:		mplayer
