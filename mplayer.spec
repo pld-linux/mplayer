@@ -1,9 +1,9 @@
 #
 # Conditional build:
-# bcond_on_3dnow	- with 3dnow support
-# bcond_on_sse		- with sse support
-# bcond_on_mmx2		- with mmx2 support
-# bcond_off_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
+# _with_3dnow	- with 3dnow support
+# _with_sse		- with sse support
+# _with_mmx2		- with mmx2 support
+# _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 #
 
 %define	snap	20010501
@@ -62,9 +62,9 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 	--with-win32libdir="/usr/lib/win32" \
 %ifarch i586 i686
 	--enable-mmx \
-%{?bcond_on_3dnow:	--enable-3dnow} \
-%{?bcond_on_sse:	--enable-sse} \
-%{?bcond_on_mmx2:	--enable-mmx2} \
+%{?_with_3dnow:	--enable-3dnow} \
+%{?_with_sse:	--enable-sse} \
+%{?_with_mmx2:	--enable-mmx2} \
 %endif
 	--enable-gl \
 	--enable-dga \
@@ -76,7 +76,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 	--enable-sdl \
 	--enable-fbdev \
 	--enable-termcap \
-%{?bcond_off_select:	--disable-select} 
+%{?_without_select:	--disable-select} 
 
 %{__make}
 
