@@ -30,9 +30,10 @@
 
 Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
+Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90pre4
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -101,6 +102,11 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 Je¶li chcesz u¿ywaæ kodeków win32, zainstaluj pakiet w32codec i
 skopiuj codecs.win32.conf do katalogu ~/.mplayer jako codecs.conf.
 
+%description -l pt_BR
+MPlayer é um reprodutor de filmes que suporta vários codecs de vídeo e
+áudio. Diferentes mecanismos de reprodução podem também ser
+escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
+
 %prep
 %if %{snapshot}
 %setup -q -n %{sname}-%{snap} -a 1 -a 3
@@ -156,7 +162,7 @@ export CFLAGS
 %{?_without_divx4linux: --disable-divx4linux} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
-%{?_without_dshow:	--disable-dshow} 
+%{?_without_dshow:	--disable-dshow}
 
 %{__make}
 
