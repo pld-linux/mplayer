@@ -10,7 +10,7 @@
 # _without_arts		- without arts support
 # _without_lirc		- without lirc support
 # _without_vorbis	- without ogg-vorbis support
-# _with_divx4linux	- with divx4linux support (binaries, instead of included OpenDivx)
+# _without_divx4linux	- without divx4linux support (binaries, instead of included OpenDivx)
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 # _without_win32	- disable requirement for win32 codecs
 # _without_gui		- without gui gtk+ interfeace
@@ -24,21 +24,21 @@
 %endif
 
 # Current snapshot. They are generated daily these days.
-# %define snap   20011009
+%define snap   20011101
 
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.50
-Release:	2
+Release:	%{snap}.1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 # This is location of CVS snapshots
-# Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 # This is location of official (pre)releases
-Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+# Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/mp-arial-iso-8859-2.zip
@@ -57,14 +57,14 @@ BuildRequires:	ncurses-devel
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
-%{?_with_divx4linux:BuildRequires:	divx4linux-devel}
-%{?_with_ggi:BuildRequires:	libggi-devel}
+%{!?_without_divx4linux:BuildRequires:	divx4linux-devel}
+%{?_with_ggi:BuildRequires:		libggi-devel}
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
 %{!?_without_lirc:BuildRequires:	lirc-devel}
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
-%{!?_without_gui:BuildRequires:	gtk+-devel}
-%{!?_without_gui:BuildRequires:	libpng-devel}
+%{!?_without_gui:BuildRequires:		gtk+-devel}
+%{!?_without_gui:BuildRequires:		libpng-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
@@ -95,6 +95,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %setup  -q -n %{sname}-%{version} -a 1 -a 3
 %patch0 -p1
 %patch1 -p1
+cp etc/codecs.conf etc/codecs-win32.conf
 %patch2 -p1
 %patch3 -p1
 
@@ -133,8 +134,8 @@ CFLAGS="%{rpmcflags}" \
 			--enable-esd \
 %{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
-%{?_with_divx4linux:	--enable-divx4} \
-%{!?_with_divx4linux:	--disable-divx4} \
+%{!?_without_divx4linux:--enable-divx4linux} \
+%{?_without_divx4linux:	--disable-divx4linux} \
 %{!?_without_lirc:	--enable-lirc} \
 %{?_without_lirc:	--disable-lirc} \
 %{!?_without_vorbis:	--enable-oggvorbis} \
@@ -165,19 +166,22 @@ ln -s arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
 bzcat %{SOURCE4}|tar xC $RPM_BUILD_ROOT%{_prefix}/share/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
-gzip -9nf DOCS/{*.html,DVB}
+gzip -9nf DOCS/{DVB,{Polish,Russian,Spanish}/*/*}
+gzip -9nf etc/codecs-win32.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc DOCS/*.gz
+%doc DOCS/*.gz DOCS/*.html
+%doc etc/*.gz
 %lang(de) %doc DOCS/German
 %lang(hu) %doc DOCS/Hungarian
-%lang(pl) %doc DOCS/Polish.outdated
-%lang(ru) %doc DOCS/Russian.outdated
-%lang(es) %doc DOCS/Spanish.outdated
+%lang(pl) %doc DOCS/Polish
+%lang(ru) %doc DOCS/Russian
+%lang(es) %doc DOCS/Spanish
+%lang(fr) %doc DOCS/French
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
