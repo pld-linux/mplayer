@@ -21,7 +21,7 @@
 %bcond_without joystick	# disable joystick support
 %bcond_without lirc	# without lirc support
 %bcond_without mad	# without mad (audio MPEG) support
-%bcond_without qt	# without binary qt dll support
+%bcond_without quicktime# without binary quicktime dll support
 %bcond_without real	# without Real* 8/9 codecs support
 %bcond_without runtime	# disable runtime cpu detection, just detect CPU in
 			#  compiletime (advertised by mplayer authors as
@@ -36,7 +36,7 @@
 
 %ifnarch %{ix86}
 %undefine	with_win32
-%undefine	with_qt
+%undefine	with_quicktime
 %endif
 
 # set it to 0, or 1
@@ -122,8 +122,6 @@ BuildRequires:	openquicktime-devel
 BuildRequires:	quicktime4linux-devel
 BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
-
-
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -248,7 +246,7 @@ export CC CFLAGS
 %{?with_joystick:--enable-joystick} \
 %{!?with_lirc:--disable-lirc} \
 %{!?with_mad:--disable-mad} \
-%{!?with_qt:--disable-qtx} \
+%{!?with_quicktime:--disable-qtx} \
 %{!?with_real:--disable-real} \
 %{!?with_runtime:--disable-runtime-cpudetection} \
 %{?with_runtime:--enable-runtime-cpudetection} \
