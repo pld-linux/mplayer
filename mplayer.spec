@@ -57,7 +57,7 @@
 %define		sname		MPlayer
 %define		snap		%{nil}
 
-%define		pre		pre6
+%define		pre		pre6a
 
 Summary:	Yet another movie player
 Summary(es):	Otro reproductor de películas
@@ -66,7 +66,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.2
+Release:	0.%{pre}.1
 Epoch:		2
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -76,7 +76,7 @@ Group:		X11/Applications/Multimedia
 #Source1:	libavcodec-%{snap}.tar.bz2
 %else
 Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	4a628f87a7070e10ffea04a1598979a9
+# Source0-md5:	a812d945b884c2e2fa7f90c57cd76bff
 %endif
 Source3:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
