@@ -1,6 +1,6 @@
 %define	snap	20010420
-Summary:	Yet another movie player for linux.
-Summary(pl):	Jeszcze jeden odtwarzacz filmów dla linuxa.
+Summary:	Yet another movie player for linux
+Summary(pl):	Jeszcze jeden odtwarzacz filmów dla linuxa
 Name:		mplayer
 Version:	0.1
 Release:	0.%{snap}
