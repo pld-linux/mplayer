@@ -206,32 +206,6 @@ MPlayer é um reprodutor de filmes que suporta vários codecs de vídeo e
 áudio. Diferentes mecanismos de reprodução podem também ser
 escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 
-%package -n libpostproc
-Summary:	MPlayer's video post-processing library
-Summary(pl):	Biblioteka post-processingu video z mplayera
-Group:		Libraries
-
-%description -n libpostproc
-libpostproc is a video post-processing library from the MPlayer
-project.
-
-%description -n libpostproc -l pl
-libpostproc jest bibliotek± do post-processingu z projektu MPlayer.
-
-%package -n libpostproc-devel
-Summary:	MPlayer's video post-processing library - devel files
-Summary(pl):	Biblioteka post-processingu video z mplayera - pliki developerskie
-Group:		Development/Libraries
-Requires:	libpostproc = %{epoch}:%{version}-%{release}
-
-%description -n libpostproc-devel
-libpostproc is a video post-processing library from the MPlayer
-project. Development files.
-
-%description -n libpostproc-devel -l pl
-libpostproc jest bibliotek± do post-processingu z projektu MPlayer.
-Pliki dla developerów.
-
 %prep
 %if %{snapshot}
 %setup -q -n %{name}-%{snap} -a 1 -a 3 -a 6
@@ -256,6 +230,8 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
+
+find . -type d -name CVS -print | xargs rm -rf
 
 %build
 CFLAGS="%{rpmcflags}"
@@ -336,9 +312,9 @@ export CC CFLAGS
 rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
-	$RPM_BUILD_ROOT%{_mandir}/{de,es,fr,hu,it,pl,zh_CN,}/man1 \
+	$RPM_BUILD_ROOT%{_mandir}/{cs,de,es,fr,hu,it,pl,sv,zh_CN,}/man1 \
 	$RPM_BUILD_ROOT{%{_datadir}/mplayer/Skin,%{_libdir}/mplayer/vidix} \
-	$RPM_BUILD_ROOT{%{_desktopdir},%{_includedir}/postproc}
+	$RPM_BUILD_ROOT%{_desktopdir}
 
 # default config files
 awk '/Delete this default/{a++};{if(!a){print}}' etc/example.conf > etc/mplayer.conf
@@ -371,6 +347,7 @@ install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # man pages
+install DOCS/man/cs/*.1 $RPM_BUILD_ROOT%{_mandir}/cs/man1
 install DOCS/man/de/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
 install DOCS/man/en/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install DOCS/man/es/*.1 $RPM_BUILD_ROOT%{_mandir}/es/man1
@@ -378,13 +355,8 @@ install DOCS/man/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
 install DOCS/man/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 install DOCS/man/it/*.1 $RPM_BUILD_ROOT%{_mandir}/it/man1
 install DOCS/man/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
+install DOCS/man/sv/*.1 $RPM_BUILD_ROOT%{_mandir}/sv/man1
 install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
-find DOCS -name CVS -print | xargs rm -rf
-find DOCS -name \*1 -print | xargs rm -f
-
-install libavcodec/libpostproc/postprocess.h $RPM_BUILD_ROOT%{_includedir}/postproc
-install libavcodec/libpostproc/libpostproc.so $RPM_BUILD_ROOT%{_libdir}/libpostproc.so.0
-ln -sf libpostproc.so.0 $RPM_BUILD_ROOT%{_libdir}/libpostproc.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -401,8 +373,7 @@ umask 022
 
 %files
 %defattr(644,root,root,755)
-%{?with_win32: %doc etc/codecs.win32.conf}
-%doc DOCS/HTML/en/*.html DOCS/tech
+%doc DOCS/HTML/en/*.html DOCS/tech %{?with_win32:etc/codecs.win32.conf}
 %lang(de) %doc DOCS/de
 %lang(es) %doc DOCS/HTML/es
 %lang(fr) %doc DOCS/HTML/fr
@@ -421,21 +392,14 @@ umask 022
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
 %{_mandir}/man1/*
+%lang(cs) %{_mandir}/cs/man1/*
 %lang(de) %{_mandir}/de/man1/*
 %lang(es) %{_mandir}/es/man1/*
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
 %lang(it) %{_mandir}/it/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
+%lang(sv) %{_mandir}/sv/man1/*
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/*
 %{_pixmapsdir}/*
-
-%files -n libpostproc
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libpostproc.so.*
-
-%files -n libpostproc-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libpostproc.so
-%{_includedir}/postproc
