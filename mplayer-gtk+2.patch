@@ -2,15 +2,15 @@ diff -burN MPlayer-1.0pre3.orig/configure MPlayer-1.0pre3/configure
 --- MPlayer-1.0pre3.orig/configure	2004-01-02 15:29:02.000000000 +0100
 +++ MPlayer-1.0pre3/configure	2004-01-02 15:45:49.000000000 +0100
 @@ -314,8 +314,7 @@
-   --with-sdl-config=PATH   path to sdl*-config (e.g. /opt/bin/sdl-config)
-   --with-freetype-config=PATH  path to freetype-config
-                                (e.g. /opt/bin/freetype-config)
--  --with-gtk-config=PATH   path to gtk*-config (e.g. /opt/bin/gtk-config)
+                               (e.g. /opt/bin/freetype-config)
+   --with-fribidi-config=PATH  path to fribidi-config
+                               (e.g. /opt/bin/fribidi-config)
 -  --with-glib-config=PATH  path to glib*-config (e.g. /opt/bin/glib-config)
+-  --with-gtk-config=PATH   path to gtk*-config (e.g. /opt/bin/gtk-config)
 +  --with-pkg-config=PATH   path to pkg-config (e.g. /opt/bin/pkg-config)
-   --with-livelibdir=DIR    path to LIVE.COM Streaming Media libraries
-   --with-xmmsplugindir=DIR path to XMMS plugins
-   --with-xmmslibdir=DIR    path to libxmms.so.1
+   --with-sdl-config=PATH   path to sdl*-config (e.g. /opt/bin/sdl-config)
+ EOF
+     exit 0
 @@ -1542,11 +1541,8 @@
    --with-fribidi-config=*)
      _fribidiconfig=`echo $ac_option | cut -d '=' -f 2`
@@ -30,7 +30,7 @@ diff -burN MPlayer-1.0pre3.orig/configure MPlayer-1.0pre3/configure
  
  
 -  # Check for GTK:
--  echocheck "gtk version"
+-  echocheck "GTK version"
 -  if test -z "$_gtkconfig" ; then
 -    if ( gtk-config --version ) >/dev/null 2>&1 ; then
 -      _gtkconfig="gtk-config"
