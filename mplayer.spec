@@ -248,7 +248,7 @@ install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
 	$RPM_BUILD_ROOT%{_mandir}/{de,fr,hu,pl,zh,}/man1 \
 	$RPM_BUILD_ROOT{%{_datadir}/mplayer/Skin,%{_libdir}/mplayer/vidix} \
-	$RPM_BUILD_ROOT%{_applnkdir}/Multimedia 
+	$RPM_BUILD_ROOT%{_desktopdir} 
 
 # default config files
 awk '/Delete this default/{a++};{if(!a){print}}' etc/example.conf > etc/mplayer.conf
@@ -274,7 +274,7 @@ install vidix/drivers/*.so $RPM_BUILD_ROOT%{_libdir}/mplayer/vidix
 %endif
 
 # X-files
-install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
+install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # man pages
@@ -311,6 +311,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(hu) %{_mandir}/hu/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 %lang(zh) %{_mandir}/zh/man1/*
-%{_applnkdir}/*/*
+%{_desktopdir}/*
 %{_pixmapsdir}/*
 %attr(755,root,root) %{_libdir}/*
