@@ -25,7 +25,7 @@ diff -urN MPlayer-1.0pre5/libao2/ao_pcmsplt.c MPlayer-1.0pre5-orig/libao2/ao_pcm
 +
 +extern int vo_pts;
 +
-+char *ao_outputfileprefix = NULL;
++char *ao_outputfileprefix = "audiodump";
 +
 +#define WAV_ID_RIFF 0x46464952 /* "RIFF" */
 +#define WAV_ID_WAVE 0x45564157 /* "WAVE" */
@@ -103,8 +103,8 @@ diff -urN MPlayer-1.0pre5/libao2/ao_pcmsplt.c MPlayer-1.0pre5-orig/libao2/ao_pcm
 +// return: 1=success 0=fail
 +static int init(int rate,int channels,int format,int flags){
 +       int bits;
-+       if(!ao_outputfileprefix)
-+               ao_outputfileprefix = strdup("audiodump");
++       if(ao_outputfile)
++               ao_outputfileprefix = strdup(ao_outputfile);
 +
 +       /* bits is only equal to format if (format == 8) or (format == 16);
 +          this means that the following "if" is a kludge and should
