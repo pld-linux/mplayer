@@ -2,7 +2,8 @@
 Name=MPlayer
 Comment=The Movie Player for Linux
 Comment[pl]=Odtwarzacz Filmów pod Linuxa
-Exec=gmplayer
+Exec=gmplayer -nofs
 Terminal=0
 Type=Application
+MimeType=video/x-msvideo;video/mpeg
 # vi: encoding=utf-8
