@@ -69,6 +69,7 @@ BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	audiofile-devel
 BuildRequires:	esound-devel
 BuildRequires:	ncurses-devel
+BuildRequires:	zlib-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
