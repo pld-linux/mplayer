@@ -104,7 +104,7 @@ cp etc/codecs.conf etc/codecs-win32.conf
 cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
-CFLAGS="%{rpmcflags}" \
+CFLAGS="%{rpmcflags}"; \
 %configure \
 			--datadir=%{_prefix}/share/mplayer \
 			--with-win32libdir="/usr/lib/win32" \
