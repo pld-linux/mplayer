@@ -20,6 +20,7 @@ Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://mplayerhq.banki.hu/MPlayer/releases/%{sname}-%{version}pre.tgz
 Source1:	%{name}.conf
 Patch0:		%{name}-make.patch
+Patch1:		%{name}-confpath.patch
 URL:		http://mplayer.sourceforge.net/
 Requires:	avi-codecs
 Requires:	OpenGL
@@ -55,8 +56,9 @@ rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
 G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
-%setup  -q -n %{sname}-%{version}pre3
+%setup  -q -n %{sname}-%{version}pre4
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure \
