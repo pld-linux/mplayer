@@ -5,31 +5,32 @@
 
 # Conditional build:
 #
-# _without_qt		- without binary qt dll support
-# _without_lirc		- without lirc support
-# _without_gui		- without gui gtk+ interfeace
-# _without_win32	- without win32 codecs support
-# _without_real		- without Real* 8/9 codecs support
-# _without_dshow	- disable DirectShow support
-# _with_divx4linux	- with divx4linux a/v support (binaries, instead of included OpenDivx)
-# _without_mad		- without mad (audio MPEG) support
-# _without_vorbis	- without ogg-vorbis audio support
 # _with_directfb	- with DirectFB video output
+# _with_divx4linux	- with divx4linux a/v support (binaries, instead of included OpenDivx)
+# _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder
 # _with_ggi		- with ggi video output
+# _with_live		- enable use of live.com libraries
+# _with_nas		- with NAS audio output
 # _with_svga		- with svgalib video output
+#
 # _without_aa		- without aalib video output
-# _without_arts		- without arts audio output
 # _without_alsa		- without ALSA audio output
-# _without_nas		- without NAS audio output
-# _without_select	- disable audio select() support (for example required this option
-#			  ALSA or Vortex2 driver)
+# _without_arts		- without arts audio output
+# _without_dshow	- disable DirectShow support
+# _without_gui		- without gui gtk+ interfeace
+# _without_joystick	- disable joystick support
+# _without_lirc		- without lirc support
+# _without_mad		- without mad (audio MPEG) support
+# _without_qt		- without binary qt dll support
+# _without_real		- without Real* 8/9 codecs support
 # _without_runtime	- disable runtime cpu detection, just detect CPU in
 #			  compiletime (advertised by mplayer authors as
 #			  working faster); in this case mplayer may not
 #			  work on machine other then where it was compiled
-# _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder
-# _with_live		- enable use of live.com libraries
-# _without_joystick	- disable joystick support
+# _without_select	- disable audio select() support (for example required this option
+#			  ALSA or Vortex2 driver)
+# _without_win32	- without win32 codecs support
+# _without_vorbis	- without ogg-vorbis audio support
 #
 
 # set it to 0, or 1
@@ -50,7 +51,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90rc4
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -72,6 +73,13 @@ Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
 URL:		http://mplayer.sourceforge.net/
+%{?_with_directfb:BuildRequires:	DirectFB-devel}
+%{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
+%{?_with_dxr3:BuildRequires:		em8300-devel}
+%{?_with_ggi:BuildRequires:		libggi-devel}
+%{?_with_live:BuildRequires:		live}
+%{?_with_nas:BuildRequires:		nas-devel}
+%{?_with_svga:BuildRequires:		svgalib-devel}
 %{!?_without_aa:BuildRequires:		aalib-devel}
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
@@ -79,14 +87,7 @@ URL:		http://mplayer.sourceforge.net/
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
 %{!?_without_mad:BuildRequires:		mad-devel}
-%{!?_without_nas:BuildRequires:		nas-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
-%{?_with_directfb:BuildRequires:	DirectFB-devel}
-%{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
-%{?_with_dxr3:BuildRequires:		em8300-devel}
-%{?_with_ggi:BuildRequires:		libggi-devel}
-%{?_with_live:BuildRequires:		live}
-%{?_with_svga:BuildRequires:		svgalib-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
@@ -171,20 +172,7 @@ export CC CFLAGS
 			--prefix=%{_prefix} \
 			--confdir=%{_sysconfdir}/mplayer \
 			--with-x11incdir=/usr/X11R6/include \
-			--enable-mencoder \
-%{!?_without_lirc:	--enable-lirc} \
-%{?_without_lirc:	--disable-lirc} \
-%{!?_without_gui:	--enable-gui} \
-%{?_without_win32:	--disable-win32} \
-%{?_without_dshow:	--disable-dshow} \
 			--with-extraincdir=/usr/include/xvid \
-			--enable-xvid \
-%{!?_with_divx4linux:	--disable-divx4linux} \
-%{!?_without_vorbis:	--enable-vorbis} \
-%{?_without_vorbis:	--disable-vorbis} \
-%{?_without_mad:	--disable-mad} \
-%{?_with_dxr3:		--enable-dxr3} \
-%{!?_with_dxr3:		--disable-dxr3} \
 %ifnarch %{ix86}
 			--disable-mmx \
 			--disable-mmx2 \
@@ -194,37 +182,49 @@ export CC CFLAGS
 			--disable-sse2 \
 			--disable-fastmemcpy \
 %endif
-%{?_without_runtime:	--disable-runtime-cpudetection} \
-%{!?_without_runtime:	--enable-runtime-cpudetection} \
-			--enable-gl \
-			--enable-dga \
-			--enable-sdl \
+%{!?_with_directfb:	--disable-directfb} \
+%{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
+%{!?_with_divx4linux:	--disable-divx4linux} \
+%{?_with_dxr3:		--enable-dxr3} \
+%{!?_with_dxr3:		--disable-dxr3} \
 %{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
-			--enable-mga \
-			--enable-xmga \
-			--enable-xv \
-			--enable-vm \
-			--enable-x11 \
-			--enable-fbdev \
-			--enable-tdfxfb \
-%{!?_with_directfb:	--disable-directfb} \
+%{?_with_live:		--enable-live --with-livelibdir=/usr/lib/liveMedia --with-extraincdir=/usr/include/liveMedia } \
+%{!?_with_nas:		--disable-nas} \
 %{!?_with_svga:		--disable-svga} \
 %{?_without_aa:		--disable-aa} \
 %{!?_without_aa:	--enable-aa} \
-%{?_without_nas:	--disable-nas} \
-%{?_without_arts:	--disable-arts} \
 %{?_without_alsa:	--disable-alsa} \
 %{!?_without_alsa:	--enable-alsa --disable-select} \
-%{?_without_select:	--disable-select} \
-%{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
-%{!?_without_real:	--with-reallibdir=/usr/lib/win32} \
-%{!?_without_real:	--enable-real} \
-%{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
+%{?_without_arts:	--disable-arts} \
+%{?_without_dshow:	--disable-dshow} \
+%{!?_without_gui:	--enable-gui} \
+%{!?_without_joystick:	--enable-joystick} \
+%{?_without_lirc:	--disable-lirc} \
+%{!?_without_lirc:	--enable-lirc} \
+%{?_without_mad:	--disable-mad} \
 %{!?_without_qt:	--enable-qtx-codecs} \
-%{?_with_live:		--enable-live --with-livelibdir=/usr/lib/liveMedia --with-extraincdir=/usr/include/liveMedia } \
-			--disable-dvdnav \
-%{!?_without_joystick:	--enable-joystick}
+%{!?_without_real:	--enable-real --with-reallibdir=/usr/lib/win32} \
+%{?_without_runtime:	--disable-runtime-cpudetection} \
+%{!?_without_runtime:	--enable-runtime-cpudetection} \
+%{?_without_select:	--disable-select} \
+%{?_without_win32:	--disable-win32} \
+%{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
+%{?_without_vorbis:	--disable-vorbis} \
+%{!?_without_vorbis:	--enable-vorbis} \
+			--enable-dga \
+			--enable-fbdev \
+			--enable-gl \
+			--enable-mga \
+			--enable-mencoder \
+			--enable-sdl \
+			--enable-tdfxfb \
+			--enable-vm \
+			--enable-x11 \
+			--enable-xmga \
+			--enable-xv \
+			--enable-xvid \
+			--disable-dvdnav
 
 %{__make}
 
