@@ -46,7 +46,7 @@
 %define		snap		20030810
 %define		ffmpeg_ver	0.4.5
 
-%define	pre	pre2
+%define	pre	pre3
 Summary:	Yet another movie player for Linux
 Summary(es):	Otro reproductor de películas para Linux
 Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
@@ -54,7 +54,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.3.1
+Release:	0.%{pre}.1
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -66,7 +66,7 @@ Source1:	libavcodec-%{snap}.tar.bz2
 # Source1-md5:	8c32cd38df314638624bf5ef76081265
 %else
 Source0:	ftp://ftp3.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	a60c179468f85e83e3f9e1922e81ad64
+# Source0-md5:	998becb79417c6a14d15c07e85188b82
 %endif
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -76,16 +76,15 @@ Source5:	g%{name}.desktop
 Source6:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
-Patch0:		%{name}-make.patch
-Patch2:		%{name}-no_libnsl.patch
-Patch3:		%{name}-cp1250-fontdesc.patch
-Patch4:		%{name}-codec.patch
-Patch5:		%{name}-home_etc.patch
-Patch6:		%{name}-350.patch
-Patch7:		%{name}-configure.patch
-Patch8:		%{name}-gtk+2.patch
-Patch9:		%{name}-alpha.patch
-Patch10:	%{name}-altivec.patch
+Patch0:		%{name}-no_libnsl.patch
+Patch1:		%{name}-cp1250-fontdesc.patch
+Patch2:		%{name}-codec.patch
+Patch3:		%{name}-home_etc.patch
+Patch4:		%{name}-350.patch
+Patch5:		%{name}-configure.patch
+Patch6:		%{name}-gtk+2.patch
+Patch7:		%{name}-alpha.patch
+Patch8:	%{name}-altivec.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
@@ -192,19 +191,18 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 %setup -q -n %{sname}-%{version}%{pre} -a 3 -a 6
 %endif
 
-%patch0 -p1
 cp -f etc/codecs.conf etc/codecs.win32.conf
-%patch2 -p1
-%patch3 -p0
-##%patch4 -p1
-##%patch5 -p1	-- old home_etc behavior
-%patch6 -p1
-%patch7 -p1
+%patch0 -p1
+%patch1 -p0
+##%patch2 -p1
+##%patch3 -p1	-- old home_etc behavior
+%patch4 -p1
+%patch5 -p1
 %if %{with gtk2}
-%patch8 -p1
+%patch6 -p1
 %endif
-%patch9 -p1
-%patch10 -p1
+%patch7 -p1
+%patch8 -p1
 
 %build
 CFLAGS="%{rpmcflags}"
@@ -268,6 +266,7 @@ export CC CFLAGS
 			--enable-matroska \
 			--language=all \
 			--with-codecsdir=%{_libdir}/codecs \
+			--enable-dynamic-plugins
 
 %{__make}
 
@@ -275,7 +274,7 @@ export CC CFLAGS
 rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
-	$RPM_BUILD_ROOT%{_mandir}/{de,fr,hu,pl,zh,}/man1 \
+	$RPM_BUILD_ROOT%{_mandir}/{de,es,fr,hu,pl,zh,}/man1 \
 	$RPM_BUILD_ROOT{%{_datadir}/mplayer/Skin,%{_libdir}/mplayer/vidix} \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
@@ -307,12 +306,13 @@ install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # man pages
-install DOCS/de/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
-install DOCS/en/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-install DOCS/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
-install DOCS/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
-install DOCS/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
-install DOCS/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh/man1
+install DOCS/man/de/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
+install DOCS/man/en/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+install DOCS/man/es/*.1 $RPM_BUILD_ROOT%{_mandir}/es/man1
+install DOCS/man/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
+install DOCS/man/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
+install DOCS/man/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
+install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh/man1
 find DOCS -name CVS -print | xargs rm -rf
 find DOCS -name \*1 -print | xargs rm -f
 
@@ -322,12 +322,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %{?with_win32: %doc etc/codecs.win32.conf}
-%doc DOCS/en/*.html
+%doc DOCS/HTML/en/*.html DOCS/tech
 %lang(de) %doc DOCS/de
-%lang(fr) %doc DOCS/fr
+%lang(es) %doc DOCS/HTML/es
+%lang(fr) %doc DOCS/HTML/fr
 %lang(hu) %doc DOCS/hu
 %lang(it) %doc DOCS/it
-%lang(pl) %doc DOCS/pl
+%lang(pl) %doc DOCS/HTML/pl
+%lang(ru) %doc DOCS/HTML/ru
 %lang(zh) %doc DOCS/zh
 %doc README AUTHORS ChangeLog
 %dir %{_sysconfdir}/mplayer
@@ -336,6 +338,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mplayer
 %{_mandir}/man1/*
 %lang(de) %{_mandir}/de/man1/*
+%lang(es) %{_mandir}/es/man1/*
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
