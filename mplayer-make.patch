@@ -1,0 +1,67 @@
+diff -urN main.org/configure main/configure
+--- main.org/configure	Sat Mar 31 23:04:25 2001
++++ main/configure	Sat Mar 31 23:14:30 2001
+@@ -370,7 +370,7 @@
+ $_cc $TMPC -o $TMPO $_x11libdir -L/usr/local/lib/ -lSDL -lpthread &> /dev/null && _have_sdl=yes
+ 
+ _termcap=no
+-$_cc $TMPC -o $TMPO -ltermcap &> /dev/null && _termcap=yes
++$_cc $TMPC -o $TMPO -lncurses &> /dev/null && _termcap=yes
+ 
+ _binutils=no
+ as libac3/downmix/downmix_i386.S -o $TMPO &> /dev/null && _binutils=yes
+@@ -605,7 +605,7 @@
+ 
+ if [ "$_termcap" = "yes" ]; then
+  _termcap='#define USE_TERMCAP'
+- _libtermcap='-ltermcap'
++ _libtermcap='-lncurses'
+ else
+  _termcap='#undef USE_TERMCAP'
+  _libtermcap=''
+@@ -636,13 +636,13 @@
+ AR=ar
+ CC=$_cc
+ # OPTFLAGS=-O4 -march=$proc -mcpu=$proc -pipe -fomit-frame-pointer -ffast-math
+-OPTFLAGS=-O4 -march=$proc -mcpu=$proc -pipe -ffast-math
++OPTFLAGS= $CFLAGS -pipe -ffast-math
+ # LIBS=-L/usr/lib -L/usr/local/lib $_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib
+ X_LIBS=$_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib $_vmlib
+ TERMCAP_LIB=$_libtermcap
+ XMM_LIBS = $_xmmplibs
+ LIRC_LIBS = $_lirclibs
+-WIN32_PATH=-DWIN32_PATH=\"$_win32libdir\"
++WIN32_PATH=-DWIN32_PATH=\\"$_win32libdir\\"
+ 
+ EOF
+ # echo 'CFLAGS=$(OPTFLAGS) -Wall -DMPG12PLAY' >> config.mak
+diff -urN main.org/libvo/Makefile main/libvo/Makefile
+--- main.org/libvo/Makefile	Sat Mar 31 23:04:26 2001
++++ main/libvo/Makefile	Sat Mar 31 23:11:15 2001
+@@ -6,7 +6,7 @@
+ SRCS=font_load.c rgb15to16mmx.c yuv2rgb_mmx.c yuv2rgb.c video_out.c vo_null.c vo_pgm.c vo_md5.c vo_odivx.c x11_common.c $(OPTIONAL_SRCS)
+ OBJS=font_load.o rgb15to16mmx.o yuv2rgb_mmx.o yuv2rgb.o video_out.o vo_null.o vo_pgm.o vo_md5.o vo_odivx.o x11_common.o $(OPTIONAL_OBJS)
+ 
+-CFLAGS  = $(OPTFLAGS) -I. -I.. -DMPG12PLAY
++CFLAGS  = $(OPTFLAGS) -I. -I.. -DMPG12PLAY -I/usr/X11R6/include
+ # -I/usr/X11R6/include/
+ 
+ .SUFFIXES: .c .o
+diff -urN main.org/loader/Makefile main/loader/Makefile
+--- main.org/loader/Makefile	Sat Mar 31 23:04:27 2001
++++ main/loader/Makefile	Sat Mar 31 23:23:21 2001
+@@ -2,13 +2,11 @@
+ 
+ # Generated automatically from Makefile.in by configure.
+ DEFINES=-rdynamic -fPIC $(WIN32_PATH) $(CDOPT) -D__WINE__ -Ddbg_printf=__vprintf \
+-	-DTRACE=__vprintf # -DDETAILED_OUT
++	-DTRACE=__vprintf -I. # -DDETAILED_OUT
+ 
+ LIB_OBJECTS= setup_FS.o pe_image.o module.o \
+ ext.o win32.o driver.o pe_resource.o \
+ resource.o registry.o elfdll.o afl.o vfl.o
+-
+-CFLAGS=-g -I.
+ 
+ CDOPT=-g
+ all: libloader.a
