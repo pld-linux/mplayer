@@ -77,7 +77,7 @@ Patch3:		%{name}-cp1250-fontdesc.patch
 Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
-Patch7:         %{name}-configure.patch
+Patch7:		%{name}-configure.patch
 Patch8:		%{name}-nommx.patch
 URL:		http://www.mplayerhq.hu/
 %{?_with_directfb:BuildRequires:	DirectFB-devel}
@@ -209,14 +209,14 @@ export CC CFLAGS
 %{!?_without_joystick:	--enable-joystick} \
 %{?_without_lirc:	--disable-lirc} \
 %{?_without_mad:	--disable-mad} \
-%{?_without_qt:         --disable-qtx} \
+%{?_without_qt:		--disable-qtx} \
 %{?_without_real:	--disable-real} \
 %{?_without_runtime:	--disable-runtime-cpudetection} \
 %{!?_without_runtime:	--enable-runtime-cpudetection} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
 %{?_without_vorbis:	--disable-vorbis} \
-%{?_with_osd:     	--enable-menu} \
+%{?_with_osd:		--enable-menu} \
 			--enable-dga \
 			--enable-fbdev \
 			--enable-gl \
