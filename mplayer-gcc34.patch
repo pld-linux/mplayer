@@ -1,0 +1,328 @@
+diff -uNr MPlayer-1.0pre3/liba52/imdct.c MPlayer-1.0pre3.built/liba52/imdct.c
+--- MPlayer-1.0pre3/liba52/imdct.c	2003-01-27 22:47:24.000000000 +0100
++++ MPlayer-1.0pre3.built/liba52/imdct.c	2004-02-23 19:19:53.000000000 +0100
+@@ -69,7 +69,7 @@
+ }; 
+ 
+ /* 128 point bit-reverse LUT */
+-static uint8_t bit_reverse_512[] = {
++const uint8_t bit_reverse_512[] = {
+ 	0x00, 0x40, 0x20, 0x60, 0x10, 0x50, 0x30, 0x70, 
+ 	0x08, 0x48, 0x28, 0x68, 0x18, 0x58, 0x38, 0x78, 
+ 	0x04, 0x44, 0x24, 0x64, 0x14, 0x54, 0x34, 0x74, 
+@@ -103,7 +103,7 @@
+ static complex_t __attribute__((aligned(16))) buf[128];
+ static float __attribute__((aligned(16))) sseSinCos1c[256];
+ static float __attribute__((aligned(16))) sseSinCos1d[256];
+-static float __attribute__((aligned(16))) ps111_1[4]={1,1,1,-1};
++const float __attribute__((aligned(16))) ps111_1[4]={1,1,1,-1};
+ //static float __attribute__((aligned(16))) sseW0[4];
+ static float __attribute__((aligned(16))) sseW1[8];
+ static float __attribute__((aligned(16))) sseW2[16];
+diff -uNr MPlayer-1.0pre3/liba52/resample_mmx.c MPlayer-1.0pre3.built/liba52/resample_mmx.c
+--- MPlayer-1.0pre3/liba52/resample_mmx.c	2002-11-07 00:54:22.000000000 +0100
++++ MPlayer-1.0pre3.built/liba52/resample_mmx.c	2004-02-23 19:15:23.000000000 +0100
+@@ -7,10 +7,10 @@
+ 	and it would mean (C / MMX2 / MMX / 3DNOW) versions 
+ */
+ 
+-static uint64_t __attribute__((aligned(8))) magicF2W= 0x43c0000043c00000LL;
+-static uint64_t __attribute__((aligned(8))) wm1010= 0xFFFF0000FFFF0000LL;
+-static uint64_t __attribute__((aligned(8))) wm0101= 0x0000FFFF0000FFFFLL;
+-static uint64_t __attribute__((aligned(8))) wm1100= 0xFFFFFFFF00000000LL;
++const uint64_t __attribute__((aligned(8))) magicF2W= 0x43c0000043c00000LL;
++const uint64_t __attribute__((aligned(8))) wm1010= 0xFFFF0000FFFF0000LL;
++const uint64_t __attribute__((aligned(8))) wm0101= 0x0000FFFF0000FFFFLL;
++const uint64_t __attribute__((aligned(8))) wm1100= 0xFFFFFFFF00000000LL;
+ 
+ static int a52_resample_MONO_to_5_MMX(float * _f, int16_t * s16){
+     int32_t * f = (int32_t *) _f;
+diff -uNr MPlayer-1.0pre3/libao2/ao_alsa9.c MPlayer-1.0pre3.built/libao2/ao_alsa9.c
+--- MPlayer-1.0pre3/libao2/ao_alsa9.c	2003-10-04 19:28:58.000000000 +0200
++++ MPlayer-1.0pre3.built/libao2/ao_alsa9.c	2004-02-23 17:56:17.000000000 +0100
+@@ -341,7 +341,6 @@
+             strcpy(devstr, "surround51");
+             alsa_device = devstr;
+            break;
+-          default:
+         }
+     }
+ 
+diff -uNr MPlayer-1.0pre3/libavcodec/i386/dsputil_mmx.c MPlayer-1.0pre3.built/libavcodec/i386/dsputil_mmx.c
+--- MPlayer-1.0pre3/libavcodec/i386/dsputil_mmx.c	2003-12-09 10:36:19.000000000 +0100
++++ MPlayer-1.0pre3.built/libavcodec/i386/dsputil_mmx.c	2004-02-23 19:36:19.000000000 +0100
+@@ -27,16 +27,16 @@
+ int mm_flags; /* multimedia extension flags */
+ 
+ /* pixel operations */
+-static const uint64_t mm_bone __attribute__ ((aligned(8))) = 0x0101010101010101ULL;
+-static const uint64_t mm_wone __attribute__ ((aligned(8))) = 0x0001000100010001ULL;
+-static const uint64_t mm_wtwo __attribute__ ((aligned(8))) = 0x0002000200020002ULL;
+-
+-static const uint64_t ff_pw_20 __attribute__ ((aligned(8))) = 0x0014001400140014ULL;
+-static const uint64_t ff_pw_3  __attribute__ ((aligned(8))) = 0x0003000300030003ULL;
+-static const uint64_t ff_pw_16 __attribute__ ((aligned(8))) = 0x0010001000100010ULL;
+-static const uint64_t ff_pw_15 __attribute__ ((aligned(8))) = 0x000F000F000F000FULL;
++const uint64_t mm_bone __attribute__ ((aligned(8))) = 0x0101010101010101ULL;
++const uint64_t mm_wone __attribute__ ((aligned(8))) = 0x0001000100010001ULL;
++const uint64_t mm_wtwo __attribute__ ((aligned(8))) = 0x0002000200020002ULL;
++
++const uint64_t ff_pw_20 __attribute__ ((aligned(8))) = 0x0014001400140014ULL;
++const uint64_t ff_pw_3  __attribute__ ((aligned(8))) = 0x0003000300030003ULL;
++const uint64_t ff_pw_16 __attribute__ ((aligned(8))) = 0x0010001000100010ULL;
++const uint64_t ff_pw_15 __attribute__ ((aligned(8))) = 0x000F000F000F000FULL;
+ 
+-static const uint64_t ff_pb_FC __attribute__ ((aligned(8))) = 0xFCFCFCFCFCFCFCFCULL;
++const uint64_t ff_pb_FC __attribute__ ((aligned(8))) = 0xFCFCFCFCFCFCFCFCULL;
+ 
+ #define JUMPALIGN() __asm __volatile (".balign 8"::)
+ #define MOVQ_ZERO(regd)  __asm __volatile ("pxor %%" #regd ", %%" #regd ::)
+diff -uNr MPlayer-1.0pre3/libavcodec/i386/motion_est_mmx.c MPlayer-1.0pre3.built/libavcodec/i386/motion_est_mmx.c
+--- MPlayer-1.0pre3/libavcodec/i386/motion_est_mmx.c	2003-12-09 10:36:19.000000000 +0100
++++ MPlayer-1.0pre3.built/libavcodec/i386/motion_est_mmx.c	2004-02-23 18:57:14.000000000 +0100
+@@ -26,7 +26,7 @@
+ 0x0002000200020002ULL,
+ };
+ 
+-static __attribute__ ((aligned(8), unused)) uint64_t bone= 0x0101010101010101LL;
++const __attribute__ ((aligned(8), unused)) uint64_t bone= 0x0101010101010101LL;
+ 
+ static inline void sad8_mmx(uint8_t *blk1, uint8_t *blk2, int stride, int h)
+ {
+diff -uNr MPlayer-1.0pre3/libavcodec/i386/simple_idct_mmx.c MPlayer-1.0pre3.built/libavcodec/i386/simple_idct_mmx.c
+--- MPlayer-1.0pre3/libavcodec/i386/simple_idct_mmx.c	2003-12-09 10:36:19.000000000 +0100
++++ MPlayer-1.0pre3.built/libavcodec/i386/simple_idct_mmx.c	2004-02-23 19:53:48.000000000 +0100
+@@ -45,10 +45,11 @@
+ #define ROW_SHIFT 11
+ #define COL_SHIFT 20 // 6
+ 
+-static const uint64_t __attribute__((aligned(8))) wm1010= 0xFFFF0000FFFF0000ULL;
+-static const uint64_t __attribute__((aligned(8))) d40000= 0x0000000000040000ULL;
++//const uint64_t __attribute__((aligned(8))) wm1010= 0xFFFF0000FFFF0000ULL;
++extern const uint64_t; // defined in liba52/resample_mmx.c
++const uint64_t __attribute__((aligned(8))) d40000= 0x0000000000040000ULL;
+ 
+-static const int16_t __attribute__((aligned(8))) coeffs[]= {
++const int16_t __attribute__((aligned(8))) coeffs[]= {
+ 	1<<(ROW_SHIFT-1), 0, 1<<(ROW_SHIFT-1), 0,
+ //	1<<(COL_SHIFT-1), 0, 1<<(COL_SHIFT-1), 0,
+ //	0, 1<<(COL_SHIFT-1-16), 0, 1<<(COL_SHIFT-1-16),
+diff -uNr MPlayer-1.0pre3/libavcodec/libpostproc/postprocess.c MPlayer-1.0pre3.built/libavcodec/libpostproc/postprocess.c
+--- MPlayer-1.0pre3/libavcodec/libpostproc/postprocess.c	2003-12-09 10:36:19.000000000 +0100
++++ MPlayer-1.0pre3.built/libavcodec/libpostproc/postprocess.c	2004-02-23 19:29:55.000000000 +0100
+@@ -104,13 +104,13 @@
+ //#define NUM_BLOCKS_AT_ONCE 16 //not used yet
+ 
+ #ifdef ARCH_X86
+-static uint64_t __attribute__((aligned(8))) w05=		0x0005000500050005LL;
+-static uint64_t __attribute__((aligned(8))) w20=		0x0020002000200020LL;
+-static uint64_t __attribute__((aligned(8))) b00= 		0x0000000000000000LL;
+-static uint64_t __attribute__((aligned(8))) b01= 		0x0101010101010101LL;
+-static uint64_t __attribute__((aligned(8))) b02= 		0x0202020202020202LL;
+-static uint64_t __attribute__((aligned(8))) b08= 		0x0808080808080808LL;
+-static uint64_t __attribute__((aligned(8))) b80= 		0x8080808080808080LL;
++const uint64_t __attribute__((aligned(8))) w05=		0x0005000500050005LL;
++const uint64_t __attribute__((aligned(8))) w20=		0x0020002000200020LL;
++      uint64_t __attribute__((aligned(8))) b00= 		0x0000000000000000LL;
++const uint64_t __attribute__((aligned(8))) b01= 		0x0101010101010101LL;
++const uint64_t __attribute__((aligned(8))) b02= 		0x0202020202020202LL;
++const uint64_t __attribute__((aligned(8))) b08= 		0x0808080808080808LL;
++const uint64_t __attribute__((aligned(8))) b80= 		0x8080808080808080LL;
+ #endif
+ 
+ 
+@@ -119,7 +119,7 @@
+ 
+ static int verbose= 0;
+ 
+-static const int deringThreshold= 20;
++const int deringThreshold= 20;
+ 
+ 
+ static struct PPFilter filters[]=
+diff -uNr MPlayer-1.0pre3/libavcodec/libpostproc/postprocess_template.c MPlayer-1.0pre3.built/libavcodec/libpostproc/postprocess_template.c
+--- MPlayer-1.0pre3/libavcodec/libpostproc/postprocess_template.c	2003-12-09 10:36:19.000000000 +0100
++++ MPlayer-1.0pre3.built/libavcodec/libpostproc/postprocess_template.c	2004-02-23 19:29:50.000000000 +0100
+@@ -21,6 +21,7 @@
+  * mmx/mmx2/3dnow postprocess code.
+  */
+ 
++extern const int deringThreshold;
+ 
+ #undef PAVGB
+ #undef PMINUB
+diff -uNr MPlayer-1.0pre3/libvo/osd.c MPlayer-1.0pre3.built/libvo/osd.c
+--- MPlayer-1.0pre3/libvo/osd.c	2003-10-04 19:29:04.000000000 +0200
++++ MPlayer-1.0pre3.built/libvo/osd.c	2004-02-23 19:16:19.000000000 +0100
+@@ -19,9 +19,9 @@
+ #endif
+ 
+ #ifdef CAN_COMPILE_X86_ASM
+-static const uint64_t bFF  __attribute__((aligned(8))) = 0xFFFFFFFFFFFFFFFFULL;
+-static const unsigned long long mask24lh  __attribute__((aligned(8))) = 0xFFFF000000000000ULL;
+-static const unsigned long long mask24hl  __attribute__((aligned(8))) = 0x0000FFFFFFFFFFFFULL;
++const uint64_t bFF  __attribute__((aligned(8))) = 0xFFFFFFFFFFFFFFFFULL;
++const unsigned long long mask24lh  __attribute__((aligned(8))) = 0xFFFF000000000000ULL;
++const unsigned long long mask24hl  __attribute__((aligned(8))) = 0x0000FFFFFFFFFFFFULL;
+ #endif
+ 
+ //Note: we have C, X86-nommx, MMX, MMX2, 3DNOW version therse no 3DNOW+MMX2 one
+diff -uNr MPlayer-1.0pre3/mp3lib/dct64_k7.c MPlayer-1.0pre3.built/mp3lib/dct64_k7.c
+--- MPlayer-1.0pre3/mp3lib/dct64_k7.c	2003-10-22 22:58:46.000000000 +0200
++++ MPlayer-1.0pre3.built/mp3lib/dct64_k7.c	2004-02-23 19:49:47.000000000 +0100
+@@ -11,8 +11,9 @@
+ 
+ #include "../mangle.h"
+ 
+-static unsigned long long int __attribute__((aligned(8))) x_plus_minus_3dnow = 0x8000000000000000ULL;
+-static float plus_1f = 1.0;
++//const unsigned long long int __attribute__((aligned(8))) x_plus_minus_3dnow = 0x8000000000000000ULL;
++extern const unsigned long long int x_plus_minus_3dnow; // defined in liba52/imdct.c
++const float plus_1f = 1.0;
+ 
+ void dct64_MMX_3dnowex(real *a,real *b,real *c)
+ {
+diff -uNr MPlayer-1.0pre3/mp3lib/decode_i586.c MPlayer-1.0pre3.built/mp3lib/decode_i586.c
+--- MPlayer-1.0pre3/mp3lib/decode_i586.c	2002-12-24 23:33:46.000000000 +0100
++++ MPlayer-1.0pre3.built/mp3lib/decode_i586.c	2004-02-23 19:17:37.000000000 +0100
+@@ -27,7 +27,7 @@
+ #define real float /* ugly - but only way */
+ 
+ static long buffs[1088];
+-static long bo=1;
++const long bo=1;
+ static long saved_ebp;
+ 
+ int synth_1to1_pent(real *bandPtr, int channel, short *samples)
+diff -uNr MPlayer-1.0pre3/mp3lib/decode_MMX.c MPlayer-1.0pre3.built/mp3lib/decode_MMX.c
+--- MPlayer-1.0pre3/mp3lib/decode_MMX.c	2003-10-26 01:13:54.000000000 +0200
++++ MPlayer-1.0pre3.built/mp3lib/decode_MMX.c	2004-02-23 19:17:30.000000000 +0100
+@@ -10,8 +10,8 @@
+ #include "../mangle.h"
+ #define real float /* ugly - but only way */
+ 
+-static unsigned long long __attribute__((aligned(8))) null_one = 0x0000ffff0000ffffULL;
+-static unsigned long long __attribute__((aligned(8))) one_null = 0xffff0000ffff0000ULL;
++const unsigned long long __attribute__((aligned(8))) null_one = 0x0000ffff0000ffffULL;
++const unsigned long long __attribute__((aligned(8))) one_null = 0xffff0000ffff0000ULL;
+ unsigned long __attribute__((aligned(8))) costab_mmx[] =
+ {
+ 	1056974725,
+diff -uNr MPlayer-1.0pre3/mp3lib/tabinit_MMX.c MPlayer-1.0pre3.built/mp3lib/tabinit_MMX.c
+--- MPlayer-1.0pre3/mp3lib/tabinit_MMX.c	2002-12-24 23:33:46.000000000 +0100
++++ MPlayer-1.0pre3.built/mp3lib/tabinit_MMX.c	2004-02-23 19:18:21.000000000 +0100
+@@ -11,7 +11,7 @@
+ extern real mp3lib_decwin[(512+32)];
+ // static long decwin [544];
+ 
+-static short intwinbase_MMX[] = 
++const short intwinbase_MMX[] = 
+ {
+ 	      0,    -1,    -1,    -1,    -1,    -1,    -1,    -2,
+ 	     -2,    -2,    -2,    -3,    -3,    -4,    -4,    -5,
+@@ -48,7 +48,7 @@
+ 	  15038
+ };
+ 
+-static long intwindiv = 0x47800000;
++const long intwindiv = 0x47800000;
+ 
+ void make_decode_tables_MMX(long scaleval)
+ {
+diff -uNr MPlayer-1.0pre3/postproc/rgb2rgb.c MPlayer-1.0pre3.built/postproc/rgb2rgb.c
+--- MPlayer-1.0pre3/postproc/rgb2rgb.c	2003-10-10 02:11:24.000000000 +0200
++++ MPlayer-1.0pre3.built/postproc/rgb2rgb.c	2004-02-23 19:08:40.000000000 +0100
+@@ -69,52 +69,52 @@
+ 			int srcStride3, int dstStride);
+ 
+ #ifdef ARCH_X86
+-static const uint64_t mmx_null  __attribute__((aligned(8))) = 0x0000000000000000ULL;
+-static const uint64_t mmx_one   __attribute__((aligned(8))) = 0xFFFFFFFFFFFFFFFFULL;
+-static const uint64_t mask32b  __attribute__((aligned(8))) = 0x000000FF000000FFULL;
+-static const uint64_t mask32g  __attribute__((aligned(8))) = 0x0000FF000000FF00ULL;
+-static const uint64_t mask32r  __attribute__((aligned(8))) = 0x00FF000000FF0000ULL;
+-static const uint64_t mask32   __attribute__((aligned(8))) = 0x00FFFFFF00FFFFFFULL;
+-static const uint64_t mask3216br __attribute__((aligned(8)))=0x00F800F800F800F8ULL;
+-static const uint64_t mask3216g  __attribute__((aligned(8)))=0x0000FC000000FC00ULL;
+-static const uint64_t mask3215g  __attribute__((aligned(8)))=0x0000F8000000F800ULL;
+-static const uint64_t mul3216  __attribute__((aligned(8))) = 0x2000000420000004ULL;
+-static const uint64_t mul3215  __attribute__((aligned(8))) = 0x2000000820000008ULL;
+-static const uint64_t mask24b  __attribute__((aligned(8))) = 0x00FF0000FF0000FFULL;
+-static const uint64_t mask24g  __attribute__((aligned(8))) = 0xFF0000FF0000FF00ULL;
+-static const uint64_t mask24r  __attribute__((aligned(8))) = 0x0000FF0000FF0000ULL;
+-static const uint64_t mask24l  __attribute__((aligned(8))) = 0x0000000000FFFFFFULL;
+-static const uint64_t mask24h  __attribute__((aligned(8))) = 0x0000FFFFFF000000ULL;
+-static const uint64_t mask24hh  __attribute__((aligned(8))) = 0xffff000000000000ULL;
+-static const uint64_t mask24hhh  __attribute__((aligned(8))) = 0xffffffff00000000ULL;
+-static const uint64_t mask24hhhh  __attribute__((aligned(8))) = 0xffffffffffff0000ULL;
+-static const uint64_t mask15b  __attribute__((aligned(8))) = 0x001F001F001F001FULL; /* 00000000 00011111  xxB */
+-static const uint64_t mask15rg __attribute__((aligned(8))) = 0x7FE07FE07FE07FE0ULL; /* 01111111 11100000  RGx */
+-static const uint64_t mask15s  __attribute__((aligned(8))) = 0xFFE0FFE0FFE0FFE0ULL;
+-static const uint64_t mask15g  __attribute__((aligned(8))) = 0x03E003E003E003E0ULL;
+-static const uint64_t mask15r  __attribute__((aligned(8))) = 0x7C007C007C007C00ULL;
++const uint64_t mmx_null  __attribute__((aligned(8))) = 0x0000000000000000ULL;
++const uint64_t mmx_one   __attribute__((aligned(8))) = 0xFFFFFFFFFFFFFFFFULL;
++const uint64_t mask32b  __attribute__((aligned(8))) = 0x000000FF000000FFULL;
++const uint64_t mask32g  __attribute__((aligned(8))) = 0x0000FF000000FF00ULL;
++const uint64_t mask32r  __attribute__((aligned(8))) = 0x00FF000000FF0000ULL;
++const uint64_t mask32   __attribute__((aligned(8))) = 0x00FFFFFF00FFFFFFULL;
++const uint64_t mask3216br __attribute__((aligned(8)))=0x00F800F800F800F8ULL;
++const uint64_t mask3216g  __attribute__((aligned(8)))=0x0000FC000000FC00ULL;
++const uint64_t mask3215g  __attribute__((aligned(8)))=0x0000F8000000F800ULL;
++const uint64_t mul3216  __attribute__((aligned(8))) = 0x2000000420000004ULL;
++const uint64_t mul3215  __attribute__((aligned(8))) = 0x2000000820000008ULL;
++const uint64_t mask24b  __attribute__((aligned(8))) = 0x00FF0000FF0000FFULL;
++const uint64_t mask24g  __attribute__((aligned(8))) = 0xFF0000FF0000FF00ULL;
++const uint64_t mask24r  __attribute__((aligned(8))) = 0x0000FF0000FF0000ULL;
++const uint64_t mask24l  __attribute__((aligned(8))) = 0x0000000000FFFFFFULL;
++const uint64_t mask24h  __attribute__((aligned(8))) = 0x0000FFFFFF000000ULL;
++const uint64_t mask24hh  __attribute__((aligned(8))) = 0xffff000000000000ULL;
++const uint64_t mask24hhh  __attribute__((aligned(8))) = 0xffffffff00000000ULL;
++const uint64_t mask24hhhh  __attribute__((aligned(8))) = 0xffffffffffff0000ULL;
++const uint64_t mask15b  __attribute__((aligned(8))) = 0x001F001F001F001FULL; /* 00000000 00011111  xxB */
++const uint64_t mask15rg __attribute__((aligned(8))) = 0x7FE07FE07FE07FE0ULL; /* 01111111 11100000  RGx */
++const uint64_t mask15s  __attribute__((aligned(8))) = 0xFFE0FFE0FFE0FFE0ULL;
++const uint64_t mask15g  __attribute__((aligned(8))) = 0x03E003E003E003E0ULL;
++const uint64_t mask15r  __attribute__((aligned(8))) = 0x7C007C007C007C00ULL;
+ #define mask16b mask15b
+-static const uint64_t mask16g  __attribute__((aligned(8))) = 0x07E007E007E007E0ULL;
+-static const uint64_t mask16r  __attribute__((aligned(8))) = 0xF800F800F800F800ULL;
+-static const uint64_t red_16mask  __attribute__((aligned(8))) = 0x0000f8000000f800ULL;
+-static const uint64_t green_16mask __attribute__((aligned(8)))= 0x000007e0000007e0ULL;
+-static const uint64_t blue_16mask __attribute__((aligned(8))) = 0x0000001f0000001fULL;
+-static const uint64_t red_15mask  __attribute__((aligned(8))) = 0x00007c000000f800ULL;
+-static const uint64_t green_15mask __attribute__((aligned(8)))= 0x000003e0000007e0ULL;
+-static const uint64_t blue_15mask __attribute__((aligned(8))) = 0x0000001f0000001fULL;
++const uint64_t mask16g  __attribute__((aligned(8))) = 0x07E007E007E007E0ULL;
++const uint64_t mask16r  __attribute__((aligned(8))) = 0xF800F800F800F800ULL;
++const uint64_t red_16mask  __attribute__((aligned(8))) = 0x0000f8000000f800ULL;
++const uint64_t green_16mask __attribute__((aligned(8)))= 0x000007e0000007e0ULL;
++const uint64_t blue_16mask __attribute__((aligned(8))) = 0x0000001f0000001fULL;
++const uint64_t red_15mask  __attribute__((aligned(8))) = 0x00007c000000f800ULL;
++const uint64_t green_15mask __attribute__((aligned(8)))= 0x000003e0000007e0ULL;
++const uint64_t blue_15mask __attribute__((aligned(8))) = 0x0000001f0000001fULL;
+ 
+ #ifdef FAST_BGR2YV12
+-static const uint64_t bgr2YCoeff  __attribute__((aligned(8))) = 0x000000210041000DULL;
+-static const uint64_t bgr2UCoeff  __attribute__((aligned(8))) = 0x0000FFEEFFDC0038ULL;
+-static const uint64_t bgr2VCoeff  __attribute__((aligned(8))) = 0x00000038FFD2FFF8ULL;
++const uint64_t bgr2YCoeff  __attribute__((aligned(8))) = 0x000000210041000DULL;
++const uint64_t bgr2UCoeff  __attribute__((aligned(8))) = 0x0000FFEEFFDC0038ULL;
++const uint64_t bgr2VCoeff  __attribute__((aligned(8))) = 0x00000038FFD2FFF8ULL;
+ #else
+-static const uint64_t bgr2YCoeff  __attribute__((aligned(8))) = 0x000020E540830C8BULL;
+-static const uint64_t bgr2UCoeff  __attribute__((aligned(8))) = 0x0000ED0FDAC23831ULL;
+-static const uint64_t bgr2VCoeff  __attribute__((aligned(8))) = 0x00003831D0E6F6EAULL;
++const uint64_t bgr2YCoeff  __attribute__((aligned(8))) = 0x000020E540830C8BULL;
++const uint64_t bgr2UCoeff  __attribute__((aligned(8))) = 0x0000ED0FDAC23831ULL;
++const uint64_t bgr2VCoeff  __attribute__((aligned(8))) = 0x00003831D0E6F6EAULL;
+ #endif
+-static const uint64_t bgr2YOffset __attribute__((aligned(8))) = 0x1010101010101010ULL;
+-static const uint64_t bgr2UVOffset __attribute__((aligned(8)))= 0x8080808080808080ULL;
+-static const uint64_t w1111       __attribute__((aligned(8))) = 0x0001000100010001ULL;
++const uint64_t bgr2YOffset __attribute__((aligned(8))) = 0x1010101010101010ULL;
++const uint64_t bgr2UVOffset __attribute__((aligned(8)))= 0x8080808080808080ULL;
++const uint64_t w1111       __attribute__((aligned(8))) = 0x0001000100010001ULL;
+ 
+ #if 0
+ static volatile uint64_t __attribute__((aligned(8))) b5Dither;

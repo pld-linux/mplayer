@@ -88,6 +88,7 @@ Patch5:		%{name}-configure.patch
 Patch6:		%{name}-gtk+2.patch
 Patch7:		%{name}-alpha.patch
 Patch8:		%{name}-altivec.patch
+Patch9:		%{name}-gcc34.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
@@ -213,6 +214,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %endif
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 CFLAGS="%{rpmcflags}"
