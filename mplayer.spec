@@ -15,6 +15,8 @@
 %bcond_with svga	# with svgalib video output
 %bcond_with osd		# with osd menu support
 
+%bcond_with altivec	# with altivec support
+
 %bcond_without aalib	# without aalib video output
 %bcond_without alsa	# without ALSA audio output
 %bcond_without arts	# without arts audio output
@@ -212,6 +214,9 @@ export CC CFLAGS
 			--disable-sse \
 			--disable-sse2 \
 			--disable-fastmemcpy \
+%endif
+%ifarch ppc
+%{!?with_altivec:--disable-altivec} \
 %endif
 %{!?with_directfb:--disable-directfb} \
 %{!?with_divx4linux:--disable-divx4linux} \
