@@ -13,6 +13,7 @@ Source1:	%{name}.conf
 Patch0:		%{name}-make.patch
 URL:		http://mplayer.sourceforge.net/
 Requires:	avi-codecs
+Requires:	OpenGL
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	OpenGL-devel
@@ -20,6 +21,7 @@ BuildRequires:	ncurses-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
 
+%define 	_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
 %define		_sysconfdir	/etc
