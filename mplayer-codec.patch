@@ -1,17 +1,28 @@
-diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
---- MPlayer-20011101/etc/codecs.conf	Mon Oct 29 23:41:15 2001
-+++ Mplayer.new/etc/codecs.conf	Thu Nov  1 13:18:20 2001
-@@ -4,38 +4,7 @@
+--- MPlayer-0.60/etc/codecs.conf	Tue Jan  1 21:04:53 2002
++++ MPlayer-0.60/etc/codecs.conf.new	Sat Jan 19 11:38:10 2002
+@@ -4,52 +4,7 @@
  ;                   VIDEO CODECS
  ;=============================================================================
  
 -; =============== Win32/libmpeg2/ProjectMayo MPEG CODECS =====================
+-
+-videocodec vivo
+-  info "Vivo H.263"
+-  status working
+-  fourcc VIVO,vivo vivo
+-  fourcc viv1,viv2 vivo
+-  driver vfw
+-  dll "ivvideo.dll"
+-  out BGR32,BGR24,BGR15 flip
+-  cpuflags mmx
 -
 -videocodec u263
 -  info "UB Video H.263+ Decoder"
 -  comment "added by Juanjo"
 -  status working
 -  fourcc U263
+-  fourcc vivo,VIVO U263
+-  fourcc viv1 U263
 -  driver dshow
 -  dll "ubv263d+.ax"
 -  guid 0x00af1181, 0x6ebb, 0x11d4, 0x9d, 0x5a, 0x00, 0x50, 0x04, 0x79, 0x6c, 0xc0
@@ -21,6 +32,7 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -;  out UYVY flip,noflip
 -;  out YUY2 flip
 -  out BGR24 flip
+-  cpuflags mmx
 -
 -videocodec divxds
 -  info "DivX ;-) (MS MPEG-4 v3)"
@@ -37,14 +49,16 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -;  out YV12
 -  out YUY2
 -  out BGR32,BGR24,BGR16,BGR15
-+; =================== libmpeg2/ProjectMayo MPEG CODECS =====================
+-  cpuflags mmx
++; =================== libmpeg2/ProjectMayo MPEG CODECS =======================
  
  videocodec mpeg12
    info "MPEG 1 or 2"
-@@ -47,45 +16,6 @@
+@@ -60,46 +15,6 @@
+   driver libmpeg2
    dll "libmpeg2"
    out YV12
- 
+-
 -videocodec mpeg4ds
 -  info "Microsoft MPEG-4 v1/v2"
 -  status working
@@ -57,11 +71,11 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  guid 0x82CCD3E0, 0xF71A, 0x11D0, 0x9F, 0xE5, 0x00, 0x60, 0x97, 0x78, 0xEA, 0x66
 -  out YUY2
 -  out BGR32,BGR24,BGR16,BGR15
+-  cpuflags mmx
 -
 -videocodec mpeg4
 -  info "Microsoft MPEG-4 v1/v2"
 -  status working
--;  comment "No postprocessing"
 -  fourcc MPG4,mpg4
 -  fourcc MP42,mp42
 -  fourcc DIV2 mp42
@@ -69,6 +83,7 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  dll "mpg4c32.dll"
 -  out YUY2 yuvhack
 -  out BGR32,BGR24,BGR15
+-  cpuflags mmx
 -
 -videocodec divx
 -  info "DivX ;-) (MS MPEG-4 v3)"
@@ -82,12 +97,11 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  dll "divxc32.dll"
 -  out YUY2 yuvhack
 -  out BGR32,BGR24,BGR15
--
--  
+-  cpuflags mmx
+   
  videocodec odivx
    info "OpenDivX (MPEG-4 v2)"
-   comment "with postprocessing"
-@@ -118,45 +48,6 @@
+@@ -133,61 +48,6 @@
    out UYVY
    out BGR32,BGR24,BGR16,BGR15
  
@@ -106,49 +120,65 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -;  out YV12   ; buggy
 -  out YUY2
 -  out BGR32,BGR24,BGR15
+-  cpuflags mmx
 -
 -videocodec i263
 -  info "I263"
 -  status working
 -  fourcc I263,i263,I420,i420
+-  fourcc vivo,VIVO I263
+-  fourcc viv1 I263
 -  driver vfw
 -  dll "i263_32.drv"
 -;  out I420
 -  out YUY2
 -  out BGR32,BGR24,BGR15
+-  cpuflags mmx
 -
--videocodec mjpeg
--  info "Motion JPEG"
+-videocodec m3jpeg
+-  info "Morgan Motion JPEG Codec"
 -  status working
 -  fourcc MJPG
--  fourcc mjpa  ; MOV files
--  fourcc mjpb  ; MOV files
+-  fourcc mjpa,mjpb,mjpg MJPG  ; MOV files
 -  driver vfw
--  dll "mcmjpg32.dll"
--;  dll "m3jpeg32.dll"
+-  dll "m3jpeg32.dll"
 -  out YUY2
 -  out UYVY
 -  out BGR32,BGR24,BGR15
+-  cpuflags mmx
+-
+-videocodec mjpeg
+-  info "MainConcept Motion JPEG"
+-  status working
+-  fourcc MJPG
+-  fourcc mjpa,mjpb,mjpg MJPG  ; MOV files
+-  driver vfw
+-  dll "mcmjpg32.dll"
+-  out YUY2
+-  out UYVY
+-  out BGR32,BGR24,BGR15
+-  cpuflags mmx
+-
 -
  ; =============== FFMPEG MPEG CODECS =========================
  
  videocodec ffmjpeg
-@@ -229,310 +120,8 @@
-   dll "libmpeg2"
-   out MPES
+@@ -343,353 +203,6 @@
+   format 0x62
+   driver fox62adpcm
  
--; ============== OTHER STUFF =======================
--
+-; =============== WINDOWS DLL's ==============
 -
 -videocodec vp3
 -  info "On2 OpenSource VP3-Codec"
 -  status working
 -  comment "For SSE-systems use hacked dll from ftp://mplayerhq.hu/MPlayer/samples/drivers32/"
--  fourcc VP31,vp31
+-  fourcc VP30,vp30,VP31,vp31
 -  driver vfwex
 -  dll "vp31vfw.dll"
 -  out YUY2
 -  out BGR32,BGR24,BGR15
+-  cpuflags mmx
 -
 -videocodec indeo5ds
 -  info "Intel Indeo 5"
@@ -157,9 +187,10 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  driver dshow
 -  dll "ir50_32.dll"
 -  guid 0x30355649, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71
--;  out YV12,I420
+-  out YV12
 -  out YUY2
 -  out BGR32,BGR24,BGR16,BGR15
+-  cpuflags mmx
 -
 -videocodec indeo5
 -  info "Intel Indeo 5"
@@ -179,6 +210,7 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  driver vfw
 -  dll "ir41_32.dll"
 -  out BGR24,BGR15
+-  cpuflags mmx
 -
 -videocodec indeo3
 -  info "Intel Indeo 3.1/3.2"
@@ -189,8 +221,9 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  driver vfw
 -  dll "ir32_32.dll"
 -  out BGR24,BGR15 flip
+-  cpuflags mmx
 -
--videocodec cvid
+-videocodec cvidvfw
 -  info "Cinepak Video"
 -  status working
 -  fourcc cvid
@@ -199,14 +232,18 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -;  out YUY2
 -;  out UYVY
 -  out BGR24,BGR15
+-  cpuflags mmx
 -
 -videocodec cram
 -  info "Microsoft Video 1"
--  status crashing
--  fourcc cram,CRAM,MSVC
+-  comment "Input bpp = output bpp (8bpp is only supported by vo_ggi)"
+-  status working
+-  fourcc cram,CRAM CRAM
+-  fourcc msvc,MSVC CRAM
+-  fourcc wham,WHAM CRAM
 -  driver vfw
 -  dll "msvidc32.dll"
--  out BGR24,BGR15
+-  out BGR8,BGR15,BGR24
 -
 -videocodec vcr2
 -  info "ATI VCR-2"
@@ -217,6 +254,7 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  dll "ativcr2.dll"
 -  out YUY2
 -  out BGR32,BGR24,BGR15
+-  cpuflags mmx
 -
 -videocodec wmv7
 -  info "Windows Media Video 7"
@@ -228,6 +266,7 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -;  out I420
 -  out YUY2
 -  out BGR32,BGR24,BGR16,BGR15
+-  cpuflags mmx
 -
 -videocodec wmv8
 -  info "Windows Media Video 8"
@@ -238,6 +277,7 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  guid 0x521fb373, 0x7654, 0x49f2, 0xbd, 0xb1, 0x0c, 0x6e, 0x66, 0x60, 0x71, 0x4f
 -  out YUY2
 -  out BGR32,BGR24,BGR16,BGR15
+-  cpuflags mmx
 -
 -videocodec tm20
 -  info "TrueMotion 2.0"
@@ -261,6 +301,7 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  out YUY2
 -  out UYVY
 -  out BGR32,BGR24,BGR16,BGR15
+-  cpuflags mmx
 -
 -videocodec mcdv
 -  info "MainConcept DV Codec"
@@ -295,34 +336,37 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -
 -videocodec mszh
 -  info "AVImszh"
--  status crashing
--  comment "calls RegEnumValueA()"
+-  status buggy
+-  comment "24bpp only"
 -  fourcc MSZH
 -  driver vfw
 -  dll "avimszh.dll"
--  out YUY2
--  out BGR32,BGR24,BGR15
+-;  out YUY2
+-;  out BGR32,BGR24,BGR15
+-  out BGR24
 -
 -videocodec zlib
 -  info "AVIzlib"
--  status crashing
--  comment "calls RegEnumValueA()"
+-  status buggy
+-  comment "24bpp only"
 -  fourcc ZLIB
 -  driver vfw
 -  dll "avizlib.dll"
--  out YUY2
--  out BGR32,BGR24,BGR15
+-;  out YUY2
+-;  out BGR32,BGR24,BGR15
+-  out BGR24
 -
 -videocodec mwv1
 -  info "Motion Wavelets"
--  status crashing
--  comment "decompressquery failed"
+-  status buggy
+-  comment "no yuv, flip requires"
 -  fourcc MWV1
 -  driver vfw
 -  dll "icmw_32.dll"
--;  out YV12
--  out YUY2
--  out BGR32,BGR24,BGR15
+-;  out YV12 flip
+-;  out YUY2 flip
+-  out BGR32,BGR24,BGR15 flip
+-  cpuflags mmx
 -
 -videocodec m261
 -  info "M261"
@@ -342,6 +386,7 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -;  out YVYU
 -  out UYVY
 -  out BGR32,BGR24,BGR15 flip
+-  cpuflags mmx
 -
 -videocodec asv1
 -  info "ASUS V1"
@@ -353,18 +398,11 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -;  out YVYU
 -  out UYVY
 -  out BGR32,BGR24,BGR15 flip
--
--videocodec msrle
--  info "M$ RLE"
--  status working
--  format 0x1
--  driver rle
--  dll "xa_rle8"
--  out BGR32,BGR24,BGR16,BGR15
+-  cpuflags mmx
 -
 -videocodec 3ivX
 -  info "3ivX Delta 3.5"
--  status buggy
+-  status crashing
 -  fourcc 3IV1
 -  driver dshow
 -  dll "3ivxdmo.dll"
@@ -373,8 +411,42 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  out YUY2
 -  out BGR32,BGR24,BGR16,BGR15
 -
- ; =============== XANIM DLL's =============
- 
+-videocodec mss1
+-  info "Windows Screen Video"
+-  status crashing
+-  fourcc MSS1
+-  driver dshow
+-  dll "msscds32.ax"
+-  guid 0x3301a7c4, 0x0a8d, 0x11d4, 0x91, 0x4d, 0x00, 0xc0, 0x4f, 0x61, 0x0d, 0x24
+-;  out I420
+-;  out YUY2
+-  out BGR32,BGR24,BGR16,BGR15
+-
+-videocodec pim1
+-  info "PIM1"
+-  status buggy
+-  comment "no picture"
+-  fourcc PIM1
+-  driver vfw
+-  dll "PCLEPIM1.DLL"
+-  out BGR24 flip
+-;  out I420
+-;  out YUY2
+-;  out BGR32,BGR24,BGR16,BGR15
+-
+-videocodec 3ivXqtx
+-  info "3ivX Delta 3.5"
+-  status crashing
+-  fourcc 3IV1
+-  driver vfw
+-  dll "qtx/3ivx.qtx"
+-  out YV12
+-  out YUY2
+-  out BGR32,BGR24,BGR16,BGR15
+-
+-
+-; =============== XANIM DLL's =============
+-
 -videocodec indeo5xa
 -  info "Intel Indeo 5"
 -  status working
@@ -418,12 +490,13 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -
 -videocodec h263xa
 -  info "CCITT H.263"
--  status untested
+-  status working
 -  fourcc H263,h263
+-  fourcc viv1 H263
+-  fourcc VIVO,vivo H263
 -  driver xanim
 -  dll "vid_h263.xa"
 -  out YV12,IYUV,I420
--  comment "only tested with one buggy movie"
 -
 -videocodec h261xa
 -  info "CCITT H.261"
@@ -441,10 +514,10 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  dll "vid_cyuv.xa"
 -  out YV12,IYUV,I420
 -
- videocodec null
-   info "NULL codec (no decoding)"
-   status working
-@@ -564,21 +153,6 @@
+ ; ============== RAW (uncompressed) and NULL CODECS =========
+ 
+ ; these raw codecs are used mostly by tv input
+@@ -808,22 +321,6 @@
    driver pcm
    dll "uncompressed"
  
@@ -455,18 +528,19 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  format 0x161
 -  driver acm
 -  dll "divxa32.acm"
+-  cpuflags mmx
 -
--audiocodec msadpcm
+-audiocodec msadpcmacm
 -  info "MS ADPCM"
 -  status working
 -  format 0x2
 -  driver acm
 -  dll "msadp32.acm"
 -
- ; now mp3lib is stable enough!?
  audiocodec mp3
    info "MPEG layer-2, layer-3"
-@@ -616,39 +190,6 @@
+   status working
+@@ -860,39 +357,6 @@
    dll "mpegaudio"
    flags seekable
  
@@ -479,7 +553,7 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
 -  dll "l3codeca.acm"
 -  flags seekable
 -
--audiocodec imaadpcm
+-audiocodec imaadpcmacm
 -  info "IMA ADPCM"
 -  status working
 -  format 0x11
@@ -506,13 +580,13 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
  audiocodec alaw
    info "aLaw"
    status working
-@@ -679,38 +220,6 @@
+@@ -929,38 +393,6 @@
    driver libac3
    dll "libac3"
  
 -audiocodec voxware
 -  info "VoxWare"
--  status working	; audio is bubbling
+-  status working
 -  format 0x75
 -  driver dshow
 -  dll "voxmsdec.ax"
@@ -545,15 +619,27 @@ diff -urN MPlayer-20011101/etc/codecs.conf Mplayer.new/etc/codecs.conf
  audiocodec vorbis
    info "OggVorbis Audio Decoder"
    status working
-@@ -722,11 +231,3 @@
- ; acm codec doesn't work, haven't tried zorannt dshow codec
- ;  driver acm
- ;  dll "vorbis.acm"
+@@ -969,23 +401,3 @@
+   driver libvorbis
+   dll "libvorbis"
+   flags seekable
+-; acm codec doesn't work, haven't tried zorannt dshow codec
+-;  driver acm
+-;  dll "vorbis.acm"
 -
--audiocodec ima4
--  info "IMA4:1"
+-audiocodec vivoaudio
+-  info "Vivo G.723/Siren Audio Codec"
 -  status working
--  comment "MONO only"
--  format 0x34616d69  ; "ima4" (MOV files)
--  driver ima4
--  dll "ima4.c"
+-  format 0x111       ; vivo g.723
+-  format 0x112       ; siren
+-  driver acm
+-  dll "vivog723.acm"
+-
+-audiocodec g72x
+-  info "G.711/G.721/G.723"
+-  status untested
+-  comment "does not work yet - just noise :("
+-  format 0x111	    ; vivo g.723
+-  format 0x112	    ; vivo siren
+-  driver g72x
+-  dll "g72x.c"
