@@ -94,7 +94,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
 %{!?_with_license_agreement:exit 1}
-%setup -q -n %{sname}-%{snap} -a 1 -a 3
+%{?_with_license_agreement:%setup -q -n %{sname}-%{snap} -a 1 -a 3}
 %patch0 -p1
 %patch1 -p1
 cp etc/codecs.conf etc/codecs-win32.conf
