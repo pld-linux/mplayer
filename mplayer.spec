@@ -55,7 +55,7 @@
 %define		sname		MPlayer
 %define		snap		%{nil}
 
-%define		pre		pre5try2
+%define		pre		pre6
 
 Summary:	Yet another movie player
 Summary(es):	Otro reproductor de películas
@@ -74,7 +74,7 @@ Group:		X11/Applications/Multimedia
 #Source1:	libavcodec-%{snap}.tar.bz2
 %else
 Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	724c905a8dddb7e8ec9722fc585f833d
+# Source0-md5:	4a628f87a7070e10ffea04a1598979a9
 %endif
 Source3:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -93,11 +93,8 @@ Patch5:		%{name}-configure.patch
 Patch6:		%{name}-gtk+2.patch
 Patch7:		%{name}-alpha.patch
 Patch8:		%{name}-altivec.patch
-Patch9:		%{name}-iconv-in-libc.patch
-Patch10:	%{name}-assembly.patch
-Patch11:	%{name}-mixer.patch
-Patch12:	%{name}-pcmsplit.patch
-Patch13:	%{name}-cxx.patch
+Patch9:		%{name}-assembly.patch
+Patch10:	%{name}-pcmsplit.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
@@ -122,7 +119,6 @@ BuildRequires:	SDL-devel >= 1.1.7
 %if %{with xlibs}
 BuildRequires:	libXv-devel
 %else
-BuildRequires:	XFree86-devel >= 4.0.2
 %endif
 BuildRequires:	audiofile-devel
 BuildRequires:	cdparanoia-III-devel
@@ -139,6 +135,7 @@ BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 BuildRequires:	libungif-devel
+BuildRequires:	libxslt-progs
 BuildRequires:	lzo-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	xvid-devel >= 1:0.9.0
@@ -246,7 +243,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 ##%patch2 -p1
 ##%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
-%patch5 -p1
+##%patch5 -p1
 %if %{with gtk2}
 %patch6 -p1
 %endif
@@ -254,9 +251,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -333,6 +327,8 @@ export CC CFLAGS
 			--enable-shared-pp
 
 %{__make}
+
+%{__make} -C DOCS/xml
 
 %install
 rm -rf $RPM_BUILD_ROOT
