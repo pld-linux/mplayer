@@ -25,6 +25,7 @@
 
 %ifnarch %{ix86}
 %define		_without_win32	1
+%define		_without_divx4linux 1
 %endif
 
 Summary:	Yet another movie player for Linux
