@@ -1,0 +1,10 @@
+--- MPlayer-1.0pre6a/etc/codecs.conf~	2005-03-26 13:57:07.000000000 +0100
++++ MPlayer-1.0pre6a/etc/codecs.conf	2005-03-26 13:57:30.210865152 +0100
+@@ -896,6 +896,7 @@
+   driver ffmpeg
+   dll h263
+   out YV12,I420,IYUV
++  format 0x33363273
+ 
+ videocodec ffzygo
+   info "FFmpeg ZyGo"
