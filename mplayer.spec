@@ -122,8 +122,9 @@ cp -ar ffmpeg/libavcodec/* libavcodec
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} "
 if [ -f %{_pkgconfigdir}/libpng12.pc ] ; then
-	CPPFLAGS="$CFLAGS `pkg-config libpng12 --cflags`"
+	CFLAGS="$CFLAGS `pkg-config libpng12 --cflags`"
 fi
+export CFLAGS
 ./configure \
 			--prefix=%{_prefix} \
 			--with-x11incdir=%{_includedir}\
