@@ -15,7 +15,7 @@ Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.18
-Release:	2.pre5
+Release:	3.pre5
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -35,6 +35,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	arts-devel
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
+BuildRequires:	lirc-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
 
@@ -68,6 +69,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %patch1 -p1
 
 %build
+CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 %configure \
 	--with-win32libdir="/usr/lib/win32" \
 %ifarch i586 i686
@@ -88,6 +90,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 	--enable-sdl \
 	--enable-fbdev \
 	--enable-termcap \
+	--enable-lirc \
 %{?_without_select:	--disable-select} 
 
 %{__make}
