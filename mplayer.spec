@@ -98,6 +98,7 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	audiofile-devel
+BuildRequires:	freetype-devel
 BuildRequires:	awk
 BuildRequires:	esound-devel
 BuildRequires:	faad2-devel
