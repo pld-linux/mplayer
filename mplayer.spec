@@ -24,22 +24,19 @@
 %define _without_win32 1
 %endif
 
-# Current snapshot. They are generated daily these days.
-%define snap	20011101
-
 Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
-Version:	0.50
-Release:	%{snap}.3
+Version:	0.60
+Release:	1
 License:	GPL w/o binaries
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 # This is location of CVS snapshots
-Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+# Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 # This is location of official (pre)releases
-# Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/mp-arial-iso-8859-2.zip
@@ -94,7 +91,10 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
 %{!?_with_license_agreement:exit 1}
-%setup -q -n %{sname}-%{snap} -a 1 -a 3
+# snapshots:
+# %setup -q -n %{sname}-%{snap} -a 1 -a 3
+# releases:
+%setup -q -n %{sname}-%{version} -a 1 -a 3
 %patch0 -p1
 %patch1 -p1
 cp etc/codecs.conf etc/codecs-win32.conf
