@@ -44,8 +44,8 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
-Version:	0.90rc1
-Release:	2
+Version:	0.90rc2
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -248,6 +248,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(hu) %doc DOCS/Hungarian
 %lang(it) %doc DOCS/Italian
 %lang(pl) %doc DOCS/Polish
+%doc AUTHORS ChangeLog
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
