@@ -6,5 +6,6 @@ Exec=gmplayer -nofs
 Icon=mplayer.png
 Terminal=0
 Type=Application
-MimeType=video/x-msvideo;video/mpeg;video/x-wmv;application/vnd.ms-asf
+MimeType=video/mp4;video/mpeg;video/quicktime;video/x-flic;video/x-matroska;video/x-mng;video/x-ms-asf;video/x-ms-wmv;video/x-msvideo;video/x-ogm;video/x-theora
+Categories=AudioVideo
 # vi: encoding=utf-8
