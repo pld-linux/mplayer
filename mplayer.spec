@@ -30,7 +30,7 @@ Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.50
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -42,6 +42,8 @@ Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/mp-arial-iso-8859-2.zip
+Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default.tar.bz2
+Source5:	g%{name}.desktop
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
 Patch2:		%{name}-codec.patch
@@ -60,6 +62,9 @@ BuildRequires:	ncurses-devel
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
 %{!?_without_lirc:BuildRequires:	lirc-devel}
+%{!?_without_dshow:BuildRequires:	libstdc++-devel}
+%{!?_without_gui:BuildRequires:	gtk+-devel}
+%{!?_without_gui:BuildRequires:	libpng-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
@@ -143,10 +148,11 @@ CFLAGS="%{rpmcflags}" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer,%{_applnkdir}/Multimedia}
 install -d $RPM_BUILD_ROOT%{_prefix}/share/mplayer/{arial-14,arial-18,arial-24,arial-28}
 
 install mplayer	$RPM_BUILD_ROOT%{_bindir}
+ln -s mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install etc/example.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
@@ -154,9 +160,11 @@ install iso-8859-2/arial-14/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer
 install iso-8859-2/arial-18/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-18
 install iso-8859-2/arial-24/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-24
 install iso-8859-2/arial-28/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-28
-ln -s $RPM_BILD_ROOT%{_prefix}/share/mplayer/arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
+ln -s arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
+bzcat %{SOURCE4}|tar xC $RPM_BUILD_ROOT%{_prefix}/share/mplayer
+install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
-gzip -9nf DOCS/{*.html,DVB,mplayer.1}
+gzip -9nf DOCS/{*.html,DVB}
 gzip -9nf etc/example.conf
 
 %clean
@@ -176,3 +184,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 %{_prefix}/share/mplayer
+%{_applnkdir}/*/*
