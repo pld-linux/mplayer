@@ -96,7 +96,7 @@ URL:		http://www.mplayerhq.hu/
 %{?with_svga:BuildRequires:		svgalib-devel}
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
-%{?with_arts:BuildRequires:	arts-devel}
+%{?with_arts:BuildRequires:	artsc-devel}
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %if %{with gui}
 BuildRequires:		gtk+%{?with_gtk2:2}-devel
