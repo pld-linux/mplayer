@@ -22,6 +22,9 @@
 %define _without_win32 1
 %endif
 
+# Current snapshot. They are generated daily these days.
+# %define snap   20011009
+
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
@@ -31,7 +34,10 @@ License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://www.mplayerhq.hu/{sname}/cvs/%{sname}-%{version}.tar.bz2
+# This is location of CVS snapshots
+# Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+# This is location of official (pre)releases
+Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 #Patch0:		%{name}-make.patch
