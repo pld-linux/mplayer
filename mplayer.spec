@@ -20,7 +20,7 @@
 #			  compiletime (advertised by mplayer authors as
 #			  working faster); in this case mplayer may not
 #			  work on machine other then where it was compiled
-# _with_dxr3		- disable use of DXR3/H+ hardware MPEG decoder
+# _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder
 
 # set it to 0, or 1
 %define		snapshot	0
