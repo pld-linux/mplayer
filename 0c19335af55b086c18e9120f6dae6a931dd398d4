@@ -1,0 +1,10 @@
+- fixed without_vorbic conditonal
+- added with_divx4linux cnditional
+- because many fatures are autodetected (but should not!), forced
+  enable/disable pairs on bconds
+- added enable/disable mtrr depending on arch
+- disable-kernel-extchk - application may be run on other kernel (e.g. SSE
+  is not in 2.2, but is in 2.4)
+- conditional with_ggi (support for ggi is not fully functional yet)
+- cosmetics
+- release 8
