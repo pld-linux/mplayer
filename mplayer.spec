@@ -60,7 +60,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.2
+Release:	0.%{pre}.3
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -328,7 +328,7 @@ install -d \
 
 # default config files
 awk '/Delete this default/{a++};{if(!a){print}}' etc/example.conf > etc/mplayer.conf
-install etc/{codecs,mplayer,input}.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
+install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
 
 # executables
 install mplayer mencoder $RPM_BUILD_ROOT%{_bindir}
