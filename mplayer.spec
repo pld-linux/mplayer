@@ -11,6 +11,7 @@
 # _without_win32	- disable requirement for win32 codecs
 # _without_gui		- without gui gtk+ interfeace
 # _without_dshow	- disable DirectShow support
+# _with_mmx		- enable 3dnow/sse/mmx optimized memcpy() (don't know if it's runtime detected...)
 
 %define		sname		MPlayer
 %define		snap		20020320
@@ -116,28 +117,36 @@ CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} `pkg-config --cflags libpng
 			--datadir=%{_datadir}/mplayer \
 			--with-win32libdir="/usr/lib/win32" \
 %{!?_without_divx4linux:--with-extraincdir=/usr/include/divx} \
-%{!?_without_alsa:	--enable-alsa --disable-select} \
 %{?_without_alsa:	--disable-alsa} \
-			--enable-gl \
+%{!?_without_alsa:	--enable-alsa --disable-select} \
+			--enable-3dnow \
+			--enable-3dnowex \
 			--enable-dga \
-			--enable-xv \
-			--enable-vm \
-			--enable-x11 \
-			--enable-mga \
-			--enable-xmga \
-			--enable-sdl \
+%{?_with_mmx:		--enable-fastmemcpy} \
 			--enable-fbdev \
-			--enable-tdfxfb \
 %{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
-%{?_without_divx4linux: --disable-divx4linux} \
+			--enable-gl \
+%{!?_without_gui:	--enable-gui} \
 %{!?_without_lirc:	--enable-lirc} \
 %{?_without_lirc:	--disable-lirc} \
+			--enable-mga \
+			--enable-mmx \
+			--enable-mmx2 \
+			--enable-sdl \
+			--enable-sse \
+			--enable-sse2 \
+			--enable-tdfxfb \
+			--enable-vm \
 %{!?_without_vorbis:	--enable-vorbis} \
 %{?_without_vorbis:	--disable-vorbis} \
+			--enable-xv \
+			--enable-xvid \
+			--enable-x11 \
+			--enable-xmga \
+%{?_without_divx4linux: --disable-divx4linux} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
-%{!?_without_gui:	--enable-gui} \
 %{?_without_dshow:	--disable-dshow} 
 
 %{__make}
