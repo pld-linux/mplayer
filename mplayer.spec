@@ -52,6 +52,7 @@ Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90
 Release:	1
+Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
