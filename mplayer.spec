@@ -99,7 +99,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libungif-devel
 BuildRequires:	lzo-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	xvid-devel >= 0.9.0
+BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
