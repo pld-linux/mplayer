@@ -7,7 +7,7 @@
 # _with_pmmx		- enable mmx
 # _with_ppro		- enable mtrr (default for i686)
 # _with_p2		- enable mmx, mtrr
-# _with_p3		- enable sse, mmx2, mmx, mtrr
+# _with_p3		- enable sse, mmx2, mmx, mtrr (Pentium III and Celeron II)
 # _with_p4		- enable sse2, sse, mmx2, mmx, mtrr
 # _with_k6		- enable mmx
 # _with_k623		- enable 3dnow, mmx
@@ -26,6 +26,7 @@
 # _without_dshow	- disable DirectShow support
 
 %define		sname		MPlayer
+%define		snap		20020320
 %define		ffmpeg_ver	0.4.5
 
 %ifnarch %{ix86}
@@ -36,13 +37,13 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.60
-Release:	6
+Release:	6.%{snap}
 License:	GPL w/o binaries
-# This is location of CVS snapshots
-# Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
-# This is location of official (pre)releases
 Group:		X11/Applications/Multimedia
-Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+# This is location of CVS snapshots
+Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+# This is location of official (pre)releases
+#Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-2.tar.bz2
@@ -121,9 +122,9 @@ skopiuj codecs.win32.conf do katalogu ~/.mplayer jako codecs.conf.
 %prep
 %{!?_with_license_agreement:exit 1}
 # snapshots:
-# %setup -q -n %{sname}-%{snap} -a 1 -a 3
+%setup -q -n %{sname}-%{snap} -a 1 -a 3
 # releases:
-%setup -q -n %{sname}-%{version} -a 1 -a 3
+#%setup -q -n %{sname}-%{version} -a 1 -a 3
 %patch0 -p1
 %patch1 -p1
 cp -f etc/codecs.conf etc/codecs.win32.conf
