@@ -38,7 +38,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90pre9
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -52,6 +52,7 @@ Source3:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-2.tar.bz2
 Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default.tar.bz2
 Source5:	g%{name}.desktop
 Source6:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-1.tar.bz2
+Source7:	%{name}.png
 Patch0:		%{name}-make.patch
 Patch2:		%{name}-no_libnsl.patch
 Patch3:		%{name}-cp1250-fontdesc.patch
@@ -187,7 +188,8 @@ CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} "
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/{,de/,hu/,pl/}man1} \
 	$RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_datadir}/mplayer/Skin} \
-	$RPM_BUILD_ROOT{%{_libdir}/mplayer/vidix,%{_applnkdir}/Multimedia}
+	$RPM_BUILD_ROOT{%{_libdir}/mplayer/vidix,%{_applnkdir}/Multimedia} \
+	$RPM_BUILD_ROOT%{_pixmapsdir}
 
 perl -p -i -e 'exit if /this default/' etc/example.conf
 install %{SOURCE2} etc/codecs.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
@@ -197,11 +199,13 @@ rm -f font-*/runme
 cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
+rm -rf $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/*/CVS
 %ifarch %{ix86}
 install libdha/libdha.so* $RPM_BUILD_ROOT/%{_libdir}
 install vidix/drivers/*.so $RPM_BUILD_ROOT/%{_libdir}/mplayer/vidix
 %endif
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
+install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 mv DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
 mv DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
@@ -229,4 +233,5 @@ rm -rf $RPM_BUILD_ROOT
 %lang(hu) %{_mandir}/hu/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 %{_applnkdir}/*/*
+%{_pixmapsdir}/*
 %attr(755,root,root) %{_libdir}/*
