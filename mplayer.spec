@@ -5,6 +5,7 @@
 
 # CPU options
 # _with_pmmx		- enable mmx
+# _with_ppro		- enable mtrr (default for i686)
 # _with_p2		- enable mmx, mtrr
 # _with_p3		- enable sse, mmx2, mmx, mtrr
 # _with_p4		- enable sse2, sse, mmx2, mmx, mtrr
@@ -78,7 +79,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir	/etc
 
 %ifarch i686
-%{?!_with_k7xp:%{?!_with_k7:%{?!_with_p3:%{?!_with_p4:%define _with_p2 1}}}}
+%{!?_with_k7xp:%{!?_with_k7:%{!?_with_p3:%{!?_with_p4:%{!?_with_p2:%define _with_ppro 1}}}}}
 %endif
 
 %{?_with_k6:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx --disable-mtrr}
@@ -86,6 +87,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %{?_with_k7:%define	_cpu_opts  --enable-3dnowex  --enable-3dnow --disable-sse2 --disable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr}
 %{?_with_k7xp:%define	_cpu_opts  --enable-3dnowex  --enable-3dnow  --enable-sse2  --enable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr}
 %{?_with_pmmx:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx --disable-mtrr}
+%{?_with_ppro:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2 --disable-mmx  --enable-mtrr}
 %{?_with_p2:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2 --disable-sse --disable-mmx2  --enable-mmx  --enable-mtrr}
 %{?_with_p3:%define	_cpu_opts --disable-3dnowex --disable-3dnow --disable-sse2  --enable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr}
 %{?_with_p4:%define	_cpu_opts --disable-3dnowex --disable-3dnow  --enable-sse2  --enable-sse  --enable-mmx2  --enable-mmx  --enable-mtrr}
