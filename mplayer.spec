@@ -2,10 +2,12 @@
 # Conditional build:
 # _with_3dnow		- with 3Dnow! support
 # _with_3dnowex		- with 3Dnow-dsp! support (K7)
-# _with_sse			- with SSE support
-# _with_mmx			- with MMX support
+# _with_sse		- with SSE support
+# _with_mmx		- with MMX support
 # _with_mmx2		- with MMX2 support
 # _without_alsa		- without ALSA support
+# _without_arts		- without arts support
+# _without_lirc		- without lirc support
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 #
 
@@ -32,10 +34,10 @@ BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	OpenGL-devel
 BuildRequires:	ncurses-devel
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
-BuildRequires:	arts-devel
+%{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
-BuildRequires:	lirc-devel
+%{!?_without_lirc:BuildRequires:	lirc-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86}
 
@@ -90,7 +92,7 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 	--enable-sdl \
 	--enable-fbdev \
 	--enable-termcap \
-	--enable-lirc \
+%{!?_without_lirc:	--enable-lirc} \
 %{?_without_select:	--disable-select} 
 
 %{__make}
