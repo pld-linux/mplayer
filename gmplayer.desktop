@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=MPlayer
-Comment=The Movie Player for Linux
-Comment[pl]=Odtwarzacz Filmów pod Linuxa
-Exec=gmplayer
-Terminal=0
-Type=Application
-# vi: encoding=utf-8
