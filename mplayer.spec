@@ -1,4 +1,6 @@
 #
+# TODO: bcond for libsmbclient and maybe theora, libdv?
+#
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
 %bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead
@@ -108,7 +110,7 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	audiofile-devel
-BuildRequires:	awk
+BuildRequires:	cdparanoia-III-devel
 BuildRequires:	esound-devel
 BuildRequires:	faad2-devel
 BuildRequires:	freetype-devel
@@ -116,8 +118,11 @@ BuildRequires:	freetype-devel
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
 BuildRequires:	lame-libs-devel
+BuildRequires:	libdv-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
+BuildRequires:	libsmbclient-devel
+BuildRequires:	libtheora-devel
 BuildRequires:	libungif-devel
 BuildRequires:	lzo-devel
 BuildRequires:	ncurses-devel
