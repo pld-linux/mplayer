@@ -40,6 +40,7 @@ Group(pl):	X11/Aplikacje/Multimedia
 Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
+Source3:	ftp://mplayerhq.hu/%{sname}/releases/mp-arial-iso-8859-2.zip
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
 Patch2:		%{name}-codec.patch
@@ -85,7 +86,7 @@ rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
 G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
-%setup  -q -n %{sname}-%{version} -a 1
+%setup  -q -n %{sname}-%{version} -a 1 -a 3
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -96,6 +97,7 @@ cp -ar ffmpeg/libavcodec/* libavcodec
 %build
 CFLAGS="%{rpmcflags}" \
 %configure \
+			--datadir=%{_prefix}/share/mplayer \
 			--with-win32libdir="/usr/lib/win32" \
 			--disable-kernel-extchk \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
@@ -133,18 +135,24 @@ CFLAGS="%{rpmcflags}" \
 %{?_without_vorbis:	--disable-oggvorbis} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
-%{!?_without_gui:	--enable-gui}
+%{!?_without_gui:	--enable-gui} 
 			
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer}
+install -d $RPM_BUILD_ROOT%{_prefix}/share/mplayer/{arial-14,arial-18,arial-24,arial-28}
 
 install mplayer	$RPM_BUILD_ROOT%{_bindir}
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install etc/example.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
+install iso-8859-2/arial-14/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-14
+install iso-8859-2/arial-18/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-18
+install iso-8859-2/arial-24/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-24
+install iso-8859-2/arial-28/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-28
+ln -s $RPM_BILD_ROOT%{_prefix}/share/mplayer/arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
 
 gzip -9nf DOCS/{*.html,DVB,mplayer.1}
 gzip -9nf etc/example.conf
@@ -165,3 +173,4 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
+%{_prefix}/share/mplayer
