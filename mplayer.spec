@@ -50,8 +50,9 @@ Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default.tar.bz2
 Source5:	g%{name}.desktop
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
-Patch2:		%{name}-codec.patch
-Patch3:		%{name}-configure.patch
+Patch2:		%{name}-configure.patch
+Patch3:		%{name}-cp1250-fontdesc.patch
+Patch4:		%{name}-codec.patch
 URL:		http://mplayer.sourceforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
@@ -126,7 +127,8 @@ skopiuj codecs.win32.conf do katalogu ~/.mplayer jako codecs.conf.
 %patch1 -p1
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch2 -p1
-%patch3 -p1
+%patch3 -p0
+%patch4 -p1
 
 # needed in snapshots
 # cp -ar ffmpeg/libavcodec/* libavcodec
@@ -167,28 +169,25 @@ CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer,%{_applnkdir}/Multimedia}
-install -d $RPM_BUILD_ROOT%{_datadir}/mplayer/{arial-14,arial-18,arial-24,arial-28,Skin}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_bindir},%{_mandir}/{,hu/}man1} \
+	$RPM_BUILD_ROOT{%{_applnkdir}/Multimedia,%{_datadir}/mplayer/{arial-{14,18,24,28},Skin}}
 
-install mplayer $RPM_BUILD_ROOT%{_bindir}
-install mencoder $RPM_BUILD_ROOT%{_bindir}
-ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
-install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 perl -p -i -e 'exit if /this default/' etc/example.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
+install mplayer $RPM_BUILD_ROOT%{_bindir}
+install mencoder $RPM_BUILD_ROOT%{_bindir}
+ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
 install font-arial-14-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-14
 install font-arial-18-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-18
 install font-arial-24-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-24
 install font-arial-28-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-28
 ln -sf arial-24 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
+install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+install DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
-install -d $RPM_BUILD_ROOT%{_mandir}/hu/man1
-mv DOCS/Hungarian/mplayer.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
-
-rm -rf DOCS/*/CVS
 gzip -9nf DOCS/{DVB,DXR3,Polish/DVB,French/exemple.conf}
 gzip -9nf etc/{example,codecs.win32}.conf
 
@@ -207,7 +206,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
+%{_datadir}/mplayer
 %{_mandir}/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
-%{_datadir}/mplayer
 %{_applnkdir}/*/*
