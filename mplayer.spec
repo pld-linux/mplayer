@@ -42,12 +42,6 @@ License:	GPL w/o binaries
 # Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 # This is location of official (pre)releases
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(es):	X11/Aplicaciones/Multimedia
-Group(fr):	X11/Applications/Multimédia
-Group(pl):	X11/Aplikacje/Multimedia
-Group(pt):	X11/Aplicações/Multimedia
-Group(ru):	X11/ğÒÉÌÏÖÅÎÉÑ/íÕÌØÔÉÍÅÄÉÁ
 Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
