@@ -31,7 +31,6 @@
 
 %ifnarch %{ix86}
 %define		_without_win32	1
-%define		_without_divx4linux 1
 %endif
 
 Summary:	Yet another movie player for Linux
@@ -150,7 +149,7 @@ export CFLAGS
 %{?_without_win32:	--disable-win32} \
 %{?_without_dshow:	--disable-dshow} \
 			--enable-xvid \
-%{?_with_divx4linux:	--disable-divx4linux} \
+%{!?_with_divx4linux:	--disable-divx4linux} \
 %{!?_without_vorbis:	--enable-vorbis} \
 %{?_without_vorbis:	--disable-vorbis} \
 %{?_with_dxr3:	--enable-dxr3} \
