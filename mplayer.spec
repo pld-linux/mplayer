@@ -1,6 +1,4 @@
 #
-# TODO: bcond for libsmbclient and maybe libdv?
-#
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
 %bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead
@@ -21,6 +19,7 @@
 %bcond_without	dshow		# disable DirectShow support
 %bcond_without	gui		# without gui gtk+ interfeace
 %bcond_without	joystick	# disable joystick support
+%bcond_without	libdv		# disable libdv en/decoding support
 %bcond_without	lirc		# without lirc support
 %bcond_without	mad		# without mad (audio MPEG) support
 %bcond_without	quicktime	# without binary quicktime dll support
@@ -32,6 +31,7 @@
 				#  where it was compiled
 %bcond_without	select		# disable audio select() support (for example
 				# required this option ALSA or Vortex2 driver)
+%bcond_without	smb		# disable Samba (SMB) input support
 %bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
 %bcond_without	vorbis		# without ogg-vorbis audio support
@@ -124,10 +124,10 @@ BuildRequires:	freetype-devel
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
 BuildRequires:	lame-libs-devel
-BuildRequires:	libdv-devel
+%{?with_libdv:BuildRequires:	libdv-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
-BuildRequires:	libsmbclient-devel
+%{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 BuildRequires:	libungif-devel
 BuildRequires:	lzo-devel
@@ -216,6 +216,9 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch7 -p1
 %patch8 -p1
 
+# kill evil file, hackery not needed with llh
+echo > osdep/kerneltwosix.h
+
 %build
 CFLAGS="%{rpmcflags}"
 CC="%{__cc}"
@@ -252,6 +255,7 @@ export CC CFLAGS
 %{!?with_dshow:--disable-dshow} \
 %{?with_gui:--enable-gui} \
 %{?with_joystick:--enable-joystick} \
+%{!?with_libdv:--disable-libdv} \
 %{!?with_lirc:--disable-lirc} \
 %{!?with_mad:--disable-mad} \
 %{!?with_quicktime:--disable-qtx} \
@@ -259,14 +263,15 @@ export CC CFLAGS
 %{!?with_runtime:--disable-runtime-cpudetection} \
 %{?with_runtime:--enable-runtime-cpudetection} \
 %{!?with_select:--disable-select} \
+%{!?with_smb:--disable-smb} \
 %{!?with_win32:--disable-win32} \
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
 			--enable-dga \
-			--disable-fbdev \
+			--enable-fbdev \
 			--enable-gl \
-			--disable-mga \
+			--enable-mga \
 			--enable-mencoder \
 			--enable-sdl \
 			--enable-tdfxfb \
