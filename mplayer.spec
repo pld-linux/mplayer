@@ -1,4 +1,4 @@
-%define	snap	20010331
+%define	snap	20010418
 Summary:	Yet another movie player for linux.
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla linuxa.
 Name:		mplayer
@@ -55,6 +55,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %ifarch i586 i686
 	--enable-mmx \
 	--enable-3dnow \
+	--enable-mmx2 \
 %ifarch i686
 	--enable-sse \
 %endif
@@ -66,17 +67,19 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 	--enable-x11 \
 	--enable-mga \
 	--enable-xmga \
+	--enable-sdl \
 	--enable-fbdev \
 	--enable-termcap
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer}
 
 install mplayer		$RPM_BUILD_ROOT%{_bindir}
 install DOCS/*.1	$RPM_BUILD_ROOT%{_mandir}/man1
-install %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}
+install DOCS/example.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
+install DOCS/codecs.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 
 gzip -9nf DOCS/{AUTHORS,CODECS,Change*,INSTALL,LIRC,MPla*,MTRR,Open*} \
 	DOCS/{README,SPEED,TODO,VIDEOCARDS,example.conf,*.txt}
@@ -87,6 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc DOCS/*.gz
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
+%dir %{_sysconfdir}/mplayer
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
