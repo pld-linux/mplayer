@@ -301,8 +301,7 @@ export CC CFLAGS
 	--enable-largefiles \
 	--language=all \
 	--with-codecsdir=%{_libdir}/codecs \
-	--enable-dynamic-plugins \
-	--enable-shared-pp
+	--enable-dynamic-plugins
 
 %{__make}
 
