@@ -37,16 +37,16 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
-Version:	0.90pre8
-Release:	5
+Version:	0.90pre9
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
 Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 %else
 Source0:	http://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
-Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-2.tar.bz2
 Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default.tar.bz2
@@ -118,7 +118,7 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 %if %{snapshot}
 %setup -q -n %{sname}-%{snap} -a 1 -a 3 -a 6
 %else
-%setup -q -n %{sname}-%{version} -a 1 -a 3 -a 6
+%setup -q -n %{sname}-%{version} -a 3 -a 6
 %endif
 
 %patch0 -p1
