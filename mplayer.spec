@@ -11,7 +11,8 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
 
-%bcond_without	altivec		# without altivec support
+%bcond_with	altivec		# with altivec support (won't run w/o altivec
+				# due to instruction used in CPU detection(?))
 
 %bcond_without	aalib		# without aalib video output
 %bcond_without	alsa		# without ALSA audio output
@@ -48,8 +49,7 @@
 %define		snapshot	0
 
 %define		sname		MPlayer
-%define		snap		20030810
-%define		ffmpeg_ver	0.4.5
+%define		snap		%{nil}
 
 %define		pre		pre5
 
@@ -67,9 +67,7 @@ Group:		X11/Applications/Multimedia
 %if %{snapshot}
 #Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 #Source0:	%{name}-%{snap}.tar.bz2
-#Source1:	http://dl.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
-Source1:	libavcodec-%{snap}.tar.bz2
-# Source1-md5:	8c32cd38df314638624bf5ef76081265
+#Source1:	libavcodec-%{snap}.tar.bz2
 %else
 Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
 # Source0-md5:	fbe6919eb025526e8ed129cd61a49969
@@ -143,7 +141,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		specflags	-fomit-frame-pointer
 %define		specflags_alpha	-mmax
-%if %{with altivec} && %{without runtime}
+%if %{with altivec}
 %define		specflags_ppc	-maltivec -mabi=altivec
 %endif
 
