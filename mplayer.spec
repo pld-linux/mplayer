@@ -15,7 +15,7 @@
 %bcond_with svga	# with svgalib video output
 %bcond_with osd		# with osd menu support
 
-%bcond_with altivec	# with altivec support
+%bcond_with altivec	# with altivec support (gcc 3.3.x bug target/11793)
 
 %bcond_without aalib	# without aalib video output
 %bcond_without alsa	# without ALSA audio output
@@ -83,6 +83,8 @@ Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
 Patch7:		%{name}-configure.patch
 Patch8:		%{name}-gtk+2.patch
+Patch9:		%{name}-alpha.patch
+Patch10:	%{name}-altivec.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
@@ -122,6 +124,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		specflags	-fomit-frame-pointer
+%define		specflags_alpha	-mmax
+%if %{with altivec}
+%define		specflags_ppc	-maltivec -mabi=altivec
+%endif
 
 %description
 Movie player for Linux. Supported input formats: VCD (VideoCD),
@@ -196,6 +202,8 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %if %{with gtk2}
 %patch8 -p1
 %endif
+%patch9 -p1
+%patch10 -p1
 
 %build
 CFLAGS="%{rpmcflags}"
@@ -204,7 +212,7 @@ export CC CFLAGS
 ./configure \
 			--prefix=%{_prefix} \
 			--confdir=%{_sysconfdir}/mplayer \
---with-x11incdir=%{_prefix}/X11R6/include \
+			--with-x11incdir=/usr/X11R6/include \
 			--with-extraincdir=%{_includedir}/xvid \
 %ifnarch %{ix86}
 			--disable-mmx \
