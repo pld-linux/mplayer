@@ -7,13 +7,17 @@
 #
 # _without_lirc		- without lirc support
 # _without_gui		- without gui gtk+ interfeace
-# _without_win32	- disable requirement for win32 codecs
+# _without_win32	- without win32 codecs support
 # _without_dshow	- disable DirectShow support
-# _with_divx4linux	- with divx4linux support (binaries, instead of included OpenDivx)
-# _without_vorbis	- without ogg-vorbis support
+# _with_divx4linux	- with divx4linux a/v support (binaries, instead of included OpenDivx)
+# _without_mad		- without mad (audio MPEG) support
+# _without_vorbis	- without ogg-vorbis audio support
+# _with_directfb	- with DirectFB video output
 # _with_ggi		- with ggi video output
-# _without_arts		- without arts support
-# _without_alsa		- without ALSA support
+# _with_svga		- with svgalib video output
+# _without_arts		- without arts audio output
+# _without_alsa		- without ALSA audio output
+# _without_nas		- without NAS audio output
 # _without_select	- disable audio select() support (for example required this option
 #                         ALSA or Vortex2 driver)
 # _without_runtime	- disable runtime cpu detection, just detect CPU in
@@ -59,6 +63,7 @@ Patch3:		%{name}-cp1250-fontdesc.patch
 Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 URL:		http://mplayer.sourceforge.net/
+%{?_with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
@@ -66,16 +71,23 @@ BuildRequires:	XFree86-devel >= 4.0.2
 %{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	audiofile-devel
 %{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
+%{?_with_dxr3:BuildRequires:	em8300-devel}
 BuildRequires:	esound-devel
 %{!?_without_gui:BuildRequires:		gtk+-devel}
-%{!?_without_gui:BuildRequires:		libpng-devel}
+BuildRequires:	lame-libs-devel
 %{?_with_ggi:BuildRequires:		libggi-devel}
+BuildRequires:		libjpeg-devel
+BuildRequires:		libpng-devel
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
+BuildRequires:		libungif-devel
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-%{?_with_dxr3:BuildRequires:	em8300-devel}
-BuildRequires:	xvid-devel
+BuildRequires:	lzo-devel
+%{!?_without_mad:BuildRequires:	mad-devel}
+%{!?_without_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
+%{?_with_svga:BuildRequires:	svgalib-devel}
+BuildRequires:	xvid-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -151,6 +163,7 @@ export CC CFLAGS
 %{!?_with_divx4linux:	--disable-divx4linux} \
 %{!?_without_vorbis:	--enable-vorbis} \
 %{?_without_vorbis:	--disable-vorbis} \
+%{?_without_mad:	--disable-mad} \
 %{?_with_dxr3:	--enable-dxr3} \
 %{!?_with_dxr3:	--disable-dxr3} \
 %ifnarch %{ix86}
@@ -176,6 +189,9 @@ export CC CFLAGS
 			--enable-x11 \
 			--enable-fbdev \
 			--enable-tdfxfb \
+%{!?_with_directfb:	--disable-directfb} \
+%{!?_with_svga:		--disable-svga} \
+%{?_without_nas:	--disable-nas} \
 %{?_without_arts:	--disable-arts} \
 %{?_without_alsa:	--disable-alsa} \
 %{!?_without_alsa:	--enable-alsa --disable-select} \
