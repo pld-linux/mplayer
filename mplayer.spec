@@ -147,6 +147,15 @@ export CFLAGS
 %{?_without_divx4linux:	--disable-divx4linux} \
 %{!?_without_vorbis:	--enable-vorbis} \
 %{?_without_vorbis:	--disable-vorbis} \
+%ifnarch %{ix86}
+			--disable-mmx \
+			--disable-mmx2 \
+			--disable-3dnow \
+			--disable-3dnowex \
+			--disable-sse \
+			--disable-sse2 \
+			--disable-fastmemcpy \
+%endif
 			--enable-runtime-cpudetection \
 			--enable-gl \
 			--enable-dga \
