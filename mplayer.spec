@@ -149,11 +149,12 @@ CFLAGS="%{rpmcflags}" \
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer,%{_applnkdir}/Multimedia}
-install -d $RPM_BUILD_ROOT%{_prefix}/share/mplayer/{arial-14,arial-18,arial-24,arial-28}
+install -d $RPM_BUILD_ROOT%{_prefix}/share/mplayer/{arial-14,arial-18,arial-24,arial-28,Skin}
 
 install mplayer	$RPM_BUILD_ROOT%{_bindir}
 ln -s mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+perl -p -i -e 'exit if /this default/' etc/example.conf
 install etc/example.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 install iso-8859-2/arial-14/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-14
@@ -161,11 +162,10 @@ install iso-8859-2/arial-18/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer
 install iso-8859-2/arial-24/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-24
 install iso-8859-2/arial-28/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-28
 ln -s arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
-bzcat %{SOURCE4}|tar xC $RPM_BUILD_ROOT%{_prefix}/share/mplayer
+bzcat %{SOURCE4}|tar xC $RPM_BUILD_ROOT%{_prefix}/share/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
 gzip -9nf DOCS/{*.html,DVB}
-gzip -9nf etc/example.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -173,7 +173,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc DOCS/*.gz
-%doc etc/*.gz
 %lang(de) %doc DOCS/German
 %lang(hu) %doc DOCS/Hungarian
 %lang(pl) %doc DOCS/Polish.outdated
