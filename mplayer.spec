@@ -8,29 +8,32 @@
 # _without_alsa		- without ALSA support
 # _without_arts		- without arts support
 # _without_lirc		- without lirc support
+# _without_vorbis	- without ogg-vorbis support
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 # _without_win32	- disable requirement fro win32 codecs (req: avi-codecs)
 #
 
-%define sname MPlayer
+%define sname	MPlayer
+%define snap 	20010902
+%define ffmpeg_ver 	0.4.5
 
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
-Version:	0.18
-Release:	6.pre5
+Version:	0.18.%{snap}
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://mplayerhq.banki.hu/MPlayer/releases/%{sname}-%{version}pre5.tgz
-Source1:	%{name}.conf
+Source0:	http://www.mplayerhq.hu/${sname}/cvs/%{sname}-%{snap}.tar.bz2
+Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
+Source2:	%{name}.conf
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
-%{?_without_win32:Patch2:	%{name}-comment_w32.patch}
+#%{?_without_win32:Patch2:	%{name}-comment_w32.patch}
 URL:		http://mplayer.sourceforge.net/
 %{!?_without_win32:Requires:	w32codec}
-Requires:	w32codec
 Requires:	OpenGL
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
@@ -38,6 +41,7 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	ncurses-devel
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
+%{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
 %{!?_without_lirc:BuildRequires:	lirc-devel}
@@ -69,10 +73,12 @@ rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
 G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
-%setup  -q -n %{sname}-%{version}pre5
+%setup  -q -n %{sname}-%{snap} -a 1
 %patch0 -p1
 %patch1 -p1
-%{?_without_win32:%patch2 -p1}
+#%{?_without_win32:%patch2 -p1}
+
+cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
 CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
@@ -95,9 +101,11 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 	--enable-xmga \
 	--enable-sdl \
 	--enable-fbdev \
-	--enable-termcap \
+	--enable-termcap
 %{!?_without_lirc:	--enable-lirc} \
-%{?_without_select:	--disable-select} 
+%{!?_without_lirc:	--enable-oggvorbis} \
+%{?_without_select:	--disable-select} \
+%{?_without_win32:	--disable-win32}
 
 %{__make}
 
@@ -107,11 +115,11 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer}
 
 install mplayer		$RPM_BUILD_ROOT%{_bindir}
 install DOCS/*.1	$RPM_BUILD_ROOT%{_mandir}/man1
-install DOCS/example.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
-install DOCS/codecs.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
+install etc/example.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
+install etc/codecs.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 
-gzip -9nf -r DOCS/{[A-Z]*,example.conf,*.txt}
-rm -f DOCS/DEBIAN.gz DOCS/*/DEBIAN.gz DOCS/*/Debian.gz
+gzip -9nf -r DOCS/{[A-Z]*,*.html}
+gzip -9nf -r etc/example.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -119,6 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc DOCS/*.gz
+%doc etc/*.gz
 %lang(de) %doc DOCS/German
 %lang(hu) %doc DOCS/Hungarian
 %lang(pl) %doc DOCS/Polish
