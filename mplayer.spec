@@ -34,7 +34,7 @@
 #
 
 # set it to 0, or 1
-%define		snapshot	1
+%define		snapshot	0
 
 %define		sname		MPlayer
 %define		snap		20030810
@@ -50,20 +50,21 @@ Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
-Version:	0.90
-Release:	3.%{snap}.1
+Version:	0.91
+Release:	0.1
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
 #Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 Source0:	%{name}-%{snap}.tar.bz2
-# Source0-md5:	1d99c2bf1268c3a72495cc0689326a1d
+# Source 0-md5:	bb09138564ddf954392d20dbc4b88ebd
 #Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source1:	libavcodec-%{snap}.tar.bz2
 # Source1-md5:	8c32cd38df314638624bf5ef76081265
 %else
-#Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+Source0:	ftp://ftp3.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+# Source0-md5:	bb09138564ddf954392d20dbc4b88ebd
 %endif
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -270,13 +271,13 @@ install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # man pages
-install DOCS/de/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
-install DOCS/en/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-install DOCS/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
-install DOCS/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
-install DOCS/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
-install DOCS/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh/man1
-find DOCS -name CVS -print | xargs rm -r
+install DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
+install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+install DOCS/French/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
+install DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
+install DOCS/Polish/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
+install DOCS/Chinese/*.1 $RPM_BUILD_ROOT%{_mandir}/zh/man1
+find DOCS -name CVS -print | xargs rm -rf
 find DOCS -name \*1 -print | xargs rm
 
 %clean
@@ -285,13 +286,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %{?!_without_win32: %doc etc/codecs.win32.conf}
-%doc DOCS/en/*.html
-%lang(de) %doc DOCS/de
-%lang(fr) %doc DOCS/fr
-%lang(hu) %doc DOCS/hu
-%lang(it) %doc DOCS/it
-%lang(pl) %doc DOCS/pl
-%lang(zh) %doc DOCS/zh
+%doc DOCS/*.html
+%lang(de) %doc DOCS/German
+%lang(fr) %doc DOCS/French
+%lang(hu) %doc DOCS/Hungarian
+%lang(it) %doc DOCS/Italian
+%lang(pl) %doc DOCS/Polish
+%lang(zh) %doc DOCS/Chinese
 %doc README AUTHORS ChangeLog
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
