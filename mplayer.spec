@@ -53,7 +53,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.1
+Release:	0.%{pre}.4
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -82,6 +82,7 @@ Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
 Patch7:		%{name}-configure.patch
+Patch8:		%{name}-vuln02.patch
 URL:		http://www.mplayerhq.hu/
 %{?_with_directfb:BuildRequires:	DirectFB-devel}
 %{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
@@ -175,6 +176,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 ##%patch5 -p1	-- old home_etc behavior
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}"
