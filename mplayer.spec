@@ -95,20 +95,21 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 # %setup -q -n %{sname}-%{snap} -a 1 -a 3
 # releases:
 %setup -q -n %{sname}-%{version} -a 1 -a 3
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
+#exit 1
 cp etc/codecs.conf etc/codecs-win32.conf
-%patch2 -p1
-%patch3 -p1
+#%patch2 -p1
+#%patch3 -p1
 
-cp -ar ffmpeg/libavcodec/* libavcodec
+#cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
 CFLAGS="%{rpmcflags}"; \
-%configure \
+./configure \
+			--with-x11incdir=%{_includedir}\
 			--datadir=%{_prefix}/share/mplayer \
 			--with-win32libdir="/usr/lib/win32" \
-			--disable-kernel-extchk \
 %{!?_without_divx4linux:--with-extraincdir=/usr/include/divx} \
 %ifarch i586 i686
 %{?_with_mmx:		--enable-mmx} \
@@ -133,15 +134,14 @@ CFLAGS="%{rpmcflags}"; \
 			--enable-xmga \
 			--enable-sdl \
 			--enable-fbdev \
-			--enable-esd \
 %{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
-%{!?_without_divx4linux:--enable-divx4} \
+%{!?_without_divx4linux:--enable-divx4linux} \
 %{?_without_divx4linux: --disable-divx4} \
 %{!?_without_lirc:	--enable-lirc} \
 %{?_without_lirc:	--disable-lirc} \
-%{!?_without_vorbis:	--enable-oggvorbis} \
-%{?_without_vorbis:	--disable-oggvorbis} \
+%{!?_without_vorbis:	--enable-vorbis} \
+%{?_without_vorbis:	--disable-vorbis} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
 %{!?_without_gui:	--enable-gui} \
@@ -169,7 +169,7 @@ bzcat %{SOURCE4}|tar xC $RPM_BUILD_ROOT%{_prefix}/share/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
 rm -rf DOCS/*/CVS
-gzip -9nfq DOCS/{DVB,{Polish,Russian,Spanish}/*}
+gzip -9nfq DOCS/{DVB,{Polish,German,Hungarian}/*}
 gzip -9nf etc/codecs-win32.conf
 
 %clean
@@ -182,8 +182,8 @@ rm -rf $RPM_BUILD_ROOT
 %lang(de) %doc DOCS/German
 %lang(hu) %doc DOCS/Hungarian
 %lang(pl) %doc DOCS/Polish
-%lang(ru) %doc DOCS/Russian
-%lang(es) %doc DOCS/Spanish
+#%lang(ru) %doc DOCS/Russian
+#%lang(es) %doc DOCS/Spanish
 %lang(fr) %doc DOCS/French
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mplayer/*.conf
