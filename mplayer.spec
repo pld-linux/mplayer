@@ -1,9 +1,5 @@
-
-%ifnarch %{ix86}
-%define		_without_win32	1
-%define		_without_qt	1
-%endif
-
+#
+# Conditional build:
 %bcond_with directfb	# with DirectFB video output
 %bcond_with divx4linux	# with divx4linux a/v support (binaries, instead of
 			#  included OpenDivx)
@@ -38,6 +34,11 @@
 
 %bcond_with gtk2	# EXPERIMENTAL support for GTK+ version 2
 
+%ifnarch %{ix86}
+%undefine	with_win32
+%undefine	with_qt
+%endif
+
 # set it to 0, or 1
 %define		snapshot	0
 
@@ -53,7 +54,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.1
+Release:	0.%{pre}.2
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
