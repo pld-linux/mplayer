@@ -343,6 +343,9 @@ find DOCS -name \*1 -print | xargs rm -f
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
 %{?with_win32: %doc etc/codecs.win32.conf}
@@ -356,10 +359,12 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ru) %doc DOCS/HTML/ru
 %lang(zh_CN) %doc DOCS/zh
 %doc README AUTHORS ChangeLog
+%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/libdha.so.*.*
+%attr(755,root,root) %{_libdir}/mplayer
+%{_datadir}/mplayer
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
-%attr(755,root,root) %{_bindir}/*
-%{_datadir}/mplayer
 %{_mandir}/man1/*
 %lang(de) %{_mandir}/de/man1/*
 %lang(es) %{_mandir}/es/man1/*
@@ -369,4 +374,3 @@ rm -rf $RPM_BUILD_ROOT
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/*
 %{_pixmapsdir}/*
-%attr(755,root,root) %{_libdir}/*
