@@ -60,6 +60,7 @@ Patch5:		%{name}-libpng12.patch
 Patch6:		%{name}-home_etc.patch
 URL:		http://mplayer.sourceforge.net/
 BuildRequires:	OpenGL-devel
+BuildRequires:	pkgconfig
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
