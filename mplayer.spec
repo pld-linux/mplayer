@@ -28,7 +28,7 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.60
-Release:	1
+Release:	2
 License:	GPL w/o binaries
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -80,6 +80,9 @@ overlay, X11 optionally with SHM extension, X11 using overlays with
 the Xvideo extension, OpenGL renderer, Matrox G400 YUV support on
 framebuffer Voodoo2/3 hardware, SDL v1.1.7 driver etc.
 
+If you want to use win32 codecs install w32codec package and
+copy codecs-win32.conf to your ~/.mplayer direcory as codecs.conf.
+
 %description -l pl
 Odtwarzacz wideo dla Linuksa. Wspierane formaty wej¶ciowe: VCD
 (VideoCD), MPEG1/2, RIFF AVI, ASF 1.0. Wspierane kodeki audio: PCM
@@ -88,6 +91,9 @@ Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX.
 Wspierane urz±dzenia wyj¶ciowe: Matrox G200/G400, X11 opcjonalnie z
 rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
 G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
+
+Je¶li chcesz u¿ywaæ kodeków win32, zainstaluj pakiet w32codec i
+skopiuj codecs-win32.conf do katalogu ~/.mplayer jako codecs.conf.
 
 %prep
 %{!?_with_license_agreement:exit 1}
@@ -98,10 +104,11 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %patch0 -p1
 %patch1 -p1
 cp -f etc/codecs.conf etc/codecs-win32.conf
-#%patch2 -p1
+%patch2 -p1
 %patch3 -p1
 
-cp -ar ffmpeg/libavcodec/* libavcodec
+# needed in snapshots
+# cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}" \
