@@ -1,0 +1,1 @@
+- added conditonal build _without_dshow to disable DirectShow support
