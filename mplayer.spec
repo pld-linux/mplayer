@@ -6,17 +6,18 @@
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 #
 
-%define	snap	20010501
+%define sname MPlayer
+
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla linuxa
 Name:		mplayer
-Version:	0.17
-Release:	1.%{snap}
+Version:	0.18
+Release:	1.pre3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://mplayer.sourceforge.net/snapshots/%{name}-main-current.tar.bz2
+Source0:	http://mplayerhq.banki.hu/MPlayer/releases/%{sname}-%{version}pre.tgz
 Source1:	%{name}.conf
 Patch0:		%{name}-make.patch
 URL:		http://mplayer.sourceforge.net/
@@ -54,7 +55,7 @@ rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
 G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
-%setup  -q -n main
+%setup  -q -n %{sname}-%{version}pre3
 %patch0 -p1
 
 %build
