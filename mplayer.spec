@@ -96,7 +96,7 @@ URL:		http://www.mplayerhq.hu/
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-%{!?_without_mad:BuildRequires:		libmad-devel}
+%{!?_without_mad:BuildRequires:		mad-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
