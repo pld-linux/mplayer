@@ -43,6 +43,7 @@ Source2:	%{name}.conf
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
 Patch2:		%{name}-codec.patch
+Patch3:		%{name}-configure.patch
 URL:		http://mplayer.sourceforge.net/
 Requires:	OpenGL
 BuildRequires:	SDL-devel >= 1.1.7
@@ -57,7 +58,6 @@ BuildRequires:	ncurses-devel
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	XFree86-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
@@ -89,11 +89,12 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
-CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
+CFLAGS="%{rpmcflags}" \
 %configure \
 			--with-win32libdir="/usr/lib/win32" \
 			--disable-kernel-extchk \
@@ -157,9 +158,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc etc/*.gz
 %lang(de) %doc DOCS/German
 %lang(hu) %doc DOCS/Hungarian
-%lang(pl) %doc DOCS/Polish
-%lang(ru) %doc DOCS/Russian
-%lang(es) %doc DOCS/Spanish
+%lang(pl) %doc DOCS/Polish.outdated
+%lang(ru) %doc DOCS/Russian.outdated
+%lang(es) %doc DOCS/Spanish.outdated
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
