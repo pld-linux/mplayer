@@ -228,7 +228,7 @@ export CC CFLAGS
 			--enable-xvid \
 			--disable-dvdnav \
 			--enable-largefiles \
-			--with-codecsdir=%{_libdir}/codecs
+			--with-win32libdir=%{_libdir}/codecs
 
 %{__make}
 
