@@ -309,6 +309,7 @@ export CC CFLAGS
 			--enable-x11 \
 			--enable-xmga \
 			--enable-xv \
+			--enable-xvmc \
 			--enable-xvid \
 			--enable-largefiles \
 			--language=all \
