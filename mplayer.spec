@@ -41,6 +41,7 @@
 %endif
 
 Summary:	Yet another movie player for Linux
+Summary(ko):	¸®´ª½º¿ë ¹Ìµğ¾îÇÃ·¹ÀÌ¾î
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
@@ -77,22 +78,22 @@ BuildRequires:	aalib-devel
 %{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	audiofile-devel
 %{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
-%{?_with_dxr3:BuildRequires:	em8300-devel}
+%{?_with_dxr3:	BuildRequires:	em8300-devel}
 BuildRequires:	esound-devel
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 BuildRequires:	lame-libs-devel
-%{?_with_ggi:BuildRequires:		libggi-devel}
-BuildRequires:		libjpeg-devel
-BuildRequires:		libpng-devel
+%{?_with_ggi:	BuildRequires:		libggi-devel}
+BuildRequires:	libjpeg-devel
+BuildRequires:	libpng-devel
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
-BuildRequires:		libungif-devel
+BuildRequires:	libungif-devel
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	lzo-devel
 %{!?_without_mad:BuildRequires:	mad-devel}
 %{!?_without_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
-%{?_with_svga:BuildRequires:	svgalib-devel}
+%{?_with_svga:	BuildRequires:	svgalib-devel}
 BuildRequires:	xvid-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
@@ -115,11 +116,23 @@ framebuffer Voodoo2/3 hardware, SDL v1.1.7 driver etc.
 If you want to use win32 codecs install w32codec package and copy
 codecs.win32.conf to your ~/.mplayer direcory as codecs.conf.
 
+%description -l ko
+MPlayer´Â ¸®´ª½º¿ë ¹«ºñÇÃ·¹ÀÌ¾îÀÔ´Ï´Ù. ´ëºÎºĞÀÇ mpeg, avi ±×¸®°í asf
+ÆÄÀÏÀ» Àç»ıÇÕ´Ï´Ù. VCD, DVD, ½É Áö¾î DivX±îÁö º¼ ¼ö ÀÖ½À´Ï´Ù.
+MPlayerÀÇ ¶Ç ´Ù¸¥ Å« Æ¯Â¡Àº Ãâ·Â µå¶óÀÌ¹ö°¡ ´Ù¾çÇÏ´Ù´Â °ÍÀÔ´Ï´Ù. X11,
+Xv, DGA, OpenGL, SVGAlib, fbdev¿Í ÀÛµ¿ÇÏ¸ç, SDLÀÌ³ª
+(Matrox/3dfx/SisµîÀÇ) Æ¯Á¤ Ä«µå¿¡ Á¾¼ÓµÈ ·Î¿ì·¹ º§ µå¶óÀÌ¹öµéµµ »ç¿ëÇÒ
+¼ö ÀÖ½À´Ï´Ù. ´ëºÎºĞÀÇ Ãâ·Â µå¶óÀÌ¹öµéÀº ¼ÒÇÁÆ®¿ş¾î È¤Àº ÇÏµå¿ş¾îÀûÀÎ
+Å©±âÁ¶Àı (scaling)À» Áö¿øÇÏ¹Ç·Î, ÀüÃ¼È­¸éÀ¸·Î ¿µ»óÀ» °¨»óÇÒ ¼ö
+ÀÖ½À´Ï´Ù. »Ó¸¸¾Æ´Ï¶ó, ÇÑ±¹¾î, ¿µ¾î, Çë°¡¸®¾î, Ã¼ÄÚ¾î, ·¯½Ã¾Æ¾îµîÀÇ
+ºÎµå·¯¿î(antialiased) ÀÚ¸·ÆùÆ®µµ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+
+
 %description -l pl
 Odtwarzacz wideo dla Linuksa. Wspierane formaty wej¶ciowe: VCD
 (VideoCD), MPEG1/2, RIFF AVI, ASF 1.0, Quicktime. Wspierane kodeki
-audio: PCM (nieskompresowane), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32
-ACM. Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW),
+audio: PCM (nieskompresowane), MPEG layer 2/3, AC3, aLaw, MS-GSM,
+Win32 ACM. Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW),
 OpenDivX. Wspierane urz±dzenia wyj¶ciowe: Matrox G200/G400, X11
 opcjonalnie z rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer
 OpenGL, Matrox G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
@@ -167,8 +180,8 @@ export CC CFLAGS
 %{!?_without_vorbis:	--enable-vorbis} \
 %{?_without_vorbis:	--disable-vorbis} \
 %{?_without_mad:	--disable-mad} \
-%{?_with_dxr3:	--enable-dxr3} \
-%{!?_with_dxr3:	--disable-dxr3} \
+%{?_with_dxr3:		--enable-dxr3} \
+%{!?_with_dxr3:		--disable-dxr3} \
 %ifnarch %{ix86}
 			--disable-mmx \
 			--disable-mmx2 \
