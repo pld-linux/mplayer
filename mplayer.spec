@@ -60,7 +60,7 @@ Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
-Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default.tar.bz2
+Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default-1.7.tar.bz2
 Source5:	g%{name}.desktop
 Source6:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
 Source7:	%{name}.png
