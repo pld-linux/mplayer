@@ -51,7 +51,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90
-Release:	2.%{snap}.1
+Release:	3.%{snap}.1
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -209,12 +209,10 @@ export CC CFLAGS
 %{?_without_mad:	--disable-mad} \
 %{?_without_qt:		--disable-qtx-codecs} \
 %{?_without_real:	--disable-real} \
-%{!?_without_real:	--with-reallibdir=/usr/lib/win32} \
 %{?_without_runtime:	--disable-runtime-cpudetection} \
 %{!?_without_runtime:	--enable-runtime-cpudetection} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
-%{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
 %{?_without_vorbis:	--disable-vorbis} \
 			--enable-dga \
 			--enable-fbdev \
@@ -229,7 +227,8 @@ export CC CFLAGS
 			--enable-xv \
 			--enable-xvid \
 			--disable-dvdnav \
-			--enable-largefiles
+			--enable-largefiles \
+			--with-codecsdir=%{_libdir}/codecs
 
 %{__make}
 
