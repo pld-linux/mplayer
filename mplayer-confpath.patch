@@ -1,31 +1,24 @@
-diff -urN MPlayer-0.60.orig/mplayer.c MPlayer-0.60/mplayer.c
---- MPlayer-0.60.orig/mplayer.c	Tue Jan  1 23:46:07 2002
-+++ MPlayer-0.60/mplayer.c	Wed Jan 16 18:54:08 2002
-@@ -368,7 +368,7 @@
+--- MPlayer-20020320/mplayer.c.wiget	Tue Mar 19 20:22:00 2002
++++ MPlayer-20020320/mplayer.c	Wed Mar 20 14:57:34 2002
+@@ -398,7 +398,7 @@
  {
  char *conffile;
  int conffile_fd;
--if (parse_config_file(conf, "/etc/mplayer.conf") < 0)
-+if (parse_config_file(conf, "/etc/mplayer/mplayer.conf") < 0)
+-if (m_config_parse_config_file(conf, "/etc/mplayer.conf") < 0)
++if (m_config_parse_config_file(conf, "/etc/mplayer/mplayer.conf") < 0)
    exit(1);
  if ((conffile = get_path("")) == NULL) {
    mp_msg(MSGT_CPLAYER,MSGL_WARN,MSGTR_NoHomeDir);
-@@ -556,13 +556,15 @@
+@@ -605,10 +605,12 @@
  
  // check codec.conf
  if(!parse_codec_cfg(get_path("codecs.conf"))){
--  if(!parse_codec_cfg(CONFDIR"/codecs.conf")){
--    mp_msg(MSGT_CPLAYER,MSGL_HINT,MSGTR_CopyCodecsConf);
 +  if(!parse_codec_cfg("/etc/mplayer/codecs.conf")){
-+    if(!parse_codec_cfg(CONFDIR"/codecs.conf")){
-+      mp_msg(MSGT_CPLAYER,MSGL_HINT,MSGTR_CopyCodecsConf);
- //    printf("Exit.\n");
--    exit(0);  // From unknown reason a hangup occurs here :((((((
-+      exit(0);  // From unknown reason a hangup occurs here :((((((
- //    kill(getpid(),SIGTERM);
- //    usleep(20000);
- //    kill(getpid(),SIGKILL);
-+    }
+   if(!parse_codec_cfg(CONFDIR"/codecs.conf")){
+     mp_msg(MSGT_CPLAYER,MSGL_HINT,MSGTR_CopyCodecsConf);
+     exit(0);  // From unknown reason a hangup occurs here :((((((
    }
++  }
  }
  
+     if(audio_codec && strcmp(audio_codec,"help")==0){
