@@ -57,7 +57,7 @@ BuildRequires:	ncurses-devel
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
-%{!?_without_divx4linux:%{!?_without_encoder:BuildRequires:	divx4linux-devel}}
+%{!?_without_divx4linux:BuildRequires:	divx4linux-devel}
 %{?_with_ggi:BuildRequires:		libggi-devel}
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
@@ -65,7 +65,6 @@ BuildRequires:	audiofile-devel
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_gui:BuildRequires:		libpng-devel}
-%{!?_without_encoder:BuildRequires:	lame-libs-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_noautoreqdep	libGL.so.1 libGLU.so.1
@@ -108,7 +107,7 @@ CFLAGS="%{rpmcflags}" \
 			--datadir=%{_prefix}/share/mplayer \
 			--with-win32libdir="/usr/lib/win32" \
 			--disable-kernel-extchk \
-%{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
+%{!?_without_divx4linux:--with-extraincdir=/usr/include/divx} \
 %ifarch i586 i686
 %{?_with_mmx:		--enable-mmx} \
 %{?_with_3dnow:		--enable-3dnow} \
@@ -135,8 +134,8 @@ CFLAGS="%{rpmcflags}" \
 			--enable-esd \
 %{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
-%{!?_without_divx4linux:--enable-divx4linux} \
-%{?_without_divx4linux:	--disable-divx4linux} \
+%{!?_without_divx4linux:--enable-divx4} \
+%{?_without_divx4linux: --disable-divx4} \
 %{!?_without_lirc:	--enable-lirc} \
 %{?_without_lirc:	--disable-lirc} \
 %{!?_without_vorbis:	--enable-oggvorbis} \
@@ -167,7 +166,8 @@ ln -s arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
 bzcat %{SOURCE4}|tar xC $RPM_BUILD_ROOT%{_prefix}/share/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
-gzip -9nf DOCS/{DVB,{Polish,Russian,Spanish}/*/*}
+rm -rf DOCS/*/CVS
+gzip -9nfq DOCS/{DVB,{Polish,Russian,Spanish}/*}
 gzip -9nf etc/codecs-win32.conf
 
 %clean
