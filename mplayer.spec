@@ -37,7 +37,7 @@
 %bcond_without	smb		# disable Samba (SMB) input support
 %bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
-%bcond_without	vorbis		# without ogg-vorbis audio support
+%bcond_without	vorbis		# without Ogg-Vorbis audio support
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
 
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
