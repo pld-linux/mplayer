@@ -1,6 +1,6 @@
-diff -urN font-arial-14-iso-8859-2.old/font.desc font-arial-14-iso-8859-2/font.desc
---- font-arial-14-iso-8859-2.old/font.desc	Thu Sep 27 17:44:00 2001
-+++ font-arial-14-iso-8859-2/font.desc	Fri Mar  8 20:39:58 2002
+diff -urN font-arial-iso-8859-2/font-arial-14-iso-8859-2.old/font.desc font-arial-iso-8859-2/font-arial-14-iso-8859-2/font.desc
+--- font-arial-iso-8859-2/font-arial-14-iso-8859-2.old/font.desc	Thu Sep 27 17:44:00 2001
++++ font-arial-iso-8859-2/font-arial-14-iso-8859-2/font.desc	Fri Mar  8 20:39:58 2002
 @@ -112,14 +112,17 @@
  0x00a2 1600 1610;	U+02D8|¢
  0x00a3 1616 1629;	U+0141|£
@@ -37,9 +37,9 @@ diff -urN font-arial-14-iso-8859-2.old/font.desc font-arial-14-iso-8859-2/font.d
  0x00bd 2032 2042;	U+02DD|½
  0x00be 2048 2060;	U+017E|¾
  0x00bf 2064 2076;	U+017C|¿
-diff -urN font-arial-18-iso-8859-2.old/font.desc font-arial-18-iso-8859-2/font.desc
---- font-arial-18-iso-8859-2.old/font.desc	Thu Sep 27 17:42:00 2001
-+++ font-arial-18-iso-8859-2/font.desc	Fri Mar  8 20:40:06 2002
+diff -urN font-arial-iso-8859-2/font-arial-18-iso-8859-2.old/font.desc font-arial-iso-8859-2/font-arial-18-iso-8859-2/font.desc
+--- font-arial-iso-8859-2/font-arial-18-iso-8859-2.old/font.desc	Thu Sep 27 17:42:00 2001
++++ font-arial-iso-8859-2/font-arial-18-iso-8859-2/font.desc	Fri Mar  8 20:40:06 2002
 @@ -112,14 +112,17 @@
  0x00a2 2096 2109;	U+02D8|¢
  0x00a3 2112 2129;	U+0141|£
@@ -76,9 +76,9 @@ diff -urN font-arial-18-iso-8859-2.old/font.desc font-arial-18-iso-8859-2/font.d
  0x00bd 2656 2669;	U+02DD|½
  0x00be 2672 2688;	U+017E|¾
  0x00bf 2696 2712;	U+017C|¿
-diff -urN font-arial-24-iso-8859-2.old/font.desc font-arial-24-iso-8859-2/font.desc
---- font-arial-24-iso-8859-2.old/font.desc	Thu Sep 27 17:36:00 2001
-+++ font-arial-24-iso-8859-2/font.desc	Fri Mar  8 20:40:12 2002
+diff -urN font-arial-iso-8859-2/font-arial-24-iso-8859-2.old/font.desc font-arial-iso-8859-2/font-arial-24-iso-8859-2/font.desc
+--- font-arial-iso-8859-2/font-arial-24-iso-8859-2.old/font.desc	Thu Sep 27 17:36:00 2001
++++ font-arial-iso-8859-2/font-arial-24-iso-8859-2/font.desc	Fri Mar  8 20:40:12 2002
 @@ -112,14 +112,17 @@
  0x00a2 2224 2239;	U+02D8|¢
  0x00a3 2240 2260;	U+0141|£
@@ -115,9 +115,9 @@ diff -urN font-arial-24-iso-8859-2.old/font.desc font-arial-24-iso-8859-2/font.d
  0x00bd 2800 2815;	U+02DD|½
  0x00be 2816 2835;	U+017E|¾
  0x00bf 2840 2859;	U+017C|¿
-diff -urN font-arial-28-iso-8859-2.old/font.desc font-arial-28-iso-8859-2/font.desc
---- font-arial-28-iso-8859-2.old/font.desc	Thu Sep 27 17:37:00 2001
-+++ font-arial-28-iso-8859-2/font.desc	Fri Mar  8 20:40:16 2002
+diff -urN font-arial-iso-8859-2/font-arial-28-iso-8859-2.old/font.desc font-arial-iso-8859-2/font-arial-28-iso-8859-2/font.desc
+--- font-arial-iso-8859-2/font-arial-28-iso-8859-2.old/font.desc	Thu Sep 27 17:37:00 2001
++++ font-arial-iso-8859-2/font-arial-28-iso-8859-2/font.desc	Fri Mar  8 20:40:16 2002
 @@ -112,14 +112,17 @@
  0x00a2 2416 2432;	U+02D8|¢
  0x00a3 2440 2463;	U+0141|£
