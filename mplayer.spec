@@ -20,8 +20,7 @@
 #			  compiletime (advertised by mplayer authors as
 #			  working faster); in this case mplayer may not
 #			  work on machine other then where it was compiled
-# _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder with
-#			  help of em8300 driver
+# _without_dxr3		- disable use of DXR3/H+ hardware MPEG decoder
 
 # set it to 0, or 1
 %define		snapshot	0
@@ -40,7 +39,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90pre6
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -75,7 +74,7 @@ BuildRequires:	esound-devel
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-%{?_with_dxr3:BuildRequires:		em8300-devel}
+%{!?_without_dxr3:BuildRequires:	em8300-devel}
 BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
@@ -153,8 +152,8 @@ export CFLAGS
 %{?_without_divx4linux:	--disable-divx4linux} \
 %{!?_without_vorbis:	--enable-vorbis} \
 %{?_without_vorbis:	--disable-vorbis} \
-%{?_with_dxr3:		--enable-dxr3} \
-%{!?_with_dxr3:		--disable-dxr3} \
+%{!?_without_dxr3:	--enable-dxr3} \
+%{?_without_dxr3:	--disable-dxr3} \
 %ifnarch %{ix86}
 			--disable-mmx \
 			--disable-mmx2 \
