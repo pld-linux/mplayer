@@ -51,7 +51,7 @@
 %define		snap		20030810
 %define		ffmpeg_ver	0.4.5
 
-%define	pre	pre3
+%define	pre	pre4
 Summary:	Yet another movie player for Linux
 Summary(es):	Otro reproductor de películas para Linux
 Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
@@ -59,7 +59,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.6
+Release:	0.%{pre}.1
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -71,7 +71,7 @@ Source1:	libavcodec-%{snap}.tar.bz2
 # Source1-md5:	8c32cd38df314638624bf5ef76081265
 %else
 Source0:	ftp://ftp3.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	998becb79417c6a14d15c07e85188b82
+# Source0-md5:	83ebac0f05b192516a41fca2350ca01a
 %endif
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -90,9 +90,6 @@ Patch5:		%{name}-configure.patch
 Patch6:		%{name}-gtk+2.patch
 Patch7:		%{name}-alpha.patch
 Patch8:		%{name}-altivec.patch
-Patch9:		%{name}-gcc34.patch
-Patch10:	%{name}-mpl2.patch
-Patch11:	%{name}-vuln02.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
@@ -129,7 +126,6 @@ BuildRequires:	freetype-devel
 BuildRequires:	lame-libs-devel
 BuildRequires:	libdv-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	libmatroska-devel >= 0.6.3-2
 BuildRequires:	libpng-devel
 BuildRequires:	libsmbclient-devel
 %{?with_theora:BuildRequires:	libtheora-devel}
@@ -219,9 +215,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %endif
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
 
 %build
 CFLAGS="%{rpmcflags}"
@@ -271,9 +264,9 @@ export CC CFLAGS
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
 			--enable-dga \
-			--enable-fbdev \
+			--disable-fbdev \
 			--enable-gl \
-			--enable-mga \
+			--disable-mga \
 			--enable-mencoder \
 			--enable-sdl \
 			--enable-tdfxfb \
@@ -283,7 +276,6 @@ export CC CFLAGS
 			--enable-xv \
 			--enable-xvid \
 			--enable-largefiles \
-			--enable-matroska \
 			--language=all \
 			--with-codecsdir=%{_libdir}/codecs \
 			--enable-dynamic-plugins
