@@ -9,6 +9,7 @@
 # _without_lirc		- without lirc support
 # _without_gui		- without gui gtk+ interfeace
 # _without_win32	- without win32 codecs support
+# _without_real	        - without Real* 8/9 codecs support
 # _without_dshow	- disable DirectShow support
 # _with_divx4linux	- with divx4linux a/v support (binaries, instead of included OpenDivx)
 # _without_mad		- without mad (audio MPEG) support
@@ -44,7 +45,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90rc1
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -198,6 +199,8 @@ export CC CFLAGS
 %{!?_without_alsa:	--enable-alsa --disable-select} \
 %{?_without_select:	--disable-select} \
 %{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
+%{!?_without_real:      --with-reallibdir=/usr/lib/win32} \
+%{!?_without_real:      --enable-real} \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %{!?_without_qt:	--enable-qtx-codecs} \
 			--disable-dvdnav
