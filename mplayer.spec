@@ -62,6 +62,9 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 	--enable-xv \
 	--enable-vm \
 	--enable-x11 \
+	--enable-mga \
+	--enable-xmga \
+	--enable-fbdev \
 	--enable-termcap
 %{__make}
 
