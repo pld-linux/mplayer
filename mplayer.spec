@@ -9,6 +9,7 @@
 # _without_arts		- without arts support
 # _without_lirc		- without lirc support
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
+# _without_win32	- disable requirement fro win32 codecs (req: avi-codecs)
 #
 
 %define sname MPlayer
@@ -26,7 +27,9 @@ Source0:	http://mplayerhq.banki.hu/MPlayer/releases/%{sname}-%{version}pre5.tgz
 Source1:	%{name}.conf
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
+%{?_without_win32:Patch2:	%{name}-comment_w32.patch}
 URL:		http://mplayer.sourceforge.net/
+%{!?_without_win32:Requires:	w32codec}
 Requires:	w32codec
 Requires:	OpenGL
 BuildRequires:	SDL-devel >= 1.1.7
@@ -69,6 +72,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %setup  -q -n %{sname}-%{version}pre5
 %patch0 -p1
 %patch1 -p1
+%{?_without_win32:%patch2 -p1}
 
 %build
 CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
