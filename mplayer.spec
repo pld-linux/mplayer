@@ -46,14 +46,14 @@
 %define		_without_qt	1
 %endif
 
-%define	pre	pre1
+%define	pre	pre2
 Summary:	Yet another movie player for Linux
 Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.4
+Release:	0.%{pre}.1
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -65,7 +65,7 @@ Source1:	libavcodec-%{snap}.tar.bz2
 # Source1-md5:	8c32cd38df314638624bf5ef76081265
 %else
 Source0:	ftp://ftp3.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	657ff738f19a8a42739b76b46585a783
+# Source0-md5:	a60c179468f85e83e3f9e1922e81ad64
 %endif
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -82,8 +82,6 @@ Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
 Patch7:		%{name}-configure.patch
-Patch8:		%{name}-nommx.patch
-Patch9:		%{name}-asf_exploit_fix.patch
 URL:		http://www.mplayerhq.hu/
 %{?_with_directfb:BuildRequires:	DirectFB-devel}
 %{?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
@@ -166,7 +164,7 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 %if %{snapshot}
 %setup -q -n %{name}-%{snap} -a 1 -a 3 -a 6
 %else
-%setup -q -n %{name}-%{version}%{pre} -a 3 -a 6
+%setup -q -n %{sname}-%{version}%{pre} -a 3 -a 6
 %endif
 
 %patch0 -p1
@@ -177,8 +175,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 ##%patch5 -p1	-- old home_etc behavior
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1 
-%patch9 -p1
 
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}"
