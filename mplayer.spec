@@ -12,6 +12,7 @@
 %bcond_with	nas		# with NAS audio output
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
+%bcond_with	theora		# with theora support
 
 %bcond_without	altivec		# without altivec support
 
@@ -32,7 +33,6 @@
 				#  where it was compiled
 %bcond_without	select		# disable audio select() support (for example
 				# required this option ALSA or Vortex2 driver)
-%bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
 %bcond_without	vorbis		# without ogg-vorbis audio support
 
@@ -59,7 +59,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.6
+Release:	0.%{pre}.7
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -102,13 +102,13 @@ URL:		http://www.mplayerhq.hu/
 %{?with_svga:BuildRequires:		svgalib-devel}
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
-%{?with_arts:BuildRequires:	artsc-devel}
+%{?with_arts:BuildRequires:	arts-devel}
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %if %{with gui}
 BuildRequires:		gtk+%{?with_gtk2:2}-devel
 %endif
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_mad:BuildRequires:		libmad-devel}
+%{?with_mad:BuildRequires:		mad-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
