@@ -9,21 +9,12 @@ diff -urN MPlayer-0.50/configure MPlayer-0.50.new/configure
      pvendor=`$_cpuinfo | grep 'vendor_id' | cut -d ':' -f 2  | cut -d ' ' -f 2 | head -1`
      pfamily=`$_cpuinfo | grep 'cpu family' | cut -d ':' -f 2 | cut -d ' ' -f 2 | head -1`
      pmodel=`$_cpuinfo | grep -v 'model name' | grep 'model' | cut -d ':' -f 2 | cut -d ' ' -f 2 | head -1`
-@@ -795,8 +796,6 @@
- fi
- echo Using ... "$_mp_help" file
- 
--$_cc $_extraincdir $_extralibdir $TMPC -o $TMPO -lvgagl -lvga > /dev/null 2>&1 && _svga=yes
--
- if [ "$system_name" = "FreeBSD" -o "$system_name" = "OpenBSD" -o "$system_name" = "BSD/OS" ]; then
- $_cc $TMPC -o $TMPO -pthread > /dev/null 2>&1 || \
-  { echo "Lib pthread not found."; rm -f $TMPC $TMPO $TMPS ; exit 1; }
 @@ -851,7 +850,7 @@
  $_cc $_extraincdir $_extralibdir $TMPC -o $TMPO -ldivxdecore -lm > /dev/null 2>&1 && _divx4linux=yes
  
  _termcap=no
--$_cc  $_extraincdir $_extralibdir $TMPC -o $TMPO -ltermcap > /dev/null 2>&1 && _termcap=yes
-+$_cc  $_extraincdir $_extralibdir $TMPC -o $TMPO -ltinfo > /dev/null 2>&1 && _termcap=yes
+-cc_check $_extraincdir $_extralibdir -ltermcap && _termcap=yes
++cc_check $_extraincdir $_extralibdir -ltinfo && _termcap=yes
  
  _png=no
  $_cc  $_extraincdir $_extralibdir $TMPC -o $TMPO -lpng -lz -lm > /dev/null 2>&1 && _png=yes
@@ -40,8 +31,8 @@ diff -urN MPlayer-0.50/configure MPlayer-0.50.new/configure
  AR=ar
  CC=$_cc
  # OPTFLAGS=-O4 $_profile $_debug $_march $_mcpu -pipe -fomit-frame-pointer -ffast-math
--OPTFLAGS=$CFLAGS
-+OPTFLAGS=$CFLAGS -pipe -ffast-math
+-OPTFLAGS=$CFLAGS -fomit-frame-pointer # make sure -fomit-frame-pointer is always used
++OPTFLAGS=$CFLAGS -fomit-frame-pointer -pipe -ffast-math
  EXTRA_INC=$_extraincdir $_gtkinc
  WIN32_PATH=-DWIN32_PATH=\\"$_win32libdir\\"
  
