@@ -20,7 +20,7 @@
 #			  compiletime (advertised by mplayer authors as
 #			  working faster); in this case mplayer may not
 #			  work on machine other then where it was compiled
-# _without_dxr3		- disable use of DXR3/H+ hardware MPEG decoder
+# _with_dxr3		- disable use of DXR3/H+ hardware MPEG decoder
 
 # set it to 0, or 1
 %define		snapshot	0
@@ -38,8 +38,8 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
-Version:	0.90pre6
-Release:	3
+Version:	0.90pre7
+Release:	0.9
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -74,7 +74,7 @@ BuildRequires:	esound-devel
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-%{!?_without_dxr3:BuildRequires:	em8300-devel}
+%{?_with_dxr3:BuildRequires:	em8300-devel}
 BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
@@ -152,8 +152,8 @@ export CFLAGS
 %{?_without_divx4linux:	--disable-divx4linux} \
 %{!?_without_vorbis:	--enable-vorbis} \
 %{?_without_vorbis:	--disable-vorbis} \
-%{!?_without_dxr3:	--enable-dxr3} \
-%{?_without_dxr3:	--disable-dxr3} \
+%{?_with_dxr3:	--enable-dxr3} \
+%{!?_with_dxr3:	--disable-dxr3} \
 %ifnarch %{ix86}
 			--disable-mmx \
 			--disable-mmx2 \
@@ -194,18 +194,15 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/{,de/,hu/,pl/}man1} \
 	$RPM_BUILD_ROOT{%{_libdir}/mplayer/vidix,%{_applnkdir}/Multimedia}
 
 perl -p -i -e 'exit if /this default/' etc/example.conf
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
-install etc/codecs.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
-install mplayer $RPM_BUILD_ROOT%{_bindir}
-install mencoder $RPM_BUILD_ROOT%{_bindir}
+install %{SOURCE2} etc/codecs.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
+install mplayer mencoder $RPM_BUILD_ROOT%{_bindir}
 ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
 rm -f font-*/runme
 cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
 %ifarch %{ix86}
-install libdha/libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}
-ln -sf libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}/libdha.so
+install libdha/libdha.so* $RPM_BUILD_ROOT/%{_libdir}
 install vidix/drivers/*.so $RPM_BUILD_ROOT/%{_libdir}/mplayer/vidix
 %endif
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
@@ -223,7 +220,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc etc/example.conf
 %{?!_without_win32: %doc etc/codecs.win32.conf}
 %lang(de) %doc DOCS/German
-%lang(fr) %doc DOCS/French
+#%lang(fr) %doc DOCS/French
 %lang(hu) %doc DOCS/Hungarian
 %lang(it) %doc DOCS/Italian
 %lang(pl) %doc DOCS/Polish
