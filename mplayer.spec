@@ -198,17 +198,14 @@ install DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 
 rm -f DOCS/{German,Hungarian,Polish}/*.1
 
-gzip -9nf DOCS/{{,Polish/}{DVB,DXR3},French/exemple.conf,Hungarian/example.conf}
-gzip -9nf etc/{example,codecs.win32}.conf
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc DOCS/*.gz DOCS/*.html
-%doc etc/example.conf.gz
-%{?!_without_win32: %doc etc/codecs.win32.conf.gz}
+%doc DOCS/{DVB,DXR3} DOCS/*.html
+%doc etc/example.conf
+%{?!_without_win32: %doc etc/codecs.win32.conf}
 %lang(de) %doc DOCS/German
 %lang(fr) %doc DOCS/French
 %lang(hu) %doc DOCS/Hungarian
