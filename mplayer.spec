@@ -1,6 +1,10 @@
 #
-# Conditional build:
+# TODO
+# - select with divx codec will be used (xvid, divx4linux, opnedivx)
+#   (you can choose only one of it)
 
+# Conditional build:
+#
 # _with_ggi		- with ggi video output
 # _without_alsa		- without ALSA support
 # _without_arts		- without arts support
@@ -11,6 +15,9 @@
 # _without_win32	- disable requirement for win32 codecs
 # _without_gui		- without gui gtk+ interfeace
 # _without_dshow	- disable DirectShow support
+
+# set it to 0, or 1
+%define		snapshot 	0
 
 %define		sname		MPlayer
 %define		snap		20020320
@@ -23,14 +30,15 @@
 Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
-Version:	0.90pre1
+Version:	0.90pre2
 Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
-# This is location of CVS snapshots
-#Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
-# This is location of official (pre)releases
+%if %{snapshot}
+Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+%else
 Source0:	http://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+%endif
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-2.tar.bz2
@@ -93,10 +101,12 @@ Je¶li chcesz u¿ywaæ kodeków win32, zainstaluj pakiet w32codec i
 skopiuj codecs.win32.conf do katalogu ~/.mplayer jako codecs.conf.
 
 %prep
-# snapshots:
-#%setup -q -n %{sname}-%{snap} -a 1 -a 3
-# releases:
+%if %{snapshot}
+%setup -q -n %{sname}-%{snap} -a 1 -a 3
+%else
 %setup -q -n %{sname}-%{version} -a 1 -a 3
+%endif
+
 %patch0 -p1
 %patch1 -p1
 cp -f etc/codecs.conf etc/codecs.win32.conf
@@ -105,8 +115,9 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 #%patch4 -p1
 %patch5 -p1
 
-# needed in snapshots
-# cp -ar ffmpeg/libavcodec/* libavcodec
+%if %{snapshot}
+cp -ar ffmpeg/libavcodec/* libavcodec
+%endif
 
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} `pkg-config --cflags libpng12 || echo -n`" \
