@@ -1,9 +1,11 @@
 #
 # Conditional build:
 # _with_3dnow		- with 3Dnow! support
+# _with_3dnowex		- with 3Dnow-dsp! support (K7)
 # _with_sse		- with SSE support
 # _with_mmx		- with MMX support
 # _with_mmx2		- with MMX2 support
+# _without_alsa - without ALSA support
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 #
 
@@ -13,7 +15,7 @@ Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.18
-Release:	1.pre5
+Release:	2.pre5
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -29,7 +31,7 @@ BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	OpenGL-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	alsa-lib-devel
+%{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	arts-devel
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
@@ -75,6 +77,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %{?_with_sse:	--enable-sse} \
 %{?_with_mmx2:	--enable-mmx2} \
 %endif
+	%{!?_without_alsa:--enable-alsa} \
 	--enable-gl \
 	--enable-dga \
 	--enable-xv \
