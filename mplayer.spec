@@ -50,7 +50,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90rc3
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -59,11 +59,15 @@ Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 Source1:	libavcodec-20021203.tar.bz2
 %else
 Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
+# Source0-md5:	47a298ccd8d788ff88333c553ca81d07
 %endif
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
+# Source3-md5:	0f9a5d53f836e2d2d2bde207dc641044
 Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default-1.7.tar.bz2
+# Source4-md5:	2ab41a197fec2df1caddd97a00e7237f
 Source5:	g%{name}.desktop
 Source6:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
+# Source6-md5:	6c3f032ddf401ca522900291de03fee5
 Source7:	%{name}.png
 Patch0:		%{name}-make.patch
 Patch2:		%{name}-no_libnsl.patch
@@ -71,6 +75,7 @@ Patch3:		%{name}-cp1250-fontdesc.patch
 Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
 Patch6:		%{name}-350.patch
+Patch7:		%{name}-vuln02.patch
 URL:		http://mplayer.sourceforge.net/
 %{!?_without_aa:BuildRequires:		aalib-devel}
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
@@ -162,6 +167,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 #%patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}"
