@@ -36,7 +36,7 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.60
-Release:	5
+Release:	6
 License:	GPL w/o binaries
 # This is location of CVS snapshots
 # Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
