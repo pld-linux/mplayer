@@ -9,7 +9,7 @@
 # _without_lirc		- without lirc support
 # _without_gui		- without gui gtk+ interfeace
 # _without_win32	- without win32 codecs support
-# _without_real	        - without Real* 8/9 codecs support
+# _without_real		- without Real* 8/9 codecs support
 # _without_dshow	- disable DirectShow support
 # _with_divx4linux	- with divx4linux a/v support (binaries, instead of included OpenDivx)
 # _without_mad		- without mad (audio MPEG) support
@@ -21,7 +21,7 @@
 # _without_alsa		- without ALSA audio output
 # _without_nas		- without NAS audio output
 # _without_select	- disable audio select() support (for example required this option
-#                         ALSA or Vortex2 driver)
+#			  ALSA or Vortex2 driver)
 # _without_runtime	- disable runtime cpu detection, just detect CPU in
 #			  compiletime (advertised by mplayer authors as
 #			  working faster); in this case mplayer may not
@@ -56,10 +56,10 @@ Source1:	libavcodec-20021203.tar.bz2
 Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
 Source2:	%{name}.conf
-Source3:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-2.tar.bz2
+Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default.tar.bz2
 Source5:	g%{name}.desktop
-Source6:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-1.tar.bz2
+Source6:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
 Source7:	%{name}.png
 Patch0:		%{name}-make.patch
 Patch2:		%{name}-no_libnsl.patch
@@ -119,8 +119,8 @@ codecs.win32.conf to your ~/.mplayer direcory as codecs.conf.
 Odtwarzacz wideo dla Linuksa. Wspierane formaty wej¶ciowe: VCD
 (VideoCD), MPEG1/2, RIFF AVI, ASF 1.0, Quicktime. Wspierane kodeki
 audio: PCM (nieskompresowane), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32
-ACM.  Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW),
-OpenDivX.  Wspierane urz±dzenia wyj¶ciowe: Matrox G200/G400, X11
+ACM. Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW),
+OpenDivX. Wspierane urz±dzenia wyj¶ciowe: Matrox G200/G400, X11
 opcjonalnie z rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer
 OpenGL, Matrox G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
@@ -200,8 +200,8 @@ export CC CFLAGS
 %{!?_without_alsa:	--enable-alsa --disable-select} \
 %{?_without_select:	--disable-select} \
 %{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
-%{!?_without_real:      --with-reallibdir=/usr/lib/win32} \
-%{!?_without_real:      --enable-real} \
+%{!?_without_real:	--with-reallibdir=/usr/lib/win32} \
+%{!?_without_real:	--enable-real} \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %{!?_without_qt:	--enable-qtx-codecs} \
 			--disable-dvdnav
