@@ -330,7 +330,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(it) %doc DOCS/it
 %lang(pl) %doc DOCS/HTML/pl
 %lang(ru) %doc DOCS/HTML/ru
-%lang(zh) %doc DOCS/zh
+%lang(zh_CN) %doc DOCS/zh
 %doc README AUTHORS ChangeLog
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
@@ -342,7 +342,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
-%lang(zh) %{_mandir}/zh_CN/man1/*
+%lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/*
 %{_pixmapsdir}/*
 %attr(755,root,root) %{_libdir}/*
