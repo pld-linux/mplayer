@@ -66,8 +66,8 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.1
-Epoch:		3
+Release:	1.%{pre}.1
+Epoch:		2
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
