@@ -1,10 +1,10 @@
 #
 # Conditional build:
-# _with_3dnow		- with 3Dnow! support
-# _with_3dnowex		- with 3Dnow-dsp! support (K7)
-# _with_sse		- with SSE support
+# _with_3dnow		- with 3Dnow! support (AMD K6,K7)
+# _with_3dnowex		- with 3Dnow-dsp! support (AMD K7)
+# _with_sse		- with SSE support (Pentium III+)
 # _with_mmx		- with MMX support
-# _with_mmx2		- with MMX2 support
+# _with_mmx2		- with MMX2 support (Pentium III+,AMD K7)
 # _with_ggi		- with ggi video output
 # _without_alsa		- without ALSA support
 # _without_arts		- without arts support
@@ -44,8 +44,8 @@ BuildRequires:	ncurses-devel
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
-%{?with_divx4linux:BuildRequires:	divx4linux-devel}
-%{?with_ggi:BuildRequires:		libggi-devel}
+%{?_with_divx4linux:BuildRequires:	divx4linux-devel}
+%{?_with_ggi:BuildRequires:		libggi-devel}
 BuildRequires:	esound-devel
 BuildRequires:	audiofile-devel
 %{!?_without_lirc:BuildRequires:	lirc-devel}
@@ -89,7 +89,7 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 %configure \
 			--with-win32libdir="/usr/lib/win32" \
 			--disable-kernel-extchk \
-%{?with_divx4linux:	--with-extraincdir=/usr/include/divx} \
+%{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %ifarch i586 i686
 %{?_with_mmx:		--enable-mmx} \
 %{?_with_3dnow:		--enable-3dnow} \
@@ -115,10 +115,10 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 			--enable-fbdev \
 			--enable-termcap \
 			--enable-esd \
-%{?with_ggi:		--enable-ggi} \
-%{!?with_ggi:		--disable-ggi} \
-%{?with_divx4linux:	--enable-divx4} \
-%{!?with_divx4linux:	--disable-divx4} \
+%{?_with_ggi:		--enable-ggi} \
+%{!?_with_ggi:		--disable-ggi} \
+%{?_with_divx4linux:	--enable-divx4} \
+%{!?_with_divx4linux:	--disable-divx4} \
 %{!?_without_lirc:	--enable-lirc} \
 %{?_without_lirc:	--disable-lirc} \
 %{!?_without_vorbis:	--enable-oggvorbis} \
