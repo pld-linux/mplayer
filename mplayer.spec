@@ -274,7 +274,7 @@ export CC CFLAGS
 rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
-	$RPM_BUILD_ROOT%{_mandir}/{de,es,fr,hu,pl,zh,}/man1 \
+	$RPM_BUILD_ROOT%{_mandir}/{de,es,fr,hu,pl,zh_CN,}/man1 \
 	$RPM_BUILD_ROOT{%{_datadir}/mplayer/Skin,%{_libdir}/mplayer/vidix} \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
@@ -312,7 +312,7 @@ install DOCS/man/es/*.1 $RPM_BUILD_ROOT%{_mandir}/es/man1
 install DOCS/man/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
 install DOCS/man/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 install DOCS/man/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
-install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh/man1
+install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
 find DOCS -name CVS -print | xargs rm -rf
 find DOCS -name \*1 -print | xargs rm -f
 
@@ -342,7 +342,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
-%lang(zh) %{_mandir}/zh/man1/*
+%lang(zh) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/*
 %{_pixmapsdir}/*
 %attr(755,root,root) %{_libdir}/*
