@@ -155,8 +155,7 @@ overlay, X11 optionally with SHM extension, X11 using overlays with
 the Xvideo extension, OpenGL renderer, Matrox G400 YUV support on
 framebuffer Voodoo2/3 hardware, SDL v1.1.7 driver etc.
 
-If you want to use win32 codecs install w32codec package and copy
-codecs.win32.conf to your ~/.mplayer direcory as codecs.conf.
+If you want to use win32 codecs install w32codec package.
 
 %description -l es
 Reproductor video para Linux. Formatos de entrada soportados: VCD
@@ -169,8 +168,7 @@ SHM, X11 usando overlays con la extensión Xvideo, plasmador OpenGL,
 soporte de Matrox G400 YUV en hardware de framebuffer de Voodoo2/3,
 controlador SDL v1.1.7 etc.
 
-Si quiere usar codecs Win32, instale el paquete w32codec y copie
-codecs.win32.conf a su directorio ~/.mplayer como codecs.conf.
+Si quiere usar codecs Win32, instale el paquete w32codec.
 
 %description -l ko
 MPlayer´Â ¸®´ª½º¿ë ¹«ºñÇÃ·¹ÀÌ¾îÀÔ´Ï´Ù. ´ëºÎºÐÀÇ mpeg, avi ±×¸®°í asf
@@ -192,8 +190,7 @@ OpenDivX. Wspierane urz±dzenia wyj¶ciowe: Matrox G200/G400, X11
 opcjonalnie z rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer
 OpenGL, Matrox G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
-Je¶li chcesz u¿ywaæ kodeków win32, zainstaluj pakiet w32codec i
-skopiuj codecs.win32.conf do katalogu ~/.mplayer jako codecs.conf.
+Je¶li chcesz u¿ywaæ kodeków win32, zainstaluj pakiet w32codec.
 
 %description -l pt_BR
 MPlayer é um reprodutor de filmes que suporta vários codecs de vídeo e
