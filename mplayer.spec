@@ -14,6 +14,8 @@
 %bcond_with	altivec		# with altivec support (won't run w/o altivec
 				# due to instruction used in CPU detection(?))
 
+%bcond_with	xmms		# with XMMS inputplugin support
+
 %bcond_without	aalib		# without aalib video output
 %bcond_without	alsa		# without ALSA audio output
 %bcond_without	arts		# without arts audio output
@@ -36,6 +38,7 @@
 %bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
 %bcond_without	vorbis		# without ogg-vorbis audio support
+%bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
 
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
 %bcond_with	xlibs
@@ -60,7 +63,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.3
+Release:	0.%{pre}.4
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -135,6 +138,7 @@ BuildRequires:	lzo-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
+%{?with_xmms:BuildRequires:	xmms-libs}
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -297,12 +301,13 @@ export CC CFLAGS
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
+%{?with_xmms: --enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
+%{!?with_mencoder: --disable-mencoder} \
 			--enable-external-faad \
 			--enable-dga \
 			--enable-fbdev \
 			--enable-gl \
 			--enable-mga \
-			--enable-mencoder \
 			--enable-sdl \
 			--enable-tdfxfb \
 			--enable-vm \
@@ -332,7 +337,10 @@ awk '/Delete this default/{a++};{if(!a){print}}' etc/example.conf > etc/mplayer.
 install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
 
 # executables
-install mplayer mencoder $RPM_BUILD_ROOT%{_bindir}
+%if %{with mencoder}
+install mencoder $RPM_BUILD_ROOT%{_bindir}
+%endif
+install mplayer $RPM_BUILD_ROOT%{_bindir}
 ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
 
 # fonts
