@@ -1,38 +1,39 @@
 #
 # Conditional build:
-%bcond_with directfb	# with DirectFB video output
-%bcond_with divx4linux	# with divx4linux a/v support (binaries, instead of
-			#  included OpenDivx)
+%bcond_with	directfb	# with DirectFB video output
+%bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead
+				#  of included OpenDivx)
 
-%bcond_with dxr3	# enable use of DXR3/H+ hardware MPEG decoder
-%bcond_with ggi		# with ggi video output
-%bcond_with live	# enable use of live.com libraries
-%bcond_with nas		# with NAS audio output
-%bcond_with svga	# with svgalib video output
-%bcond_with osd		# with osd menu support
+%bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
+%bcond_with	ggi		# with ggi video output
+%bcond_with	live		# enable use of live.com libraries
+%bcond_with	nas		# with NAS audio output
+%bcond_with	svga		# with svgalib video output
+%bcond_with	osd		# with osd menu support
 
-%bcond_with altivec	# with altivec support (gcc 3.3.x bug target/11793)
+%bcond_without	altivec		# without altivec support
 
-%bcond_without aalib	# without aalib video output
-%bcond_without alsa	# without ALSA audio output
-%bcond_without arts	# without arts audio output
-%bcond_without dshow	# disable DirectShow support
-%bcond_without gui	# without gui gtk+ interfeace
-%bcond_without joystick	# disable joystick support
-%bcond_without lirc	# without lirc support
-%bcond_without mad	# without mad (audio MPEG) support
-%bcond_without quicktime# without binary quicktime dll support
-%bcond_without real	# without Real* 8/9 codecs support
-%bcond_without runtime	# disable runtime cpu detection, just detect CPU in
-			#  compiletime (advertised by mplayer authors as
-			#  working faster); in this case mplayer may not
-			#  work on machine other then where it was compiled
-%bcond_without select	# disable audio select() support (for example required
-			#  this option ALSA or Vortex2 driver)
-%bcond_without win32	# without win32 codecs support
-%bcond_without vorbis	# without ogg-vorbis audio support
+%bcond_without	aalib		# without aalib video output
+%bcond_without	alsa		# without ALSA audio output
+%bcond_without	arts		# without arts audio output
+%bcond_without	dshow		# disable DirectShow support
+%bcond_without	gui		# without gui gtk+ interfeace
+%bcond_without	joystick	# disable joystick support
+%bcond_without	lirc		# without lirc support
+%bcond_without	mad		# without mad (audio MPEG) support
+%bcond_without	quicktime	# without binary quicktime dll support
+%bcond_without	real		# without Real* 8/9 codecs support
+%bcond_without	runtime		# disable runtime cpu detection, just detect CPU
+				#  in compile time (advertised by mplayer
+				#  authors as working faster); in this case
+				#  mplayer may not work on machine other then
+				#  where it was compiled
+%bcond_without	select		# disable audio select() support (for example
+				# required this option ALSA or Vortex2 driver)
+%bcond_without	win32		# without win32 codecs support
+%bcond_without	vorbis		# without ogg-vorbis audio support
 
-%bcond_with gtk2	# EXPERIMENTAL support for GTK+ version 2
+%bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -54,7 +55,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.3
+Release:	0.%{pre}.4
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -84,7 +85,7 @@ Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
 Patch6:		%{name}-gtk+2.patch
 Patch7:		%{name}-alpha.patch
-Patch8:	%{name}-altivec.patch
+Patch8:		%{name}-altivec.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
@@ -111,6 +112,9 @@ BuildRequires:	awk
 BuildRequires:	esound-devel
 BuildRequires:	faad2-devel
 BuildRequires:	freetype-devel
+%ifarch ppc
+%{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
+%endif
 BuildRequires:	lame-libs-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
