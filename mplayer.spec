@@ -27,6 +27,7 @@
 #			  working faster); in this case mplayer may not
 #			  work on machine other then where it was compiled
 # _with_dxr3		- enable use of DXR3/H+ hardware MPEG decoder
+# _with_live		- enable use of live.com libraries
 
 # set it to 0, or 1
 %define		snapshot	0
@@ -94,6 +95,7 @@ BuildRequires:	lzo-devel
 %{!?_without_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 %{?_with_svga:	BuildRequires:	svgalib-devel}
+%{?_with_live:  BuildRequires:  live}
 BuildRequires:	xvid-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
@@ -204,6 +206,7 @@ export CC CFLAGS
 			--enable-vm \
 			--enable-x11 \
 			--enable-fbdev \
+			--enable-live \ 
 			--enable-tdfxfb \
 %{!?_with_directfb:	--disable-directfb} \
 %{!?_with_svga:		--disable-svga} \
@@ -217,6 +220,7 @@ export CC CFLAGS
 %{!?_without_real:	--enable-real} \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %{!?_without_qt:	--enable-qtx-codecs} \
+%{?_with_live:		--enable-live --with-livelibdir=/usr/lib/liveMedia --with-extraincdir=/usr/include/liveMedia } \
 			--disable-dvdnav
 
 %{__make}
