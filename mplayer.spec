@@ -20,7 +20,7 @@
 %define		snapshot 	0
 
 %define		sname		MPlayer
-%define		snap		20020320
+%define		snap		20020602
 %define		ffmpeg_ver	0.4.5
 
 %ifnarch %{ix86}
