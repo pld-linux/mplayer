@@ -1,14 +1,5 @@
 --- MPlayer-0.60/configure.orig	Wed Jan  2 20:05:02 2002
 +++ MPlayer-0.60/configure	Thu Jan 17 22:57:37 2002
-@@ -439,7 +439,7 @@
-   if test -z "$pparam" ; then
-     pparam=`$_cpuinfo | grep 'flags' | cut -d ':' -f 2 | head -1`
-   fi
--
-+  pparam=""
-   _mmx=no
-   _3dnow=no
-   _3dnowex=no
 @@ -1268,11 +1268,11 @@
  int main(void) { return 0; }
  EOF
