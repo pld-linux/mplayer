@@ -17,7 +17,7 @@ Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.18
-Release:	5.pre5
+Release:	6.pre5
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -106,8 +106,8 @@ install DOCS/*.1	$RPM_BUILD_ROOT%{_mandir}/man1
 install DOCS/example.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install DOCS/codecs.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 
-gzip -9nf DOCS/{AUTHORS,CODECS,Change*,INSTALL,LIRC,MPla*,MTRR,Open*} \
-	DOCS/{README,SPEED,TODO,VIDEOCARDS,example.conf,*.txt}
+gzip -9nf -r DOCS/{[A-Z]*,example.conf,*.txt}
+rm -f DOCS/DEBIAN.gz DOCS/*/DEBIAN.gz DOCS/*/Debian.gz
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -115,6 +115,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc DOCS/*.gz
+%lang(de) %doc DOCS/German
+%lang(hu) %doc DOCS/Hungarian
+%lang(pl) %doc DOCS/Polish
+%lang(ru) %doc DOCS/Russian
+%lang(es) %doc DOCS/Spanish
 %dir %{_sysconfdir}/mplayer
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
