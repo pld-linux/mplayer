@@ -1,0 +1,11 @@
+diff -uNr MPlayer-0.90pre10/mencoder.c MPlayer-0.90pre10-350/mencoder.c
+--- MPlayer-0.90pre10/mencoder.c	Thu Nov  7 00:54:21 2002
++++ MPlayer-0.90pre10-350/mencoder.c	Thu Nov 21 05:54:48 2002
+@@ -1214,6 +1214,7 @@
+     vobsub_out_close(vobsub_writer);
+ 
+ if(out_video_codec==VCODEC_FRAMENO && mux_v->timer>100){
++    printf(MSGTR_RecommendedVideoBitrate,"350MB",(int)((350*1024*1024-muxer_f_size)/mux_v->timer/125));
+     printf(MSGTR_RecommendedVideoBitrate,"650MB",(int)((650*1024*1024-muxer_f_size)/mux_v->timer/125));
+     printf(MSGTR_RecommendedVideoBitrate,"700MB",(int)((700*1024*1024-muxer_f_size)/mux_v->timer/125));
+     printf(MSGTR_RecommendedVideoBitrate,"800MB",(int)((800*1024*1024-muxer_f_size)/mux_v->timer/125));
