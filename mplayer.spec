@@ -114,6 +114,7 @@ BuildRequires:	audiofile-devel
 BuildRequires:	cdparanoia-III-devel
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
 %{?with_dxr3:BuildRequires:	em8300-devel}
+BuildRequires:	enca-devel
 BuildRequires:	esound-devel
 BuildRequires:	faad2-devel >= 2.0
 BuildRequires:	freetype-devel
