@@ -19,6 +19,10 @@
 %define snap 	20010902
 %define ffmpeg_ver 	0.4.5
 
+%ifnarch %ix86
+%define _without_win32 1
+%endif
+
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
@@ -33,7 +37,7 @@ Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
-%{?_without_win32:Patch2:	%{name}-codesc_no_win32.patch}
+%{?_without_win32:Patch2:	%{name}-codecs_no_w32.patch}
 URL:		http://mplayer.sourceforge.net/
 %{!?_without_win32:Requires:	w32codec}
 Requires:	OpenGL
