@@ -119,6 +119,7 @@ BuildRequires:	SDL-devel >= 1.1.7
 %if %{with xlibs}
 BuildRequires:	libXv-devel
 %else
+BuildRequires:	XFree86-devel >= 4.0.2
 %endif
 BuildRequires:	audiofile-devel
 BuildRequires:	cdparanoia-III-devel
