@@ -232,7 +232,7 @@ export CC CFLAGS
 rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT%{_bindir} \
-	$RPM_BUILD_ROOT%{_mandir}/{de,en,fr,hu,pl,zh,}/man1 \
+	$RPM_BUILD_ROOT%{_mandir}/{de,fr,hu,pl,zh,}/man1 \
 	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer \
 	$RPM_BUILD_ROOT%{_datadir}/mplayer/Skin \
 	$RPM_BUILD_ROOT%{_libdir}/mplayer/vidix \
@@ -258,8 +258,8 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/*/CVS
 
 # libraries
 %ifarch %{ix86}
-install libdha/libdha.so* $RPM_BUILD_ROOT/%{_libdir}
-install vidix/drivers/*.so $RPM_BUILD_ROOT/%{_libdir}/mplayer/vidix
+install libdha/libdha.so* $RPM_BUILD_ROOT%{_libdir}
+install vidix/drivers/*.so $RPM_BUILD_ROOT%{_libdir}/mplayer/vidix
 %endif
 
 # X-files
@@ -268,7 +268,7 @@ install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # man pages
 install DOCS/de/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
-install DOCS/en/*.1 $RPM_BUILD_ROOT%{_mandir}/man1/
+install DOCS/en/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install DOCS/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
 install DOCS/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 install DOCS/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
