@@ -9,7 +9,7 @@
 # _without_gui		- without gui gtk+ interfeace
 # _without_win32	- disable requirement for win32 codecs
 # _without_dshow	- disable DirectShow support
-# _without_divx4linux	- without divx4linux support (binaries, instead of included OpenDivx)
+# _with_divx4linux	- with divx4linux support (binaries, instead of included OpenDivx)
 # _without_vorbis	- without ogg-vorbis support
 # _with_ggi		- with ggi video output
 # _without_arts		- without arts support
@@ -66,7 +66,7 @@ BuildRequires:	XFree86-devel >= 4.0.2
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	audiofile-devel
-%{!?_without_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
+%{!?_with_divx4linux:BuildRequires:	divx4linux-devel >= 5.01.20020418}
 BuildRequires:	esound-devel
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_gui:BuildRequires:		libpng-devel}
@@ -150,7 +150,7 @@ export CFLAGS
 %{?_without_win32:	--disable-win32} \
 %{?_without_dshow:	--disable-dshow} \
 			--enable-xvid \
-%{?_without_divx4linux:	--disable-divx4linux} \
+%{?_with_divx4linux:	--disable-divx4linux} \
 %{!?_without_vorbis:	--enable-vorbis} \
 %{?_without_vorbis:	--disable-vorbis} \
 %{?_with_dxr3:	--enable-dxr3} \
@@ -183,7 +183,7 @@ export CFLAGS
 %{!?_without_alsa:	--enable-alsa --disable-select} \
 %{?_without_select:	--disable-select} \
 %{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
-%{!?_without_divx4linux:--with-extraincdir=/usr/include/divx} \
+%{!?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 			--disable-dvdnav
 
 %{__make}
