@@ -1,0 +1,17 @@
+diff -urN aa/MPlayer-1.0pre5/Gui/interface.c MPlayer-1.0pre5/Gui/interface.c
+--- aa/MPlayer-1.0pre5/Gui/interface.c	2004-06-26 15:26:10.000000000 +0200
++++ MPlayer-1.0pre5/Gui/interface.c	2004-09-19 16:16:35.656381936 +0200
+@@ -797,12 +797,12 @@
+ 	  ao_plugin_cfg.pl_extrastereo_mul=gtkAOExtraStereoMul;
+ 	 }
+ #ifdef USE_OSS_AUDIO
+-	mixer_device=gstrdup( gtkAOOSSMixer );
+ 	if ( audio_driver_list && !gstrncmp( audio_driver_list[0],"oss",3 ) && gtkAOOSSDevice )
+ 	 {
+ 	  char * tmp = calloc( 1,strlen( gtkAOOSSDevice ) + 7 );
+ 	  sprintf( tmp,"oss:%s",gtkAOOSSDevice );
+ 	  gaddlist( &audio_driver_list,tmp );
++	  mixer_device=gstrdup( gtkAOOSSMixer );
+ 	 }
+ #endif
+ #ifdef HAVE_SDL
