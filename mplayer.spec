@@ -63,7 +63,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.4
+Release:	0.%{pre}.5
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -94,6 +94,7 @@ Patch7:		%{name}-alpha.patch
 Patch8:		%{name}-altivec.patch
 Patch9:		%{name}-iconv-in-libc.patch
 Patch10:	%{name}-assembly.patch
+Patch11:	%{name}-mixer.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
@@ -249,6 +250,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
