@@ -9,6 +9,7 @@ Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://mplayer.sourceforge.net/snapshots/%{name}-main-current.tar.bz2
+Source1:	%{name}.conf
 Patch0:		%{name}-make.patch
 URL:		http://mplayer.sourceforge.net/
 Requires:	avi-codecs
@@ -17,9 +18,11 @@ BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	OpenGL-devel
 BuildRequires:	ncurses-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+ExclusiveArch:	%{ix86}
 
 %define		_prefix		/usr/X11R6
 %define		_mandir		%{_prefix}/man
+%define		_sysconfdir	/etc
 
 %description
 Movie player for linux. Supported input formats: VCD (VideoCD),
@@ -62,10 +65,11 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}}
 
 install mplayer		$RPM_BUILD_ROOT%{_bindir}
 install DOCS/*.1	$RPM_BUILD_ROOT%{_mandir}/man1
+install %{SOURCE1}	$RPM_BUILD_ROOT%{_sysconfdir}
 
 gzip -9nf DOCS/{AUTHORS,CODECS,Change*,INSTALL,LIRC,MPla*,MTRR,Open*}
 gzip -9nf DOCS/{README,SPEED,TODO,VIDEOCARDS,example.conf,*.txt}
@@ -78,3 +82,4 @@ rm -rf $RPM_BUILD_ROOT
 %doc DOCS/*.gz
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
+%attr( 644,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
