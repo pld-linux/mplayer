@@ -104,7 +104,7 @@ URL:		http://www.mplayerhq.hu/
 %{?with_arts:BuildRequires:	artsc-devel}
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %if %{with gui}
-BuildRequires:		gtk+%{?with_gtk2:2}-devel
+BuildRequires:	gtk+%{?with_gtk2:2}-devel
 %endif
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_mad:BuildRequires:		libmad-devel}
@@ -148,8 +148,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Movie player. Supported input formats: VCD (VideoCD), MPEG1/2, RIFF
 AVI, ASF 1.0, Quicktime. Supported audio codecs: PCM (uncompressed),
-MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32 ACM.  Supported video codecs:
-MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX.  Supported output
+MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32 ACM. Supported video codecs:
+MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX. Supported output
 devices: Matrox G200/G400 hardware, Matrox G200/G400 overlay, X11
 optionally with SHM extension, X11 using overlays with the Xvideo
 extension, OpenGL renderer, Matrox G400 YUV support on framebuffer
@@ -197,6 +197,32 @@ MPlayer é um reprodutor de filmes que suporta vários codecs de vídeo e
 áudio. Diferentes mecanismos de reprodução podem também ser
 escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 
+%package -n libpostproc
+Summary:	MPlayer's video post-processing library
+Summary(pl):	Biblioteka post-processingu video z mplayera
+Group:		Libraries
+
+%description -n libpostproc
+libpostproc is a video post-processing library from the MPlayer
+project.
+
+%description -n libpostproc -l pl
+libpostproc jest bibliotek± do post-processingu z projektu MPlayer.
+
+%package -n libpostproc-devel
+Summary:	MPlayer's video post-processing library - devel files
+Summary(pl):	Biblioteka post-processingu video z mplayera - pliki developerskie
+Group:		Development/Libraries
+Requires:	libpostproc = %{epoch}:%{version}-%{release}
+
+%description -n libpostproc-devel
+libpostproc is a video post-processing library from the MPlayer
+project. Development files.
+
+%description -n libpostproc-devel -l pl
+libpostproc jest bibliotek± do post-processingu z projektu MPlayer.
+Pliki dla developerów.
+
 %prep
 %if %{snapshot}
 %setup -q -n %{name}-%{snap} -a 1 -a 3 -a 6
@@ -229,7 +255,7 @@ export CC CFLAGS
 ./configure \
 			--prefix=%{_prefix} \
 			--confdir=%{_sysconfdir}/mplayer \
-			--with-x11incdir=/usr/X11R6/include \
+--with-x11incdir=%{_prefix}/X11R6/include \
 			--with-extraincdir=%{_includedir}/xvid \
 %ifnarch %{ix86}
 			--disable-mmx \
@@ -287,7 +313,8 @@ export CC CFLAGS
 			--enable-largefiles \
 			--language=all \
 			--with-codecsdir=%{_libdir}/codecs \
-			--enable-dynamic-plugins
+			--enable-dynamic-plugins \
+			--enable-shared-pp
 
 %{__make}
 
@@ -297,7 +324,7 @@ install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
 	$RPM_BUILD_ROOT%{_mandir}/{de,es,fr,hu,it,pl,zh_CN,}/man1 \
 	$RPM_BUILD_ROOT{%{_datadir}/mplayer/Skin,%{_libdir}/mplayer/vidix} \
-	$RPM_BUILD_ROOT%{_desktopdir}
+	$RPM_BUILD_ROOT{%{_desktopdir},%{_includedir}/postproc}
 
 # default config files
 awk '/Delete this default/{a++};{if(!a){print}}' etc/example.conf > etc/mplayer.conf
@@ -338,6 +365,10 @@ install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
 find DOCS -name CVS -print | xargs rm -rf
 find DOCS -name \*1 -print | xargs rm -f
 
+install libavcodec/libpostproc/postprocess.h $RPM_BUILD_ROOT%{_includedir}/postproc
+install libavcodec/libpostproc/libpostproc.so $RPM_BUILD_ROOT%{_libdir}/libpostproc.so.0
+ln -sf libpostproc.so.0 $RPM_BUILD_ROOT%{_libdir}/libpostproc.so
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -375,3 +406,12 @@ rm -rf $RPM_BUILD_ROOT
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/*
 %{_pixmapsdir}/*
+
+%files -n libpostproc
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libpostproc.so.*
+
+%files -n libpostproc-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libpostproc.so
+%{_includedir}/postproc
