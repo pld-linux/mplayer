@@ -1,7 +1,7 @@
 diff -urN MPlayer-1.0pre5/libao2/ao_pcmsplt.c MPlayer-1.0pre5-orig/libao2/ao_pcmsplt.c
 --- MPlayer-1.0pre5/libao2/ao_pcmsplt.c	1970-01-01 01:00:00.000000000 +0100
 +++ MPlayer-1.0pre5-orig/libao2/ao_pcmsplt.c	2004-11-06 15:17:29.852357504 +0100
-@@ -0,0 +1,213 @@
+@@ -0,0 +1,214 @@
 +#include "config.h"
 +
 +#include <stdio.h>
@@ -15,7 +15,7 @@ diff -urN MPlayer-1.0pre5/libao2/ao_pcmsplt.c MPlayer-1.0pre5-orig/libao2/ao_pcm
 +
 +static ao_info_t info =
 +{
-+       "RAW PCM/WAVE file writer audio output with 1h split",
++       "RAW PCM/WAVE file writer audio output with split",
 +       "pcmsplt",
 +       "adasi",
 +       ""
@@ -26,6 +26,7 @@ diff -urN MPlayer-1.0pre5/libao2/ao_pcmsplt.c MPlayer-1.0pre5-orig/libao2/ao_pcm
 +extern int vo_pts;
 +
 +char *ao_outputfileprefix = "audiodump";
++extern char *ao_outputfilename;
 +
 +#define WAV_ID_RIFF 0x46464952 /* "RIFF" */
 +#define WAV_ID_WAVE 0x45564157 /* "WAVE" */
@@ -103,8 +104,8 @@ diff -urN MPlayer-1.0pre5/libao2/ao_pcmsplt.c MPlayer-1.0pre5-orig/libao2/ao_pcm
 +// return: 1=success 0=fail
 +static int init(int rate,int channels,int format,int flags){
 +       int bits;
-+       if(ao_outputfile)
-+               ao_outputfileprefix = strdup(ao_outputfile);
++       if(ao_outputfilename)
++               ao_outputfileprefix = strdup(ao_outputfilename);
 +
 +       /* bits is only equal to format if (format == 8) or (format == 16);
 +          this means that the following "if" is a kludge and should
