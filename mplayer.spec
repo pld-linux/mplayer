@@ -1,8 +1,9 @@
 #
 # Conditional build:
-# _with_3dnow	- with 3dnow support
-# _with_sse		- with sse support
-# _with_mmx2		- with mmx2 support
+# _with_3dnow	- with 3Dnow! support
+# _with_sse		- with SSE support
+# _with_mmx		- with MMX support
+# _with_mmx2		- with MMX2 support
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 #
 
@@ -12,12 +13,12 @@ Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla linuxa
 Name:		mplayer
 Version:	0.18
-Release:	1.pre3
+Release:	1.pre5
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
-Source0:	http://mplayerhq.banki.hu/MPlayer/releases/%{sname}-%{version}pre.tgz
+Source0:	http://mplayerhq.banki.hu/MPlayer/releases/%{sname}-%{version}pre5.tgz
 Source1:	%{name}.conf
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
@@ -56,7 +57,7 @@ rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
 G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
-%setup  -q -n %{sname}-%{version}pre4
+%setup  -q -n %{sname}-%{version}pre5
 %patch0 -p1
 %patch1 -p1
 
@@ -64,7 +65,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %configure \
 	--with-win32libdir="/usr/lib/win32" \
 %ifarch i586 i686
-	--enable-mmx \
+%{?_with_mmx:	--enable-mmx} \
 %{?_with_3dnow:	--enable-3dnow} \
 %{?_with_sse:	--enable-sse} \
 %{?_with_mmx2:	--enable-mmx2} \
