@@ -5,19 +5,19 @@
 
 # Conditional build:
 #
-# _with_ggi		- with ggi video output
-# _without_alsa		- without ALSA support
-# _without_arts		- without arts support
 # _without_lirc		- without lirc support
-# _without_vorbis	- without ogg-vorbis support
-# _without_divx4linux	- without divx4linux support (binaries, instead of included OpenDivx)
-# _without_select	- disable audio select() support (for example required this option ALSA or Vortex2 driver)
-# _without_win32	- disable requirement for win32 codecs
 # _without_gui		- without gui gtk+ interfeace
+# _without_win32	- disable requirement for win32 codecs
 # _without_dshow	- disable DirectShow support
+# _without_divx4linux	- without divx4linux support (binaries, instead of included OpenDivx)
+# _without_vorbis	- without ogg-vorbis support
+# _with_ggi		- with ggi video output
+# _without_arts		- without arts support
+# _without_alsa		- without ALSA support
+# _without_select	- disable audio select() support (for example required this option ALSA or Vortex2 driver)
 
 # set it to 0, or 1
-%define		snapshot 	0
+%define		snapshot	0
 
 %define		sname		MPlayer
 %define		snap		20020602
@@ -60,15 +60,15 @@ BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
+BuildRequires:	audiofile-devel
 %{!?_without_divx4linux:BuildRequires:	divx4linux-devel}
+BuildRequires:	esound-devel
 %{!?_without_gui:BuildRequires:		gtk+-devel}
-%{?_with_ggi:BuildRequires:		libggi-devel}
 %{!?_without_gui:BuildRequires:		libpng-devel}
+%{?_with_ggi:BuildRequires:		libggi-devel}
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 %{!?_without_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	audiofile-devel
-BuildRequires:	esound-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
@@ -137,66 +137,64 @@ export CFLAGS
 ./configure \
 			--prefix=%{_prefix} \
 			--confdir=%{_sysconfdir}/mplayer \
-			--datadir=%{_datadir}/mplayer \
-%{?_without_alsa:	--disable-alsa} \
-%{!?_without_alsa:	--enable-alsa --disable-select} \
-			--enable-dga \
-			--enable-fbdev \
-%{?_with_ggi:		--enable-ggi} \
-%{!?_with_ggi:		--disable-ggi} \
-			--enable-gl \
-%{!?_without_gui:	--enable-gui} \
+			--enable-mencoder \
 %{!?_without_lirc:	--enable-lirc} \
 %{?_without_lirc:	--disable-lirc} \
-			--enable-mga \
-			--enable-sdl \
-			--enable-runtime-cpudetection \
-			--enable-tdfxfb \
-			--enable-vm \
-%{!?_without_vorbis:	--enable-vorbis} \
-%{?_without_vorbis:	--disable-vorbis} \
-			--enable-xv \
-			--enable-xvid \
-			--enable-x11 \
-			--enable-xmga \
-%{?_without_divx4linux: --disable-divx4linux} \
-%{?_without_select:	--disable-select} \
+%{!?_without_gui:	--enable-gui} \
 %{?_without_win32:	--disable-win32} \
 %{?_without_dshow:	--disable-dshow} \
-			--with-x11incdir=%{_includedir} \
-			--with-win32libdir="/usr/lib/win32" \
+			--enable-xvid \
+%{?_without_divx4linux:	--disable-divx4linux} \
+%{!?_without_vorbis:	--enable-vorbis} \
+%{?_without_vorbis:	--disable-vorbis} \
+			--enable-runtime-cpudetection \
+			--enable-gl \
+			--enable-dga \
+			--enable-sdl \
+%{?_with_ggi:		--enable-ggi} \
+%{!?_with_ggi:		--disable-ggi} \
+			--enable-mga \
+			--enable-xmga \
+			--enable-xv \
+			--enable-vm \
+			--enable-x11 \
+			--enable-fbdev \
+			--enable-tdfxfb \
+%{?_without_arts:	--disable-arts} \
+%{?_without_alsa:	--disable-alsa} \
+%{!?_without_alsa:	--enable-alsa --disable-select} \
+%{?_without_select:	--disable-select} \
+%{!?_without_win32:	--with-win32libdir=/usr/lib/win32 \
 %{!?_without_divx4linux:--with-extraincdir=/usr/include/divx}
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_bindir},%{_libdir}/mplayer/vidix} \
-	$RPM_BUILD_ROOT%{_mandir}/{,de/,hu/,pl/}man1 \
-	$RPM_BUILD_ROOT{%{_applnkdir}/Multimedia,%{_datadir}/mplayer/Skin}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/{,de/,hu/,pl/}man1} \
+	$RPM_BUILD_ROOT{%{_sysconfdir}/mplayer,%{_datadir}/mplayer/Skin} \
+	$RPM_BUILD_ROOT{%{_libdir}/mplayer/vidix,%{_applnkdir}/Multimedia}
 
 perl -p -i -e 'exit if /this default/' etc/example.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
 install etc/codecs.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
 install mplayer $RPM_BUILD_ROOT%{_bindir}
 install mencoder $RPM_BUILD_ROOT%{_bindir}
+ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
+rm -f font-*/runme
+cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
+ln -sf font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
+bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
 %ifarch %{ix86}
 install libdha/libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}
 ln -sf libdha-0.1.so $RPM_BUILD_ROOT/%{_libdir}/libdha.so
 install vidix/drivers/*.so $RPM_BUILD_ROOT/%{_libdir}/mplayer/vidix
 %endif
-ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
-cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
-ln -sf font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
-bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-install DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
-install DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
-# not translated yet
-#install DOCS/Polish/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
-
-rm -f DOCS/{German,Hungarian,Polish}/*.1
+mv DOCS/German/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
+mv DOCS/Hungarian/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
+mv DOCS/Polish/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -218,6 +216,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %lang(de) %{_mandir}/de/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
+# not translated yet
 #%lang(pl) %{_mandir}/pl/man1/*
 %{_applnkdir}/*/*
 %attr(755,root,root) %{_libdir}/*
