@@ -49,7 +49,8 @@ License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
 Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
-Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
+#Source1:	http://belnet.dl.sourceforge.net/sourceforge/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
+Source1:	libavcodec-20021203.tar.bz2
 %else
 Source0:	ftp://ftp2.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 %endif
@@ -144,9 +145,9 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch5 -p1
 %patch6 -p1
 
-%if %{snapshot}
-cp -ar ffmpeg/libavcodec/* libavcodec
-%endif
+#%if %{snapshot}
+#cp -ar ffmpeg/libavcodec/* libavcodec
+#%endif
 
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}"
