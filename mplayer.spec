@@ -32,14 +32,14 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.50
 Release:	%{snap}.3
-License:	GPL
+License:	GPL w/o binaries
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
 # This is location of CVS snapshots
-%{?_with_license_agreement:Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2}
+Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 # This is location of official (pre)releases
-# %{?_with_license_agreement:Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2}
+# Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
 Source3:	ftp://mplayerhq.hu/%{sname}/releases/mp-arial-iso-8859-2.zip
@@ -94,7 +94,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
 %{!?_with_license_agreement:exit 1}
-%{?_with_license_agreement:%setup -q -n %{sname}-%{snap} -a 1 -a 3}
+%setup -q -n %{sname}-%{snap} -a 1 -a 3
 %patch0 -p1
 %patch1 -p1
 cp etc/codecs.conf etc/codecs-win32.conf
