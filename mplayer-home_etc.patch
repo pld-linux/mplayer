@@ -32,8 +32,8 @@ diff -Nur Mplayer-0.90pre4.orig/get_path.c MPlayer-0.90pre4.chng/get_path.c
 +	    else { config_dir = "/.mplayer"; cfgdir = ""; }
  	}
 +	
-+	len += strlen(cfgdir) + strlen(config_dir) 
-+		+ strlen(homedir) + strlen(filename);
++	len = strlen(cfgdir) + strlen(config_dir) 
++		+ strlen(homedir) + strlen(filename) + 2;
 +	
 +	if ((buff = (char *) malloc(len)) == NULL)
 +	    return NULL;
