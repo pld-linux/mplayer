@@ -64,21 +64,21 @@ Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
-#Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+#Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 #Source0:	%{name}-%{snap}.tar.bz2
 #Source1:	http://dl.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source1:	libavcodec-%{snap}.tar.bz2
 # Source1-md5:	8c32cd38df314638624bf5ef76081265
 %else
-Source0:	ftp://ftp3.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
+Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
 # Source0-md5:	83ebac0f05b192516a41fca2350ca01a
 %endif
-Source3:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
+Source3:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
-Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default-1.7.tar.bz2
-# Source4-md5:	7e1d16c2f8a32469f4354cb043eecc5d
+Source4:	ftp://ftp1.mplayerhq.hu/%{sname}/Skin/default-1.8.tar.bz2
+# Source4-md5:	9b2cae8ad3fa63db3cd0ee201759d708
 Source5:	g%{name}.desktop
-Source6:	ftp://mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
+Source6:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Patch0:		%{name}-no_libnsl.patch
