@@ -17,6 +17,7 @@
 # _with_directfb	- with DirectFB video output
 # _with_ggi		- with ggi video output
 # _with_svga		- with svgalib video output
+# _without_aa		- without aalib video output
 # _without_arts		- without arts audio output
 # _without_alsa		- without ALSA audio output
 # _without_nas		- without NAS audio output
@@ -74,7 +75,7 @@ URL:		http://mplayer.sourceforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
-BuildRequires:	aalib-devel
+%{!?_without_aa:BuildRequires:	aalib-devel}
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 BuildRequires:	audiofile-devel
@@ -210,6 +211,8 @@ export CC CFLAGS
 			--enable-tdfxfb \
 %{!?_with_directfb:	--disable-directfb} \
 %{!?_with_svga:		--disable-svga} \
+%{?_without_aa:		--disable-aa} \
+%{!?_without_aa:	--enable-aa} \
 %{?_without_nas:	--disable-nas} \
 %{?_without_arts:	--disable-arts} \
 %{?_without_alsa:	--disable-alsa} \
