@@ -10,7 +10,7 @@
 %define sname MPlayer
 
 Summary:	Yet another movie player for linux
-Summary(pl):	Jeszcze jeden odtwarzacz filmów dla linuxa
+Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.18
 Release:	1.pre5
@@ -52,7 +52,7 @@ the Xvideo extension, OpenGL renderer, Matrox G400 YUV support on
 framebuffer Voodoo2/3 hardware, SDL v1.1.7 driver etc.
 
 %description -l pl
-Odtwarzacz wideo dla linuxa. Wspierane formaty wej¶ciowe: VCD
+Odtwarzacz wideo dla Linuksa. Wspierane formaty wej¶ciowe: VCD
 (VideoCD), MPEG1/2, RIFF AVI, ASF 1.0. Wspierane kodeki audio: PCM
 (nieskompresowane), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32 ACM.
 Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX.
