@@ -127,6 +127,7 @@ BuildRequires:	gtk+%{?with_gtk2:2}-devel
 BuildRequires:	lame-libs-devel
 %{?with_jack:BuildRequires:	libbio2jack-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
+BuildRequires:	libdts-devel
 %{?with_libdv:BuildRequires:	libdv-devel}
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libjpeg-devel
