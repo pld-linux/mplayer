@@ -56,11 +56,9 @@ Patch0:		%{name}-make.patch
 Patch2:		%{name}-no_libnsl.patch
 Patch3:		%{name}-cp1250-fontdesc.patch
 Patch4:		%{name}-codec.patch
-Patch5:		%{name}-libpng12.patch
-Patch6:		%{name}-home_etc.patch
+Patch5:		%{name}-home_etc.patch
 URL:		http://mplayer.sourceforge.net/
 BuildRequires:	OpenGL-devel
-BuildRequires:	pkgconfig
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
@@ -128,7 +126,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch3 -p0
 #%patch4 -p1
 %patch5 -p1
-%patch6 -p1
 
 %if %{snapshot}
 cp -ar ffmpeg/libavcodec/* libavcodec
@@ -136,10 +133,6 @@ cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} "
-if [ -f %{_pkgconfigdir}/libpng12.pc ] ; then
-	CFLAGS="$CFLAGS `pkg-config libpng12 --cflags`"
-fi
-export CFLAGS
 ./configure \
 			--prefix=%{_prefix} \
 			--confdir=%{_sysconfdir}/mplayer \
