@@ -14,6 +14,7 @@
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
 # _without_win32	- disable requirement for win32 codecs
 # _without_gui		- without gui gtk+ interfeace
+# _without_dshow:       - disable DirectShow support
 
 %define sname	MPlayer
 %define ffmpeg_ver 	0.4.5
@@ -135,7 +136,8 @@ CFLAGS="%{rpmcflags}" \
 %{?_without_vorbis:	--disable-oggvorbis} \
 %{?_without_select:	--disable-select} \
 %{?_without_win32:	--disable-win32} \
-%{!?_without_gui:	--enable-gui} 
+%{!?_without_gui:	--enable-gui} \
+%{?_without_dshow:	--disable-dshow} 
 			
 %{__make}
 
