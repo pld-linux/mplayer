@@ -1,0 +1,11 @@
+--- MPlayer-20020320/mplayer.c.wiget	Tue Mar 19 20:22:00 2002
++++ MPlayer-20020320/mplayer.c	Wed Mar 20 14:57:34 2002
+@@ -407,7 +407,7 @@
+ {
+ char *conffile;
+ int conffile_fd;
+-if (m_config_parse_config_file(conf, "/etc/mplayer.conf") < 0)
++if (m_config_parse_config_file(conf, CONFDIR"/mplayer.conf") < 0)
+   exit(1);
+ if ((conffile = get_path("")) == NULL) {
+   mp_msg(MSGT_CPLAYER,MSGL_WARN,MSGTR_NoHomeDir);

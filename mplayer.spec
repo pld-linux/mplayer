@@ -1,7 +1,8 @@
 #
-# TODO: bcond for libsmbclient and maybe theora, libdv?
+# TODO: bcond for libsmbclient and maybe libdv?
 #
 # Conditional build:
+%bcond_with	altivec		# with altivec support
 %bcond_with	directfb	# with DirectFB video output
 %bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead
 				#  of included OpenDivx)
@@ -12,8 +13,8 @@
 %bcond_with	nas		# with NAS audio output
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
+%bcond_with	theora		# with theora support
 
-%bcond_without	altivec		# without altivec support
 
 %bcond_without	aalib		# without aalib video output
 %bcond_without	alsa		# without ALSA audio output
@@ -58,7 +59,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.6
+Release:	0.%{pre}.7
 Epoch:		1
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -91,6 +92,7 @@ Patch7:		%{name}-alpha.patch
 Patch8:		%{name}-altivec.patch
 Patch9:		%{name}-gcc34.patch
 Patch10:	%{name}-mpl2.patch
+Patch11:	%{name}-vuln02.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
@@ -101,13 +103,13 @@ URL:		http://www.mplayerhq.hu/
 %{?with_svga:BuildRequires:		svgalib-devel}
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
-%{?with_arts:BuildRequires:	artsc-devel}
+%{?with_arts:BuildRequires:	arts-devel}
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %if %{with gui}
 BuildRequires:		gtk+%{?with_gtk2:2}-devel
 %endif
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_mad:BuildRequires:		libmad-devel}
+%{?with_mad:BuildRequires:		mad-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
@@ -130,7 +132,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libmatroska-devel >= 0.6.3-2
 BuildRequires:	libpng-devel
 BuildRequires:	libsmbclient-devel
-BuildRequires:	libtheora-devel
+%{?with_theora:BuildRequires:	libtheora-devel}
 BuildRequires:	libungif-devel
 BuildRequires:	lzo-devel
 BuildRequires:	ncurses-devel
@@ -145,6 +147,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %if %{with altivec}
 %define		specflags_ppc	-maltivec -mabi=altivec
 %endif
+%define		_desktopdir	%{_applnkdir}/Multimedia
 
 %description
 Movie player for Linux. Supported input formats: VCD (VideoCD),
@@ -219,6 +222,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %build
 CFLAGS="%{rpmcflags}"
@@ -266,6 +270,7 @@ export CC CFLAGS
 %{!?with_win32:--disable-win32} \
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
+%{!?with_theora:--disable-theora} \
 			--enable-dga \
 			--enable-fbdev \
 			--enable-gl \
