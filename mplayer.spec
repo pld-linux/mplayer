@@ -17,6 +17,7 @@
 %bcond_with	xmms		# with XMMS inputplugin support
 
 %bcond_without	aalib		# without aalib video output
+%bcond_without	jack		# without JACKD support
 %bcond_without	alsa		# without ALSA audio output
 %bcond_without	arts		# without arts audio output
 %bcond_without	caca		# without libcaca video output
@@ -65,7 +66,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	0.%{pre}.1
+Release:	0.%{pre}.2
 Epoch:		2
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -96,6 +97,7 @@ Patch7:		%{name}-alpha.patch
 Patch8:		%{name}-altivec.patch
 Patch9:		%{name}-assembly.patch
 Patch10:	%{name}-pcmsplit.patch
+Patch11:	%{name}-bio2jack.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -122,6 +124,7 @@ BuildRequires:	freetype-devel
 BuildRequires:	gtk+%{?with_gtk2:2}-devel
 %endif
 BuildRequires:	lame-libs-devel
+%{?with_jack:BuildRequires:	libbio2jack-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdv:BuildRequires:	libdv-devel}
 %{?with_ggi:BuildRequires:	libggi-devel}
@@ -228,6 +231,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -265,6 +269,7 @@ export CC CFLAGS
 %{!?with_nas:--disable-nas} \
 %{!?with_svga:--disable-svga} \
 %{!?with_aalib:--disable-aa} \
+%{!?with_jack:--disable-jack} \
 %{!?with_alsa:--disable-alsa} \
 %{?with_alsa:--enable-alsa --disable-select} \
 %{!?with_arts:--disable-arts} \
