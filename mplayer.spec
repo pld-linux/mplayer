@@ -12,7 +12,7 @@
 # _without_vorbis	- without ogg-vorbis support
 # _with_divx4linux	- with divx4linux support (binaries, instead of included OpenDivx)
 # _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
-# _without_win32	- disable requirement for win32 codecs (req: w23codec)
+# _with_win32		- enable requirement for win32 codecs (req: w32codec)
 # _without_gui		- without gui gtk+ interfeace
 
 %define sname	MPlayer
@@ -29,7 +29,7 @@ Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.50
-Release:	0
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
@@ -44,7 +44,7 @@ Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
 Patch2:		%{name}-codecs_no_w32.patch
 URL:		http://mplayer.sourceforge.net/
-%{!?_without_win32:Requires:	w32codec}
+%{?_with_win32:Requires:	w32codec}
 Requires:	OpenGL
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
@@ -88,14 +88,14 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %setup  -q -n %{sname}-%{version} -a 1
 %patch0 -p1
 %patch1 -p1
-%{?_without_win32:%patch2 -p1}
+%{!?_with_win32:%patch2 -p1}
 
 cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
 CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 %configure \
-			--with-win32libdir="/usr/lib/win32" \
+%{?_with_win32:		--with-win32libdir="/usr/lib/win32"} \
 			--disable-kernel-extchk \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
 %ifarch i586 i686
@@ -131,7 +131,7 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 %{!?_without_vorbis:	--enable-oggvorbis} \
 %{?_without_vorbis:	--disable-oggvorbis} \
 %{?_without_select:	--disable-select} \
-%{?_without_win32:	--disable-win32} \
+%{!?_with_win32:	--disable-win32} \
 %{!?_without_gui:	--enable-gui}
 			
 %{__make}
@@ -140,13 +140,13 @@ CFLAGS="%{rpmcflags} -I/usr/X11R6/include" \
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer}
 
-install mplayer		$RPM_BUILD_ROOT%{_bindir}
-install DOCS/*.1	$RPM_BUILD_ROOT%{_mandir}/man1
-install etc/example.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
-install etc/codecs.c*	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
+install mplayer	$RPM_BUILD_ROOT%{_bindir}
+install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+install etc/example.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
+install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
 
-#gzip -9nf -r DOCS/{[A-Z]*,*.html}
-gzip -9nf -r etc/example.conf
+gzip -9nf DOCS/{*.html,DVB,mplayer.1}
+gzip -9nf etc/example.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
