@@ -13,7 +13,7 @@
 # _with_nas		- with NAS audio output
 # _with_svga		- with svgalib video output
 #
-# _without_aa		- without aalib video output
+# _without_aalib	- without aalib video output
 # _without_alsa		- without ALSA audio output
 # _without_arts		- without arts audio output
 # _without_dshow	- disable DirectShow support
@@ -82,7 +82,7 @@ URL:		http://www.mplayerhq.hu/
 %{?_with_live:BuildRequires:		live}
 %{?_with_nas:BuildRequires:		nas-devel}
 %{?_with_svga:BuildRequires:		svgalib-devel}
-%{!?_without_aa:BuildRequires:		aalib-devel}
+%{!?_without_aalib:BuildRequires:	aalib-devel}
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
@@ -193,7 +193,7 @@ export CC CFLAGS
 %{?_with_live:		--enable-live --with-livelibdir=/usr/lib/liveMedia --with-extraincdir=/usr/include/liveMedia } \
 %{!?_with_nas:		--disable-nas} \
 %{!?_with_svga:		--disable-svga} \
-%{?_without_aa:		--disable-aa} \
+%{?_without_aalib:	--disable-aa} \
 %{?_without_alsa:	--disable-alsa} \
 %{!?_without_alsa:	--enable-alsa --disable-select} \
 %{?_without_arts:	--disable-arts} \
