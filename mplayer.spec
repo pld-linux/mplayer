@@ -206,7 +206,7 @@ export CC CFLAGS
 			--enable-vm \
 			--enable-x11 \
 			--enable-fbdev \
-			--enable-live \ 
+%{?_with_live:		--enable-live} \
 			--enable-tdfxfb \
 %{!?_with_directfb:	--disable-directfb} \
 %{!?_with_svga:		--disable-svga} \
