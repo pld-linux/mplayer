@@ -1,16 +1,17 @@
---- MPlayer-1.0pre2/configure.orig	2003-11-21 18:16:08.000000000 +0100
-+++ MPlayer-1.0pre2/configure	2003-11-21 18:25:31.000000000 +0100
-@@ -299,8 +299,7 @@
+diff -burN MPlayer-1.0pre3.orig/configure MPlayer-1.0pre3/configure
+--- MPlayer-1.0pre3.orig/configure	2004-01-02 15:29:02.000000000 +0100
++++ MPlayer-1.0pre3/configure	2004-01-02 15:45:49.000000000 +0100
+@@ -314,8 +314,7 @@
    --with-sdl-config=PATH   path to sdl*-config (e.g. /opt/bin/sdl-config)
    --with-freetype-config=PATH  path to freetype-config
-                            (e.g. /opt/bin/freetype-config)
+                                (e.g. /opt/bin/freetype-config)
 -  --with-gtk-config=PATH   path to gtk*-config (e.g. /opt/bin/gtk-config)
 -  --with-glib-config=PATH  path to glib*-config (e.g. /opt/bin/glib-config)
 +  --with-pkg-config=PATH   path to pkg-config (e.g. /opt/bin/pkg-config)
    --with-livelibdir=DIR    path to LIVE.COM Streaming Media libraries
-   --with-xmmsplugindir=DIR path to xmms plugins
+   --with-xmmsplugindir=DIR path to XMMS plugins
    --with-xmmslibdir=DIR    path to libxmms.so.1
-@@ -1515,11 +1514,8 @@
+@@ -1542,11 +1541,8 @@
    --with-fribidi-config=*)
      _fribidiconfig=`echo $ac_option | cut -d '=' -f 2`
      ;;
@@ -24,11 +25,10 @@
      ;;
  # dvdnav disabled, it does not work
  #  --with-dvdnav-config=*)
-@@ -5376,38 +5372,39 @@
-   fi
+@@ -5538,37 +5534,38 @@
    echores "$_xshape"
  
--
+ 
 -  # Check for GTK:
 -  echocheck "gtk version"
 -  if test -z "$_gtkconfig" ; then
@@ -36,32 +36,32 @@
 -      _gtkconfig="gtk-config"
 -    elif ( gtk12-config --version ) >/dev/null 2>&1 ; then
 -      _gtkconfig="gtk12-config"
+-    else
+-      die "The GUI requires GTK devel packages (which were not found)."
 +  # Check for pkg-config
 +  echocheck "pkg-config"
-+  if test -z "$_pkgconfig" ; then
-+    if ( pkg-config --version ) >/dev/null 2>&1 ; then
++  if test -z "$_pkgconfig"; then
++    if ( pkg-config --version ) > /dev/null 2>&1; then
 +      _pkgconfig="pkg-config"
-     else
--      die "the GUI requires GTK (which was not found)"
-+      die "the GUI requires pkg-config (which was not found)"
++    else
++      die "The GUI requires pkg-config (which was not found)."
      fi
    fi
 -  _gtk=`$_gtkconfig --version 2>&1`
 -  _inc_gtk=`$_gtkconfig --cflags 2>&1`
 -  _ld_gtk=`$_gtkconfig --libs 2>&1`
 -  echores "$_gtk (using $_gtkconfig)"
-+  
-+  # Check for GTK:
-+  echocheck "gtk version"
-+  if ( $_pkgconfig --modversion gtk+-2.0 ) >/dev/null 2>&1 ; then
++
++  # Check for GTK
++  if ( $_pkgconfig --modversion gtk+-2.0 ) > /dev/null 2>&1; then
 +    :
 +  else
 +    die "the GUI requires GTK (which was not found)"
 +  fi
 +  _gtk=`$_pkgconfig --modversion gtk+-2.0 2>&1`
 +  _inc_gtk=`$_pkgconfig --cflags gtk+-2.0 2>&1`
-+  _ld_gtk=`$_pkgconfig --libs gtk+-2.0 2>&1`
-+  echores "$_gtk (using $_pkgconfig)"
++  _ld_gtk=`$_pkgconfig  --libs   gtk+-2.0 2>&1`
++  echores "$_gtk (using $_pkconfig)"
  
    # Check for GLIB
    echocheck "glib version"
@@ -71,12 +71,12 @@
 -    elif ( glib12-config --version ) >/dev/null 2>&1 ; then
 -      _glibconfig="glib12-config"
 -    else
--      die "the GUI requires GLIB (which was not found)"
+-      die "The GUI requires GLib devel packages (which were not found)"
 -    fi
-+  if ( $_pkgconfig --modversion glib-2.0 ) >/dev/null 2>&1 ; then
++  if ( $_pkgconfig --modversion glib-2.0 ) > /dev/null 2>&1 ; then
 +    :
 +  else
-+    die "the GUI requires GLIB (which was not found)"
++    die "The GUI requires GLIB (which was not found)"
    fi
 -  _glib=`$_glibconfig --version 2>&1`
 -  _inc_glib=`$_glibconfig --cflags 2>&1`
@@ -84,13 +84,14 @@
 -  echores "$_glib (using $_glibconfig)"
 +  _glib=`$_pkgconfig --modversion glib-2.0 2>&1`
 +  _inc_glib=`$_pkgconfig --cflags glib-2.0 2>&1`
-+  _ld_glib=`$_pkgconfig --libs glib-2.0 2>&1`
++  _ld_glib=`$_pkgconfig  --libs   glib-2.0 2>&1`
 +  echores "$_glib (using $_pkgconfig)"
  
    _def_gui='#define HAVE_NEW_GUI 1'
    _ld_gui='$(GTKLIB) $(GLIBLIB)'
---- MPlayer-1.0pre2/Gui/mplayer/gtk/about.c.orig	2003-11-21 18:49:23.000000000 +0100
-+++ MPlayer-1.0pre2/Gui/mplayer/gtk/about.c	2003-11-21 18:54:27.000000000 +0100
+diff -burN MPlayer-1.0pre3.orig/Gui/mplayer/gtk/about.c MPlayer-1.0pre3/Gui/mplayer/gtk/about.c
+--- MPlayer-1.0pre3.orig/Gui/mplayer/gtk/about.c	2004-01-02 15:29:01.000000000 +0100
++++ MPlayer-1.0pre3/Gui/mplayer/gtk/about.c	2004-01-02 15:56:07.000000000 +0100
 @@ -67,11 +67,20 @@
    gtk_box_pack_start( GTK_BOX( vbox ),scrolledwindow1,TRUE,TRUE,0 );
    gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolledwindow1 ),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC );
@@ -99,7 +100,7 @@
    AboutText=gtk_text_new( NULL,NULL );
 +#else
 +  AboutText=gtk_text_view_new();
-+  gtk_text_view_set_editable( GTK_TEXT_VIEW( AboutText ),FALSE );
++  gtk_text_view_set_editable( GTK_TEXT_VIEW( AboutText ), FALSE );
 +#endif
    gtk_widget_set_name( AboutText,"AboutText" );
    gtk_widget_show( AboutText );
@@ -107,7 +108,7 @@
 +#ifdef USE_GTK1
    gtk_text_insert( GTK_TEXT( AboutText ),NULL,NULL,NULL,
 +#else
-+  gtk_text_buffer_set_text( gtk_text_view_get_buffer(AboutText),
++  gtk_text_buffer_set_text( gtk_text_view_get_buffer( AboutText), 
 +#endif
    	"\n" 
  	MSGTR_ABOUT_UHU 
