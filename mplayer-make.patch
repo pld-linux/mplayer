@@ -1,7 +1,7 @@
 diff -urN main.org/configure main/configure
---- main.org/configure	Fri Apr 20 20:11:52 2001
-+++ main/configure	Fri Apr 20 22:41:06 2001
-@@ -179,6 +179,7 @@
+--- main.org/configure	Fri Apr 27 14:29:55 2001
++++ main/configure	Fri Apr 27 14:30:54 2001
+@@ -185,6 +185,7 @@
  if [ -z "$pparam" ]; then
    pparam=`cat /proc/cpuinfo | grep 'flags' | cut -d ':' -f 2`
  fi
@@ -9,7 +9,7 @@ diff -urN main.org/configure main/configure
  pvendor=`cat /proc/cpuinfo | grep 'vendor_id' | cut -d ':' -f 2  | cut -d ' ' -f 2`
  pfamily=`cat /proc/cpuinfo | grep 'cpu family' | cut -d ':' -f 2 | cut -d ' ' -f 2`
  pmodel=`cat /proc/cpuinfo | grep "model$TAB" | cut -d ':' -f 2 | cut -d ' ' -f 2`
-@@ -392,8 +393,6 @@
+@@ -400,8 +401,6 @@
  #echo "DONE (${proc})."
  
  
@@ -18,8 +18,8 @@ diff -urN main.org/configure main/configure
  $_cc $TMPC -o $TMPO -lpthread &> /dev/null || \
   { echo "Lib pthread not found."; rm -f $TMPC $TMPO ; exit 1; }
  
-@@ -403,7 +402,7 @@
- $_cc $TMPC -o $TMPO -L/usr/local/lib/ -lSDL -lpthread &> /dev/null && _have_sdl=yes
+@@ -416,7 +415,7 @@
+ fi	
  
  _termcap=no
 -$_cc $TMPC -o $TMPO -ltermcap &> /dev/null && _termcap=yes
@@ -27,15 +27,15 @@ diff -urN main.org/configure main/configure
  
  _png=no
  $_cc $TMPC -o $TMPO -lpng &> /dev/null && _png=yes
-@@ -420,7 +419,6 @@
+@@ -433,7 +432,6 @@
  
  if [ $_x11 = yes ]; then
  
 -$_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXdpms &> /dev/null && _xdpms=yes
  $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXv &> /dev/null && _xv=yes
+ $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXxf86vm &> /dev/null && _vm=yes
  
- $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lGL &> /dev/null && _gl=yes
-@@ -710,7 +708,7 @@
+@@ -746,7 +744,7 @@
  
  if [ "$_termcap" = "yes" ]; then
   _termcap='#define USE_TERMCAP'
@@ -44,7 +44,7 @@ diff -urN main.org/configure main/configure
  else
   _termcap='#undef USE_TERMCAP'
   _libtermcap=''
-@@ -745,7 +743,7 @@
+@@ -781,7 +779,7 @@
  CC=$_cc
  X11DIR=$_x11libdir
  # OPTFLAGS=-O4 -march=$proc -mcpu=$proc -pipe -fomit-frame-pointer -ffast-math
@@ -53,18 +53,18 @@ diff -urN main.org/configure main/configure
  # LIBS=-L/usr/lib -L/usr/local/lib $_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib
  X_LIBS=$_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib $_vmlib $_svgalib $_libpng
  TERMCAP_LIB=$_libtermcap
-@@ -753,7 +751,7 @@
+@@ -789,7 +787,7 @@
  LIRC_LIBS = $_lirclibs
  CSS_LIB = $_csslib
  CSS_INC = $_cssinc
 -WIN32_PATH=-DWIN32_PATH=\"$_win32libdir\"
 +WIN32_PATH=-DWIN32_PATH=\\"$_win32libdir\\"
+ DS_DEP = $_dshowdep
+ DS_LIB = $_dshowlib
  
- EOF
- # echo 'CFLAGS=$(OPTFLAGS) -Wall -DMPG12PLAY' >> config.mak
 diff -urN main.org/libvo/Makefile main/libvo/Makefile
---- main.org/libvo/Makefile	Fri Apr 20 20:11:52 2001
-+++ main/libvo/Makefile	Fri Apr 20 20:12:31 2001
+--- main.org/libvo/Makefile	Fri Apr 27 14:29:55 2001
++++ main/libvo/Makefile	Fri Apr 27 14:30:09 2001
 @@ -6,7 +6,7 @@
  SRCS=osd.c font_load.c rgb15to16mmx.c yuv2rgb_mmx.c yuv2rgb.c video_out.c vo_null.c vo_pgm.c vo_md5.c vo_odivx.c x11_common.c $(OPTIONAL_SRCS)
  OBJS=osd.o font_load.o rgb15to16mmx.o yuv2rgb_mmx.o yuv2rgb.o video_out.o vo_null.o vo_pgm.o vo_md5.o vo_odivx.o x11_common.o $(OPTIONAL_OBJS)
@@ -75,9 +75,9 @@ diff -urN main.org/libvo/Makefile main/libvo/Makefile
  
  .SUFFIXES: .c .o
 diff -urN main.org/mplayer.c main/mplayer.c
---- main.org/mplayer.c	Fri Apr 20 20:11:52 2001
-+++ main/mplayer.c	Fri Apr 20 20:12:31 2001
-@@ -504,7 +504,7 @@
+--- main.org/mplayer.c	Fri Apr 27 14:29:55 2001
++++ main/mplayer.c	Fri Apr 27 14:30:09 2001
+@@ -440,7 +440,7 @@
  
    printf("%s",banner_text);
  
@@ -86,7 +86,7 @@ diff -urN main.org/mplayer.c main/mplayer.c
    exit(1);
  if ((conffile = get_path("")) == NULL) {
    printf("Can't find HOME dir\n");
-@@ -569,8 +569,10 @@
+@@ -505,8 +505,10 @@
  
  // check codec.conf
  if(!parse_codec_cfg(get_path("codecs.conf"))){
@@ -97,15 +97,3 @@ diff -urN main.org/mplayer.c main/mplayer.c
  }
  
  // check font
-diff -urN main.org/mplayerHQ.c main/mplayerHQ.c
---- main.org/mplayerHQ.c	Fri Apr 20 20:11:52 2001
-+++ main/mplayerHQ.c	Fri Apr 20 20:12:31 2001
-@@ -381,7 +381,7 @@
- 
-   printf("%s",banner_text);
- 
--if (parse_config_file(conf, "/etc/mplayer.conf") < 0)
-+if (parse_config_file(conf, "/etc/mplayer/mplayer.conf") < 0)
-   exit(1);
- if ((homedir = getenv("HOME")) == NULL) {
-   printf("Can't find HOME dir\n");
