@@ -11,7 +11,6 @@
 # _without_win32	- disable requirement for win32 codecs
 # _without_gui		- without gui gtk+ interfeace
 # _without_dshow	- disable DirectShow support
-# _with_mmx		- enable 3dnow/sse/mmx optimized memcpy() (don't know if it's runtime detected...)
 
 %define		sname		MPlayer
 %define		snap		20020320
@@ -25,7 +24,7 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Name:		mplayer
 Version:	0.90pre1
-Release:	0
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 # This is location of CVS snapshots
@@ -119,10 +118,7 @@ CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} `pkg-config --cflags libpng
 %{!?_without_divx4linux:--with-extraincdir=/usr/include/divx} \
 %{?_without_alsa:	--disable-alsa} \
 %{!?_without_alsa:	--enable-alsa --disable-select} \
-			--enable-3dnow \
-			--enable-3dnowex \
 			--enable-dga \
-%{?_with_mmx:		--enable-fastmemcpy} \
 			--enable-fbdev \
 %{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
@@ -131,11 +127,8 @@ CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} `pkg-config --cflags libpng
 %{!?_without_lirc:	--enable-lirc} \
 %{?_without_lirc:	--disable-lirc} \
 			--enable-mga \
-			--enable-mmx \
-			--enable-mmx2 \
 			--enable-sdl \
-			--enable-sse \
-			--enable-sse2 \
+			--enable-runtime-cpudetection \
 			--enable-tdfxfb \
 			--enable-vm \
 %{!?_without_vorbis:	--enable-vorbis} \
