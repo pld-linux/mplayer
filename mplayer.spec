@@ -122,6 +122,7 @@ Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
+%define		specflags	-fomit-frame-pointer
 
 %description
 Movie player for Linux. Supported input formats: VCD (VideoCD),
@@ -181,7 +182,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch7 -p1
 
 %build
-CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}"
+CFLAGS="%{rpmcflags}"
 CC="%{__cc}"
 export CC CFLAGS
 ./configure \
