@@ -92,7 +92,7 @@ rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
 G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
 %prep
-%setup  -q -n %{sname}-%{version} -a 1 -a 3
+%setup  -q -n %{sname}-%{snap} -a 1 -a 3
 %patch0 -p1
 %patch1 -p1
 cp etc/codecs.conf etc/codecs-win32.conf
