@@ -52,15 +52,17 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 	--with-win32libdir="/usr/lib/win32" \
 %ifarch i586 i686
 	--enable-mmx \
+%ifarch i686
+	--enable-sse \
+	--enable-3dnow \
+%endif
 %endif
 	--enable-gl \
 	--enable-dga \
-	--enable-sdl \
 	--enable-xv \
 	--enable-vm \
 	--enable-x11 \
 	--enable-termcap
-# --enable-sse --enable-3dnow
 %{__make}
 
 %install
