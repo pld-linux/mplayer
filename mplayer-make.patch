@@ -1,8 +1,8 @@
 diff -urN main.org/configure main/configure
---- main.org/configure	Sat Mar 31 23:04:25 2001
-+++ main/configure	Sat Mar 31 23:14:30 2001
-@@ -370,7 +370,7 @@
- $_cc $TMPC -o $TMPO $_x11libdir -L/usr/local/lib/ -lSDL -lpthread &> /dev/null && _have_sdl=yes
+--- main.org/configure	Wed Apr 18 10:29:30 2001
++++ main/configure	Wed Apr 18 10:40:27 2001
+@@ -402,7 +402,7 @@
+ $_cc $TMPC -o $TMPO -L/usr/local/lib/ -lSDL -lpthread &> /dev/null && _have_sdl=yes
  
  _termcap=no
 -$_cc $TMPC -o $TMPO -ltermcap &> /dev/null && _termcap=yes
@@ -10,7 +10,15 @@ diff -urN main.org/configure main/configure
  
  _binutils=no
  as libac3/downmix/downmix_i386.S -o $TMPO &> /dev/null && _binutils=yes
-@@ -605,7 +605,7 @@
+@@ -416,7 +416,6 @@
+ 
+ if [ $_x11 = yes ]; then
+ 
+-$_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXdpms &> /dev/null && _xdpms=yes
+ $_cc $TMPC -o $TMPO $_x11libdir -lXv &> /dev/null && _xv=yes
+ 
+ $_cc $TMPC -o $TMPO $_x11libdir -lGL &> /dev/null && _gl=yes
+@@ -699,7 +698,7 @@
  
  if [ "$_termcap" = "yes" ]; then
   _termcap='#define USE_TERMCAP'
@@ -19,31 +27,68 @@ diff -urN main.org/configure main/configure
  else
   _termcap='#undef USE_TERMCAP'
   _libtermcap=''
-@@ -636,13 +636,13 @@
+@@ -730,7 +729,7 @@
  AR=ar
  CC=$_cc
  # OPTFLAGS=-O4 -march=$proc -mcpu=$proc -pipe -fomit-frame-pointer -ffast-math
 -OPTFLAGS=-O4 -march=$proc -mcpu=$proc -pipe -ffast-math
-+OPTFLAGS= $CFLAGS -pipe -ffast-math
++OPTFLAGS=$CFLAGS -pipe -ffast-math
  # LIBS=-L/usr/lib -L/usr/local/lib $_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib
- X_LIBS=$_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib $_vmlib
+ X_LIBS=$_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib $_vmlib $_svgalib
  TERMCAP_LIB=$_libtermcap
- XMM_LIBS = $_xmmplibs
+@@ -738,7 +737,7 @@
  LIRC_LIBS = $_lirclibs
+ CSS_LIB = $_csslib
+ CSS_INC = $_cssinc
 -WIN32_PATH=-DWIN32_PATH=\"$_win32libdir\"
 +WIN32_PATH=-DWIN32_PATH=\\"$_win32libdir\\"
  
  EOF
  # echo 'CFLAGS=$(OPTFLAGS) -Wall -DMPG12PLAY' >> config.mak
 diff -urN main.org/libvo/Makefile main/libvo/Makefile
---- main.org/libvo/Makefile	Sat Mar 31 23:04:26 2001
-+++ main/libvo/Makefile	Sat Mar 31 23:11:15 2001
+--- main.org/libvo/Makefile	Wed Apr 18 10:29:33 2001
++++ main/libvo/Makefile	Wed Apr 18 10:34:16 2001
 @@ -6,7 +6,7 @@
- SRCS=font_load.c rgb15to16mmx.c yuv2rgb_mmx.c yuv2rgb.c video_out.c vo_null.c vo_pgm.c vo_md5.c vo_odivx.c x11_common.c $(OPTIONAL_SRCS)
- OBJS=font_load.o rgb15to16mmx.o yuv2rgb_mmx.o yuv2rgb.o video_out.o vo_null.o vo_pgm.o vo_md5.o vo_odivx.o x11_common.o $(OPTIONAL_OBJS)
+ SRCS=osd.c font_load.c rgb15to16mmx.c yuv2rgb_mmx.c yuv2rgb.c video_out.c vo_null.c vo_pgm.c vo_md5.c vo_odivx.c x11_common.c $(OPTIONAL_SRCS)
+ OBJS=osd.o font_load.o rgb15to16mmx.o yuv2rgb_mmx.o yuv2rgb.o video_out.o vo_null.o vo_pgm.o vo_md5.o vo_odivx.o x11_common.o $(OPTIONAL_OBJS)
  
 -CFLAGS  = $(OPTFLAGS) -I. -I.. -DMPG12PLAY
 +CFLAGS  = $(OPTFLAGS) -I. -I.. -DMPG12PLAY -I/usr/X11R6/include
  # -I/usr/X11R6/include/
  
  .SUFFIXES: .c .o
+diff -urN main.org/mplayer.c main/mplayer.c
+--- main.org/mplayer.c	Wed Apr 18 10:29:30 2001
++++ main/mplayer.c	Wed Apr 18 10:54:59 2001
+@@ -503,7 +503,7 @@
+ 
+   printf("%s",banner_text);
+ 
+-if (parse_config_file(conf, "/etc/mplayer.conf") < 0)
++if (parse_config_file(conf, "/etc/mplayer/mplayer.conf") < 0)
+   exit(1);
+ if ((conffile = get_path("")) == NULL) {
+   printf("Can't find HOME dir\n");
+@@ -568,8 +568,10 @@
+ 
+ // check codec.conf
+ if(!parse_codec_cfg(get_path("codecs.conf"))){
++    if (!parse_codec_cfg("/etc/mplayer/codecs.conf")) {
+     printf("(copy/link DOCS/codecs.conf to ~/.mplayer/codecs.conf)\n");
+     exit(1);
++    }
+ }
+ 
+ // check font
+diff -urN main.org/mplayerHQ.c main/mplayerHQ.c
+--- main.org/mplayerHQ.c	Wed Apr 18 10:29:30 2001
++++ main/mplayerHQ.c	Wed Apr 18 10:52:26 2001
+@@ -381,7 +381,7 @@
+ 
+   printf("%s",banner_text);
+ 
+-if (parse_config_file(conf, "/etc/mplayer.conf") < 0)
++if (parse_config_file(conf, "/etc/mplayer/mplayer.conf") < 0)
+   exit(1);
+ if ((homedir = getenv("HOME")) == NULL) {
+   printf("Can't find HOME dir\n");
