@@ -142,7 +142,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		specflags	-fomit-frame-pointer
 %define		specflags_alpha	-mmax
 %if %{with altivec}
+%if %{without runtime}
 %define		specflags_ppc	-maltivec -mabi=altivec
+%endif
 %endif
 
 %description
