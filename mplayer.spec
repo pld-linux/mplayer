@@ -42,7 +42,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	0.90pre10
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -62,6 +62,7 @@ Patch2:		%{name}-no_libnsl.patch
 Patch3:		%{name}-cp1250-fontdesc.patch
 Patch4:		%{name}-codec.patch
 Patch5:		%{name}-home_etc.patch
+Patch6:		%{name}-350.patch
 URL:		http://mplayer.sourceforge.net/
 %{?_with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
