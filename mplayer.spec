@@ -25,7 +25,7 @@ Source1:	%{name}.conf
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-confpath.patch
 URL:		http://mplayer.sourceforge.net/
-Requires:	avi-codecs
+Requires:	w32codec
 Requires:	OpenGL
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
