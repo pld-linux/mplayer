@@ -38,7 +38,7 @@ diff -Nur Mplayer-0.90pre4.orig/get_path.c MPlayer-0.90pre4.chng/get_path.c
 +	if ((buff = (char *) malloc(len)) == NULL)
 +	    return NULL;
 +
-+	sprintf(buff, "%s/%s%s/%s", homedir, cfgdir, config_dir, filename);
++	sprintf(buff, "%s/%s%s%s", homedir, cfgdir, config_dir, filename);
  	mp_msg(MSGT_GLOBAL,MSGL_V,"get_path('%s') -> '%s'\n",filename,buff);
  	return buff;
  }
@@ -83,7 +83,7 @@ diff -Nur Mplayer-0.90pre4.orig/libmpdvdkit/get_path.c MPlayer-0.90pre4.chng/lib
 +	if ((buff = (char *) malloc(len)) == NULL)
 +	    return NULL;
 +
-+	sprintf(buff, "%s/%s%s/%s", homedir, cfgdir, config_dir, filename);
++	sprintf(buff, "%s/%s%s%s", homedir, cfgdir, config_dir, filename);
 +
  //	mp_msg(MSGT_GLOBAL,MSGL_V,"get_path('%s') -> '%s'\n",filename,buff);
  	return buff;
