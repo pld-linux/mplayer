@@ -37,8 +37,8 @@ Summary:	Yet another movie player for Linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
-Version:	0.90pre9
-Release:	2
+Version:	0.90pre10
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
@@ -77,6 +77,8 @@ BuildRequires:	esound-devel
 BuildRequires:	xvid-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
+BuildRequires:	libdvdnav-devel
+BuildRequires:	libdvdread-devel
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -133,7 +135,9 @@ cp -ar ffmpeg/libavcodec/* libavcodec
 %endif
 
 %build
-CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} "
+CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}"
+CC="%{__cc}"
+export CC CFLAGS
 ./configure \
 			--prefix=%{_prefix} \
 			--confdir=%{_sysconfdir}/mplayer \
@@ -180,7 +184,7 @@ CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer} "
 %{?_without_select:	--disable-select} \
 %{!?_without_win32:	--with-win32libdir=/usr/lib/win32} \
 %{?_with_divx4linux:	--with-extraincdir=/usr/include/divx} \
-			--disable-dvdnav
+			--enable-dvdnav
 
 %{__make}
 
