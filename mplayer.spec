@@ -24,7 +24,7 @@
 %endif
 
 # Current snapshot. They are generated daily these days.
-%define snap   20011101
+%define snap   20011106
 
 Summary:	Yet another movie player for linux
 Summary(pl):	Jeszcze jeden odtwarzacz filmów dla Linuksa
