@@ -25,11 +25,11 @@
 # _without_gui		- without gui gtk+ interfeace
 # _without_dshow	- disable DirectShow support
 
-%define sname	MPlayer
-%define ffmpeg_ver	0.4.5
+%define		sname		MPlayer
+%define		ffmpeg_ver	0.4.5
 
 %ifnarch %{ix86}
-%define _without_win32 1
+%define		_without_win32	1
 %endif
 
 Summary:	Yet another movie player for Linux
@@ -45,7 +45,7 @@ Group:		X11/Applications/Multimedia
 Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
-Source3:	ftp://mplayerhq.hu/%{sname}/releases/mp-arial-iso-8859-2.zip
+Source3:	ftp://mplayerhq.hu/%{sname}/releases/font-arial-iso-8859-2.tar.bz2
 Source4:	ftp://mplayerhq.hu/%{sname}/Skin/default.tar.bz2
 Source5:	g%{name}.desktop
 Patch0:		%{name}-make.patch
@@ -53,23 +53,22 @@ Patch1:		%{name}-confpath.patch
 Patch2:		%{name}-codec.patch
 Patch3:		%{name}-configure.patch
 URL:		http://mplayer.sourceforge.net/
-Requires:	OpenGL
+BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
 BuildRequires:	XFree86-devel >= 4.0.2
-BuildRequires:	OpenGL-devel
-BuildRequires:	ncurses-devel
 %{!?_without_alsa:BuildRequires:	alsa-lib-devel}
 %{!?_without_arts:BuildRequires:	arts-devel}
-%{!?_without_vorbis:BuildRequires:	libvorbis-devel}
 %{!?_without_divx4linux:BuildRequires:	divx4linux-devel}
-%{?_with_ggi:BuildRequires:		libggi-devel}
-BuildRequires:	esound-devel
-BuildRequires:	audiofile-devel
-%{!?_without_lirc:BuildRequires:	lirc-devel}
-%{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_gui:BuildRequires:		gtk+-devel}
+%{?_with_ggi:BuildRequires:		libggi-devel}
 %{!?_without_gui:BuildRequires:		libpng-devel}
-BuildRequires:	unzip
+%{!?_without_dshow:BuildRequires:	libstdc++-devel}
+%{!?_without_vorbis:BuildRequires:	libvorbis-devel}
+%{!?_without_lirc:BuildRequires:	lirc-devel}
+BuildRequires:	audiofile-devel
+BuildRequires:	esound-devel
+BuildRequires:	ncurses-devel
+Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
@@ -178,10 +177,10 @@ install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 perl -p -i -e 'exit if /this default/' etc/example.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
-install iso-8859-2/arial-14/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-14
-install iso-8859-2/arial-18/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-18
-install iso-8859-2/arial-24/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-24
-install iso-8859-2/arial-28/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-28
+install font-arial-14-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-14
+install font-arial-18-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-18
+install font-arial-24-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-24
+install font-arial-28-iso-8859-2/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-28
 ln -sf arial-24 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
@@ -190,7 +189,7 @@ install -d $RPM_BUILD_ROOT%{_mandir}/hu/man1
 mv DOCS/Hungarian/mplayer.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 
 rm -rf DOCS/*/CVS
-gzip -9nfq DOCS/{DVB,DXR3,Polish/DVB,French/exemple.conf}
+gzip -9nf DOCS/{DVB,DXR3,Polish/DVB,French/exemple.conf}
 gzip -9nf etc/{example,codecs.win32}.conf
 
 %clean
@@ -206,7 +205,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pl) %doc DOCS/Polish
 %lang(fr) %doc DOCS/French
 %dir %{_sysconfdir}/mplayer
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mplayer/*.conf
+%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
