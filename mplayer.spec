@@ -268,7 +268,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/*/CVS
 
 # libraries
 %ifarch %{ix86}
-install libdha/libdha.so* $RPM_BUILD_ROOT%{_libdir}
+install libdha/libdha.so.0.1 $RPM_BUILD_ROOT%{_libdir}
 install vidix/drivers/*.so $RPM_BUILD_ROOT%{_libdir}/mplayer/vidix
 %endif
 
