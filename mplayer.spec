@@ -12,7 +12,7 @@
 # _without_lirc		- without lirc support
 # _without_vorbis	- without ogg-vorbis support
 # _without_divx4linux	- without divx4linux support (binaries, instead of included OpenDivx)
-# _without_select	- disable audio select() support ( for example required this option ALSA or Vortex2 driver )
+# _without_select	- disable audio select() support (for example required this option ALSA or Vortex2 driver)
 # _without_win32	- disable requirement for win32 codecs
 # _without_gui		- without gui gtk+ interfeace
 # _without_dshow:	- disable DirectShow support
@@ -95,17 +95,16 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 # %setup -q -n %{sname}-%{snap} -a 1 -a 3
 # releases:
 %setup -q -n %{sname}-%{version} -a 1 -a 3
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
-#exit 1
-cp etc/codecs.conf etc/codecs-win32.conf
+cp -f etc/codecs.conf etc/codecs-win32.conf
 #%patch2 -p1
-#%patch3 -p1
+%patch3 -p1
 
-#cp -ar ffmpeg/libavcodec/* libavcodec
+cp -ar ffmpeg/libavcodec/* libavcodec
 
 %build
-CFLAGS="%{rpmcflags}"; \
+CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}" \
 ./configure \
 			--with-x11incdir=%{_includedir}\
 			--datadir=%{_prefix}/share/mplayer \
@@ -136,8 +135,7 @@ CFLAGS="%{rpmcflags}"; \
 			--enable-fbdev \
 %{?_with_ggi:		--enable-ggi} \
 %{!?_with_ggi:		--disable-ggi} \
-%{!?_without_divx4linux:--enable-divx4linux} \
-%{?_without_divx4linux: --disable-divx4} \
+%{?_without_divx4linux: --disable-divx4linux} \
 %{!?_without_lirc:	--enable-lirc} \
 %{?_without_lirc:	--disable-lirc} \
 %{!?_without_vorbis:	--enable-vorbis} \
@@ -155,7 +153,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer,%{_
 install -d $RPM_BUILD_ROOT%{_prefix}/share/mplayer/{arial-14,arial-18,arial-24,arial-28,Skin}
 
 install mplayer	$RPM_BUILD_ROOT%{_bindir}
-ln -s mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
+ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
 install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 perl -p -i -e 'exit if /this default/' etc/example.conf
 install etc/example.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
@@ -164,8 +162,8 @@ install iso-8859-2/arial-14/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer
 install iso-8859-2/arial-18/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-18
 install iso-8859-2/arial-24/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-24
 install iso-8859-2/arial-28/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-28
-ln -s arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
-bzcat %{SOURCE4}|tar xC $RPM_BUILD_ROOT%{_prefix}/share/mplayer/Skin
+ln -sf arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
+bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_prefix}/share/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
 rm -rf DOCS/*/CVS

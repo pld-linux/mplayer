@@ -1,38 +1,34 @@
-diff -urN MPlayer-0.50/configure MPlayer-0.50.new/configure
---- MPlayer-0.50/configure	Sun Oct  7 23:36:29 2001
-+++ MPlayer-0.50.new/configure	Tue Oct  9 19:00:38 2001
-@@ -479,6 +479,7 @@
-     if [ -z "$pparam" ]; then
- 	pparam=`$_cpuinfo | grep 'flags' | cut -d ':' -f 2 | head -1`
-     fi
-+    pparam=""
-     pvendor=`$_cpuinfo | grep 'vendor_id' | cut -d ':' -f 2  | cut -d ' ' -f 2 | head -1`
-     pfamily=`$_cpuinfo | grep 'cpu family' | cut -d ':' -f 2 | cut -d ' ' -f 2 | head -1`
-     pmodel=`$_cpuinfo | grep -v 'model name' | grep 'model' | cut -d ':' -f 2 | cut -d ' ' -f 2 | head -1`
-@@ -851,7 +850,7 @@
- $_cc $_extraincdir $_extralibdir $TMPC -o $TMPO -ldivxdecore -lm > /dev/null 2>&1 && _divx4linux=yes
- 
- _termcap=no
--cc_check $_extraincdir $_extralibdir -ltermcap && _termcap=yes
-+cc_check $_extraincdir $_extralibdir -ltinfo && _termcap=yes
- 
- _png=no
- $_cc  $_extraincdir $_extralibdir $TMPC -o $TMPO -lpng -lz -lm > /dev/null 2>&1 && _png=yes
-@@ -1810,7 +1809,7 @@
- 
- if [ "$_termcap" = "yes" ]; then
-  _termcap='#define USE_TERMCAP'
-- _libtermcap='-ltermcap'
-+ _libtermcap='-lncurses'
+--- MPlayer-0.60/configure.orig	Wed Jan  2 20:05:02 2002
++++ MPlayer-0.60/configure	Thu Jan 17 22:57:37 2002
+@@ -439,7 +439,7 @@
+   if test -z "$pparam" ; then
+     pparam=`$_cpuinfo | grep 'flags' | cut -d ':' -f 2 | head -1`
+   fi
+-
++  pparam=""
+   _mmx=no
+   _3dnow=no
+   _3dnowex=no
+@@ -1268,11 +1268,11 @@
+ int main(void) { return 0; }
+ EOF
+   _termcap=no
+-  cc_check -ltermcap && _termcap=yes
++  cc_check -ltinfo && _termcap=yes
+ fi
+ if test "$_termcap" = yes ; then
+   _def_termcap='#define USE_TERMCAP 1'
+-  _ld_termcap='-ltermcap'
++  _ld_termcap='-ltinfo'
  else
-  _termcap='#undef USE_TERMCAP'
-  _libtermcap=''
-@@ -2164,7 +2163,7 @@
- AR=ar
- CC=$_cc
- # OPTFLAGS=-O4 $_profile $_debug $_march $_mcpu -pipe -fomit-frame-pointer -ffast-math
--OPTFLAGS=$CFLAGS -fomit-frame-pointer # make sure -fomit-frame-pointer is always used
-+OPTFLAGS=$CFLAGS -fomit-frame-pointer -pipe -ffast-math
- EXTRA_INC=$_extraincdir $_gtkinc
- WIN32_PATH=-DWIN32_PATH=\\"$_win32libdir\\"
+   _def_termcap='#undef USE_TERMCAP'
+ fi
+@@ -2741,7 +2741,7 @@
+ AR = ar
+ CC = $_cc
+ # OPTFLAGS = -O4 $_profile $_debug $_march $_mcpu -pipe -fomit-frame-pointer -ffast-math
+-OPTFLAGS = $CFLAGS
++OPTFLAGS = $CFLAGS -pipe -ffast-math
+ EXTRA_INC = $_inc_extra $_inc_gtk
+ WIN32_PATH = -DWIN32_PATH=\\"$_win32libdir\\"
  

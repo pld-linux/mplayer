@@ -1,28 +1,10 @@
-diff -Nur MPlayer-0.50.orig/configure MPlayer-0.50/configure
---- MPlayer-0.50.orig/configure	Fri Oct 12 14:08:53 2001
-+++ MPlayer-0.50/configure	Fri Oct 12 14:18:10 2001
-@@ -876,7 +876,6 @@
- # for Solaris (socket stuff is in -lsocket, gethostbyname and friends in -lnsl):
- _socklib=
- cc_check $_socklib -lsocket && _socklib="$_socklib -lsocket"
--cc_check $_socklib -lnsl && _socklib="$_socklib -lnsl"
- 
- if test "$_x11" = auto ; then
-  _x11=no
-@@ -887,6 +886,7 @@
- 
- cc_check $_x11libdir -lX11 -lXext -lXdpms $_socklib && _xdpms_3=yes
- nm `echo $_x11libdir|cut -c 3-`/libXext.a | grep DPMSQueryExtension > /dev/null 2>&1 && _xdpms_4=yes
-+objdump -T `echo $_x11libdir|cut -c 3-`/libXext.so | grep -q '\.text.*DPMSQueryExtension' && _xdpms_4=yes
- cc_check $_x11libdir -lX11 -lXext -lXv $_socklib && _xv=yes
- cc_check $_x11libdir -lX11 -lXext -lXxf86vm $_socklib && _vm=yes
- cc_check $_x11libdir -lX11 -lXext -lXinerama $_socklib && _xinerama=yes
-@@ -906,7 +906,7 @@
-   cc_check $_x11incdir $_x11libdir -lX11 -lXext -lGL -lm -pthread $_socklib || \
-     { _gl=no; echo "GL includes not found!"; }
- else
--  cc_check  $_x11libdir -lX11 -lXext -lGL -lm $_socklib || \
-+  cc_check  $_x11incdir $_x11libdir -lX11 -lXext -lGL -lm $_socklib || \
-     { _gl=no; echo "GL includes not found!"; }
- fi
- 
+--- MPlayer-0.60/configure.orig	Thu Jan 17 23:04:00 2002
++++ MPlayer-0.60/configure	Thu Jan 17 23:07:04 2002
+@@ -1084,7 +1084,6 @@
+ int main(void) { (void) gethostbyname(0); return 0; }
+ EOF
+ cc_check -lsocket && _ld_sock="-lsocket"
+-cc_check -lnsl && _ld_sock="-lnsl"
+ cc_check -lsocket -lnsl && _ld_sock="-lsocket -lnsl"
+ if test "$_ld_sock" ; then
+   echores "yes (using $_ld_sock)"
