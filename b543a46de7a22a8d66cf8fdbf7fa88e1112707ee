@@ -1,0 +1,3 @@
+- updated to 0.90pre2
+- added better way of building releases/snaphots (to define it with one variable)
+- added small todo
