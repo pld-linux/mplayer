@@ -46,6 +46,10 @@
 %define		_without_qt	1
 %endif
 
+%ifarch sparc
+%define        _without_alsa    1
+%endif
+
 %define	pre	pre2
 Summary:	Yet another movie player for Linux
 Summary(ko):	리눅스용 미디어플레이어
