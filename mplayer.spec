@@ -36,6 +36,7 @@
 %bcond_without	vorbis		# without ogg-vorbis audio support
 
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
+%bcond_without	xlibs
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -109,11 +110,15 @@ BuildRequires:		gtk+%{?with_gtk2:2}-devel
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
 BuildRequires:	OpenGL-devel
 BuildRequires:	SDL-devel >= 1.1.7
+%if %{with xlibs}
+BuildRequires:	libXv-devel
+%else
 BuildRequires:	XFree86-devel >= 4.0.2
+%endif
 BuildRequires:	audiofile-devel
 BuildRequires:	cdparanoia-III-devel
 BuildRequires:	esound-devel
-BuildRequires:	faad2-devel
+#BuildRequires:	faad2-devel
 BuildRequires:	freetype-devel
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
