@@ -38,12 +38,16 @@ Name:		mplayer
 Version:	0.60
 Release:	5
 License:	GPL w/o binaries
-Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 # This is location of CVS snapshots
 # Source0:	ftp://ftp.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
 # This is location of official (pre)releases
+Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
+Group(es):	X11/Aplicaciones/Multimedia
+Group(fr):	X11/Applications/MultimÈdia
+Group(pl):	X11/Aplikacje/Multimedia
+Group(pt):	X11/AplicaÁıes/Multimedia
+Group(ru):	X11/“…Ãœ÷≈Œ…—/Ì’Ãÿ‘…Õ≈ƒ…¡
 Source0:	ftp://ftp.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/ffmpeg/ffmpeg-%{ffmpeg_ver}.tar.gz
 Source2:	%{name}.conf
@@ -71,6 +75,7 @@ BuildRequires:	audiofile-devel
 %{!?_without_dshow:BuildRequires:	libstdc++-devel}
 %{!?_without_gui:BuildRequires:		gtk+-devel}
 %{!?_without_gui:BuildRequires:		libpng-devel}
+BuildRequires:	unzip
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
@@ -103,8 +108,8 @@ overlay, X11 optionally with SHM extension, X11 using overlays with
 the Xvideo extension, OpenGL renderer, Matrox G400 YUV support on
 framebuffer Voodoo2/3 hardware, SDL v1.1.7 driver etc.
 
-If you want to use win32 codecs install w32codec package and
-copy codecs.win32.conf to your ~/.mplayer direcory as codecs.conf.
+If you want to use win32 codecs install w32codec package and copy
+codecs.win32.conf to your ~/.mplayer direcory as codecs.conf.
 
 %description -l pl
 Odtwarzacz wideo dla Linuksa. Wspierane formaty wej∂ciowe: VCD
@@ -137,7 +142,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}" \
 ./configure \
 			--with-x11incdir=%{_includedir}\
-			--datadir=%{_prefix}/share/mplayer \
+			--datadir=%{_datadir}/mplayer \
 			--with-win32libdir="/usr/lib/win32" \
 %{!?_without_divx4linux:--with-extraincdir=/usr/include/divx} \
 %{!?_without_alsa:	--enable-alsa --disable-select} \
@@ -169,7 +174,7 @@ CFLAGS="%{rpmcflags} %{!?debug:-fomit-frame-pointer}" \
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_sysconfdir}/mplayer,%{_applnkdir}/Multimedia}
-install -d $RPM_BUILD_ROOT%{_prefix}/share/mplayer/{arial-14,arial-18,arial-24,arial-28,Skin}
+install -d $RPM_BUILD_ROOT%{_datadir}/mplayer/{arial-14,arial-18,arial-24,arial-28,Skin}
 
 install mplayer $RPM_BUILD_ROOT%{_bindir}
 install mencoder $RPM_BUILD_ROOT%{_bindir}
@@ -178,12 +183,12 @@ install DOCS/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 perl -p -i -e 'exit if /this default/' etc/example.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/mplayer/mplayer.conf
 install etc/codecs.conf	$RPM_BUILD_ROOT%{_sysconfdir}/mplayer/codecs.conf
-install iso-8859-2/arial-14/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-14
-install iso-8859-2/arial-18/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-18
-install iso-8859-2/arial-24/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-24
-install iso-8859-2/arial-28/*.{desc,raw} $RPM_BUILD_ROOT%{_prefix}/share/mplayer/arial-28
-ln -sf arial-24 $RPM_BUILD_ROOT%{_prefix}/share/mplayer/font
-bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_prefix}/share/mplayer/Skin
+install iso-8859-2/arial-14/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-14
+install iso-8859-2/arial-18/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-18
+install iso-8859-2/arial-24/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-24
+install iso-8859-2/arial-28/*.{desc,raw} $RPM_BUILD_ROOT%{_datadir}/mplayer/arial-28
+ln -sf arial-24 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
+bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
 install %{SOURCE5} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 
 install -d $RPM_BUILD_ROOT%{_mandir}/hu/man1
@@ -210,5 +215,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
-%{_prefix}/share/mplayer
+%{_datadir}/mplayer
 %{_applnkdir}/*/*
