@@ -71,6 +71,7 @@ G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 %ifarch i586 i686
 %{?_with_mmx:	--enable-mmx} \
 %{?_with_3dnow:	--enable-3dnow} \
+%{?_with_3dnowex:	--enable-3dnowex} \
 %{?_with_sse:	--enable-sse} \
 %{?_with_mmx2:	--enable-mmx2} \
 %endif
