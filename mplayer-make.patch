@@ -1,7 +1,15 @@
 diff -urN main.org/configure main/configure
---- main.org/configure	Fri Apr 20 00:18:07 2001
-+++ main/configure	Fri Apr 20 00:18:46 2001
-@@ -403,7 +403,7 @@
+--- main.org/configure	Fri Apr 20 20:11:52 2001
++++ main/configure	Fri Apr 20 20:14:27 2001
+@@ -179,6 +179,7 @@
+ if [ -z "$pparam" ]; then
+   pparam=`cat /proc/cpuinfo | grep 'flags' | cut -d ':' -f 2`
+ fi
++pparam=""
+ pvendor=`cat /proc/cpuinfo | grep 'vendor_id' | cut -d ':' -f 2  | cut -d ' ' -f 2`
+ pfamily=`cat /proc/cpuinfo | grep 'cpu family' | cut -d ':' -f 2 | cut -d ' ' -f 2`
+ pmodel=`cat /proc/cpuinfo | grep "model$TAB" | cut -d ':' -f 2 | cut -d ' ' -f 2`
+@@ -403,7 +404,7 @@
  $_cc $TMPC -o $TMPO -L/usr/local/lib/ -lSDL -lpthread &> /dev/null && _have_sdl=yes
  
  _termcap=no
@@ -10,7 +18,7 @@ diff -urN main.org/configure main/configure
  
  _png=no
  $_cc $TMPC -o $TMPO -lpng &> /dev/null && _png=yes
-@@ -420,7 +420,6 @@
+@@ -420,7 +421,6 @@
  
  if [ $_x11 = yes ]; then
  
@@ -18,7 +26,7 @@ diff -urN main.org/configure main/configure
  $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lXv &> /dev/null && _xv=yes
  
  $_cc $TMPC -o $TMPO $_x11libdir -lX11 -lXext -lGL &> /dev/null && _gl=yes
-@@ -710,7 +709,7 @@
+@@ -710,7 +710,7 @@
  
  if [ "$_termcap" = "yes" ]; then
   _termcap='#define USE_TERMCAP'
@@ -27,7 +35,7 @@ diff -urN main.org/configure main/configure
  else
   _termcap='#undef USE_TERMCAP'
   _libtermcap=''
-@@ -745,7 +744,7 @@
+@@ -745,7 +745,7 @@
  CC=$_cc
  X11DIR=$_x11libdir
  # OPTFLAGS=-O4 -march=$proc -mcpu=$proc -pipe -fomit-frame-pointer -ffast-math
@@ -36,7 +44,7 @@ diff -urN main.org/configure main/configure
  # LIBS=-L/usr/lib -L/usr/local/lib $_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib
  X_LIBS=$_x11libdir $_gllib $_sdllib $_dgalib $_x11lib $_xvlib $_vmlib $_svgalib $_libpng
  TERMCAP_LIB=$_libtermcap
-@@ -753,7 +752,7 @@
+@@ -753,7 +753,7 @@
  LIRC_LIBS = $_lirclibs
  CSS_LIB = $_csslib
  CSS_INC = $_cssinc
@@ -46,8 +54,8 @@ diff -urN main.org/configure main/configure
  EOF
  # echo 'CFLAGS=$(OPTFLAGS) -Wall -DMPG12PLAY' >> config.mak
 diff -urN main.org/libvo/Makefile main/libvo/Makefile
---- main.org/libvo/Makefile	Fri Apr 20 00:18:08 2001
-+++ main/libvo/Makefile	Fri Apr 20 00:18:21 2001
+--- main.org/libvo/Makefile	Fri Apr 20 20:11:52 2001
++++ main/libvo/Makefile	Fri Apr 20 20:12:31 2001
 @@ -6,7 +6,7 @@
  SRCS=osd.c font_load.c rgb15to16mmx.c yuv2rgb_mmx.c yuv2rgb.c video_out.c vo_null.c vo_pgm.c vo_md5.c vo_odivx.c x11_common.c $(OPTIONAL_SRCS)
  OBJS=osd.o font_load.o rgb15to16mmx.o yuv2rgb_mmx.o yuv2rgb.o video_out.o vo_null.o vo_pgm.o vo_md5.o vo_odivx.o x11_common.o $(OPTIONAL_OBJS)
@@ -58,8 +66,8 @@ diff -urN main.org/libvo/Makefile main/libvo/Makefile
  
  .SUFFIXES: .c .o
 diff -urN main.org/mplayer.c main/mplayer.c
---- main.org/mplayer.c	Fri Apr 20 00:18:07 2001
-+++ main/mplayer.c	Fri Apr 20 00:18:21 2001
+--- main.org/mplayer.c	Fri Apr 20 20:11:52 2001
++++ main/mplayer.c	Fri Apr 20 20:12:31 2001
 @@ -504,7 +504,7 @@
  
    printf("%s",banner_text);
@@ -81,8 +89,8 @@ diff -urN main.org/mplayer.c main/mplayer.c
  
  // check font
 diff -urN main.org/mplayerHQ.c main/mplayerHQ.c
---- main.org/mplayerHQ.c	Fri Apr 20 00:18:07 2001
-+++ main/mplayerHQ.c	Fri Apr 20 00:18:21 2001
+--- main.org/mplayerHQ.c	Fri Apr 20 20:11:52 2001
++++ main/mplayerHQ.c	Fri Apr 20 20:12:31 2001
 @@ -381,7 +381,7 @@
  
    printf("%s",banner_text);
