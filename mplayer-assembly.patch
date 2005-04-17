@@ -6,7 +6,7 @@
  $_def_strlcpy
 +#ifndef __ASSEMBLY__
  #ifndef HAVE_STRLCPY
- unsigned int strlcpy (char *dest, char *src, unsigned int size);
+ unsigned int strlcpy (char *dest, const char *src, unsigned int size);
  #endif
 +#endif
  
@@ -14,7 +14,7 @@
  $_def_strlcat
 +#ifndef __ASSEMBLY__
  #ifndef HAVE_STRLCAT
- unsigned int strlcat (char *dest, char *src, unsigned int size);
+ unsigned int strlcat (char *dest, const char *src, unsigned int size);
  #endif
 +#endif
  

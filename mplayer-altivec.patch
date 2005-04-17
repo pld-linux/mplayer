@@ -1,9 +1,9 @@
 --- MPlayer-1.0pre2/configure.orig	2003-11-23 00:09:38.000000000 +0100
 +++ MPlayer-1.0pre2/configure	2003-11-23 00:20:52.337674440 +0100
 @@ -1173,6 +1173,7 @@
- _inet6=auto
  _gethostbyname2=auto
  _ftp=yes
+ _vstream=auto
 +_disable_altivec=no
  for ac_option do
    case "$ac_option" in

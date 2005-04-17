@@ -1,11 +1,11 @@
-diff -ruN MPlayer-1.0pre6./mencoder.c MPlayer-1.0pre6/mencoder.c
---- MPlayer-1.0pre6./mencoder.c	2004-12-24 21:44:09.000000000 +0100
-+++ MPlayer-1.0pre6/mencoder.c	2004-12-24 21:44:41.755324760 +0100
-@@ -1611,6 +1611,7 @@
+diff -ruN MPlayer-1.0pre7./mencoder.c MPlayer-1.0pre7/mencoder.c
+--- MPlayer-1.0pre7./mencoder.c	2005-04-17 12:58:24.000000000 +0200
++++ MPlayer-1.0pre7/mencoder.c	2005-04-17 13:06:33.883762256 +0200
+@@ -1887,6 +1887,7 @@
      vobsub_out_close(vobsub_writer);
  
  if(out_video_codec==VCODEC_FRAMENO && mux_v->timer>100){
-+    mp_msg(MSGT_FIXME, MSGL_FIXME, MSGTR_RecommendedVideoBitrate,"350MB",(int)((350*1024*1024-muxer_f_size)/mux_v->timer/125));
-     mp_msg(MSGT_FIXME, MSGL_FIXME, MSGTR_RecommendedVideoBitrate,"650MB",(int)((650*1024*1024-muxer_f_size)/mux_v->timer/125));
-     mp_msg(MSGT_FIXME, MSGL_FIXME, MSGTR_RecommendedVideoBitrate,"700MB",(int)((700*1024*1024-muxer_f_size)/mux_v->timer/125));
-     mp_msg(MSGT_FIXME, MSGL_FIXME, MSGTR_RecommendedVideoBitrate,"800MB",(int)((800*1024*1024-muxer_f_size)/mux_v->timer/125));
++    mp_msg(MSGT_MENCODER, MSGL_INFO, MSGTR_RecommendedVideoBitrate,"350MB",(int)((350*1024*1024-muxer_f_size)/mux_v->timer/125));
+     mp_msg(MSGT_MENCODER, MSGL_INFO, MSGTR_RecommendedVideoBitrate,"650MB",(int)((650*1024*1024-muxer_f_size)/mux_v->timer/125));
+     mp_msg(MSGT_MENCODER, MSGL_INFO, MSGTR_RecommendedVideoBitrate,"700MB",(int)((700*1024*1024-muxer_f_size)/mux_v->timer/125));
+     mp_msg(MSGT_MENCODER, MSGL_INFO, MSGTR_RecommendedVideoBitrate,"800MB",(int)((800*1024*1024-muxer_f_size)/mux_v->timer/125));

@@ -57,7 +57,7 @@
 %define		sname		MPlayer
 %define		snap		%{nil}
 
-%define		pre		pre6a
+%define		pre		pre7
 
 Summary:	Yet another movie player
 Summary(es):	Otro reproductor de películas
@@ -76,7 +76,7 @@ Group:		X11/Applications/Multimedia
 #Source1:	libavcodec-%{snap}.tar.bz2
 %else
 Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	a812d945b884c2e2fa7f90c57cd76bff
+# Source0-md5:	5fadd6957d3aab989cd760ff38fb8fdf
 %endif
 Source3:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -233,9 +233,9 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-%patch10 -p1
+#%%patch10 -p1
 %patch11 -p1
-%patch12 -p1
+#%%patch12 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
