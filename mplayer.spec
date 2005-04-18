@@ -412,5 +412,7 @@ umask 022
 %lang(pl) %{_mandir}/pl/man1/*
 %lang(sv) %{_mandir}/sv/man1/*
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
+%if %{with gui}
 %{_desktopdir}/*
 %{_pixmapsdir}/*
+%endif
