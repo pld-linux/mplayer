@@ -216,33 +216,32 @@ diff -urN MPlayer-1.0pre5/libao2/ao_pcmsplt.c MPlayer-1.0pre5-orig/libao2/ao_pcm
 +
 +
 +
-diff -urN MPlayer-1.0pre5/libao2/Makefile MPlayer-1.0pre5-orig/libao2/Makefile
---- MPlayer-1.0pre5/libao2/Makefile	2004-06-25 20:11:13.000000000 +0200
-+++ MPlayer-1.0pre5-orig/libao2/Makefile	2004-11-06 15:17:29.853357352 +0100
+--- MPlayer-1.0pre7/libao2/Makefile.orig	2004-12-27 20:34:42.000000000 +0100
++++ MPlayer-1.0pre7/libao2/Makefile	2005-04-21 19:54:04.134837488 +0200
 @@ -2,7 +2,7 @@
  
  LIBNAME = libao2.a
  
--SRCS=afmt.c audio_out.c ao_mpegpes.c ao_null.c ao_pcm.c ao_plugin.c pl_delay.c pl_format.c pl_surround.c remez.c pl_resample.c pl_volume.c pl_extrastereo.c pl_volnorm.c pl_eq.c $(OPTIONAL_SRCS)
-+SRCS=afmt.c audio_out.c ao_mpegpes.c ao_null.c ao_pcmsplt.c ao_pcm.c ao_plugin.c pl_delay.c pl_format.c pl_surround.c remez.c pl_resample.c pl_volume.c pl_extrastereo.c pl_volnorm.c pl_eq.c $(OPTIONAL_SRCS)
+-SRCS=audio_out.c ao_mpegpes.c ao_null.c ao_pcm.c $(OPTIONAL_SRCS)
++SRCS=audio_out.c ao_mpegpes.c ao_null.c ao_pcmsplt.c ao_pcm.c $(OPTIONAL_SRCS)
  
  OBJS=$(SRCS:.c=.o)
  
---- MPlayer-1.0pre5/libao2/audio_out.c~	2004-11-06 16:12:38.331392240 +0100
-+++ MPlayer-1.0pre5/libao2/audio_out.c	2004-11-06 16:12:38.331392240 +0100
-@@ -58,6 +58,7 @@
+--- MPlayer-1.0pre7/libao2/audio_out.c.orig	2005-04-06 13:57:09.000000000 +0200
++++ MPlayer-1.0pre7/libao2/audio_out.c	2005-04-21 19:54:26.137492576 +0200
+@@ -64,6 +64,7 @@
  #endif
  extern ao_functions_t audio_out_mpegpes;
  extern ao_functions_t audio_out_pcm;
 +extern ao_functions_t audio_out_pcmsplt;
  extern ao_functions_t audio_out_pss;
- extern ao_functions_t audio_out_plugin;
  
-@@ -112,6 +113,7 @@
+ ao_functions_t* audio_out_drivers[] =
+@@ -123,6 +124,7 @@
          &audio_out_null,
  // should not be auto-selected:
  	&audio_out_pcm,
 +	&audio_out_pcmsplt,
- 	&audio_out_plugin,
  	NULL
  };
+ 
