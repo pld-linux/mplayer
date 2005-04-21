@@ -80,8 +80,8 @@ Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar
 %endif
 Source3:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
-Source4:	ftp://ftp1.mplayerhq.hu/%{sname}/Skin/default-1.8.tar.bz2
-# Source4-md5:	9b2cae8ad3fa63db3cd0ee201759d708
+Source4:	ftp://ftp1.mplayerhq.hu/%{sname}/Skin/Blue-1.4.tar.bz2
+# Source4-md5:	05dd8e4f11a715c9e5d2abf1cdeb907c
 Source5:	g%{name}.desktop
 Source6:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
