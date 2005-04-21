@@ -98,7 +98,6 @@ Patch8:		%{name}-altivec.patch
 Patch9:		%{name}-assembly.patch
 Patch10:	%{name}-pcmsplit.patch
 Patch11:	%{name}-bio2jack.patch
-Patch12:	%{name}-3gp.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -235,7 +234,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch9 -p1
 #%%patch10 -p1
 %patch11 -p1
-#%%patch12 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
