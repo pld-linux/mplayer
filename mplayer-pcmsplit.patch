@@ -9,7 +9,7 @@ diff -urN MPlayer-1.0pre5/libao2/ao_pcmsplt.c MPlayer-1.0pre5-orig/libao2/ao_pcm
 +#include <string.h>
 +#include <time.h>
 +#include "bswap.h"
-+#include "afmt.h"
++#include "libaf/af_format.h"
 +#include "audio_out.h"
 +#include "audio_out_internal.h"
 +
@@ -113,12 +113,12 @@ diff -urN MPlayer-1.0pre5/libao2/ao_pcmsplt.c MPlayer-1.0pre5-orig/libao2/ao_pcm
 +
 +       bits=8;
 +       switch(format){
-+       case AFMT_S8:
-+           format=AFMT_U8;
-+       case AFMT_U8:
++       case AF_FORMAT_S8:
++           format=AF_FORMAT_U8;
++       case AF_FORMAT_U8:
 +           break;
 +       default:
-+           format=AFMT_S16_LE;
++           format=AF_FORMAT_S16_LE;
 +           bits=16;
 +           break;
 +       }
