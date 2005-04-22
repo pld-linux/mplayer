@@ -42,6 +42,7 @@
 %bcond_without	win32		# without win32 codecs support
 %bcond_without	vorbis		# without Ogg-Vorbis audio support
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
+%bcond_without	libdts		# disable libdts support
 
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
 %bcond_with	xlibs
@@ -127,7 +128,7 @@ BuildRequires:	gtk+%{?with_gtk2:2}-devel
 BuildRequires:	lame-libs-devel
 %{?with_jack:BuildRequires:	libbio2jack-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
-BuildRequires:	libdts-devel
+%{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel}
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libjpeg-devel
@@ -280,6 +281,7 @@ export CC CFLAGS
 %{?with_gui:--enable-gui} \
 %{?with_joystick:--enable-joystick} \
 %{!?with_libdv:--disable-libdv} \
+%{!?with_libdts:--disable-libdts} \
 %{!?with_lirc:--disable-lirc} \
 %{!?with_mad:--disable-mad} \
 %{!?with_polyp:--disable-polyp} \
