@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=GUI MPlayer
+Name=MPlayer
 Comment=The Movie Player for Linux
 Comment[pl]=Odtwarzacz filmów pod Linuksa
-Exec=gmplayer -nofs
+Exec=mplayer
 Icon=mplayer.png
 Terminal=false
 Type=Application

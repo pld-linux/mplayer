@@ -87,6 +87,7 @@ Source5:	g%{name}.desktop
 Source6:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
+Source8:	%{name}.desktop
 Patch0:		%{name}-no_libnsl.patch
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
@@ -246,6 +247,7 @@ CFLAGS="%{rpmcflags}"
 CC="%{__cc}"
 export CC CFLAGS
 ./configure \
+    --disable-gcc-checking \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
 	--with-x11incdir=%{_prefix}/X11R6/include \
@@ -355,6 +357,7 @@ install vidix/drivers/*.so $RPM_BUILD_ROOT%{_libdir}/mplayer/vidix
 
 # X-files
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
+install %{SOURCE8} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # man pages
@@ -413,6 +416,7 @@ umask 022
 %lang(sv) %{_mandir}/sv/man1/*
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %if %{with gui}
-%{_desktopdir}/*
-%{_pixmapsdir}/*
+%{_desktopdir}/gmplayer.desktop
 %endif
+%{_desktopdir}/mplayer.desktop
+%{_pixmapsdir}/*
