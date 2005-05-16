@@ -115,6 +115,7 @@ BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	audiofile-devel
 BuildRequires:	cdparanoia-III-devel
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
+BuildRequires:	docbook-style-xsl
 %{?with_dxr3:BuildRequires:	em8300-devel}
 BuildRequires:	enca-devel
 BuildRequires:	esound-devel
