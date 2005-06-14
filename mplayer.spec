@@ -1,4 +1,8 @@
 #
+# TODO:
+# - use external lrmi and few other libs:
+#   http://www.gocyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
+#
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
 %bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead
