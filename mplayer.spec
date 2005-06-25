@@ -71,7 +71,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	1.%{pre}.2
+Release:	1.%{pre}.3
 Epoch:		2
 License:	GPL
 Group:		X11/Applications/Multimedia
@@ -254,11 +254,12 @@ CFLAGS="%{rpmcflags}"
 CC="%{__cc}"
 export CC CFLAGS
 ./configure \
-    --disable-gcc-checking \
+	--disable-gcc-checking \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
 	--with-x11incdir=%{_prefix}/X11R6/include \
 	--with-extraincdir=%{_includedir}/xvid \
+	--enable-menu \
 %ifnarch %{ix86}
 	--disable-mmx \
 	--disable-mmx2 \
