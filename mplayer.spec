@@ -76,19 +76,19 @@ Epoch:		2
 License:	GPL
 Group:		X11/Applications/Multimedia
 %if %{snapshot}
-#Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/cvs/%{sname}-%{snap}.tar.bz2
+#Source0:	ftp://ftp1.mplayerhq.hu/MPlayer/cvs/%{sname}-%{snap}.tar.bz2
 #Source0:	%{name}-%{snap}.tar.bz2
 #Source1:	libavcodec-%{snap}.tar.bz2
 %else
-Source0:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/%{sname}-%{version}%{pre}.tar.bz2
+Source0:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{pre}.tar.bz2
 # Source0-md5:	5fadd6957d3aab989cd760ff38fb8fdf
 %endif
-Source3:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-2.tar.bz2
+Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
-Source4:	ftp://ftp1.mplayerhq.hu/%{sname}/Skin/Blue-1.4.tar.bz2
+Source4:	ftp://ftp1.mplayerhq.hu/MPlayer/Skin/Blue-1.4.tar.bz2
 # Source4-md5:	05dd8e4f11a715c9e5d2abf1cdeb907c
 Source5:	g%{name}.desktop
-Source6:	ftp://ftp1.mplayerhq.hu/%{sname}/releases/fonts/font-arial-iso-8859-1.tar.bz2
+Source6:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.tar.bz2
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
