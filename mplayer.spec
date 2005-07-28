@@ -272,6 +272,7 @@ export CC CFLAGS
 %ifarch ppc
 %{!?with_altivec:--disable-altivec} \
 %endif
+%{?with_directfb:--enable-directfb} \
 %{!?with_directfb:--disable-directfb} \
 %{!?with_divx4linux:--disable-divx4linux} \
 %{?with_divx4linux:--with-extraincdir=/usr/include/divx} \
