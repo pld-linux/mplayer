@@ -356,6 +356,7 @@ ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}
 
 # skin
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
+mv $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/Blue $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/default
 rm -rf $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/*/CVS
 
 # libraries
