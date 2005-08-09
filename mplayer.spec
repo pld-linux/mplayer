@@ -254,7 +254,6 @@ CFLAGS="%{rpmcflags}"
 CC="%{__cc}"
 export CC CFLAGS
 ./configure \
-	--disable-gcc-checking \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
 	--with-x11incdir=%{_prefix}/X11R6/include \
@@ -278,7 +277,7 @@ export CC CFLAGS
 %{?with_divx4linux:--with-extraincdir=/usr/include/divx} \
 %{!?with_dxr3:--disable-dxr3} \
 %{!?with_ggi:--disable-ggi} \
-%{?with_live:--enable-live --with-livelibdir=/usr/lib/liveMedia --with-extraincdir=/usr/include/liveMedia } \
+%{?with_live:--enable-live --with-livelibdir=%{_libdir}/liveMedia --with-extraincdir=/usr/include/liveMedia } \
 %{!?with_live:--disable-live} \
 %{!?with_nas:--disable-nas} \
 %{!?with_svga:--disable-svga} \
