@@ -328,7 +328,7 @@ export CC CFLAGS
 
 %{__make}
 
-%{__make} -C DOCS/xml
+%{__make} -j1 -C DOCS/xml
 
 %install
 rm -rf $RPM_BUILD_ROOT
