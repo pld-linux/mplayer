@@ -10,7 +10,6 @@
 
 %bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
 %bcond_with	ggi		# with ggi video output
-%bcond_with	live		# enable use of live.com libraries
 %bcond_with	nas		# with NAS audio output
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
@@ -30,6 +29,7 @@
 %bcond_without	joystick	# disable joystick support
 %bcond_without	libdv		# disable libdv en/decoding support
 %bcond_without	lirc		# without lirc support
+%bcond_without	live		# without live.com libraries
 %bcond_without	mad		# without mad (audio MPEG) support
 %bcond_without	polyp		# without polyp audio output
 %bcond_without	quicktime	# without binary quicktime dll support
@@ -71,7 +71,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	1.%{pre}.3
+Release:	1.%{pre}.4
 Epoch:		2
 License:	GPL
 Group:		X11/Applications/Multimedia
