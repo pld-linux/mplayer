@@ -71,7 +71,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	2.%{pre}.1
+Release:	2.%{pre}.2
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -263,7 +263,7 @@ export CC CFLAGS
 	--with-x11incdir=%{_prefix}/X11R6/include \
 	--with-extraincdir=%{_includedir}/xvid \
 	--enable-menu \
-%ifnarch %{ix86}
+%ifnarch %{ix86} %{x8664}
 	--disable-mmx \
 	--disable-mmx2 \
 	--disable-3dnow \
