@@ -1,0 +1,4 @@
+- release 2 - enable mmx*/sse*/3dnow* on amd64 too... it has these
+  extensions for sure. Maybe it's good to disable run-time-detection on
+  that arch? These extensions are always available...
+  STBR anyway
