@@ -5,20 +5,14 @@
 #
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
-%bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead
-				#  of included OpenDivx)
-
+%bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead of included OpenDivx)
 %bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
 %bcond_with	ggi		# with ggi video output
 %bcond_with	nas		# with NAS audio output
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
-
-%bcond_with	altivec		# with altivec support (won't run w/o altivec
-				# due to instruction used in CPU detection(?))
-
+%bcond_with	altivec		# with altivec support (won't run w/o altivec due to instruction used in CPU detection(?))
 %bcond_with	xmms		# with XMMS inputplugin support
-
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
 %bcond_without	alsa		# without ALSA audio output
@@ -35,21 +29,20 @@
 %bcond_without	quicktime	# without binary quicktime dll support
 %bcond_without	real		# without Real* 8/9 codecs support
 %bcond_without	runtime		# disable runtime cpu detection, just detect CPU
-				#  in compile time (advertised by mplayer
-				#  authors as working faster); in this case
-				#  mplayer may not work on machine other then
-				#  where it was compiled
-%bcond_without	select		# disable audio select() support (for example
-				# required this option ALSA or Vortex2 driver)
+				#  in compile time (advertised by mplayer authors as working faster); in this case
+				#  mplayer may not work on machine other then where it was compiled
+%bcond_without	select		# disable audio select() support (for example required this option ALSA or Vortex2 driver)
 %bcond_without	smb		# disable Samba (SMB) input support
 %bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
 %bcond_without	vorbis		# without Ogg-Vorbis audio support
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
 %bcond_without	libdts		# disable libdts support
-
+%bcond_without	sdl			# disable SDL
+%bcond_without	docs		# don't build docs (slow)
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
 %bcond_with	xlibs
+%bcond_with	shared	# experimental libmplayer.so support
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -64,14 +57,19 @@
 
 %define		pre		pre7try2
 
-Summary:	Yet another movie player
+%ifarch %{x8664}
+%undefine	with_runtime
+%endif
+
+Summary:	MPlayer is THE Movie Player for UN*X.
 Summary(es):	Otro reproductor de películas
 Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
 Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	2.%{pre}.3
+%define	_rel 3.11
+Release:	2.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -89,8 +87,6 @@ Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{pre}.tar.
 %endif
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
-Source4:	ftp://ftp2.mplayerhq.hu/MPlayer/Skin/Blue-1.4.tar.bz2
-# Source4-md5:	05dd8e4f11a715c9e5d2abf1cdeb907c
 Source5:	g%{name}.desktop
 Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.tar.bz2
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
@@ -110,10 +106,11 @@ Patch10:	%{name}-pcmsplit.patch
 Patch11:	%{name}-bio2jack.patch
 Patch12:	%{name}-x86_64-detection.patch
 Patch13:	%{name}-mythtv.patch
+Patch14:	%{name}-shared.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
-BuildRequires:	SDL-devel >= 1.1.7
+%{?with_sdl:BuildRequires:	SDL-devel >= 1.1.7}
 %if %{with xlibs}
 BuildRequires:	libXv-devel
 %else
@@ -162,6 +159,7 @@ BuildRequires:	ncurses-devel
 %{?with_xmms:BuildRequires:	xmms-libs}
 BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
+Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -225,6 +223,32 @@ MPlayer é um reprodutor de filmes que suporta vários codecs de vídeo e
 áudio. Diferentes mecanismos de reprodução podem também ser
 escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 
+%package -n gmplayer
+Summary:	MPlayer with GTK+ GUI interface
+Group:		X11/Applications/Multimedia
+Provides:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name}-skin
+Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+
+%description -n gmplayer
+MPlayer with GUI GTK+ interface.
+
+%package common
+Summary:	Configuration files and documentation for mplayer.
+Group:		Applications/Multimedia
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description common
+Configuration files, man page and HTML documentation for mplayer.
+
+%package -n mencoder
+Summary:	MEncoder is a movie encoder for LINUX.
+Group:		Applications/Multimedia
+Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+
+%description -n mencoder
+MEncoder a movie encoder for LINUX and is a part of the MPlayer package.
+
 %prep
 %if %{snapshot}
 %setup -q -n %{name}-%{snap} -a 1 -a 3 -a 6
@@ -249,6 +273,9 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%if %{with shared}
+%patch14 -p1
+%endif
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -256,10 +283,15 @@ echo > osdep/kerneltwosix.h
 find . -type d -name CVS -print | xargs rm -rf
 
 %build
-CFLAGS="%{rpmcflags}"
+CFLAGS="%{rpmcflags} -fPIC"
+LDFLAGS="%{rpmldflags} -wl,--as-needed"
 CC="%{__cc}"
 export CC CFLAGS
-./configure \
+
+build() {
+set -x
+	./configure \
+	%{?debug:--enable-debug=3} \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
 	--with-x11incdir=%{_prefix}/X11R6/include \
@@ -283,7 +315,7 @@ export CC CFLAGS
 %{?with_divx4linux:--with-extraincdir=/usr/include/divx} \
 %{!?with_dxr3:--disable-dxr3} \
 %{!?with_ggi:--disable-ggi} \
-%{?with_live:--enable-live --with-livelibdir=%{_libdir}/liveMedia --with-extraincdir=/usr/include/liveMedia } \
+%{?with_live:--enable-live --with-livelibdir=%{_libdir}/liveMedia --with-extraincdir=/usr/include/liveMedia} \
 %{!?with_live:--disable-live} \
 %{!?with_nas:--disable-nas} \
 %{!?with_svga:--disable-svga} \
@@ -294,7 +326,6 @@ export CC CFLAGS
 %{!?with_arts:--disable-arts} \
 %{!?with_caca:--disable-caca} \
 %{!?with_dshow:--disable-dshow} \
-%{?with_gui:--enable-gui} \
 %{?with_joystick:--enable-joystick} \
 %{!?with_libdv:--disable-libdv} \
 %{!?with_libdts:--disable-libdts} \
@@ -303,8 +334,7 @@ export CC CFLAGS
 %{!?with_polyp:--disable-polyp} \
 %{!?with_quicktime:--disable-qtx} \
 %{!?with_real:--disable-real} \
-%{!?with_runtime:--disable-runtime-cpudetection} \
-%{?with_runtime:--enable-runtime-cpudetection} \
+--%{?with_runtime:en}%{!?with_runtime:dis}able-runtime-cpudetection \
 %{!?with_select:--disable-select} \
 %{!?with_smb:--disable-smb} \
 %{!?with_win32:--disable-win32} \
@@ -318,7 +348,7 @@ export CC CFLAGS
 	--enable-fbdev \
 	--enable-gl \
 	--enable-mga \
-	--enable-sdl \
+	--%{?with_sdl:en}%{!?with_sdl:dis}able-sdl \
 	--enable-tdfxfb \
 	--enable-vm \
 	--enable-x11 \
@@ -329,11 +359,25 @@ export CC CFLAGS
 	--enable-largefiles \
 	--language=all \
 	--with-codecsdir=%{_libdir}/codecs \
-	--enable-dynamic-plugins
+	--enable-dynamic-plugins \
+	"$@"
 
-%{__make}
+	%{__make}
+}
 
+%if %{with gui}
+# build GUI version
+build --enable-gui
+mv -f mplayer gmplayer
+%{__make} clean
+%endif
+
+# now build regular version
+build --disable-gui
+
+%if %{with docs}
 %{__make} -j1 -C DOCS/xml
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -344,7 +388,7 @@ install -d \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
 # default config files
-awk '/Delete this default/{a++};{if(!a){print}}' etc/example.conf > etc/mplayer.conf
+sed -e '/Delete this default/d' etc/example.conf > etc/mplayer.conf
 install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
 
 # executables
@@ -352,22 +396,23 @@ install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysc
 install mencoder $RPM_BUILD_ROOT%{_bindir}
 %endif
 install mplayer $RPM_BUILD_ROOT%{_bindir}
-ln -sf mplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer
+%if %{with gui}
+install gmplayer $RPM_BUILD_ROOT%{_bindir}
+%endif
 
 # fonts
 rm -f font-*/runme
 cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 
-# skin
-bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin
-mv $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/Blue $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/default
-rm -rf $RPM_BUILD_ROOT%{_datadir}/mplayer/Skin/*/CVS
-
 # libraries
 %ifarch %{ix86}
 install libdha/libdha.so.1.0 $RPM_BUILD_ROOT%{_libdir}
 install vidix/drivers/*.so $RPM_BUILD_ROOT%{_libdir}/mplayer/vidix
+%endif
+
+%if %{with gui}
+ln -s Blue $RPM_BUILD_ROOT%{_datadir}/%{name}/Skin/default
 %endif
 
 # X-files
@@ -402,7 +447,35 @@ umask 022
 
 %files
 %defattr(644,root,root,755)
-%doc DOCS/HTML/en/*.html DOCS/tech %{?with_win32:etc/codecs.win32.conf}
+%attr(755,root,root) %{_bindir}/mplayer
+
+%if %{with gui}
+%files -n gmplayer
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/gmplayer
+%{_desktopdir}/gmplayer.desktop
+%dir %{_datadir}/%{name}/Skin
+%ghost %{_datadir}/%{name}/Skin/default
+%endif
+
+%files -n mencoder
+%defattr(644,root,root,755)
+%doc DOCS/tech/encoding-tips.txt DOCS/tech/swscaler_filters.txt
+%doc DOCS/tech/swscaler_methods.txt DOCS/tech/colorspaces.txt
+%attr(755,root,root) %{_bindir}/mencoder
+
+%files common
+%defattr(644,root,root,755)
+# some useful tech docs
+%doc DOCS/tech/hwac3.txt DOCS/tech/mpsub.sub DOCS/tech/slave.txt
+%doc DOCS/tech/subcp.txt
+
+# HTML and XML-generated docs
+%doc DOCS/HTML/en
+%doc DOCS/tech
+%if %{with win32}
+%doc etc/codecs.win32.conf}
+%endif
 %lang(de) %doc DOCS/de
 %lang(es) %doc DOCS/HTML/es
 %lang(fr) %doc DOCS/HTML/fr
@@ -412,14 +485,13 @@ umask 022
 %lang(ru) %doc DOCS/HTML/ru
 %lang(zh_CN) %doc DOCS/zh
 %doc README AUTHORS ChangeLog
-%attr(755,root,root) %{_bindir}/*
+
 %ifarch %{ix86}
 %attr(755,root,root) %{_libdir}/libdha.so.*.*
 %attr(755,root,root) %{_libdir}/mplayer
 %endif
-%{_datadir}/mplayer
 %dir %{_sysconfdir}/mplayer
-%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mplayer/*.conf
+%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/%{name}/*.conf
 %{_mandir}/man1/*
 %lang(cs) %{_mandir}/cs/man1/*
 %lang(de) %{_mandir}/de/man1/*
@@ -430,8 +502,7 @@ umask 022
 %lang(pl) %{_mandir}/pl/man1/*
 %lang(sv) %{_mandir}/sv/man1/*
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
-%if %{with gui}
-%{_desktopdir}/gmplayer.desktop
-%endif
 %{_desktopdir}/mplayer.desktop
 %{_pixmapsdir}/*
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/font*
