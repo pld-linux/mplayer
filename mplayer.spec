@@ -68,7 +68,7 @@ Summary(pl):	Jeszcze jeden odtwarzacz filmów
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define	_rel 3.11
+%define	_rel 3.12
 Release:	2.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -283,8 +283,13 @@ echo > osdep/kerneltwosix.h
 find . -type d -name CVS -print | xargs rm -rf
 
 %build
+%if %{with shared}
 CFLAGS="%{rpmcflags} -fPIC"
 LDFLAGS="%{rpmldflags} -wl,--as-needed"
+%else
+CFLAGS="%{rpmcflags}"
+LDFLAGS="%{rpmldflags}"
+%endif
 CC="%{__cc}"
 export CC CFLAGS
 
@@ -416,7 +421,9 @@ ln -s Blue $RPM_BUILD_ROOT%{_datadir}/%{name}/Skin/default
 %endif
 
 # X-files
+%if %{with gui}
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
+%endif
 install %{SOURCE8} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
