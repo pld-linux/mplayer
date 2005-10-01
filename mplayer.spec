@@ -481,7 +481,7 @@ umask 022
 %doc DOCS/HTML/en
 %doc DOCS/tech
 %if %{with win32}
-%doc etc/codecs.win32.conf}
+%doc etc/codecs.win32.conf
 %endif
 %lang(de) %doc DOCS/de
 %lang(es) %doc DOCS/HTML/es
