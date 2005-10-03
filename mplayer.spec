@@ -38,7 +38,7 @@
 %bcond_without	vorbis		# without Ogg-Vorbis audio support
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
 %bcond_without	libdts		# disable libdts support
-%bcond_without	sdl			# disable SDL
+%bcond_without	sdl		# disable SDL
 %bcond_without	docs		# don't build docs (slow)
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
 %bcond_with	xlibs
@@ -49,6 +49,10 @@
 %undefine	with_quicktime
 %endif
 
+%ifarch %{x8664}
+%undefine	with_runtime
+%endif
+
 # set it to 0, or 1
 %define		snapshot	0
 
@@ -57,14 +61,10 @@
 
 %define		pre		pre7try2
 
-%ifarch %{x8664}
-%undefine	with_runtime
-%endif
-
-Summary:	MPlayer is THE Movie Player for UN*X.
+Summary:	MPlayer - THE Movie Player for UN*X
 Summary(es):	Otro reproductor de películas
 Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
-Summary(pl):	Jeszcze jeden odtwarzacz filmów
+Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
@@ -76,7 +76,7 @@ Release:	2.%{pre}.%{_rel}
 # pre7try2 > pre7
 Epoch:		3
 License:	GPL
-Group:		X11/Applications/Multimedia
+Group:		Applications/Multimedia
 %if %{snapshot}
 #Source0:	ftp://ftp1.mplayerhq.hu/MPlayer/cvs/%{sname}-%{snap}.tar.bz2
 #Source0:	%{name}-%{snap}.tar.bz2
@@ -225,29 +225,42 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 
 %package -n gmplayer
 Summary:	MPlayer with GTK+ GUI interface
+Summary(pl):	MPlayer z graficznym interfejsem GTK+
 Group:		X11/Applications/Multimedia
-Provides:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	%{name}-skin
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+Provides:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gmplayer
 MPlayer with GUI GTK+ interface.
 
+%description -n gmplayer -l pl
+MPlayer z graficznym interfejsem GTK+.
+
 %package common
-Summary:	Configuration files and documentation for mplayer.
+Summary:	Configuration files and documentation for MPlayer
+Summary(pl):	Pliki konfiguracyjne i dokumentacja dla MPlayera
 Group:		Applications/Multimedia
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description common
-Configuration files, man page and HTML documentation for mplayer.
+Configuration files, man page and HTML documentation for MPlayer.
+
+%description common -l pl
+Pliki konfiguracyjne, strona manuala i dokumentacja HTML dla MPlayera.
 
 %package -n mencoder
-Summary:	MEncoder is a movie encoder for LINUX.
+Summary:	MEncoder - a movie encoder for Linux
+Summary(pl):	MEncoder - koder filmów dla Linuksa
 Group:		Applications/Multimedia
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 
 %description -n mencoder
-MEncoder a movie encoder for LINUX and is a part of the MPlayer package.
+MEncoder is a movie encoder for Linux and is a part of the MPlayer
+package.
+
+%description -n mencoder -l pl
+MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
 
 %prep
 %if %{snapshot}
@@ -497,8 +510,8 @@ umask 022
 %attr(755,root,root) %{_libdir}/libdha.so.*.*
 %attr(755,root,root) %{_libdir}/mplayer
 %endif
-%dir %{_sysconfdir}/mplayer
-%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/%{name}/*.conf
+%dir %{_sysconfdir}/%{name}
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/*.conf
 %{_mandir}/man1/*
 %lang(cs) %{_mandir}/cs/man1/*
 %lang(de) %{_mandir}/de/man1/*
