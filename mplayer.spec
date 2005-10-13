@@ -154,6 +154,7 @@ BuildRequires:	libxslt-progs
 BuildRequires:	lzo-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
+BuildRequires:	pkgconfig
 %{?with_polyp:BuildRequires:	polypaudio-devel}
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
