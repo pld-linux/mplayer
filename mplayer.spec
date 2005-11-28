@@ -68,7 +68,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define	_rel 4
+%define		_rel	5
 Release:	2.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -107,6 +107,7 @@ Patch11:	%{name}-bio2jack.patch
 Patch12:	%{name}-x86_64-detection.patch
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
+Patch15:	%{name}-jack.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -290,6 +291,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %if %{with shared}
 %patch14 -p1
 %endif
+%patch15 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
