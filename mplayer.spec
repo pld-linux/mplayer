@@ -107,7 +107,6 @@ Patch11:	%{name}-bio2jack.patch
 Patch12:	%{name}-x86_64-detection.patch
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
-Patch15:	%{name}-jack.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
@@ -291,7 +290,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %if %{with shared}
 %patch14 -p1
 %endif
-%patch15 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
