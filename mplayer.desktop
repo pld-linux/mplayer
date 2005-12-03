@@ -6,6 +6,7 @@ Exec=mplayer
 Icon=mplayer.png
 Terminal=false
 Type=Application
+NoDisplay=true
 MimeType=video/mp4;video/mpeg;video/quicktime;video/x-flic;video/x-matroska;video/x-mng;video/x-ms-asf;video/x-ms-wmp;video/x-ms-wmv;video/x-msvideo;video/x-ogm;video/x-theora
 Categories=AudioVideo;Player;
 Encoding=UTF-8
