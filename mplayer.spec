@@ -39,7 +39,7 @@
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
 %bcond_without	libdts		# disable libdts support
 %bcond_without	sdl		# disable SDL
-%bcond_without	docs		# don't build docs (slow)
+%bcond_without	doc		# don't build docs (slow)
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
 %bcond_with	xlibs
 %bcond_with	shared	# experimental libmplayer.so support
@@ -122,7 +122,7 @@ BuildRequires:	XFree86-devel >= 4.0.2
 BuildRequires:	audiofile-devel
 BuildRequires:	cdparanoia-III-devel
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
-BuildRequires:	docbook-style-xsl
+%{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_dxr3:BuildRequires:	em8300-devel}
 BuildRequires:	enca-devel
 BuildRequires:	esound-devel
@@ -394,7 +394,7 @@ mv -f mplayer gmplayer
 # now build regular version
 build --disable-gui
 
-%if %{with docs}
+%if %{with doc}
 %{__make} -j1 -C DOCS/xml
 %endif
 
