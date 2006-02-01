@@ -52,7 +52,7 @@
 %ifarch %{x8664}
 %undefine	with_runtime
 %endif
-
+%define		xvmclib		viaXvMC #(XvMCNVIDIA/I810XvMC/viaXvMC/viaXvMCPro)
 # set it to 0, or 1
 %define		snapshot	0
 
@@ -374,6 +374,7 @@ set -x
 	--enable-xmga \
 	--enable-xv \
 	--enable-xvmc \
+	--with-xvmclib=%{xvmclib} \
 	--enable-xvid \
 	--enable-largefiles \
 	--language=all \
