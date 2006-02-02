@@ -187,7 +187,6 @@ Voodoo2/3 hardware, SDL v1.1.7 driver etc.
 If you want to use win32 codecs install w32codec package.
 
 %description -l de
-
 MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player.
 Kennzeichnend ist die herausragende Format- und
 Plattform-Kompatibilität.
