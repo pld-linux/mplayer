@@ -61,6 +61,7 @@
 %define		pre		pre7try2
 
 Summary:	MPlayer - THE Movie Player for UN*X
+Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es):	Otro reproductor de películas
 Summary(ko):	¸®´ª½º¿ë ¹Ìµð¾îÇÃ·¹ÀÌ¾î
 Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
@@ -185,6 +186,20 @@ Voodoo2/3 hardware, SDL v1.1.7 driver etc.
 
 If you want to use win32 codecs install w32codec package.
 
+%description -l de
+
+MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player.
+Kennzeichnend ist die herausragende Format- und
+Plattform-Kompatibilität.
+
+Es unterstützt eine Vielzahl von Video und Audio-Codecs, darunter auch
+plattformexklusive, wodurch etwa Windows Media auch außerhalb von
+Windows wiedergegeben werden kann. Darüber hinaus unterstützt er DVB.
+Eine besondere Fehlertoleranz ermöglicht es dem mehrfach
+ausgezeichneten Player, auch defekte Dateien abzuspielen. Eine weitere
+Stärke ist dabei der Wegfall jeglicher Installation, so dass bereits
+installierte Codecs nicht mit MPlayer kollidieren können.
+
 %description -l es
 Reproductor video. Formatos de entrada soportados: VCD (VideoCD),
 MPEG1/2, RIFF AVI, ASF 1.0, Quicktime. Codecs de audio soportados: PCM
@@ -229,8 +244,8 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 Summary:	MPlayer with GTK+ GUI interface
 Summary(pl):	MPlayer z graficznym interfejsem GTK+
 Group:		X11/Applications/Multimedia
-Requires:	%{name}-skin
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+Requires:	%{name}-skin
 Provides:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gmplayer
