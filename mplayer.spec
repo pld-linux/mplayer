@@ -350,7 +350,7 @@ set -x
 %{?with_joystick:--enable-joystick} \
 %{!?with_libdv:--disable-libdv} \
 %{!?with_libdts:--disable-libdts} \
-%{!?with_lirc:--disable-lirc} \
+--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 %{!?with_mad:--disable-mad} \
 %{!?with_polyp:--disable-polyp} \
 %{!?with_quicktime:--disable-qtx} \
