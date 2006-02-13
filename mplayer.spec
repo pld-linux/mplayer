@@ -11,7 +11,7 @@
 %bcond_with	nas		# with NAS audio output
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
-%bcond_with	altivec		# with altivec support (won't run w/o altivec due to instruction used in CPU detection(?))
+%bcond_with	altivec		# with altivec support (altivec code brakes image in mpeg4, and may segfault on others)
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -68,7 +68,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	5
+%define		_rel	5.5
 Release:	2.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -108,6 +108,7 @@ Patch12:	%{name}-x86_64-detection.patch
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 Patch15:	%{name}-xvmc.patch
+Patch16:	%{name}-kill-mabi_altivec.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -171,7 +172,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		specflags	-fomit-frame-pointer
 %define		specflags_alpha	-mmax
 %if %{with altivec}
-%define		specflags_ppc	-maltivec -mabi=altivec
+%define		specflags_ppc	-maltivec
 %endif
 
 %description
@@ -306,6 +307,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch14 -p1
 %endif
 %patch15 -p0
+%patch16 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
