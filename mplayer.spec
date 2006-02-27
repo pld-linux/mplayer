@@ -41,7 +41,6 @@
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
-%bcond_with	xlibs
 %bcond_with	shared	# experimental libmplayer.so support
 
 %ifnarch %{ix86}
@@ -109,16 +108,12 @@ Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
+Patch17:	%{name}-gcc4.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.1.7}
-%if %{with xlibs}
-BuildRequires:	libXv-devel
-%else
-BuildRequires:	XFree86-devel >= 4.0.2
-%endif
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
@@ -161,6 +156,7 @@ BuildRequires:	pkgconfig
 %{?with_polyp:BuildRequires:	polypaudio-devel}
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
+BuildRequires:	xorg-lib-libXvMC-devel
 BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
@@ -169,7 +165,7 @@ Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
-%define		specflags	-fomit-frame-pointer
+%define		specflags_ia32	-fomit-frame-pointer
 %define		specflags_alpha	-mmax
 %if %{with altivec}
 %define		specflags_ppc	-maltivec
@@ -308,6 +304,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %endif
 %patch15 -p0
 %patch16 -p1
+%patch17 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -331,7 +328,8 @@ set -x
 	%{?debug:--enable-debug=3} \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
-	--with-x11incdir=%{_prefix}/X11R6/include \
+	--with-x11incdir=%{_includedir} \
+	--with-x11libdir=%{_libdir} \
 	--with-extraincdir=%{_includedir}/xvid \
 	--enable-menu \
 %ifnarch %{ix86} %{x8664}
