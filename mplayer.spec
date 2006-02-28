@@ -67,8 +67,9 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	5.5
-Release:	2.%{pre}.%{_rel}
+%define		_rel	1.1
+#Release:	2.%{pre}.%{_rel}
+Release:	2.pre7try3.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -109,6 +110,7 @@ Patch14:	%{name}-shared.patch
 Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-gcc4.patch
+Patch18:	http://www.mplayerhq.hu/MPlayer/patches/demuxer_h_fix_20060212.diff
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -305,6 +307,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch15 -p0
 %patch16 -p1
 %patch17 -p1
+%patch18 -p0
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
