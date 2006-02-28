@@ -68,9 +68,9 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	5.5
+%define		_rel	1
 #Release:	2.%{pre}.%{_rel}
-Release:	2.pre7try3.1
+Release:	2.pre7try3.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
