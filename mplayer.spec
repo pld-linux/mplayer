@@ -67,7 +67,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	1.1
+%define		_rel	1.2
 #Release:	2.%{pre}.%{_rel}
 Release:	2.pre7try3.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
@@ -147,7 +147,7 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
-BuildRequires:	libungif-devel
+BuildRequires:	giflib-devel
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
