@@ -111,6 +111,7 @@ Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-gcc4.patch
 Patch18:	http://www.mplayerhq.hu/MPlayer/patches/demuxer_h_fix_20060212.diff
+Patch19:	%{name}-CVE-2005-4048.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -308,6 +309,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch16 -p1
 %patch17 -p1
 %patch18 -p0
+%patch19 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
