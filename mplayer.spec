@@ -41,7 +41,7 @@
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
-%bcond_with	shared	# experimental libmplayer.so support
+%bcond_with	shared		# experimental libmplayer.so support
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -67,7 +67,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	1.2
+%define		_rel	2.1
 #Release:	2.%{pre}.%{_rel}
 Release:	2.pre7try3.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
