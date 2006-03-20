@@ -165,6 +165,12 @@ BuildRequires:	pkgconfig
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
 BuildRequires:	xorg-lib-libXvMC-devel
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXinerama-devel
+BuildRequires:	xorg-lib-libXv-devel
+BuildRequires:	xorg-lib-libXxf86dga-devel
+BuildRequires:	xorg-lib-libXxf86vm-devel
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 BuildRequires:	zlib-devel
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
