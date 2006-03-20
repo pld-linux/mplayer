@@ -18,9 +18,15 @@
 %bcond_without	alsa		# without ALSA audio output
 %bcond_without	arts		# without arts audio output
 %bcond_without	caca		# without libcaca video output
+%bcond_without	cdparanoia	# without cdparanoia support
 %bcond_without	dshow		# disable DirectShow support
+%bcond_without	enca		# disable using ENCA charset oracle library
+%bcond_without	esd		# disable EsounD sound support
+%bcond_without	faad		# disable FAAD2 (AAC) support
+%bcond_without	gif		# disable GIF support
 %bcond_without	gui		# without GTK+ GUI
 %bcond_without	joystick	# disable joystick support
+%bcond_without	libdts		# disable libdts support
 %bcond_without	libdv		# disable libdv en/decoding support
 %bcond_without	lirc		# without lirc support
 %bcond_without	live		# without live.com libraries
@@ -36,8 +42,8 @@
 %bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
 %bcond_without	vorbis		# without Ogg-Vorbis audio support
+%bcond_without	xvid		# disable XviD codec
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
-%bcond_without	libdts		# disable libdts support
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
@@ -120,18 +126,18 @@ BuildRequires:	OpenGL-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
-BuildRequires:	audiofile-devel
-BuildRequires:	cdparanoia-III-devel
+%{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_dxr3:BuildRequires:	em8300-devel}
-BuildRequires:	enca-devel
-BuildRequires:	esound-devel
-BuildRequires:	faad2-devel >= 2.0
+%{?with_enca:BuildRequires:	enca-devel}
+%{?with_esd:BuildRequires:	esound-devel}
+%{?with_faad:BuildRequires:	faad2-devel >= 2.0}
 BuildRequires:	freetype-devel
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
+%{?with_gif:BuildRequires:	giflib-devel}
 %if %{with gui}
 BuildRequires:	gtk+%{?with_gtk2:2}-devel
 %endif
@@ -148,7 +154,6 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
-BuildRequires:	giflib-devel
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
@@ -160,7 +165,7 @@ BuildRequires:	pkgconfig
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
 BuildRequires:	xorg-lib-libXvMC-devel
-BuildRequires:	xvid-devel >= 1:0.9.0
+%{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 BuildRequires:	zlib-devel
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
@@ -365,7 +370,12 @@ set -x
 %{?with_alsa:--enable-alsa --disable-select} \
 %{!?with_arts:--disable-arts} \
 %{!?with_caca:--disable-caca} \
+%{!?with_cdparanoia:--disable-cdparanoia} \
 %{!?with_dshow:--disable-dshow} \
+%{!?with_enca:--disable-enca} \
+%{!?with_esd:--disable-esd} \
+%{!?with_faad:--disable-external-faad --disable-internal-faad}%{?with_faad:--enable-external-faad} \
+%{!?with_gif:--disable-gif} \
 %{?with_joystick:--enable-joystick} \
 %{!?with_libdv:--disable-libdv} \
 %{!?with_libdts:--disable-libdts} \
@@ -382,8 +392,8 @@ set -x
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
 %{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
+%{!?with_xvid:--disable-xvid} \
 %{!?with_mencoder:--disable-mencoder} \
-	--enable-external-faad \
 	--enable-dga \
 	--enable-fbdev \
 	--enable-gl \
@@ -395,12 +405,11 @@ set -x
 	--enable-xmga \
 	--enable-xv \
 	--enable-xvmc \
-	--with-xvmclib=XvMCW \
-	--enable-xvid \
+	--enable-dynamic-plugins \
 	--enable-largefiles \
 	--language=all \
 	--with-codecsdir=%{_libdir}/codecs \
-	--enable-dynamic-plugins \
+	--with-xvmclib=XvMCW \
 	"$@"
 
 	%{__make}
