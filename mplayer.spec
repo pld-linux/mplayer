@@ -52,6 +52,13 @@
 %ifarch %{x8664}
 %undefine	with_runtime
 %endif
+
+%if %{_lib} == "lib64"
+%define	_suf	64
+%else
+%define	_suf	32
+%endif
+
 # set it to 0, or 1
 %define		snapshot	0
 
@@ -438,11 +445,14 @@ install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysc
 
 # executables
 %if %{with mencoder}
-install mencoder $RPM_BUILD_ROOT%{_bindir}
+install mencoder $RPM_BUILD_ROOT%{_bindir}/mencoder%{_suf}
+ln -sf mencoder%{_suf} $RPM_BUILD_ROOT%{_bindir}/mencoder
 %endif
-install mplayer $RPM_BUILD_ROOT%{_bindir}
+install mplayer $RPM_BUILD_ROOT%{_bindir}/mplayer%{_suf}
+ln -sf mplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/mplayer
 %if %{with gui}
-install gmplayer $RPM_BUILD_ROOT%{_bindir}
+install gmplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer%{_suf}
+ln -sf gmplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
 %endif
 
 # fonts
@@ -494,12 +504,12 @@ umask 022
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/mplayer
+%attr(755,root,root) %{_bindir}/mplayer*
 
 %if %{with gui}
 %files -n gmplayer
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gmplayer
+%attr(755,root,root) %{_bindir}/gmplayer*
 %{_desktopdir}/gmplayer.desktop
 %dir %{_datadir}/%{name}/Skin
 %ghost %{_datadir}/%{name}/Skin/default
@@ -509,7 +519,7 @@ umask 022
 %defattr(644,root,root,755)
 %doc DOCS/tech/encoding-tips.txt DOCS/tech/swscaler_filters.txt
 %doc DOCS/tech/swscaler_methods.txt DOCS/tech/colorspaces.txt
-%attr(755,root,root) %{_bindir}/mencoder
+%attr(755,root,root) %{_bindir}/mencoder*
 
 %files common
 %defattr(644,root,root,755)
