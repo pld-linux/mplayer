@@ -80,7 +80,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	2.1
+%define		_rel	2.2
 #Release:	2.%{pre}.%{_rel}
 Release:	2.pre7try3.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
@@ -168,7 +168,7 @@ BuildRequires:	lzo-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
-%{?with_polyp:BuildRequires:	polypaudio-devel}
+%{?with_polyp:BuildRequires:	polypaudio-devel >= 0.8}
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
 BuildRequires:	xorg-lib-libXvMC-devel
