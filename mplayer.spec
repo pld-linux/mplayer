@@ -12,6 +12,7 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
 %bcond_with	altivec		# with altivec support (altivec code brakes image in mpeg4, and may segfault on others)
+%bcond_with	x264		# with x264 support (needs newer libx264 snap)
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -149,7 +150,7 @@ BuildRequires:	freetype-devel
 BuildRequires:	gtk+%{?with_gtk2:2}-devel
 %endif
 BuildRequires:	lame-libs-devel
-%{?with_jack:BuildRequires:	libbio2jack-devel}
+%{?with_jack:BuildRequires:	libbio2jack-devel >= 0.8-2}
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel}
@@ -161,6 +162,7 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
+%{?with_x264:BuildRequires:	libx264-devel > 0.1.2-1.20051023}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
@@ -404,6 +406,7 @@ set -x
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
+%{!?with_x264:--disable-x264} \
 %{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
 %{!?with_xvid:--disable-xvid} \
 %{!?with_mencoder:--disable-mencoder} \
