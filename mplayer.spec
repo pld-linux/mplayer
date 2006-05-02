@@ -12,6 +12,7 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
 %bcond_with	altivec		# with altivec support (altivec code brakes image in mpeg4, and may segfault on others)
+%bcond_with	x264		# with x264 support (needs some libx264-devel version - maybe older one)
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -120,6 +121,7 @@ Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-gcc4.patch
 Patch18:	http://www.mplayerhq.hu/MPlayer/patches/demuxer_h_fix_20060212.diff
 Patch19:	%{name}-CVE-2005-4048.patch
+Patch20:	%{name}-includes.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -161,6 +163,7 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
+%{?with_x264:BuildRequires:	libx264-devel > 0.1.2-1.20051023}
 BuildRequires:	libungif-devel
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
@@ -322,6 +325,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch17 -p1
 %patch18 -p0
 %patch19 -p1
+%patch20 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -392,6 +396,7 @@ set -x
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
+%{!?with_x264:--disable-x264} \
 %{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
 %{!?with_mencoder:--disable-mencoder} \
 	--enable-external-faad \
