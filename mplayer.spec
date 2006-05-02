@@ -2,6 +2,8 @@
 # TODO:
 # - use external lrmi and few other libs:
 #   http://www.gocyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
+# - prepare list of all features enabled by default and prepare bconds and BRs for them
+#   now we have different builds depending on builder environment/installed libraries
 #
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
@@ -43,7 +45,8 @@
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
 %bcond_with	xlibs
-%bcond_with	shared	# experimental libmplayer.so support
+%bcond_with	shared		# experimental libmplayer.so support
+%bcond_without	amr             # don't build 3GPP Adaptive Multi Rate (AMR) speech codec
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -76,7 +79,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	2
+%define		_rel	3
 #Release:	2.%{pre}.%{_rel}
 Release:	2.pre7try3.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
@@ -101,6 +104,16 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
+%if %{with amr}
+# AMR WB FLOAT 
+#Source10:       http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26204-600.zip
+Source10:        http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26204-530.zip
+# Source10-md5:  988060bdb18b5d64b8bd82c3507d2420
+# AMR NB FLOAT 
+#Source11:       http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26104-610.zip
+Source11:        http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26104-540.zip
+# Source11-md5:  4dcbeb2bc28bf86e7131fe4cae3e0dec
+%endif
 Patch0:		%{name}-no_libnsl.patch
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
@@ -177,6 +190,7 @@ BuildRequires:	pkgconfig
 %{?with_xmms:BuildRequires:	xmms-libs}
 BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
+%{?with_amr:BuildRequires:	unzip}
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 Requires:	OpenGL
@@ -298,6 +312,22 @@ MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
 %setup -q -n %{name}-%{snap} -a 1 -a 3 -a 6
 %else
 %setup -q -n %{sname}-%{version}%{pre} -a 3 -a 6
+%endif
+
+%if %{with amr}
+cd libavcodec
+mkdir amrwb_float
+mkdir amr
+mkdir amr_float
+# put 26204-xxx.zip into libavcodec/amrwb_float
+cd amrwb_float
+unzip -j %{SOURCE10}
+unzip -j 26204-530_ANSI-C_source_code.zip
+# put 26104-xxx.zip into libavcodec/amr_float
+cd ../amr_float
+unzip -j %{SOURCE11}
+unzip -j 26104-540_ANSI_C_source_code.zip
+cd ../..
 %endif
 
 cp -f etc/codecs.conf etc/codecs.win32.conf
