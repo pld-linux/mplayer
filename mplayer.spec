@@ -286,7 +286,6 @@ MPlayer z graficznym interfejsem GTK+.
 Summary:	Configuration files and documentation for MPlayer
 Summary(pl):	Pliki konfiguracyjne i dokumentacja dla MPlayera
 Group:		Applications/Multimedia
-Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description common
 Configuration files, man page and HTML documentation for MPlayer.
