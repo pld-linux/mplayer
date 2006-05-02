@@ -2,6 +2,8 @@
 # TODO:
 # - use external lrmi and few other libs:
 #   http://www.gocyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
+# - prepare list of all features enabled by default and prepare bconds and BRs for them
+#   now we have different builds depending on builder environment/installed libraries
 #
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
@@ -12,6 +14,7 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
 %bcond_with	altivec		# with altivec support (altivec code brakes image in mpeg4, and may segfault on others)
+%bcond_with	x264		# with x264 support (needs some libx264-devel version - maybe older one)
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -41,7 +44,9 @@
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
-%bcond_with	shared	# experimental libmplayer.so support
+%bcond_with	xlibs
+%bcond_with	shared		# experimental libmplayer.so support
+%bcond_without	amr             # don't build 3GPP Adaptive Multi Rate (AMR) speech codec
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -51,6 +56,13 @@
 %ifarch %{x8664}
 %undefine	with_runtime
 %endif
+
+%if %{_lib} == "lib64"
+%define	_suf	64
+%else
+%define	_suf	32
+%endif
+
 # set it to 0, or 1
 %define		snapshot	0
 
@@ -67,7 +79,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	1.2
+%define		_rel	4
 #Release:	2.%{pre}.%{_rel}
 Release:	2.pre7try3.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
@@ -92,6 +104,16 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
+%if %{with amr}
+# AMR WB FLOAT 
+#Source10:       http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26204-600.zip
+Source10:        http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26204-530.zip
+# Source10-md5:  988060bdb18b5d64b8bd82c3507d2420
+# AMR NB FLOAT 
+#Source11:       http://www.3gpp.org/ftp/Specs/latest/Rel-6/26_series/26104-610.zip
+Source11:        http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26104-540.zip
+# Source11-md5:  4dcbeb2bc28bf86e7131fe4cae3e0dec
+%endif
 Patch0:		%{name}-no_libnsl.patch
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
@@ -111,11 +133,18 @@ Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-gcc4.patch
 Patch18:	http://www.mplayerhq.hu/MPlayer/patches/demuxer_h_fix_20060212.diff
+Patch19:	%{name}-CVE-2005-4048.patch
+Patch20:	%{name}-includes.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenGL-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.1.7}
+%if %{with xlibs}
+BuildRequires:	libXv-devel
+%else
+BuildRequires:	XFree86-devel >= 4.0.2
+%endif
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
@@ -147,7 +176,8 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
-BuildRequires:	giflib-devel
+%{?with_x264:BuildRequires:	libx264-devel > 0.1.2-1.20051023}
+BuildRequires:	libungif-devel
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
@@ -158,16 +188,16 @@ BuildRequires:	pkgconfig
 %{?with_polyp:BuildRequires:	polypaudio-devel}
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
-BuildRequires:	xorg-lib-libXvMC-devel
 BuildRequires:	xvid-devel >= 1:0.9.0
 BuildRequires:	zlib-devel
+%{?with_amr:BuildRequires:	unzip}
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
-%define		specflags_ia32	-fomit-frame-pointer
+%define		specflags	-fomit-frame-pointer
 %define		specflags_alpha	-mmax
 %if %{with altivec}
 %define		specflags_ppc	-maltivec
@@ -256,7 +286,6 @@ MPlayer z graficznym interfejsem GTK+.
 Summary:	Configuration files and documentation for MPlayer
 Summary(pl):	Pliki konfiguracyjne i dokumentacja dla MPlayera
 Group:		Applications/Multimedia
-Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description common
 Configuration files, man page and HTML documentation for MPlayer.
@@ -284,6 +313,22 @@ MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
 %setup -q -n %{sname}-%{version}%{pre} -a 3 -a 6
 %endif
 
+%if %{with amr}
+cd libavcodec
+mkdir amrwb_float
+mkdir amr
+mkdir amr_float
+# put 26204-xxx.zip into libavcodec/amrwb_float
+cd amrwb_float
+unzip -j %{SOURCE10}
+unzip -j 26204-530_ANSI-C_source_code.zip
+# put 26104-xxx.zip into libavcodec/amr_float
+cd ../amr_float
+unzip -j %{SOURCE11}
+unzip -j 26104-540_ANSI_C_source_code.zip
+cd ../..
+%endif
+
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch0 -p1
 %patch1 -p0
@@ -308,6 +353,8 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch16 -p1
 %patch17 -p1
 %patch18 -p0
+%patch19 -p1
+%patch20 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -331,8 +378,7 @@ set -x
 	%{?debug:--enable-debug=3} \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
-	--with-x11incdir=%{_includedir} \
-	--with-x11libdir=%{_libdir} \
+	--with-x11incdir=%{_prefix}/X11R6/include \
 	--with-extraincdir=%{_includedir}/xvid \
 	--enable-menu \
 %ifnarch %{ix86} %{x8664}
@@ -379,6 +425,7 @@ set -x
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
+%{!?with_x264:--disable-x264} \
 %{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
 %{!?with_mencoder:--disable-mencoder} \
 	--enable-external-faad \
@@ -432,11 +479,14 @@ install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysc
 
 # executables
 %if %{with mencoder}
-install mencoder $RPM_BUILD_ROOT%{_bindir}
+install mencoder $RPM_BUILD_ROOT%{_bindir}/mencoder%{_suf}
+ln -sf mencoder%{_suf} $RPM_BUILD_ROOT%{_bindir}/mencoder
 %endif
-install mplayer $RPM_BUILD_ROOT%{_bindir}
+install mplayer $RPM_BUILD_ROOT%{_bindir}/mplayer%{_suf}
+ln -sf mplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/mplayer
 %if %{with gui}
-install gmplayer $RPM_BUILD_ROOT%{_bindir}
+install gmplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer%{_suf}
+ln -sf gmplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
 %endif
 
 # fonts
@@ -488,12 +538,12 @@ umask 022
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/mplayer
+%attr(755,root,root) %{_bindir}/mplayer*
 
 %if %{with gui}
 %files -n gmplayer
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gmplayer
+%attr(755,root,root) %{_bindir}/gmplayer*
 %{_desktopdir}/gmplayer.desktop
 %dir %{_datadir}/%{name}/Skin
 %ghost %{_datadir}/%{name}/Skin/default
@@ -503,7 +553,7 @@ umask 022
 %defattr(644,root,root,755)
 %doc DOCS/tech/encoding-tips.txt DOCS/tech/swscaler_filters.txt
 %doc DOCS/tech/swscaler_methods.txt DOCS/tech/colorspaces.txt
-%attr(755,root,root) %{_bindir}/mencoder
+%attr(755,root,root) %{_bindir}/mencoder*
 
 %files common
 %defattr(644,root,root,755)
