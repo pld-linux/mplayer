@@ -1,5 +1,7 @@
 #
 # TODO:
+# - update for lzo 2
+# - update for polypaudio 0.8
 # - use external lrmi and few other libs:
 #   http://www.gocyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
 #
@@ -31,8 +33,9 @@
 %bcond_without	libdv		# disable libdv en/decoding support
 %bcond_without	lirc		# without lirc support
 %bcond_without	live		# without live.com libraries
+%bcond_with	lzo		# with LZO support (requires lzo 1.x)
 %bcond_without	mad		# without mad (audio MPEG) support
-%bcond_without	polyp		# without polyp audio output
+%bcond_with	polyp		# with polyp audio output (requires polypaudio 0.6 or 0.7)
 %bcond_without	quicktime	# without binary quicktime dll support
 %bcond_without	real		# without Real* 8/9 codecs support
 %bcond_without	runtime		# disable runtime cpu detection, just detect CPU
@@ -166,11 +169,12 @@ BuildRequires:	libpng-devel
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
-BuildRequires:	lzo-devel
+%{?with_lzo:BuildRequires:	lzo-devel < 2.0}
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
-%{?with_polyp:BuildRequires:	polypaudio-devel >= 0.8}
+%{?with_polyp:BuildRequires:	polypaudio-devel >= 0.6}
+%{?with_polyp:BuildRequires:	polypaudio-devel < 0.8}
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
 BuildRequires:	xorg-lib-libXvMC-devel
@@ -376,6 +380,7 @@ set -x
 %{!?with_ggi:--disable-ggi} \
 %{?with_live:--enable-live --with-livelibdir=%{_libdir}/liveMedia --with-extraincdir=/usr/include/liveMedia} \
 %{!?with_live:--disable-live} \
+%{!?with_lzo:--disable-liblzo} \
 %{!?with_nas:--disable-nas} \
 %{!?with_svga:--disable-svga} \
 %{!?with_aalib:--disable-aa} \
