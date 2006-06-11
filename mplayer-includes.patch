@@ -1,0 +1,143 @@
+--- MPlayer-1.0pre7try2/Makefile~	2006-05-02 02:14:36.000000000 +0200
++++ MPlayer-1.0pre7try2/Makefile	2006-05-02 12:48:57.000000000 +0200
+@@ -35,7 +35,7 @@
+ CODEC_LIBS = $(AV_LIB) $(FAME_LIB) $(MAD_LIB) $(VORBIS_LIB) $(THEORA_LIB) $(FAAD_LIB) $(LIBLZO_LIB) $(DECORE_LIB) $(XVID_LIB) $(DTS_LIB) $(PNG_LIB) $(Z_LIB) $(JPEG_LIB) $(ALSA_LIB) $(XMMS_LIB) $(X264_LIB)
+ COMMON_LIBS = libmpcodecs/libmpcodecs.a $(W32_LIB) $(DS_LIB) libaf/libaf.a libmpdemux/libmpdemux.a input/libinput.a postproc/libswscale.a osdep/libosdep.a $(DVDREAD_LIB) $(CODEC_LIBS) $(FREETYPE_LIB) $(TERMCAP_LIB) $(CDPARANOIA_LIB) $(MPLAYER_NETWORK_LIB) $(WIN32_LIB) $(GIF_LIB) $(MACOSX_FRAMEWORKS) $(SMBSUPPORT_LIB) $(FRIBIDI_LIB) $(FONTCONFIG_LIB) $(ENCA_LIB)
+ 
+-CFLAGS = $(OPTFLAGS) -I. $(FREETYPE_INC) $(EXTRA_INC) $(CDPARANOIA_INC) $(SDL_INC) $(X11_INC) $(FRIBIDI_INC) $(DVB_INC) $(XVID_INC) $(FONTCONFIG_INC) $(CACA_INC) # -Wall
++CFLAGS = -I. $(OPTFLAGS) $(FREETYPE_INC) $(EXTRA_INC) $(CDPARANOIA_INC) $(SDL_INC) $(X11_INC) $(FRIBIDI_INC) $(DVB_INC) $(XVID_INC) $(FONTCONFIG_INC) $(CACA_INC) # -Wall
+ ifeq ($(TOOLAME),yes)
+ CFLAGS += $(TOOLAME_EXTRAFLAGS) 
+ CODEC_LIBS += $(TOOLAME_LIB)
+--- MPlayer-1.0pre7try2/input/Makefile~	2004-06-24 14:52:15.000000000 +0200
++++ MPlayer-1.0pre7try2/input/Makefile	2006-05-02 12:50:52.000000000 +0200
+@@ -6,7 +6,7 @@
+ SRCS=input.c joystick.c lirc.c 
+ OBJS=$(SRCS:.c=.o)
+ 
+-CFLAGS  = $(OPTFLAGS) -I. -I.. $(EXTRA_INC)
++CFLAGS  = -I. -I.. $(OPTFLAGS) $(EXTRA_INC)
+ 
+ .SUFFIXES: .c .o
+ 
+--- MPlayer-1.0pre7try2/libaf/Makefile~	2005-02-21 18:08:45.000000000 +0100
++++ MPlayer-1.0pre7try2/libaf/Makefile	2006-05-02 12:51:34.000000000 +0200
+@@ -9,7 +9,7 @@
+ 
+ OBJS=$(SRCS:.c=.o)
+ 
+-CFLAGS  = $(OPTFLAGS) -I. -Wall $(EXTRA_INC)
++CFLAGS  = -I. $(OPTFLAGS) -Wall $(EXTRA_INC)
+ 
+ ifeq ($(TARGET_OS),MINGW32)
+ CFLAGS += -D_IO_H_
+--- MPlayer-1.0pre7try2/libvo/Makefile~	2004-10-24 00:43:19.000000000 +0200
++++ MPlayer-1.0pre7try2/libvo/Makefile	2006-05-02 12:52:34.000000000 +0200
+@@ -10,7 +10,7 @@
+ SRCS += vosub_vidix.c
+ endif
+ 
+-CFLAGS  = $(OPTFLAGS) -I. -I.. -I../osdep $(FREETYPE_INC) $(SDL_INC) $(X11_INC) $(EXTRA_INC) $(DXR2_INC) $(DIRECTFB_INC) -DMPG12PLAY #-Wall
++CFLAGS  = -I. -I.. -I../osdep $(OPTFLAGS) $(FREETYPE_INC) $(SDL_INC) $(X11_INC) $(EXTRA_INC) $(DXR2_INC) $(DIRECTFB_INC) -DMPG12PLAY #-Wall
+ 
+ .SUFFIXES: .c .o
+ 
+--- MPlayer-1.0pre7try2/osdep/Makefile~	2004-11-10 17:43:40.000000000 +0100
++++ MPlayer-1.0pre7try2/osdep/Makefile	2006-05-02 12:53:29.000000000 +0200
+@@ -34,7 +34,7 @@
+ 
+ OBJS=$(SRCS:.c=.o)
+ 
+-CFLAGS  = $(OPTFLAGS) -I. -I.. $(EXTRA_INC)
++CFLAGS  = -I. -I.. $(OPTFLAGS) $(EXTRA_INC)
+ # -I/usr/X11R6/include/
+ 
+ .SUFFIXES: .c .o
+--- MPlayer-1.0pre7try2/libmenu/Makefile~	2004-06-24 14:52:15.000000000 +0200
++++ MPlayer-1.0pre7try2/libmenu/Makefile	2006-05-02 12:54:20.000000000 +0200
+@@ -10,7 +10,7 @@
+ endif
+ OBJS=$(SRCS:.c=.o)
+ 
+-CFLAGS  = $(OPTFLAGS) -I. -I.. -I../libmpcodecs $(EXTRA_INC) -Wall
++CFLAGS  = -I. -I.. -I../libmpcodecs $(OPTFLAGS) $(EXTRA_INC) -Wall
+ 
+ .SUFFIXES: .c .o
+ 
+--- MPlayer-1.0pre7try2/postproc/Makefile~	2004-06-27 02:07:15.000000000 +0200
++++ MPlayer-1.0pre7try2/postproc/Makefile	2006-05-02 12:59:14.000000000 +0200
+@@ -11,7 +11,7 @@
+ SWSOBJS +=  yuv2rgb_altivec.o
+ endif
+ 
+-CFLAGS  = $(OPTFLAGS) $(MLIB_INC) -I. -I.. $(EXTRA_INC)
++CFLAGS  = -I. -I.. $(OPTFLAGS) $(MLIB_INC) $(EXTRA_INC)
+ # -I/usr/X11R6/include/
+ 
+ .SUFFIXES: .c .o
+--- MPlayer-1.0pre7try2/libavcodec/libpostproc/Makefile~	2005-04-16 22:41:13.000000000 +0200
++++ MPlayer-1.0pre7try2/libavcodec/libpostproc/Makefile	2006-05-02 13:00:04.000000000 +0200
+@@ -12,7 +12,7 @@
+ PPOBJS=postprocess.o
+ SPPOBJS=postprocess_pic.o
+ 
+-CFLAGS  = $(OPTFLAGS) $(MLIB_INC) -I. -I.. $(EXTRA_INC)
++CFLAGS  = -I. -I.. $(OPTFLAGS) $(MLIB_INC) $(EXTRA_INC)
+ # -I/usr/X11R6/include/
+ 
+ .SUFFIXES: .c .o
+--- MPlayer-1.0pre7try2/libdha/Makefile~	2005-01-01 15:45:11.000000000 +0100
++++ MPlayer-1.0pre7try2/libdha/Makefile	2006-05-02 13:01:57.000000000 +0200
+@@ -25,7 +25,7 @@
+ SRCS=libdha.c mtrr.c pci.c pci_names.c
+ OBJS=$(SRCS:.c=.o)
+ 
+-CFLAGS  = $(OPTFLAGS) -fPIC -I. -I..
++CFLAGS  = -I. -I.. $(OPTFLAGS) -fPIC 
+ LIBS = 
+ ifeq ($(TARGET_OS),OpenBSD)
+ ifeq ($(TARGET_ARCH_X86),yes)
+--- MPlayer-1.0pre7try2/libavcodec/Makefile~	2006-05-01 23:54:31.000000000 +0200
++++ MPlayer-1.0pre7try2/libavcodec/Makefile	2006-05-02 00:44:15.000000000 +0200
+@@ -7,7 +7,7 @@
+ VPATH=$(SRC_PATH)/libavcodec
+ 
+ # NOTE: -I.. is needed to include config.h
+-CFLAGS=$(OPTFLAGS) -DHAVE_AV_CONFIG_H -I.. -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_GNU_SOURCE $(AMR_CFLAGS)
++CFLAGS=-I.. $(OPTFLAGS) -DHAVE_AV_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_GNU_SOURCE $(AMR_CFLAGS)
+ 
+ OBJS= bitstream.o utils.o mem.o allcodecs.o \
+       mpegvideo.o jrevdct.o jfdctfst.o jfdctint.o\
+--- MPlayer-1.0pre7try2/libavformat/Makefile~	2005-04-16 22:41:13.000000000 +0200
++++ MPlayer-1.0pre7try2/libavformat/Makefile	2006-05-02 01:12:33.000000000 +0200
+@@ -6,7 +6,7 @@
+ 
+ VPATH=$(SRC_PATH)/libavformat
+ 
+-CFLAGS=$(OPTFLAGS) -I.. -I$(SRC_PATH) -I$(SRC_PATH)/libavcodec -DHAVE_AV_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_GNU_SOURCE
++CFLAGS=-I.. $(OPTFLAGS) -I$(SRC_PATH) -I$(SRC_PATH)/libavcodec -DHAVE_AV_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_GNU_SOURCE
+ 
+ OBJS= utils.o cutils.o os_support.o allformats.o
+ PPOBJS=
+--- MPlayer-1.0pre7try2/libmpcodecs/Makefile~	2004-12-29 20:51:56.000000000 +0100
++++ MPlayer-1.0pre7try2/libmpcodecs/Makefile	2006-05-02 01:31:15.000000000 +0200
+@@ -50,7 +50,7 @@
+ SRCS2=$(ENCODER_SRCS)
+ OBJS2=$(SRCS2:.c=.o)
+ 
+-CFLAGS  = $(OPTFLAGS) -I. -Inative -I.. -I../libmpdemux -I../loader $(EXTRA_INC) $(X264_INC) -D_GNU_SOURCE
++CFLAGS  =-I. -I.. -Inative -I../libmpdemux -I../loader $(OPTFLAGS) $(EXTRA_INC) $(X264_INC) -D_GNU_SOURCE
+ 
+ .SUFFIXES: .c .o
+ 
+--- MPlayer-1.0pre7try2/libao2/Makefile~	2004-12-27 20:34:42.000000000 +0100
++++ MPlayer-1.0pre7try2/libao2/Makefile	2006-05-02 11:57:08.000000000 +0200
+@@ -6,7 +6,7 @@
+ 
+ OBJS=$(SRCS:.c=.o)
+ 
+-CFLAGS  = $(OPTFLAGS) -I. -I.. $(ARTS_INC) $(ESD_INC) $(JACK_INC) $(SDL_INC) $(X11_INC) $(EXTRA_INC) $(DXR2_INC) $(DVB_INC) $(POLYP_INC)
++CFLAGS  =-I. -I..  $(OPTFLAGS) $(ARTS_INC) $(ESD_INC) $(JACK_INC) $(SDL_INC) $(X11_INC) $(EXTRA_INC) $(DXR2_INC) $(DVB_INC) $(POLYP_INC)
+ 
+ .SUFFIXES: .c .o
+ 
