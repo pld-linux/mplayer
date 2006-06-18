@@ -14,7 +14,7 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
 %bcond_with	altivec		# with altivec support (altivec code brakes image in mpeg4, and may segfault on others)
-%bcond_with	x264		# with x264 support (needs newer libx264 snap)
+%bcond_without	x264		# without x264 support (needs newer libx264 snap)
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -50,8 +50,8 @@
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
-%bcond_with	gtk2		# EXPERIMENTAL support for GTK+ version 2
 %bcond_with	shared		# experimental libmplayer.so support
+%bcond_without	amr		# don't build 3GPP Adaptive Multi Rate (AMR) speech codec
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -74,7 +74,7 @@
 %define		sname		MPlayer
 %define		snap		%{nil}
 
-%define		pre		pre7try2
+%define		pre		pre8
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -84,9 +84,8 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	2.2
-#Release:	2.%{pre}.%{_rel}
-Release:	2.pre7try3.%{_rel}
+%define		_rel	1
+Release:	3.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -100,7 +99,7 @@ Group:		Applications/Multimedia
 #Source1:	libavcodec-%{snap}.tar.bz2
 %else
 Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	aaca4fd327176c1afb463f0f047ef6f4
+# Source0-md5:	f82bb2bc51b6cd5e5dd96f88f6f98582
 %endif
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -109,16 +108,19 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
+# AMR WB FLOAT
+Source10:	http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26204-530.zip
+# Source10-md5:	988060bdb18b5d64b8bd82c3507d2420
+# AMR NB FLOAT
+Source11:	http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26104-540.zip
+# Source11-md5:	4dcbeb2bc28bf86e7131fe4cae3e0dec
 Patch0:		%{name}-no_libnsl.patch
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
 Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
-Patch6:		%{name}-gtk+2.patch
-Patch7:		%{name}-alpha.patch
 Patch8:		%{name}-altivec.patch
-Patch9:		%{name}-assembly.patch
 Patch10:	%{name}-pcmsplit.patch
 Patch11:	%{name}-bio2jack.patch
 Patch12:	%{name}-x86_64-detection.patch
@@ -126,12 +128,10 @@ Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
-Patch17:	%{name}-gcc4.patch
-Patch18:	http://www.mplayerhq.hu/MPlayer/patches/demuxer_h_fix_20060212.diff
-Patch19:	%{name}-CVE-2005-4048.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
+BuildRequires:	OpenAL-devel
 BuildRequires:	OpenGL-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.1.7}
 %{?with_aalib:BuildRequires:	aalib-devel}
@@ -150,7 +150,7 @@ BuildRequires:	freetype-devel
 %endif
 %{?with_gif:BuildRequires:	giflib-devel}
 %if %{with gui}
-BuildRequires:	gtk+%{?with_gtk2:2}-devel
+BuildRequires:	gtk+2-devel
 %endif
 BuildRequires:	lame-libs-devel
 %{?with_jack:BuildRequires:	libbio2jack-devel >= 0.8-2}
@@ -165,7 +165,7 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
-%{?with_x264:BuildRequires:	libx264-devel > 0.1.2-1.20051023}
+%{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20060430_2245.1}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
@@ -175,6 +175,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
 %{?with_polyp:BuildRequires:	polypaudio-devel >= 0.6}
 %{?with_polyp:BuildRequires:	polypaudio-devel < 0.8}
+BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
 BuildRequires:	xorg-lib-libXvMC-devel
@@ -186,6 +187,7 @@ BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 BuildRequires:	zlib-devel
+%{?with_amr:BuildRequires:	unzip}
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 Requires:	OpenGL
@@ -308,31 +310,39 @@ MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
 %setup -q -n %{sname}-%{version}%{pre} -a 3 -a 6
 %endif
 
+%if %{with amr}
+cd libavcodec
+mkdir amrwb_float
+mkdir amr
+mkdir amr_float
+# put 26204-xxx.zip into libavcodec/amrwb_float
+cd amrwb_float
+unzip -j %{SOURCE10}
+unzip -j 26204-530_ANSI-C_source_code.zip
+# put 26104-xxx.zip into libavcodec/amr_float
+cd ../amr_float
+unzip -j %{SOURCE11}
+unzip -j 26104-540_ANSI_C_source_code.zip
+cd ../..
+%endif
+
 cp -f etc/codecs.conf etc/codecs.win32.conf
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p0
 ##%patch2 -p1
 ##%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
 %patch5 -p1
-%if %{with gtk2}
-%patch6 -p1
-%endif
-%patch7 -p1
 %patch8 -p1
-%patch9 -p1
 #%%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
+#%patch11 -p1	# maybe TODO, JACK audio output rewritten without bio2jack
+#%patch12 -p1	# seems obsolete
+#%patch13 -p1	# TODO
 %if %{with shared}
 %patch14 -p1
 %endif
-%patch15 -p0
+#%patch15 -p0	# TODO
 %patch16 -p1
-%patch17 -p1
-%patch18 -p0
-%patch19 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -439,7 +449,7 @@ set -x
 # build GUI version
 build --enable-gui
 mv -f mplayer gmplayer
-%{__make} clean
+%{__make} distclean
 %endif
 
 # now build regular version
@@ -535,23 +545,20 @@ umask 022
 
 %files -n mencoder
 %defattr(644,root,root,755)
-%doc DOCS/tech/encoding-tips.txt DOCS/tech/swscaler_filters.txt
-%doc DOCS/tech/swscaler_methods.txt DOCS/tech/colorspaces.txt
+%doc DOCS/tech/encoding-guide.txt DOCS/tech/encoding-tips.txt
+%doc DOCS/tech/swscaler_filters.txt DOCS/tech/swscaler_methods.txt
+%doc DOCS/tech/colorspaces.txt
 %attr(755,root,root) %{_bindir}/mencoder*
 
 %files common
 %defattr(644,root,root,755)
-# some useful tech docs
-%doc DOCS/tech/hwac3.txt DOCS/tech/mpsub.sub DOCS/tech/slave.txt
-%doc DOCS/tech/subcp.txt
-
 # HTML and XML-generated docs
 %doc DOCS/HTML/en
 %doc DOCS/tech
 %if %{with win32}
 %doc etc/codecs.win32.conf
 %endif
-%lang(de) %doc DOCS/de
+%lang(de) %doc DOCS/HTML/de
 %lang(es) %doc DOCS/HTML/es
 %lang(fr) %doc DOCS/HTML/fr
 %lang(hu) %doc DOCS/HTML/hu
@@ -559,7 +566,7 @@ umask 022
 %lang(pl) %doc DOCS/HTML/pl
 %lang(ru) %doc DOCS/HTML/ru
 %lang(zh_CN) %doc DOCS/zh
-%doc README AUTHORS ChangeLog
+%doc AUTHORS ChangeLog README
 
 %ifarch %{ix86}
 %attr(755,root,root) %{_libdir}/libdha.so.*.*
