@@ -13,7 +13,7 @@
 %bcond_with	nas		# with NAS audio output
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
-%bcond_with	altivec		# with altivec support (altivec code brakes image in mpeg4, and may segfault on others)
+%bcond_without	altivec		# without altivec support
 %bcond_without	x264		# without x264 support (needs newer libx264 snap)
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
