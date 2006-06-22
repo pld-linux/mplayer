@@ -195,7 +195,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		specflags_ia32	-fomit-frame-pointer
-%define		specflags_alpha	-mmax
 %if %{with altivec}
 %define		specflags_ppc	-maltivec
 %endif
