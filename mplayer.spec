@@ -376,7 +376,6 @@ set -x
 	--disable-sse \
 	--disable-sse2 \
 	--disable-fastmemcpy \
-	--disable-gcc-checking \
 %endif
 %ifarch ppc
 %{!?with_altivec:--disable-altivec} \
