@@ -372,7 +372,9 @@ set -x
 	--enable-menu \
 %ifnarch %{ix86} %{x8664}
 	--disable-mmx \
+	--disable-mmxext \
 	--disable-3dnow \
+	--disable-3dnowext \
 	--disable-sse \
 	--disable-sse2 \
 	--disable-fastmemcpy \
