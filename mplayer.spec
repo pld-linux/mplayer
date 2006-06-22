@@ -372,12 +372,11 @@ set -x
 	--enable-menu \
 %ifnarch %{ix86} %{x8664}
 	--disable-mmx \
-	--disable-mmx2 \
 	--disable-3dnow \
-	--disable-3dnowex \
 	--disable-sse \
 	--disable-sse2 \
 	--disable-fastmemcpy \
+	--disable-gcc-checking \
 %endif
 %ifarch ppc
 %{!?with_altivec:--disable-altivec} \
