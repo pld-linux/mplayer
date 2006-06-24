@@ -13,7 +13,7 @@
  EOF
 -        FSF_flags='-maltivec -mabi=altivec'
 +        FSF_flags='-maltivec'
-         Darwin_flags='-faltivec'
+         Darwin_flags='-faltivec -D__APPLE_ALTIVEC__'
  
          # check for Darwin-style flags first, since
 --- MPlayer-1.0pre7try2/mp3lib/Makefile~	2004-10-28 03:15:53.000000000 +0200
