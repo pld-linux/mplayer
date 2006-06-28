@@ -1,0 +1,20 @@
+diff -urN MPlayer-1.0pre8.orig/libmpcodecs/vf_expand.c MPlayer-1.0pre8/libmpcodecs/vf_expand.c
+--- MPlayer-1.0pre8.orig/libmpcodecs/vf_expand.c	2006-06-11 20:35:41.000000000 +0200
++++ MPlayer-1.0pre8/libmpcodecs/vf_expand.c	2006-06-28 20:28:03.241518750 +0200
+@@ -177,10 +177,14 @@
+     if(vf->priv->exp_h<height) vf->priv->exp_h=height;
+ #else
+     if ( vf->priv->exp_w == -1 ) vf->priv->exp_w=width;
+-      else if (vf->priv->exp_w < -1 ) vf->priv->exp_w=width - vf->priv->exp_w;
++    else if ( vf->priv->exp_w == -2 ) vf->priv->exp_w=MAX(width, height*4.0/3);
++    else if ( vf->priv->exp_w == -3 ) vf->priv->exp_w=MAX(width, height*16.0/9);
++      else if (vf->priv->exp_w < -3 ) vf->priv->exp_w=width - vf->priv->exp_w;
+         else if ( vf->priv->exp_w<width ) vf->priv->exp_w=width;
+     if ( vf->priv->exp_h == -1 ) vf->priv->exp_h=height;
+-      else if ( vf->priv->exp_h < -1 ) vf->priv->exp_h=height - vf->priv->exp_h;
++    else if ( vf->priv->exp_h == -2 ) vf->priv->exp_h=MAX(height, width*3.0/4);
++    else if ( vf->priv->exp_h == -3 ) vf->priv->exp_h=MAX(height, width*9.0/16);
++      else if ( vf->priv->exp_h < -3 ) vf->priv->exp_h=height - vf->priv->exp_h;
+         else if( vf->priv->exp_h<height ) vf->priv->exp_h=height;
+ #endif
+     if (vf->priv->aspect) {
