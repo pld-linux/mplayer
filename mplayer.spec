@@ -77,7 +77,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	0.1
+%define		_rel	0.2
 Release:	2.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -121,6 +121,7 @@ Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
+Patch17:	%{name}-auto-expand.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -329,6 +330,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %endif
 #%%patch15 -p0 # TODO
 %patch16 -p1
+%patch17 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
