@@ -51,7 +51,7 @@
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	shared		# experimental libmplayer.so support
-%bcond_without	amr		# don't build 3GPP Adaptive Multi Rate (AMR) speech codec
+%bcond_without	amr		# disable 3GPP Adaptive Multi Rate (AMR) speech codec support
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -108,18 +108,13 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
-# AMR WB FLOAT
-Source10:	http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26204-530.zip
-# Source10-md5:	988060bdb18b5d64b8bd82c3507d2420
-# AMR NB FLOAT
-Source11:	http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26104-540.zip
-# Source11-md5:	4dcbeb2bc28bf86e7131fe4cae3e0dec
 Patch0:		%{name}-no_libnsl.patch
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
 Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
+Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
 Patch10:	%{name}-pcmsplit.patch
 Patch11:	%{name}-bio2jack.patch
@@ -136,6 +131,10 @@ BuildRequires:	OpenGL-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.1.7}
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
+%if %{with amr}
+BuildRequires:	amrnb-devel
+BuildRequires:	amrwb-devel	>= 5.3.0
+%endif
 %{?with_arts:BuildRequires:	artsc-devel}
 %{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 %{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
@@ -187,7 +186,6 @@ BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 BuildRequires:	zlib-devel
-%{?with_amr:BuildRequires:	unzip}
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 Requires:	OpenGL
@@ -309,22 +307,6 @@ MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
 %setup -q -n %{sname}-%{version}%{pre} -a 3 -a 6
 %endif
 
-%if %{with amr}
-cd libavcodec
-mkdir amrwb_float
-mkdir amr
-mkdir amr_float
-# put 26204-xxx.zip into libavcodec/amrwb_float
-cd amrwb_float
-unzip -j %{SOURCE10}
-unzip -j 26204-530_ANSI-C_source_code.zip
-# put 26104-xxx.zip into libavcodec/amr_float
-cd ../amr_float
-unzip -j %{SOURCE11}
-unzip -j 26104-540_ANSI_C_source_code.zip
-cd ../..
-%endif
-
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch0 -p1
 %patch1 -p0
@@ -332,6 +314,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 ##%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 %patch8 -p1
 #%%patch10 -p1
 #%patch11 -p1	# maybe TODO, JACK audio output rewritten without bio2jack
@@ -381,6 +364,7 @@ set -x
 %ifarch ppc
 %{!?with_altivec:--disable-altivec} \
 %endif
+%{!?with_amr:--disable-amr_nb --disable-amr_wb} \
 %{?with_directfb:--enable-directfb} \
 %{!?with_directfb:--disable-directfb} \
 %{!?with_divx4linux:--disable-divx4linux} \
