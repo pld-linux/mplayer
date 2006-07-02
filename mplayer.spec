@@ -123,7 +123,6 @@ Patch5:		%{name}-configure.patch
 Patch8:		%{name}-altivec.patch
 Patch10:	%{name}-pcmsplit.patch
 Patch11:	%{name}-bio2jack.patch
-Patch12:	%{name}-x86_64-detection.patch
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 Patch15:	%{name}-xvmc.patch
@@ -327,7 +326,7 @@ cd ../..
 %endif
 
 cp -f etc/codecs.conf etc/codecs.win32.conf
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p0
 ##%patch2 -p1
 ##%patch3 -p1	-- old home_etc behavior
@@ -336,7 +335,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch8 -p1
 #%%patch10 -p1
 #%patch11 -p1	# maybe TODO, JACK audio output rewritten without bio2jack
-#%patch12 -p1	# seems obsolete
 #%patch13 -p1	# TODO
 %if %{with shared}
 %patch14 -p1
