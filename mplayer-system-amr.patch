@@ -1,0 +1,160 @@
+--- MPlayer-1.0pre8/libavcodec/Makefile.orig	2006-06-11 20:35:48.000000000 +0200
++++ MPlayer-1.0pre8/libavcodec/Makefile	2006-07-02 20:59:46.476891500 +0200
+@@ -242,24 +242,6 @@
+ OBJS+= amr.o
+ endif
+ 
+-ifeq ($(AMR_NB),yes)
+-OBJS+= amr_float/sp_dec.o amr_float/sp_enc.o amr_float/interf_dec.o amr_float/interf_enc.o
+-endif
+-
+-ifeq ($(AMR_NB_FIXED),yes)
+-EXTRAOBJS += amr/*.o
+-EXTRADEPS=amrlibs
+-endif
+-
+-ifeq ($(AMR_WB),yes)
+-OBJS+= amrwb_float/dec_acelp.o amrwb_float/dec_dtx.o  amrwb_float/dec_gain.o  \
+-       amrwb_float/dec_if.o    amrwb_float/dec_lpc.o  amrwb_float/dec_main.o  \
+-       amrwb_float/dec_rom.o   amrwb_float/dec_util.o amrwb_float/enc_acelp.o \
+-       amrwb_float/enc_dtx.o   amrwb_float/enc_gain.o amrwb_float/enc_if.o    \
+-       amrwb_float/enc_lpc.o   amrwb_float/enc_main.o amrwb_float/enc_rom.o   \
+-       amrwb_float/enc_util.o  amrwb_float/if_rom.o
+-endif
+-
+ 
+ ifeq ($(HAVE_PTHREADS),yes)
+ OBJS+= pthread.o
+@@ -426,9 +408,6 @@
+ 
+ include $(SRC_PATH)/common.mak
+ 
+-amrlibs:
+-	$(MAKE) -C amr spclib fipoplib
+-
+ tests: apiexample cpuid_test $(TESTS)
+ 
+ dsputil.o: dsputil.c dsputil.h
+@@ -444,10 +423,7 @@
+ 	   sh4/*.o sh4/*~ \
+ 	   sparc/*.o sparc/*~ \
+ 	   liba52/*.o liba52/*~ \
+-	   amr_float/*.o \
+ 	   apiexample $(TESTS)
+-	-$(MAKE) -C amr clean
+-	-$(MAKE) -C amrwb_float -f makefile.gcc clean
+ 
+ # api example program
+ apiexample: apiexample.c $(LIB)
+--- MPlayer-1.0pre8/libavcodec/amr.c.orig	2006-06-11 20:35:48.000000000 +0200
++++ MPlayer-1.0pre8/libavcodec/amr.c	2006-07-02 21:00:37.348070750 +0200
+@@ -59,16 +59,16 @@
+ 
+ #define MMS_IO
+ 
+-#include "amr/sp_dec.h"
+-#include "amr/d_homing.h"
+-#include "amr/typedef.h"
+-#include "amr/sp_enc.h"
+-#include "amr/sid_sync.h"
+-#include "amr/e_homing.h"
++#include <amr/sp_dec.h>
++#include <amr/d_homing.h>
++#include <amr/typedef.h>
++#include <amr/sp_enc.h>
++#include <amr/sid_sync.h>
++#include <amr/e_homing.h>
+ 
+ #else
+-#include "amr_float/interf_dec.h"
+-#include "amr_float/interf_enc.h"
++#include <amrnb/interf_dec.h>
++#include <amrnb/interf_enc.h>
+ #endif
+ 
+ /* Common code for fixed and float version*/
+@@ -493,8 +493,8 @@
+ #define typedef_h
+ #endif
+ 
+-#include "amrwb_float/enc_if.h"
+-#include "amrwb_float/dec_if.h"
++#include <amrwb/enc_if.h>
++#include <amrwb/dec_if.h>
+ 
+ /* Common code for fixed and float version*/
+ typedef struct AMRWB_bitrates
+--- MPlayer-1.0pre8/configure.orig	2006-07-02 16:13:04.393828000 +0200
++++ MPlayer-1.0pre8/configure	2006-07-02 21:06:12.633024750 +0200
+@@ -6325,7 +6325,7 @@
+ echocheck "AMR narrowband"
+ if test "$_amr_nb" = auto ; then
+   _amr_nb=no
+-  if test -f libavcodec/amr_float/sp_dec.c ; then
++  if test -f /usr/include/amrnb/interf_dec.h ; then
+     if test "$_libavcodec" = yes ; then
+       _amr_nb=yes
+     else
+@@ -6337,6 +6337,7 @@
+   _amr=yes
+   _def_amr='#define AMR 1'
+   _def_amr_nb='#define AMR_NB 1'
++  _ld_amr_nb='-lamrnb'
+ else
+   _def_amr_nb='#undef AMR_NB'
+ fi
+@@ -6345,7 +6346,7 @@
+ echocheck "AMR narrowband, fixed point"
+ if test "$_amr_nb_fixed" = auto ; then
+   _amr_nb_fixed=no
+-  if test -f libavcodec/amr/dtx_dec.c ; then
++  if test -f /usr/include/amr/sp_dec.h ; then
+     if test "$_libavcodec" = yes ; then
+       if test "$_amr_nb" = no ; then
+         _amr_nb_fixed=yes
+@@ -6361,6 +6362,7 @@
+   _amr=yes
+   _def_amr='#define AMR 1'
+   _def_amr_nb_fixed='#define AMR_NB_FIXED 1'
++  _ld_amr_nb='-lamrnbfixed'
+ else
+   _def_amr_nb_fixed='#undef AMR_NB_FIXED'
+ fi
+@@ -6375,7 +6377,7 @@
+ echocheck "AMR wideband"
+ if test "$_amr_wb" = auto ; then
+   _amr_wb=no
+-  if test -f libavcodec/amrwb_float/dec_dtx.c ; then
++  if test -f /usr/include/amrwb/dec_if.h ; then
+     if test "$_libavcodec" = yes ; then
+       _amr_wb=yes
+     else
+@@ -6387,6 +6389,7 @@
+   _amr=yes
+   _def_amr='#define AMR 1'
+   _def_amr_wb='#define AMR_WB 1'
++  _ld_amr_wb='-lamrwb'
+   _codecmodules="amr_wb $_codecmodules"
+ else
+   _def_amr_wb='#undef AMR_WB'
+@@ -7545,7 +7548,9 @@
+ AMR=$_amr
+ AMR_NB=$_amr_nb
+ AMR_NB_FIXED=$_amr_nb_fixed
++AMR_NB_LIB=$_ld_amr_nb
+ AMR_WB=$_amr_wb
++AMR_WB_LIB=$_ld_amr_wb
+ `echo $_libavcodecs | tr '[a-z] ' '[A-Z]\n' | sed 's/^/CONFIG_/;s/$/=yes/'`
+ CONFIG_FAAC=$_faac
+ CONFIG_XVID=$_lavc_xvid
+--- MPlayer-1.0pre8/Makefile.orig	2006-06-11 20:35:47.000000000 +0200
++++ MPlayer-1.0pre8/Makefile	2006-07-02 21:06:17.685340500 +0200
+@@ -105,6 +105,8 @@
+              $(X264_LIB) \
+              $(MUSEPACK_LIB) \
+              $(SPEEX_LIB) \
++	     $(AMR_NB_LIB) \
++	     $(AMR_WB_LIB)
+ 
+ COMMON_LIBS = libmpcodecs/libmpcodecs.a \
+               $(W32_LIB) \
