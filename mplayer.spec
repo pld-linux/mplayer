@@ -526,12 +526,14 @@ umask 022
 %ghost %{_datadir}/%{name}/Skin/default
 %endif
 
+%if %{with mencoder}
 %files -n mencoder
 %defattr(644,root,root,755)
 %doc DOCS/tech/encoding-guide.txt DOCS/tech/encoding-tips.txt
 %doc DOCS/tech/swscaler_filters.txt DOCS/tech/swscaler_methods.txt
 %doc DOCS/tech/colorspaces.txt
 %attr(755,root,root) %{_bindir}/mencoder*
+%endif
 
 %files common
 %defattr(644,root,root,755)
