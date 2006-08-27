@@ -51,7 +51,7 @@
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	shared		# experimental libmplayer.so support
-%bcond_without	amr		# disable 3GPP Adaptive Multi Rate (AMR) speech codec support
+%bcond_with	amr		# enable 3GPP Adaptive Multi Rate (AMR) speech codec support
 
 %ifnarch %{ix86}
 %undefine	with_win32
