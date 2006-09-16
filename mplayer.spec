@@ -84,7 +84,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	2
+%define		_rel	3
 Release:	3.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -123,6 +123,7 @@ Patch14:	%{name}-shared.patch
 Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-auto-expand.patch
+Patch18:	%{name}-x264.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -164,7 +165,7 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
-%{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20060430_2245.1}
+%{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20060828_2245.1}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
@@ -325,6 +326,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 #%patch15 -p0	# TODO
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
