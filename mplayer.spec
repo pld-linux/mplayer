@@ -1,7 +1,6 @@
-#
 # TODO:
 # - use external lrmi and few other libs:
-#   http://www.gocyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
+#   http://www.cyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
 # - prepare list of all features enabled by default and prepare bconds and BRs for them
 #   now we have different builds depending on builder environment/installed libraries
 #
