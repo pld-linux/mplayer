@@ -52,6 +52,7 @@
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	shared		# experimental libmplayer.so support
 %bcond_with	amr		# enable 3GPP Adaptive Multi Rate (AMR) speech codec support
+%bcond_without	gnomess		# disable controling gnome screensaver
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -124,6 +125,7 @@ Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-auto-expand.patch
 Patch18:	%{name}-x264.patch
+Patch19:	%{name}-gnome-screensaver.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -187,6 +189,7 @@ BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 BuildRequires:	zlib-devel
+%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 Requires:	OpenGL
@@ -327,6 +330,9 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%if %{with gnomess}
+%patch19 -p1
+%endif
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
