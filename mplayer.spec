@@ -6,7 +6,6 @@
 #
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
-%bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead of included OpenDivx)
 %bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
 %bcond_with	ggi		# with ggi video output
 %bcond_with	nas		# with NAS audio output
@@ -66,7 +65,7 @@
 %define		sname		MPlayer
 %define		snap		%{nil}
 
-%define		pre		pre8
+%define		pre		rc1
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -76,7 +75,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	0.2
+%define		_rel	0.1
 Release:	2.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -106,21 +105,18 @@ Source10:        http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26204-530.
 # AMR NB FLOAT 
 Source11:        http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26104-540.zip
 # Source11-md5:  4dcbeb2bc28bf86e7131fe4cae3e0dec
-Patch0:		%{name}-no_libnsl.patch
-Patch1:		%{name}-cp1250-fontdesc.patch
-Patch2:		%{name}-codec.patch
-Patch3:		%{name}-home_etc.patch
-Patch4:		%{name}-350.patch
-Patch5:		%{name}-configure.patch
-Patch8:		%{name}-altivec.patch
-Patch10:	%{name}-pcmsplit.patch
-Patch11:	%{name}-bio2jack.patch
-Patch12:	%{name}-x86_64-detection.patch
-Patch13:	%{name}-mythtv.patch
-Patch14:	%{name}-shared.patch
-Patch15:	%{name}-xvmc.patch
-Patch16:	%{name}-kill-mabi_altivec.patch
-Patch17:	%{name}-auto-expand.patch
+Patch0:		%{name}-cp1250-fontdesc.patch
+Patch1:		%{name}-home_etc.patch
+Patch2:		%{name}-350.patch
+Patch3:		%{name}-configure.patch
+Patch4:		%{name}-altivec.patch
+Patch5:		%{name}-pcmsplit.patch
+Patch6:		%{name}-x86_64-detection.patch
+Patch7:		%{name}-mythtv.patch
+Patch8:		%{name}-shared.patch
+Patch9:		%{name}-xvmc.patch
+Patch10:	%{name}-kill-mabi_altivec.patch
+Patch11:	%{name}-auto-expand.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -133,16 +129,17 @@ BuildRequires:	XFree86-devel >= 4.0.2
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	audiofile-devel
 BuildRequires:	cdparanoia-III-devel
-%{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_dxr3:BuildRequires:	em8300-devel}
 BuildRequires:	enca-devel
 BuildRequires:	esound-devel
+BuildRequires:	faac-devel
 BuildRequires:	faad2-devel >= 2.0
-BuildRequires:	freetype-devel
+BuildRequires:	freetype-devel >= 1:2.0.9
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
+BuildRequires:	giflib-devel
 %if %{with gui}
 BuildRequires:	gtk+2-devel
 %endif
@@ -151,16 +148,18 @@ BuildRequires:	lame-libs-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel}
+BuildRequires:	libdvdnav-devel
+BuildRequires:	libdvdread-devel
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libjpeg-devel
 %{?with_mad:BuildRequires:	libmad-devel}
+BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vorbis:BuildRequires:	libvorbis-devel}
-%{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20060430_2245.1}
-BuildRequires:	libungif-devel
+%{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20061024_2245.1}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
@@ -313,23 +312,20 @@ cd ../..
 %endif
 
 cp -f etc/codecs.conf etc/codecs.win32.conf
-%patch0 -p1
-%patch1 -p0
-##%patch2 -p1
-##%patch3 -p1	-- old home_etc behavior
+%patch0 -p0
+##%patch1 -p1	-- old home_etc behavior
+%patch2 -p1
+%patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch8 -p1
-#%%patch10 -p1
-#%%patch11 -p1 # maybe TODO, JACK audio output rewritten without bio2jack
-#%%patch12 -p1 # seems obsolete
-#%%patch13 -p1 # TODO
+#%%patch5 -p1
+#%%patch6 -p1 # seems obsolete
+#%%patch7 -p1 # TODO
 %if %{with shared}
-%patch14 -p1
+%patch8 -p1
 %endif
-#%%patch15 -p0 # TODO
-%patch16 -p1
-%patch17 -p1
+#%%patch9 -p0 # TODO
+%patch10 -p1
+%patch11 -p1
 
 # kill evil file, hackery not needed with llh
 echo > osdep/kerneltwosix.h
@@ -353,7 +349,6 @@ set -x
 	%{?debug:--enable-debug=3} \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
-	--with-x11incdir=%{_prefix}/X11R6/include \
 	--with-extraincdir=%{_includedir}/xvid \
 	--enable-menu \
 %ifnarch %{ix86} %{x8664}
@@ -370,8 +365,6 @@ set -x
 %endif
 %{?with_directfb:--enable-directfb} \
 %{!?with_directfb:--disable-directfb} \
-%{!?with_divx4linux:--disable-divx4linux} \
-%{?with_divx4linux:--with-extraincdir=/usr/include/divx} \
 %{!?with_dxr3:--disable-dxr3} \
 %{!?with_ggi:--disable-ggi} \
 %{?with_live:--enable-live --with-livelibdir=%{_libdir}/liveMedia --with-extraincdir=/usr/include/liveMedia} \
@@ -403,11 +396,13 @@ set -x
 %{!?with_x264:--disable-x264} \
 %{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
 %{!?with_mencoder:--disable-mencoder} \
-	--enable-external-faad \
+	--enable-faad-external \
 	--enable-dga \
 	--enable-fbdev \
 	--enable-gl \
 	--enable-mga \
+	--enable-radio \
+	--enable-radio-capture \
 	--%{?with_sdl:en}%{!?with_sdl:dis}able-sdl \
 	--enable-tdfxfb \
 	--enable-vm \
@@ -539,11 +534,11 @@ umask 022
 %if %{with win32}
 %doc etc/codecs.win32.conf
 %endif
+%lang(cs) %doc DOCS/HTML/cs
 %lang(de) %doc DOCS/HTML/de
 %lang(es) %doc DOCS/HTML/es
 %lang(fr) %doc DOCS/HTML/fr
 %lang(hu) %doc DOCS/HTML/hu
-%lang(it) %doc DOCS/it
 %lang(pl) %doc DOCS/HTML/pl
 %lang(ru) %doc DOCS/HTML/ru
 %lang(zh_CN) %doc DOCS/zh
