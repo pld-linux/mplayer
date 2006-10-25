@@ -390,7 +390,8 @@ set -x
 %{!?with_dshow:--disable-dshow} \
 %{!?with_enca:--disable-enca} \
 %{!?with_esd:--disable-esd} \
-%{!?with_faad:--disable-faad-external --disable-faad-internal}%{?with_faad:--enable-faad-external --disable-faad-internal} \
+%{!?with_faad:--disable-faad-external --disable-faad-internal} \
+%{?with_faad:--disable-faad-internal} \
 %{!?with_gif:--disable-gif} \
 %{?with_joystick:--enable-joystick} \
 %{!?with_libdv:--disable-libdv} \
@@ -547,11 +548,11 @@ umask 022
 %if %{with win32}
 %doc etc/codecs.win32.conf
 %endif
+%lang(cs) %doc DOCS/HTML/cs
 %lang(de) %doc DOCS/HTML/de
 %lang(es) %doc DOCS/HTML/es
 %lang(fr) %doc DOCS/HTML/fr
 %lang(hu) %doc DOCS/HTML/hu
-%lang(it) %doc DOCS/it
 %lang(pl) %doc DOCS/HTML/pl
 %lang(ru) %doc DOCS/HTML/ru
 %lang(zh_CN) %doc DOCS/zh
