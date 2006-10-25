@@ -90,7 +90,7 @@ Group:		Applications/Multimedia
 #Source1:	libavcodec-%{snap}.tar.bz2
 %else
 Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	f82bb2bc51b6cd5e5dd96f88f6f98582
+# Source0-md5:	18c05d88e22c3b815a43ca8d7152ccdc
 %endif
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
