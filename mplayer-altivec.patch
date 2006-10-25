@@ -1,23 +1,23 @@
---- MPlayer-1.0pre2/configure.orig	2003-11-23 00:09:38.000000000 +0100
-+++ MPlayer-1.0pre2/configure	2003-11-23 00:20:52.337674440 +0100
-@@ -1173,6 +1173,7 @@
- _vstream=auto
- _pthreads=yes
+--- MPlayer-1.0rc1/configure.orig	2006-10-25 05:28:59.506383441 +0200
++++ MPlayer-1.0rc1/configure	2006-10-25 05:34:36.560143481 +0200
+@@ -1724,6 +1724,7 @@
+ _ass=auto
  _rpath=no
+ _asmalign_pot=auto
 +_disable_altivec=no
  for ac_option do
    case "$ac_option" in
    # Skip 1st pass
-@@ -1483,7 +1484,7 @@
-   --enable-3dnowex) _3dnow=yes _3dnowex=yes ;;
-   --disable-3dnowex) _3dnowex=no ;;
+@@ -2130,7 +2131,7 @@
+   --enable-3dnowext) _3dnow=yes _3dnowext=yes ;;
+   --disable-3dnowext) _3dnowext=no ;;
    --enable-altivec) _altivec=yes ;;
 -  --disable-altivec) _altivec=no ;;
 +  --disable-altivec) _altivec=no; _disable_altivec=yes ;;
-   --enable-mmx)	_mmx=yes ;;
-   --disable-mmx) # 3Dnow! and MMX2 require MMX
-         _3dnow=no _3dnowex=no _mmx=no _mmx2=no ;;
-@@ -1623,7 +1624,7 @@
+   --enable-armv5te) _armv5te=yes ;;
+   --disable-armv5te) _armv5te=no ;;
+   --enable-iwmmxt) _iwmmxt=yes ;;
+@@ -2284,7 +2285,7 @@
  
      _altivec_gcc_flags=''
  
