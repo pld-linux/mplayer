@@ -216,26 +216,26 @@
    --disable-vstream      Disable tivo vstream client support [autodetect]
    --disable-pthreads     Disable Posix threads support [autodetect]
 +  --disable-dbus-glib    Disable D-BUS GLib interface (required for GNOME scr\eensaver support) [autodetect]
+   --disable-ass          Disable internal SSA/ASS subtitles support [autodetect]
    --enable-rpath         Enable runtime linker path for extra libs [disabled]
  
- Codecs:
 @@ -1692,6 +1693,7 @@
  _musepack=auto
  _vstream=auto
- _pthreads=yes
+ _pthreads=auto
 +_dbus_glib=auto
+ _ass=auto
  _rpath=no
- for ac_option do
-   case "$ac_option" in
+ _disable_altivec=no
 @@ -1975,6 +1977,8 @@
    --disable-vstream)    _vstream=no     ;;
    --enable-pthreads)    _pthreads=yes   ;;
    --disable-pthreads)   _pthreads=no    ;;
 +  --enable-dbus-glib)   _dbus_glib=yes  ;;
 +  --disable-dbus-glib)  _dbus_glib=no   ;;
+   --enable-ass)         _ass=yes        ;;
+   --disable-ass)        _ass=no         ;;
    --enable-rpath)       _rpath=yes      ;;
-   --disable-rpath)      _rpath=no       ;;
- 
 @@ -6971,6 +6975,24 @@
  fi
  echores "$_gethostbyname2"

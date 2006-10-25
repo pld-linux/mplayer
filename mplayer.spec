@@ -7,7 +7,6 @@
 #
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
-%bcond_with	divx4linux	# with divx4linux a/v support (binaries, instead of included OpenDivx)
 %bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
 %bcond_with	ggi		# with ggi video output
 %bcond_with	nas		# with NAS audio output
@@ -75,7 +74,7 @@
 %define		sname		MPlayer
 %define		snap		%{nil}
 
-%define		pre		pre8
+%define		pre		rc1
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -85,7 +84,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	4
+%define		_rel	1
 Release:	3.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -100,7 +99,7 @@ Group:		Applications/Multimedia
 #Source1:	libavcodec-%{snap}.tar.bz2
 %else
 Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{pre}.tar.bz2
-# Source0-md5:	f82bb2bc51b6cd5e5dd96f88f6f98582
+# Source0-md5:	18c05d88e22c3b815a43ca8d7152ccdc
 %endif
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -109,24 +108,22 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
-Patch0:		%{name}-no_libnsl.patch
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
 Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
-Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
 Patch10:	%{name}-pcmsplit.patch
 Patch11:	%{name}-bio2jack.patch
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
+#http://www.openchrome.org/snapshots/mplayer/
 Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-auto-expand.patch
 Patch18:	%{name}-x264.patch
 Patch19:	%{name}-gnome-screensaver.patch
-#http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -140,13 +137,14 @@ BuildRequires:	amrwb-devel	>= 5.3.0
 %endif
 %{?with_arts:BuildRequires:	artsc-devel}
 %{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
-%{?with_divx4linux:BuildRequires:	divx4linux-devel >= 1:5.01.20020418}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_dxr3:BuildRequires:	em8300-devel}
 %{?with_enca:BuildRequires:	enca-devel}
 %{?with_esd:BuildRequires:	esound-devel}
+BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
 BuildRequires:	freetype-devel
+BuildRequires:	fribidi-devel
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
@@ -158,10 +156,12 @@ BuildRequires:	lame-libs-devel
 %{?with_jack:BuildRequires:	libbio2jack-devel >= 0.8-2}
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
+BuildRequires:	libdvdnav-devel
 %{?with_libdv:BuildRequires:	libdv-devel}
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libjpeg-devel
 %{?with_mad:BuildRequires:	libmad-devel}
+BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_dshow:BuildRequires:	libstdc++-devel}
@@ -312,13 +312,11 @@ MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
 %endif
 
 cp -f etc/codecs.conf etc/codecs.win32.conf
-%patch0 -p1
 %patch1 -p0
 ##%patch2 -p1
 ##%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 %patch8 -p1
 #%%patch10 -p1
 #%patch11 -p1	# maybe TODO, JACK audio output rewritten without bio2jack
@@ -329,7 +327,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 #%patch15 -p0	# TODO
 %patch16 -p1
 %patch17 -p1
-%patch18 -p1
+#%patch18 -p1	# needs update
 %if %{with gnomess}
 %patch19 -p1
 %endif
@@ -356,7 +354,6 @@ set -x
 	%{?debug:--enable-debug=3} \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
-	--with-x11incdir=%{_includedir} \
 	--with-x11libdir=%{_libdir} \
 	--with-extraincdir=%{_includedir}/xvid \
 	--enable-menu \
@@ -373,10 +370,9 @@ set -x
 %{!?with_altivec:--disable-altivec} \
 %endif
 %{!?with_amr:--disable-amr_nb --disable-amr_wb} \
+%{?with_amr:--enable-amr_nb --enable-amr_wb} \
 %{?with_directfb:--enable-directfb} \
 %{!?with_directfb:--disable-directfb} \
-%{!?with_divx4linux:--disable-divx4linux} \
-%{?with_divx4linux:--with-extraincdir=/usr/include/divx} \
 %{!?with_dxr3:--disable-dxr3} \
 %{!?with_ggi:--disable-ggi} \
 %{?with_live:--enable-live --with-livelibdir=%{_libdir}/liveMedia --with-extraincdir=/usr/include/liveMedia} \
@@ -394,7 +390,7 @@ set -x
 %{!?with_dshow:--disable-dshow} \
 %{!?with_enca:--disable-enca} \
 %{!?with_esd:--disable-esd} \
-%{!?with_faad:--disable-external-faad --disable-internal-faad}%{?with_faad:--enable-external-faad} \
+%{!?with_faad:--disable-faad-external --disable-faad-internal}%{?with_faad:--enable-faad-external --disable-faad-internal} \
 %{!?with_gif:--disable-gif} \
 %{?with_joystick:--enable-joystick} \
 %{!?with_libdv:--disable-libdv} \
