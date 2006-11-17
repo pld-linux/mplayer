@@ -108,7 +108,7 @@
    _amr=yes
    _def_amr='#define CONFIG_AMR 1'
    _def_amr_nb='#define CONFIG_AMR_NB 1'
-+  _ld_amd_nb='-lamrnb'
++  _ld_amr_nb='-lamrnb'
  else
    _def_amr_nb='#undef CONFIG_AMR_NB'
  fi
