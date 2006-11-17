@@ -122,8 +122,7 @@ Patch14:	%{name}-shared.patch
 Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-auto-expand.patch
-Patch18:	%{name}-x264.patch
-Patch19:	%{name}-gnome-screensaver.patch
+Patch18:	%{name}-gnome-screensaver.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -327,9 +326,8 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 #%patch15 -p0	# TODO
 %patch16 -p1
 %patch17 -p1
-#%patch18 -p1	# needs update
 %if %{with gnomess}
-%patch19 -p1
+%patch18 -p1
 %endif
 
 %if %{with snapshot}
@@ -339,13 +337,12 @@ find . -type d -name CVS -print | xargs rm -rf
 %build
 %if %{with shared}
 CFLAGS="%{rpmcflags} -fPIC"
-LDFLAGS="%{rpmldflags} -wl,--as-needed"
 %else
 CFLAGS="%{rpmcflags}"
-LDFLAGS="%{rpmldflags}"
 %endif
 CC="%{__cc}"
-export CC CFLAGS
+LDFLAGS="%{rpmldflags}"
+export CC CFLAGS LDFLAGS
 
 build() {
 set -x
