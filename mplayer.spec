@@ -113,6 +113,7 @@ Patch2:		%{name}-codec.patch
 Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
+Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
 Patch10:	%{name}-pcmsplit.patch
 Patch11:	%{name}-bio2jack.patch
@@ -317,6 +318,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 ##%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 %patch8 -p1
 #%%patch10 -p1
 #%patch11 -p1	# maybe TODO, JACK audio output rewritten without bio2jack
@@ -332,10 +334,9 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch19 -p1
 %endif
 
-# kill evil file, hackery not needed with llh
-echo > osdep/kerneltwosix.h
-
+%if %{with snapshot}
 find . -type d -name CVS -print | xargs rm -rf
+%endif
 
 %build
 %if %{with shared}
