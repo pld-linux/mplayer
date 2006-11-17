@@ -116,7 +116,6 @@ Patch5:		%{name}-configure.patch
 Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
 Patch10:	%{name}-pcmsplit.patch
-Patch11:	%{name}-bio2jack.patch
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 #http://www.openchrome.org/snapshots/mplayer/
@@ -153,8 +152,8 @@ BuildRequires:	fribidi-devel
 %if %{with gui}
 BuildRequires:	gtk+2-devel
 %endif
+%{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lame-libs-devel
-%{?with_jack:BuildRequires:	libbio2jack-devel >= 0.8-2}
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 BuildRequires:	libdvdnav-devel
@@ -321,7 +320,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch6 -p1
 %patch8 -p1
 #%%patch10 -p1
-#%patch11 -p1	# maybe TODO, JACK audio output rewritten without bio2jack
 #%patch13 -p1	# TODO
 %if %{with shared}
 %patch14 -p1
