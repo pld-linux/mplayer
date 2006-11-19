@@ -1,8 +1,10 @@
 #
 # TODO:
+# - nut support (http://www.nut.hu/ - currently down, but see svn.mplayerhq.hu/nut/)
 # - update for lzo 2
-# - update for polypaudio 0.8
-# - use external lrmi and few other libs:
+# - update for pulseaudio (instead of old polypaudio)
+# - use external vidix?
+# - try to use external ffmpeg, lrmi and few other libs:
 #   http://www.gocyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
 #
 # Conditional build:
