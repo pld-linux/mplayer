@@ -36,7 +36,7 @@
 %bcond_without	live		# without live.com libraries
 %bcond_with	lzo		# with LZO support (requires lzo 1.x)
 %bcond_without	mad		# without mad (audio MPEG) support
-%bcond_with	polyp		# with polyp audio output (requires polypaudio 0.6 or 0.7)
+%bcond_without	pulseaudio		# without pulseaudio output
 %bcond_without	quicktime	# without binary quicktime dll support
 %bcond_without	real		# without Real* 8/9 codecs support
 %bcond_without	runtime		# disable runtime cpu detection, just detect CPU
@@ -86,7 +86,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	1
+%define		_rel	1.1
 Release:	3.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -118,6 +118,7 @@ Patch5:		%{name}-configure.patch
 Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
 Patch10:	%{name}-pcmsplit.patch
+Patch12:	%{name}-pulse.patch
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 #http://www.openchrome.org/snapshots/mplayer/
@@ -177,8 +178,7 @@ BuildRequires:	libxslt-progs
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
-%{?with_polyp:BuildRequires:	polypaudio-devel >= 0.6}
-%{?with_polyp:BuildRequires:	polypaudio-devel < 0.8}
+%{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
@@ -322,6 +322,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch6 -p1
 %patch8 -p1
 #%%patch10 -p1
+%patch12 -p0
 #%patch13 -p1	# TODO
 %if %{with shared}
 %patch14 -p1
@@ -397,7 +398,7 @@ set -x
 %{!?with_libdts:--disable-libdts} \
 --%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 %{!?with_mad:--disable-mad} \
-%{!?with_polyp:--disable-polyp} \
+%{!?with_pulseaudio:--disable-pulseaudio} \
 %{!?with_quicktime:--disable-qtx} \
 %{!?with_real:--disable-real} \
 --%{?with_runtime:en}%{!?with_runtime:dis}able-runtime-cpudetection \
