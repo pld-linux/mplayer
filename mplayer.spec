@@ -12,7 +12,7 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
 %bcond_without	altivec		# without altivec support
-%bcond_with	x264		# without x264 support (needs newer libx264 snap)
+%bcond_without	x264		# without x264 support
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -118,6 +118,7 @@ Patch9:		%{name}-xvmc.patch
 Patch10:	%{name}-kill-mabi_altivec.patch
 Patch11:	%{name}-auto-expand.patch
 Patch12:	%{name}-pulse.patch
+Patch13:	ffmpeg-x264-symbol.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -314,6 +315,7 @@ cd ../..
 
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch12 -p0
+%patch13 -p1
 %patch0 -p0
 ##%patch1 -p1	-- old home_etc behavior
 %patch2 -p1
