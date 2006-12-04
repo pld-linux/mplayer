@@ -15,7 +15,7 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
 %bcond_without	altivec		# without altivec support
-%bcond_without	x264		# without x264 support (needs newer libx264 snap)
+%bcond_without	x264		# without x264 support
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -118,6 +118,7 @@ Patch5:		%{name}-configure.patch
 Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
 Patch10:	%{name}-pcmsplit.patch
+Patch11:	ffmpeg-x264-symbol.patch
 Patch12:	%{name}-pulse.patch
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
@@ -322,6 +323,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch6 -p1
 %patch8 -p1
 #%%patch10 -p1
+%patch11 -p1
 %patch12 -p0
 #%patch13 -p1	# TODO
 %if %{with shared}
