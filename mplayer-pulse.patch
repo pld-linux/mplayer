@@ -929,17 +929,6 @@
  #endif
  #ifdef USE_JACK
          &audio_out_jack,
---- libao2/Makefile	(revision 19105)
-+++ libao2/Makefile	(working copy)
-@@ -17,7 +17,7 @@
-           $(ESD_INC) \
-           $(JACK_INC) \
-           $(OPENAL_INC) \
--          $(POLYP_INC) \
-+          $(PULSE_INC) \
-           $(SDL_INC) \
-           $(X11_INC) \
- 
 --- Makefile	(revision 19105)
 +++ Makefile	(working copy)
 @@ -80,7 +80,7 @@
@@ -951,8 +940,8 @@
  
  CODEC_LIBS = $(AV_LIB) \
               $(FAME_LIB) \
---- configure	(revision 19105)
-+++ configure	(working copy)
+--- configure	(working copy)
++++ configure	2006-12-04 22:45:42.806799788 +0200
 @@ -348,7 +348,7 @@
    --disable-ossaudio     disable OSS sound support [autodetect]
    --disable-arts         disable aRts sound support [autodetect]
@@ -982,7 +971,27 @@
    --enable-jack)	_jack=yes	;;
    --disable-jack)	_jack=no	;;
    --enable-openal)	_openal=yes	;;
-@@ -4836,32 +4836,30 @@
+@@ -7534,7 +7530,7 @@
+ NAS_LIB = $_ld_nas
+ ARTS_LIB = $_ld_arts
+ ESD_LIB = $_ld_esd
+-POLYP_LIB = $_ld_polyp
++PULSE_LIB = $_ld_pulse
+ JACK_LIB = $_ld_jack
+ OPENAL_LIB = $_ld_openal
+ SGIAUDIO_LIB = $_ld_sgiaudio
+@@ -7918,7 +7914,7 @@
+ $_def_arts
+ $_def_esd
+ $_def_esd_latency
+-$_def_polyp
++$_def_pulse
+ $_def_jack
+ $_def_openal
+ $_def_sys_asoundlib_h
+--- configure	2006-12-04 22:49:44.722244176 +0200
++++ configure	2006-12-04 22:45:42.806799788 +0200
+@@ -4880,32 +4880,30 @@
    _noaomodules="esd $_noaomodules"
  fi
  
@@ -1008,20 +1017,20 @@
    fi
  fi
 -echores "$_polyp"
-+echores "$_pulse"
++echocheck "pulse"
  
 -if test "$_polyp" = yes ; then
 -  _def_polyp='#define USE_POLYP 1'
 -  _aosrc="$_aosrc ao_polyp.c"
 -  _aomodules="polyp $_aomodules"
 -  _ld_polyp=`pkg-config --libs polyplib polyplib-error polyplib-mainloop`
--  _inc_polyp=`pkg-config --cflags polyplib polyplib-error polyplib-mainloop`
+-  _inc_extra="$_inc_extra `pkg-config --cflags polyplib polyplib-error polyplib-mainloop`"
 +if test "$_pulse" = yes ; then
 +  _def_pulse='#define USE_PULSE 1'
 +  _aosrc="$_aosrc ao_pulse.c"
 +  _aomodules="pulse $_aomodules"
 +  _ld_pulse=`pkg-config --libs libpulse`
-+  _inc_pulse=`pkg-config --cflags libpulse`
++  _inc_extra="$_inc_extra `pkg-config --cflags libpulse`"
  else
 -  _def_polyp='#undef USE_POLYP'
 -  _noaomodules="polyp $_noaomodules"
@@ -1030,23 +1039,3 @@
  fi
  
  
-@@ -7395,8 +7393,8 @@
- ARTS_INC = $_inc_arts
- ESD_LIB = $_ld_esd
- ESD_INC = $_inc_esd
--POLYP_LIB = $_ld_polyp
--POLYP_INC = $_inc_polyp
-+PULSE_LIB = $_ld_pulse
-+PULSE_INC = $_inc_pulse
- JACK_LIB = $_ld_jack
- JACK_INC = $_inc_jack
- OPENAL_LIB = $_ld_openal
-@@ -7918,7 +7916,7 @@
- $_def_arts
- $_def_esd
- $_def_esd_latency
--$_def_polyp
-+$_def_pulse
- $_def_jack
- $_def_openal
- $_def_sys_asoundlib_h
