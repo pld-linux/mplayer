@@ -12,7 +12,7 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_with	osd		# with osd menu support
 %bcond_without	altivec		# without altivec support
-%bcond_without	x264		# without x264 support (needs newer libx264 snap)
+%bcond_with	x264		# without x264 support (needs newer libx264 snap)
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -26,7 +26,7 @@
 %bcond_without	lirc		# without lirc support
 %bcond_without	live		# without live.com libraries
 %bcond_without	mad		# without mad (audio MPEG) support
-%bcond_without	polyp		# without polyp audio output
+%bcond_without	pulseaudio		# without pulseaudio output
 %bcond_without	quicktime	# without binary quicktime dll support
 %bcond_without	real		# without Real* 8/9 codecs support
 %bcond_without	runtime		# disable runtime cpu detection, just detect CPU
@@ -75,7 +75,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	0.1
+%define		_rel	0.2
 Release:	2.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -117,6 +117,7 @@ Patch8:		%{name}-shared.patch
 Patch9:		%{name}-xvmc.patch
 Patch10:	%{name}-kill-mabi_altivec.patch
 Patch11:	%{name}-auto-expand.patch
+Patch12:	%{name}-pulse.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -167,7 +168,7 @@ BuildRequires:	lzo-devel
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
-%{?with_polyp:BuildRequires:	polypaudio-devel}
+%{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
@@ -312,6 +313,7 @@ cd ../..
 %endif
 
 cp -f etc/codecs.conf etc/codecs.win32.conf
+%patch12 -p0
 %patch0 -p0
 ##%patch1 -p1	-- old home_etc behavior
 %patch2 -p1
@@ -383,7 +385,7 @@ set -x
 %{!?with_libdts:--disable-libdts} \
 --%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 %{!?with_mad:--disable-mad} \
-%{!?with_polyp:--disable-polyp} \
+%{!?with_pulseaudio:--disable-pulseaudio} \
 %{!?with_quicktime:--disable-qtx} \
 %{!?with_real:--disable-real} \
 --%{?with_runtime:en}%{!?with_runtime:dis}able-runtime-cpudetection \
