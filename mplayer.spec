@@ -72,7 +72,7 @@
 %define		snap		%{nil}
 
 %define		_rc	rc1
-%define		_rel	1.2
+%define		_rel	1.3
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es):	Otro reproductor de películas
@@ -299,6 +299,34 @@ package.
 %description -n mencoder -l pl
 MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
 
+%package vidix
+Summary:	VIDeo Interface for *nIX
+Group:		Applications/Multimedia
+Requires:	mplayer-common = %{epoch}:%{version}-%{release}
+
+%description vidix
+VIDIX is the abbreviation for VIDeo Interface for *niX. VIDIX was
+designed and introduced as an interface for fast user-space drivers
+providing DGA everywhere where it's possible (unlike X11). I hope that
+these drivers will be as portable as X11 (not only on *nix).
+- What is it: It's a portable successor of mga_vid technology, but
+  it's located in user-space.
+- Unlike X11 it provides DGA everywhere it's possible
+- Unlike v4l it provides interface for video playback
+- Unlike linux's drivers it uses the math library
+
+This package contains drivers for:
+- 3DLabs GLINT R3/Permedia3
+- ATI Mach64
+- ATI Radeon
+- ATI Rage128
+- Matrox Gxxx series (using BES and CRTC2)
+- nVidia chips (experimental)
+- SiS chips (experimental)
+- S3 Savage chips (experimental)
+- Trident Cyberblade i1
+- VIA CLE266
+
 %prep
 %setup -q -n %{sname}-%{version}%{_rc} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
@@ -504,15 +532,16 @@ install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
+%post -n gmplayer
 umask 022
-/sbin/ldconfig
 [ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
 
-%postun
+%postun -n gmplayer
 umask 022
-/sbin/ldconfig
 [ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
+
+%post vidix -p /sbin/ldconfig
+%postun vidix -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -554,10 +583,6 @@ umask 022
 %lang(zh_CN) %doc DOCS/zh
 %doc AUTHORS ChangeLog README
 
-%ifarch %{ix86}
-%attr(755,root,root) %{_libdir}/libdha.so.*.*
-%attr(755,root,root) %{_libdir}/mplayer
-%endif
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/*.conf
 %{_mandir}/man1/*
@@ -574,3 +599,22 @@ umask 022
 %{_pixmapsdir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/font*
+
+%ifarch %{ix86}
+%files vidix
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdha.so.*.*
+%dir %{_libdir}/mplayer
+%dir %{_libdir}/mplayer/vidix
+%attr(755,root,root) %{_libdir}/mplayer/vidix/cyberblade_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/mach64_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/mga_crtc2_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/mga_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/nvidia_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/pm3_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/radeon_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/rage128_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/savage_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/sis_vid.so
+%attr(755,root,root) %{_libdir}/mplayer/vidix/unichrome_vid.so
+%endif
