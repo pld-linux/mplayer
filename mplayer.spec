@@ -185,7 +185,6 @@ BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 BuildRequires:	zlib-devel
-Requires(post,postun):	/sbin/ldconfig
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -538,10 +537,10 @@ umask 022
 
 %postun -n gmplayer
 umask 022
-[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
+[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
 
-%post vidix -p /sbin/ldconfig
-%postun vidix -p /sbin/ldconfig
+%post	vidix -p /sbin/ldconfig
+%postun	vidix -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
