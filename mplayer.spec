@@ -42,7 +42,7 @@
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	shared		# experimental libmplayer.so support
-%bcond_without	amr             # don't build 3GPP Adaptive Multi Rate (AMR) speech codec
+%bcond_with	amr		# enable 3GPP Adaptive Multi Rate (AMR) speech codec support
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -99,12 +99,6 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
-# AMR WB FLOAT 
-Source10:        http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26204-530.zip
-# Source10-md5:  988060bdb18b5d64b8bd82c3507d2420
-# AMR NB FLOAT 
-Source11:        http://www.3gpp.org/ftp/Specs/latest/Rel-5/26_series/26104-540.zip
-# Source11-md5:  4dcbeb2bc28bf86e7131fe4cae3e0dec
 Patch0:		%{name}-cp1250-fontdesc.patch
 Patch1:		%{name}-home_etc.patch
 Patch2:		%{name}-350.patch
@@ -119,6 +113,7 @@ Patch10:	%{name}-kill-mabi_altivec.patch
 Patch11:	%{name}-auto-expand.patch
 Patch12:	%{name}-pulse.patch
 Patch13:	ffmpeg-x264-symbol.patch
+Patch14:		%{name}-system-amr.patch
 #http://www.openchrome.org/snapshots/mplayer/
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -297,25 +292,10 @@ MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
 %setup -q -n %{sname}-%{version}%{pre} -a 3 -a 6
 %endif
 
-%if %{with amr}
-cd libavcodec
-mkdir amrwb_float
-mkdir amr
-mkdir amr_float
-# put 26204-xxx.zip into libavcodec/amrwb_float
-cd amrwb_float
-unzip -j %{SOURCE10}
-unzip -j 26204-530_ANSI-C_source_code.zip
-# put 26104-xxx.zip into libavcodec/amr_float
-cd ../amr_float
-unzip -j %{SOURCE11}
-unzip -j 26104-540_ANSI_C_source_code.zip
-cd ../..
-%endif
-
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch12 -p0
 %patch13 -p1
+%patch14 -p1
 %patch0 -p0
 ##%patch1 -p1	-- old home_etc behavior
 %patch2 -p1
