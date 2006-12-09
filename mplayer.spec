@@ -1,11 +1,9 @@
-#
 # TODO:
 # - nut support (http://www.nut.hu/ - currently down, but see svn.mplayerhq.hu/nut/)
 # - update for lzo 2
-# - update for pulseaudio (instead of old polypaudio)
 # - use external vidix?
 # - try to use external ffmpeg, lrmi and few other libs:
-#   http://www.gocyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
+#   http://www.cyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
 #
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
@@ -78,6 +76,7 @@
 
 %define		pre		rc1
 
+%define		_rel	1.1
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es):	Otro reproductor de películas
@@ -86,7 +85,6 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-%define		_rel	1.1
 Release:	3.%{pre}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -136,7 +134,7 @@ BuildRequires:	OpenGL-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %if %{with amr}
 BuildRequires:	amrnb-devel
-BuildRequires:	amrwb-devel	>= 5.3.0
+BuildRequires:	amrwb-devel >= 5.3.0
 %endif
 %{?with_arts:BuildRequires:	artsc-devel}
 %{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
@@ -159,8 +157,8 @@ BuildRequires:	gtk+2-devel
 BuildRequires:	lame-libs-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
-BuildRequires:	libdvdnav-devel
 %{?with_libdv:BuildRequires:	libdv-devel}
+BuildRequires:	libdvdnav-devel
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libjpeg-devel
 %{?with_mad:BuildRequires:	libmad-devel}
@@ -170,6 +168,7 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 # tremor is used by default, internal as we don't have system one
+%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 #%{?with_vorbis:BuildRequires:	libvorbis-devel}
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20060828_2245.1}
 BuildRequires:	libxslt-progs
@@ -183,18 +182,17 @@ BuildRequires:	pkgconfig
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
-BuildRequires:	xorg-lib-libXvMC-devel
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXv-devel
+BuildRequires:	xorg-lib-libXvMC-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 BuildRequires:	zlib-devel
-%{?with_gnomess:BuildRequires:	dbus-glib-devel}
-Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
+Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
