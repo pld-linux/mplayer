@@ -68,15 +68,11 @@
 %define        _suf    32
 %endif
 
-# set it to 0, or 1
-%define		snapshot	0
-
 %define		sname		MPlayer
 %define		snap		%{nil}
 
-%define		pre		rc1
-
-%define		_rel	1.1
+%define		_rc	rc1
+%define		_rel	1.2
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es):	Otro reproductor de películas
@@ -85,7 +81,7 @@ Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	3.%{pre}.%{_rel}
+Release:	3.%{_rc}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -93,14 +89,8 @@ Release:	3.%{pre}.%{_rel}
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
-%if %{snapshot}
-#Source0:	ftp://ftp1.mplayerhq.hu/MPlayer/cvs/%{sname}-%{snap}.tar.bz2
-#Source0:	%{name}-%{snap}.tar.bz2
-#Source1:	libavcodec-%{snap}.tar.bz2
-%else
-Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{pre}.tar.bz2
+Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{_rc}.tar.bz2
 # Source0-md5:	18c05d88e22c3b815a43ca8d7152ccdc
-%endif
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -108,6 +98,9 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
+# http://www.on2.com/gpl/mplayer/
+Source9:	http://www.on2.com/gpl/mplayer/2006-11-29-mencoder-on2flixenglinux.tar.bz2
+# Source9-md5:	66fd6987f36f0b0cec6a28366ac3141c
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
 Patch3:		%{name}-home_etc.patch
@@ -125,6 +118,7 @@ Patch15:	%{name}-xvmc.patch
 Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-auto-expand.patch
 Patch18:	%{name}-gnome-screensaver.patch
+Patch19:	%{name}-on2flix.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -300,12 +294,7 @@ package.
 MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
 
 %prep
-%if %{snapshot}
-%setup -q -n %{name}-%{snap} -a 1 -a 3 -a 6
-%else
-%setup -q -n %{sname}-%{version}%{pre} -a 3 -a 6
-%endif
-
+%setup -q -n %{sname}-%{version}%{_rc} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch1 -p0
 ##%patch2 -p1
@@ -328,9 +317,16 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch18 -p1
 %endif
 
-%if %{with snapshot}
+%if 0%{?snap}
 find . -type d -name CVS -print | xargs rm -rf
 %endif
+
+# on2flix
+cp -a mencoder-on2flixenglinux/new_files/libmpdemux/* libmpdemux
+%patch19 -p1
+for a in mencoder-on2flixenglinux/*.diff; do
+	patch -p0 < $a
+done
 
 %build
 %if %{with shared}
