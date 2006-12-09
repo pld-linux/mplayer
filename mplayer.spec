@@ -147,6 +147,8 @@ BuildRequires:	fribidi-devel
 %if %{with gui}
 BuildRequires:	gtk+2-devel
 %endif
+BuildRequires:	XFree86-devel >= 4.0.2
+%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lame-libs-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
@@ -162,8 +164,6 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 # tremor is used by default, internal as we don't have system one
-BuildRequires:	XFree86-devel >= 4.0.2
-%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 #%{?with_vorbis:BuildRequires:	libvorbis-devel}
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20060828_2245.1}
 BuildRequires:	libxslt-progs
@@ -530,10 +530,10 @@ umask 022
 
 %postun -n gmplayer
 umask 022
-[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
+[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
 
-%post vidix -p /sbin/ldconfig
-%postun vidix -p /sbin/ldconfig
+%post	vidix -p /sbin/ldconfig
+%postun	vidix -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
