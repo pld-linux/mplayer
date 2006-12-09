@@ -1,5 +1,8 @@
 # TODO:
-# - use external lrmi and few other libs:
+# - nut support (http://www.nut.hu/ - currently down, but see svn.mplayerhq.hu/nut/)
+# - update for lzo 2
+# - use external vidix?
+# - try to use external ffmpeg, lrmi and few other libs:
 #   http://www.cyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
 # - prepare list of all features enabled by default and prepare bconds and BRs for them
 #   now we have different builds depending on builder environment/installed libraries
