@@ -1,7 +1,6 @@
 # TODO:
 # - nut support (http://www.nut.hu/ - currently down, but see svn.mplayerhq.hu/nut/)
 # - update for lzo 2
-# - use external vidix?
 # - try to use external ffmpeg, lrmi and few other libs:
 #   http://www.cyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
 #
@@ -44,6 +43,7 @@
 %bcond_without	smb		# disable Samba (SMB) input support
 %bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
+%bcond_without	vidix		# disable vidix
 %bcond_without	vorbis		# without Ogg-Vorbis audio support
 %bcond_without	xvid		# disable XviD codec
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
@@ -56,6 +56,7 @@
 %ifnarch %{ix86}
 %undefine	with_win32
 %undefine	with_quicktime
+%undefine	with_vidix
 %endif
 
 %ifarch %{x8664}
@@ -72,7 +73,7 @@
 %define		snap		%{nil}
 
 %define		_rc	rc1
-%define		_rel	1.3
+%define		_rel	1.4
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es):	Otro reproductor de películas
@@ -140,6 +141,7 @@ BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
 BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
+%{?with_vidix:BuildRequires:	vidix-devel}
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
@@ -272,6 +274,7 @@ MPlayer z graficznym interfejsem GTK+.
 Summary:	Configuration files and documentation for MPlayer
 Summary(pl):	Pliki konfiguracyjne i dokumentacja dla MPlayera
 Group:		Applications/Multimedia
+Obsoletes:	mplayer-vidix
 
 %description common
 Configuration files, man page and HTML documentation for MPlayer.
@@ -291,34 +294,6 @@ package.
 
 %description -n mencoder -l pl
 MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
-
-%package vidix
-Summary:	VIDeo Interface for *nIX
-Group:		Applications/Multimedia
-Requires:	mplayer-common = %{epoch}:%{version}-%{release}
-
-%description vidix
-VIDIX is the abbreviation for VIDeo Interface for *niX. VIDIX was
-designed and introduced as an interface for fast user-space drivers
-providing DGA everywhere where it's possible (unlike X11). I hope that
-these drivers will be as portable as X11 (not only on *nix).
-- What is it: It's a portable successor of mga_vid technology, but
-  it's located in user-space.
-- Unlike X11 it provides DGA everywhere it's possible
-- Unlike v4l it provides interface for video playback
-- Unlike linux's drivers it uses the math library
-
-This package contains drivers for:
-- 3DLabs GLINT R3/Permedia3
-- ATI Mach64
-- ATI Radeon
-- ATI Rage128
-- Matrox Gxxx series (using BES and CRTC2)
-- nVidia chips (experimental)
-- SiS chips (experimental)
-- S3 Savage chips (experimental)
-- Trident Cyberblade i1
-- VIA CLE266
 
 %prep
 %setup -q -n %{sname}-%{version}%{_rc} -a3 -a6 -a9
@@ -427,6 +402,8 @@ set -x
 %{!?with_x264:--disable-x264} \
 %{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
 %{!?with_xvid:--disable-xvid} \
+%{!?with_vidix:--disable-vidix-external --disable-vidix-internal} \
+%{?with_vidix:--disable-vidix-internal} \
 %{!?with_mencoder:--disable-mencoder} \
 	--enable-dga \
 	--enable-fbdev \
@@ -468,7 +445,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
 	$RPM_BUILD_ROOT%{_mandir}/{cs,de,es,fr,hu,it,pl,sv,zh_CN,}/man1 \
-	$RPM_BUILD_ROOT{%{_datadir}/mplayer/Skin,%{_libdir}/mplayer/vidix} \
+	$RPM_BUILD_ROOT%{_datadir}/mplayer/Skin \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
 # default config files
@@ -491,12 +468,6 @@ ln -sf gmplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
 rm -f font-*/runme
 cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
-
-# libraries
-%ifarch %{ix86}
-install libdha/libdha.so.1.0 $RPM_BUILD_ROOT%{_libdir}
-install vidix/drivers/*.so $RPM_BUILD_ROOT%{_libdir}/mplayer/vidix
-%endif
 
 %if %{with gui}
 ln -s Blue $RPM_BUILD_ROOT%{_datadir}/%{name}/Skin/default
@@ -531,9 +502,6 @@ umask 022
 %postun -n gmplayer
 umask 022
 [ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
-
-%post	vidix -p /sbin/ldconfig
-%postun	vidix -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -588,25 +556,6 @@ umask 022
 %lang(sv) %{_mandir}/sv/man1/*
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/mplayer.desktop
-%{_pixmapsdir}/*
+%{_pixmapsdir}/mplayer.png
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/font*
-
-%ifarch %{ix86}
-%files vidix
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdha.so.*.*
-%dir %{_libdir}/mplayer
-%dir %{_libdir}/mplayer/vidix
-%attr(755,root,root) %{_libdir}/mplayer/vidix/cyberblade_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/mach64_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/mga_crtc2_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/mga_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/nvidia_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/pm3_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/radeon_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/rage128_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/savage_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/sis_vid.so
-%attr(755,root,root) %{_libdir}/mplayer/vidix/unichrome_vid.so
-%endif
