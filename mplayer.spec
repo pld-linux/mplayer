@@ -409,6 +409,8 @@ set -x
 	--enable-fbdev \
 	--enable-gl \
 	--enable-mga \
+	--enable-radio \
+	--enable-radio-capture \
 	--%{?with_sdl:en}%{!?with_sdl:dis}able-sdl \
 	--enable-tdfxfb \
 	--enable-vm \
