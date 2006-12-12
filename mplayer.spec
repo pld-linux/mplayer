@@ -395,7 +395,7 @@ set -x
 %{!?with_libdts:--disable-libdts} \
 --%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 %{!?with_mad:--disable-mad} \
-%{!?with_pulseaudio:--disable-pulseaudio} \
+%{!?with_pulseaudio:--disable-pulse} \
 %{!?with_quicktime:--disable-qtx} \
 %{!?with_real:--disable-real} \
 --%{?with_runtime:en}%{!?with_runtime:dis}able-runtime-cpudetection \
