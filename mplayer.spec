@@ -1,7 +1,6 @@
 # TODO:
 # - nut support (http://www.nut.hu/ - currently down, but see svn.mplayerhq.hu/nut/)
 # - update for lzo 2
-# - use external vidix?
 # - try to use external ffmpeg, lrmi and few other libs:
 #   http://www.cyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
 #
@@ -44,6 +43,7 @@
 %bcond_without	smb		# disable Samba (SMB) input support
 %bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
+%bcond_without	vidix		# disable vidix
 %bcond_without	vorbis		# without Ogg-Vorbis audio support
 %bcond_without	xvid		# disable XviD codec
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
@@ -56,6 +56,7 @@
 %ifnarch %{ix86}
 %undefine	with_win32
 %undefine	with_quicktime
+%undefine	with_vidix
 %endif
 
 %ifarch %{x8664}
@@ -72,7 +73,7 @@
 %define		snap		%{nil}
 
 %define		_rc	rc1
-%define		_rel	1.2
+%define		_rel	2
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es):	Otro reproductor de películas
@@ -140,6 +141,7 @@ BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
 BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
+%{?with_vidix:BuildRequires:	vidix-devel}
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
@@ -147,6 +149,8 @@ BuildRequires:	fribidi-devel
 %if %{with gui}
 BuildRequires:	gtk+2-devel
 %endif
+BuildRequires:	XFree86-devel >= 4.0.2
+%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lame-libs-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
@@ -162,7 +166,6 @@ BuildRequires:	libpng-devel
 %{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 # tremor is used by default, internal as we don't have system one
-%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 #%{?with_vorbis:BuildRequires:	libvorbis-devel}
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20060828_2245.1}
 BuildRequires:	libxslt-progs
@@ -176,16 +179,8 @@ BuildRequires:	pkgconfig
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
-BuildRequires:	xorg-lib-libX11-devel
-BuildRequires:	xorg-lib-libXext-devel
-BuildRequires:	xorg-lib-libXinerama-devel
-BuildRequires:	xorg-lib-libXv-devel
-BuildRequires:	xorg-lib-libXvMC-devel
-BuildRequires:	xorg-lib-libXxf86dga-devel
-BuildRequires:	xorg-lib-libXxf86vm-devel
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 BuildRequires:	zlib-devel
-Requires(post,postun):	/sbin/ldconfig
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -279,6 +274,7 @@ MPlayer z graficznym interfejsem GTK+.
 Summary:	Configuration files and documentation for MPlayer
 Summary(pl):	Pliki konfiguracyjne i dokumentacja dla MPlayera
 Group:		Applications/Multimedia
+Obsoletes:	mplayer-vidix
 
 %description common
 Configuration files, man page and HTML documentation for MPlayer.
@@ -350,7 +346,6 @@ set -x
 	%{?debug:--enable-debug=3} \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
-	--with-x11libdir=%{_libdir} \
 	--with-extraincdir=%{_includedir}/xvid \
 	--enable-menu \
 %ifnarch %{ix86} %{x8664}
@@ -407,6 +402,8 @@ set -x
 %{!?with_x264:--disable-x264} \
 %{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
 %{!?with_xvid:--disable-xvid} \
+%{!?with_vidix:--disable-vidix-external --disable-vidix-internal} \
+%{?with_vidix:--disable-vidix-internal} \
 %{!?with_mencoder:--disable-mencoder} \
 	--enable-dga \
 	--enable-fbdev \
@@ -448,7 +445,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
 	$RPM_BUILD_ROOT%{_mandir}/{cs,de,es,fr,hu,it,pl,sv,zh_CN,}/man1 \
-	$RPM_BUILD_ROOT{%{_datadir}/mplayer/Skin,%{_libdir}/mplayer/vidix} \
+	$RPM_BUILD_ROOT%{_datadir}/mplayer/Skin \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
 # default config files
@@ -471,12 +468,6 @@ ln -sf gmplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
 rm -f font-*/runme
 cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
-
-# libraries
-%ifarch %{ix86}
-install libdha/libdha.so.1.0 $RPM_BUILD_ROOT%{_libdir}
-install vidix/drivers/*.so $RPM_BUILD_ROOT%{_libdir}/mplayer/vidix
-%endif
 
 %if %{with gui}
 ln -s Blue $RPM_BUILD_ROOT%{_datadir}/%{name}/Skin/default
@@ -504,15 +495,13 @@ install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
+%post -n gmplayer
 umask 022
-/sbin/ldconfig
 [ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
 
-%postun
+%postun -n gmplayer
 umask 022
-/sbin/ldconfig
-[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
+[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
 
 %files
 %defattr(644,root,root,755)
@@ -554,10 +543,6 @@ umask 022
 %lang(zh_CN) %doc DOCS/zh
 %doc AUTHORS ChangeLog README
 
-%ifarch %{ix86}
-%attr(755,root,root) %{_libdir}/libdha.so.*.*
-%attr(755,root,root) %{_libdir}/mplayer
-%endif
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/*.conf
 %{_mandir}/man1/*
@@ -571,6 +556,6 @@ umask 022
 %lang(sv) %{_mandir}/sv/man1/*
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/mplayer.desktop
-%{_pixmapsdir}/*
+%{_pixmapsdir}/mplayer.png
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/font*
