@@ -76,7 +76,7 @@
 %define		snap		%{nil}
 
 %define		_rc	rc1
-%define		_rel	1.4
+%define		_rel	2
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es):	Otro reproductor de películas
@@ -123,6 +123,7 @@ Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-auto-expand.patch
 Patch18:	%{name}-gnome-screensaver.patch
 Patch19:	%{name}-on2flix.patch
+Patch20:	http://www.mplayerhq.hu/MPlayer/patches/asmrules_fix_20061231.diff
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -338,6 +339,8 @@ cp -a mencoder-on2flixenglinux/new_files/libmpdemux/* libmpdemux
 for a in mencoder-on2flixenglinux/*.diff; do
 	patch -p0 < $a
 done
+
+%patch20 -p0
 
 %build
 %if %{with shared}
