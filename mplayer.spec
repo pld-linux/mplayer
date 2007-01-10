@@ -3,6 +3,9 @@
 # - update for lzo 2
 # - try to use external ffmpeg, lrmi and few other libs:
 #   http://www.cyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
+# - segfaults on amd64:
+#   mencoder -oac pcm -af dummy -ovc raw -vf format=yv12 -of ogg -mc 0 -quiet -o /tmp/out1 l.avi
+#   avi: RIFF (little-endian) data, AVI, 480 x 360, 25.00 fps, video: XviD, audio: MPEG-1 Layer 3 (stereo, 48000 Hz)
 #
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
@@ -73,7 +76,7 @@
 %define		snap		%{nil}
 
 %define		_rc	rc1
-%define		_rel	3
+%define		_rel	4
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es):	Otro reproductor de películas
@@ -120,6 +123,7 @@ Patch16:	%{name}-kill-mabi_altivec.patch
 Patch17:	%{name}-auto-expand.patch
 Patch18:	%{name}-gnome-screensaver.patch
 Patch19:	%{name}-on2flix.patch
+Patch20:	http://www.mplayerhq.hu/MPlayer/patches/asmrules_fix_20061231.diff
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -329,6 +333,8 @@ cp -a mencoder-on2flixenglinux/new_files/libmpdemux/* libmpdemux
 for a in mencoder-on2flixenglinux/*.diff; do
 	patch -p0 < $a
 done
+
+%patch20 -p0
 
 %build
 %if %{with shared}
