@@ -78,11 +78,11 @@
 %define		_rc	rc1
 %define		_rel	4
 Summary:	MPlayer - THE Movie Player for UN*X
-Summary(de):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
-Summary(es):	Otro reproductor de películas
-Summary(ko):	¸®´ª½º¿ë ¹Ìµğ¾îÇÃ·¹ÀÌ¾î
-Summary(pl):	Odtwarzacz filmów dla systemów uniksowych
-Summary(pt_BR):	Reprodutor de filmes
+Summary(de.UTF-8):   MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
+Summary(es.UTF-8):   Otro reproductor de pelÃ­culas
+Summary(ko.UTF-8):   ë¦¬ëˆ…ìŠ¤ìš© ë¯¸ë””ì–´í”Œë ˆì´ì–´
+Summary(pl.UTF-8):   Odtwarzacz filmÃ³w dla systemÃ³w uniksowych
+Summary(pt_BR.UTF-8):   Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
 Release:	3.%{_rc}.%{_rel}
@@ -213,62 +213,62 @@ Voodoo2/3 hardware, SDL v1.1.7 driver etc.
 
 If you want to use win32 codecs install w32codec package.
 
-%description -l de
+%description -l de.UTF-8
 MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player.
 Kennzeichnend ist die herausragende Format- und
-Plattform-Kompatibilität.
+Plattform-KompatibilitÃ¤t.
 
-Es unterstützt eine Vielzahl von Video und Audio-Codecs, darunter auch
-plattformexklusive, wodurch etwa Windows Media auch außerhalb von
-Windows wiedergegeben werden kann. Darüber hinaus unterstützt er DVB.
-Eine besondere Fehlertoleranz ermöglicht es dem mehrfach
+Es unterstÃ¼tzt eine Vielzahl von Video und Audio-Codecs, darunter auch
+plattformexklusive, wodurch etwa Windows Media auch auÃŸerhalb von
+Windows wiedergegeben werden kann. DarÃ¼ber hinaus unterstÃ¼tzt er DVB.
+Eine besondere Fehlertoleranz ermÃ¶glicht es dem mehrfach
 ausgezeichneten Player, auch defekte Dateien abzuspielen. Eine weitere
-Stärke ist dabei der Wegfall jeglicher Installation, so dass bereits
-installierte Codecs nicht mit MPlayer kollidieren können.
+StÃ¤rke ist dabei der Wegfall jeglicher Installation, so dass bereits
+installierte Codecs nicht mit MPlayer kollidieren kÃ¶nnen.
 
-%description -l es
+%description -l es.UTF-8
 Reproductor video. Formatos de entrada soportados: VCD (VideoCD),
 MPEG1/2, RIFF AVI, ASF 1.0, Quicktime. Codecs de audio soportados: PCM
 (uncompressed), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32 ACM. Codecs
 de video soportados: MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX.
 Dispositivos de salida soportados: Matrox G200/G400 hardware, Matrox
-G200/G400 overlay, X11 optionalmente con la extensión SHM, X11 usando
-overlays con la extensión Xvideo, plasmador OpenGL, soporte de Matrox
+G200/G400 overlay, X11 optionalmente con la extensiÃ³n SHM, X11 usando
+overlays con la extensiÃ³n Xvideo, plasmador OpenGL, soporte de Matrox
 G400 YUV en hardware de framebuffer de Voodoo2/3, controlador SDL
 v1.1.7 etc.
 
 Si quiere usar codecs Win32, instale el paquete w32codec.
 
-%description -l ko
-MPlayer´Â ¸®´ª½º¿ë ¹«ºñÇÃ·¹ÀÌ¾îÀÔ´Ï´Ù. ´ëºÎºĞÀÇ mpeg, avi ±×¸®°í asf
-ÆÄÀÏÀ» Àç»ıÇÕ´Ï´Ù. VCD, DVD, ½É Áö¾î DivX±îÁö º¼ ¼ö ÀÖ½À´Ï´Ù.
-MPlayerÀÇ ¶Ç ´Ù¸¥ Å« Æ¯Â¡Àº Ãâ·Â µå¶óÀÌ¹ö°¡ ´Ù¾çÇÏ´Ù´Â °ÍÀÔ´Ï´Ù. X11,
-Xv, DGA, OpenGL, SVGAlib, fbdev¿Í ÀÛµ¿ÇÏ¸ç, SDLÀÌ³ª
-(Matrox/3dfx/SisµîÀÇ) Æ¯Á¤ Ä«µå¿¡ Á¾¼ÓµÈ ·Î¿ì·¹ º§ µå¶óÀÌ¹öµéµµ »ç¿ëÇÒ
-¼ö ÀÖ½À´Ï´Ù. ´ëºÎºĞÀÇ Ãâ·Â µå¶óÀÌ¹öµéÀº ¼ÒÇÁÆ®¿ş¾î È¤Àº ÇÏµå¿ş¾îÀûÀÎ
-Å©±âÁ¶Àı (scaling)À» Áö¿øÇÏ¹Ç·Î, ÀüÃ¼È­¸éÀ¸·Î ¿µ»óÀ» °¨»óÇÒ ¼ö
-ÀÖ½À´Ï´Ù. »Ó¸¸¾Æ´Ï¶ó, ÇÑ±¹¾î, ¿µ¾î, Çë°¡¸®¾î, Ã¼ÄÚ¾î, ·¯½Ã¾Æ¾îµîÀÇ
-ºÎµå·¯¿î(antialiased) ÀÚ¸·ÆùÆ®µµ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+%description -l ko.UTF-8
+MPlayerëŠ” ë¦¬ëˆ…ìŠ¤ìš© ë¬´ë¹„í”Œë ˆì´ì–´ì…ë‹ˆë‹¤. ëŒ€ë¶€ë¶„ì˜ mpeg, avi ê·¸ë¦¬ê³  asf
+íŒŒì¼ì„ ì¬ìƒí•©ë‹ˆë‹¤. VCD, DVD, ì‹¬ ì§€ì–´ DivXê¹Œì§€ ë³¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+MPlayerì˜ ë˜ ë‹¤ë¥¸ í° íŠ¹ì§•ì€ ì¶œë ¥ ë“œë¼ì´ë²„ê°€ ë‹¤ì–‘í•˜ë‹¤ëŠ” ê²ƒì…ë‹ˆë‹¤. X11,
+Xv, DGA, OpenGL, SVGAlib, fbdevì™€ ì‘ë™í•˜ë©°, SDLì´ë‚˜
+(Matrox/3dfx/Sisë“±ì˜) íŠ¹ì • ì¹´ë“œì— ì¢…ì†ëœ ë¡œìš°ë ˆ ë²¨ ë“œë¼ì´ë²„ë“¤ë„ ì‚¬ìš©í• 
+ìˆ˜ ìˆìŠµë‹ˆë‹¤. ëŒ€ë¶€ë¶„ì˜ ì¶œë ¥ ë“œë¼ì´ë²„ë“¤ì€ ì†Œí”„íŠ¸ì›¨ì–´ í˜¹ì€ í•˜ë“œì›¨ì–´ì ì¸
+í¬ê¸°ì¡°ì ˆ (scaling)ì„ ì§€ì›í•˜ë¯€ë¡œ, ì „ì²´í™”ë©´ìœ¼ë¡œ ì˜ìƒì„ ê°ìƒí•  ìˆ˜
+ìˆìŠµë‹ˆë‹¤. ë¿ë§Œì•„ë‹ˆë¼, í•œêµ­ì–´, ì˜ì–´, í—ê°€ë¦¬ì–´, ì²´ì½”ì–´, ëŸ¬ì‹œì•„ì–´ë“±ì˜
+ë¶€ë“œëŸ¬ìš´(antialiased) ìë§‰í°íŠ¸ë„ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
-%description -l pl
-Odtwarzacz wideo. Wspierane formaty wej¶ciowe: VCD (VideoCD), MPEG1/2,
+%description -l pl.UTF-8
+Odtwarzacz wideo. Wspierane formaty wejÅ›ciowe: VCD (VideoCD), MPEG1/2,
 RIFF AVI, ASF 1.0, Quicktime. Wspierane kodeki audio: PCM
 (nieskompresowane), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32 ACM.
 Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX.
-Wspierane urz±dzenia wyj¶ciowe: Matrox G200/G400, X11 opcjonalnie z
+Wspierane urzÄ…dzenia wyjÅ›ciowe: Matrox G200/G400, X11 opcjonalnie z
 rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
-G400 u¿ywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
+G400 uÅ¼ywajÄ…c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
-Je¶li chcesz u¿ywaæ kodeków win32, zainstaluj pakiet w32codec.
+JeÅ›li chcesz uÅ¼ywaÄ‡ kodekÃ³w win32, zainstaluj pakiet w32codec.
 
-%description -l pt_BR
-MPlayer é um reprodutor de filmes que suporta vários codecs de vídeo e
-áudio. Diferentes mecanismos de reprodução podem também ser
+%description -l pt_BR.UTF-8
+MPlayer Ã© um reprodutor de filmes que suporta vÃ¡rios codecs de vÃ­deo e
+Ã¡udio. Diferentes mecanismos de reproduÃ§Ã£o podem tambÃ©m ser
 escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 
 %package -n gmplayer
 Summary:	MPlayer with GTK+ GUI interface
-Summary(pl):	MPlayer z graficznym interfejsem GTK+
+Summary(pl.UTF-8):   MPlayer z graficznym interfejsem GTK+
 Group:		X11/Applications/Multimedia
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	%{name}-skin
@@ -277,24 +277,24 @@ Provides:	%{name} = %{epoch}:%{version}-%{release}
 %description -n gmplayer
 MPlayer with GUI GTK+ interface.
 
-%description -n gmplayer -l pl
+%description -n gmplayer -l pl.UTF-8
 MPlayer z graficznym interfejsem GTK+.
 
 %package common
 Summary:	Configuration files and documentation for MPlayer
-Summary(pl):	Pliki konfiguracyjne i dokumentacja dla MPlayera
+Summary(pl.UTF-8):   Pliki konfiguracyjne i dokumentacja dla MPlayera
 Group:		Applications/Multimedia
 Obsoletes:	mplayer-vidix
 
 %description common
 Configuration files, man page and HTML documentation for MPlayer.
 
-%description common -l pl
+%description common -l pl.UTF-8
 Pliki konfiguracyjne, strona manuala i dokumentacja HTML dla MPlayera.
 
 %package -n mencoder
 Summary:	MEncoder - a movie encoder for Linux
-Summary(pl):	MEncoder - koder filmów dla Linuksa
+Summary(pl.UTF-8):   MEncoder - koder filmÃ³w dla Linuksa
 Group:		Applications/Multimedia
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 
@@ -302,8 +302,8 @@ Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 MEncoder is a movie encoder for Linux and is a part of the MPlayer
 package.
 
-%description -n mencoder -l pl
-MEncoder to koder filmów dla Linuksa bêd±cy czê¶ci± pakietu MPlayer.
+%description -n mencoder -l pl.UTF-8
+MEncoder to koder filmÃ³w dla Linuksa bÄ™dÄ…cy czÄ™Å›ciÄ… pakietu MPlayer.
 
 %prep
 %setup -q -n %{sname}-%{version}%{_rc} -a3 -a6 -a9
