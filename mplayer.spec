@@ -21,7 +21,7 @@
 %endif
 
 Summary:	Yet another movie player for Linux
-Summary(pl):	Jeszcze jeden odtwarzacz filmÛw dla Linuksa
+Summary(pl.UTF-8):   Jeszcze jeden odtwarzacz film√≥w dla Linuksa
 Name:		mplayer
 Version:	0.90pre1
 Release:	0
@@ -79,16 +79,16 @@ framebuffer Voodoo2/3 hardware, SDL v1.1.7 driver etc.
 If you want to use win32 codecs install w32codec package and copy
 codecs.win32.conf to your ~/.mplayer direcory as codecs.conf.
 
-%description -l pl
-Odtwarzacz wideo dla Linuksa. Wspierane formaty wej∂ciowe: VCD
+%description -l pl.UTF-8
+Odtwarzacz wideo dla Linuksa. Wspierane formaty wej≈õciowe: VCD
 (VideoCD), MPEG1/2, RIFF AVI, ASF 1.0. Wspierane kodeki audio: PCM
 (nieskompresowane), MPEG layer 2/3, AC3, aLaw, MS-GSM, Win32 ACM.
 Wspierane kodeki wideo: MPEG 1 and MPEG 2, Win32 ICM (VfW), OpenDivX.
-Wspierane urz±dzenia wyj∂ciowe: Matrox G200/G400, X11 opcjonalnie z
+Wspierane urzƒÖdzenia wyj≈õciowe: Matrox G200/G400, X11 opcjonalnie z
 rozszerzeniem SHM, X11 z rozszerzeniem Xvideo, renderer OpenGL, Matrox
-G400 uøywaj±c framebuffera, Voodoo2/3, SDL v1.1.7 itp.
+G400 u≈ºywajƒÖc framebuffera, Voodoo2/3, SDL v1.1.7 itp.
 
-Je∂li chcesz uøywaÊ kodekÛw win32, zainstaluj pakiet w32codec i
+Je≈õli chcesz u≈ºywaƒá kodek√≥w win32, zainstaluj pakiet w32codec i
 skopiuj codecs.win32.conf do katalogu ~/.mplayer jako codecs.conf.
 
 %prep
