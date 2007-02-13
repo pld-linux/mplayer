@@ -78,11 +78,11 @@
 %define		_rc	rc1
 %define		_rel	4
 Summary:	MPlayer - THE Movie Player for UN*X
-Summary(de.UTF-8):   MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
-Summary(es.UTF-8):   Otro reproductor de películas
-Summary(ko.UTF-8):   리눅스용 미디어플레이어
-Summary(pl.UTF-8):   Odtwarzacz filmów dla systemów uniksowych
-Summary(pt_BR.UTF-8):   Reprodutor de filmes
+Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
+Summary(es.UTF-8):	Otro reproductor de películas
+Summary(ko.UTF-8):	리눅스용 미디어플레이어
+Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
+Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
 Release:	3.%{_rc}.%{_rel}
@@ -268,7 +268,7 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 
 %package -n gmplayer
 Summary:	MPlayer with GTK+ GUI interface
-Summary(pl.UTF-8):   MPlayer z graficznym interfejsem GTK+
+Summary(pl.UTF-8):	MPlayer z graficznym interfejsem GTK+
 Group:		X11/Applications/Multimedia
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	%{name}-skin
@@ -282,7 +282,7 @@ MPlayer z graficznym interfejsem GTK+.
 
 %package common
 Summary:	Configuration files and documentation for MPlayer
-Summary(pl.UTF-8):   Pliki konfiguracyjne i dokumentacja dla MPlayera
+Summary(pl.UTF-8):	Pliki konfiguracyjne i dokumentacja dla MPlayera
 Group:		Applications/Multimedia
 Obsoletes:	mplayer-vidix
 
@@ -294,7 +294,7 @@ Pliki konfiguracyjne, strona manuala i dokumentacja HTML dla MPlayera.
 
 %package -n mencoder
 Summary:	MEncoder - a movie encoder for Linux
-Summary(pl.UTF-8):   MEncoder - koder filmów dla Linuksa
+Summary(pl.UTF-8):	MEncoder - koder filmów dla Linuksa
 Group:		Applications/Multimedia
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 
