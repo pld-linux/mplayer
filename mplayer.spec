@@ -76,7 +76,7 @@
 %define		snap		%{nil}
 
 %define		_rc	rc1
-%define		_rel	5
+%define		_rel	6
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -125,6 +125,7 @@ Patch17:	%{name}-auto-expand.patch
 Patch18:	%{name}-gnome-screensaver.patch
 Patch19:	%{name}-on2flix.patch
 Patch20:	http://www.mplayerhq.hu/MPlayer/patches/asmrules_fix_20061231.diff
+Patch21:	http://www.mplayerhq.hu/MPlayer/patches/cddb_fix_20070605.diff
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -342,6 +343,7 @@ for a in mencoder-on2flixenglinux/*.diff; do
 done
 
 %patch20 -p0
+%patch21 -p0
 
 %build
 %if %{with shared}
