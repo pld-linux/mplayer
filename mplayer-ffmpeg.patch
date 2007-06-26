@@ -1,0 +1,15 @@
+--- mplayer-export-2007-06-26/Makefile~	2007-06-27 00:38:01.436453184 +0300
++++ mplayer-export-2007-06-26/Makefile	2007-06-27 00:38:04.506522197 +0300
+@@ -59,6 +59,12 @@
+ COMMON_LIBS-$(LIBAVCODEC_A)       += libavcodec/libavcodec.a
+ COMMON_LIBS-$(LIBAVUTIL_A)        += libavutil/libavutil.a
+ COMMON_LIBS-$(LIBPOSTPROC_A)      += libpostproc/libpostproc.a
++
++COMMON_LIBS-$(LIBAVFORMAT_SO)     += -lavformat
++COMMON_LIBS-$(LIBAVCODEC_SO)      += -lavcodec
++COMMON_LIBS-$(LIBAVUTIL_SO)       += -lavutil
++COMMON_LIBS-$(LIBPOSTPROC_SO)     += -lpostproc
++
+ COMMON_LIBS-$(WIN32DLL)           += loader/libloader.a
+ COMMON_LIBS-$(MP3LIB)             += mp3lib/libmp3.a
+ COMMON_LIBS-$(LIBA52)             += liba52/liba52.a
