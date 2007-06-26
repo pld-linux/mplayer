@@ -1,7 +1,7 @@
 # TODO:
 # - nut support (http://www.nut.hu/ - currently down, but see svn.mplayerhq.hu/nut/)
 # - update for lzo 2
-# - try to use external ffmpeg, lrmi and few other libs:
+# - try to use external lrmi and few other libs:
 #   http://www.cyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
 # - segfaults on amd64:
 #   mencoder -oac pcm -af dummy -ovc raw -vf format=yv12 -of ogg -mc 0 -quiet -o /tmp/out1 l.avi
@@ -33,8 +33,8 @@
 %bcond_without	libdts		# disable libdts support
 %bcond_without	libdv		# disable libdv en/decoding support
 %bcond_without	lirc		# without lirc support
-%bcond_without	live		# without live.com libraries
-%bcond_with	lzo		# with LZO support (requires lzo 1.x)
+%bcond_with	live		# without LIVE555 libraries
+%bcond_without	lzo		# with LZO support (requires lzo 2.x)
 %bcond_without	mad		# without mad (audio MPEG) support
 %bcond_without	pulseaudio		# without pulseaudio output
 %bcond_without	quicktime	# without binary quicktime dll support
@@ -55,6 +55,7 @@
 %bcond_with	shared		# experimental libmplayer.so support
 %bcond_with	amr		# enable 3GPP Adaptive Multi Rate (AMR) speech codec support
 %bcond_without	gnomess		# disable controling gnome screensaver
+%bcond_with	ssse3	# sse3 optimizations (needs binutils >= 2.16.92)
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -75,8 +76,9 @@
 %define		sname		MPlayer
 %define		snap		%{nil}
 
-%define		_rc	rc1
-%define		_rel	6
+%define		_rel	0.1
+%define		_snap	2007-06-26
+%define		snap	%(echo %{_snap} | tr -d -)
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -86,7 +88,7 @@ Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	3.%{_rc}.%{_rel}
+Release:	4.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -94,8 +96,9 @@ Release:	3.%{_rc}.%{_rel}
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{_rc}.tar.bz2
-# Source0-md5:	18c05d88e22c3b815a43ca8d7152ccdc
+#Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{_rc}.tar.bz2
+Source0:	http://www1.mplayerhq.hu/MPlayer/releases/%{name}-export-snapshot.tar.bz2
+# Source0-md5:	978dc6eb4da302e4cf666201a0ba7f0d
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -104,28 +107,30 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 Source7:	%{name}.png
 Source8:	%{name}.desktop
 # http://www.on2.com/gpl/mplayer/
-Source9:	http://www.on2.com/gpl/mplayer/2006-11-29-mencoder-on2flixenglinux.tar.bz2
-# Source9-md5:	66fd6987f36f0b0cec6a28366ac3141c
+Source9:	http://www.on2.com/gpl/mplayer/2007-06-21-mencoder-on2flixenglinux.tar.bz2
+# Source9-md5:	e0fa8507405842046a6ea8370ef43144
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
 Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
-Patch6:		%{name}-system-amr.patch
+#Patch6:		%{name}-system-amr.patch # outdated via ffmpeg
 Patch8:		%{name}-altivec.patch
 Patch10:	%{name}-pcmsplit.patch
-Patch11:	ffmpeg-x264-symbol.patch
-Patch12:	%{name}-pulse.patch
+#Patch11:	ffmpeg-x264-symbol.patch # outdated
+#Patch12:	%{name}-pulse.patch # outdated
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 #http://www.openchrome.org/snapshots/mplayer/
 Patch15:	%{name}-xvmc.patch
-Patch16:	%{name}-kill-mabi_altivec.patch
+#Patch16:	%{name}-kill-mabi_altivec.patch # outdated
 Patch17:	%{name}-auto-expand.patch
-Patch18:	%{name}-gnome-screensaver.patch
+#Patch18:	%{name}-gnome-screensaver.patch # update
 Patch19:	%{name}-on2flix.patch
-Patch20:	http://www.mplayerhq.hu/MPlayer/patches/asmrules_fix_20061231.diff
-Patch21:	http://www.mplayerhq.hu/MPlayer/patches/cddb_fix_20070605.diff
+#Patch20:	http://www.mplayerhq.hu/MPlayer/patches/asmrules_fix_20061231.diff
+#Patch21:	http://www.mplayerhq.hu/MPlayer/patches/cddb_fix_20070605.diff
+Patch22:	%{name}-ffmpeg.patch
+Patch23:	%{name}-live.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -138,6 +143,7 @@ BuildRequires:	amrnb-devel
 BuildRequires:	amrwb-devel >= 5.3.0
 %endif
 %{?with_arts:BuildRequires:	artsc-devel}
+%{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
 %{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_dxr3:BuildRequires:	em8300-devel}
@@ -145,6 +151,7 @@ BuildRequires:	amrwb-devel >= 5.3.0
 %{?with_esd:BuildRequires:	esound-devel}
 BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
+BuildRequires:	ffmpeg-devel >= 0.4.9-3.20070626.1.1
 BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
 %{?with_vidix:BuildRequires:	vidix-devel}
@@ -176,7 +183,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
-%{?with_lzo:BuildRequires:	lzo-devel < 2.0}
+%{?with_lzo:BuildRequires:	lzo-devel >= 2.0}
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
@@ -308,42 +315,42 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-%setup -q -n %{sname}-%{version}%{_rc} -a3 -a6 -a9
+#%setup -q -n %{sname}-%{version}%{_rc} -a3 -a6 -a9
+%setup -q -n %{name}-export-%{_snap} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch1 -p0
 ##%patch2 -p1
 ##%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
+#%patch6 -p1 # - try ffmpeg
 %patch8 -p1
 #%%patch10 -p1
-%patch11 -p1
-%patch12 -p0
+#%patch11 -p1
+#%patch12 -p0
 #%patch13 -p1	# TODO
 %if %{with shared}
 %patch14 -p1
 %endif
 #%patch15 -p0	# TODO
-%patch16 -p1
+#%patch16 -p1
 %patch17 -p1
 %if %{with gnomess}
-%patch18 -p1
-%endif
-
-%if 0%{?snap}
-find . -type d -name CVS -print | xargs rm -rf
+#%patch18 -p1
 %endif
 
 # on2flix
 cp -a mencoder-on2flixenglinux/new_files/libmpdemux/* libmpdemux
+rm -f mencoder-on2flixenglinux/version.diff
 %patch19 -p1
 for a in mencoder-on2flixenglinux/*.diff; do
 	patch -p0 < $a
 done
 
-%patch20 -p0
-%patch21 -p0
+#%patch20 -p0
+#%patch21 -p0
+%patch22 -p1
+%patch23 -p1
 
 %build
 %if %{with shared}
@@ -363,6 +370,14 @@ set -x
 	--confdir=%{_sysconfdir}/mplayer \
 	--with-extraincdir=%{_includedir}/xvid \
 	--enable-menu \
+	--disable-libavutil_a \
+	--disable-libavcodec_a \
+	--disable-libavformat_a \
+	--disable-libpostproc_a \
+	--enable-libavutil_so \
+	--enable-libavcodec_so \
+	--enable-libavformat_so \
+	--enable-libpostproc_so \
 %ifnarch %{ix86} %{x8664}
 	--disable-mmx \
 	--disable-mmxext \
@@ -372,16 +387,17 @@ set -x
 	--disable-sse2 \
 	--disable-fastmemcpy \
 %endif
+	%{!?with_ssse3:--disable-ssse3} \
 %ifarch ppc
 %{!?with_altivec:--disable-altivec} \
 %endif
-%{!?with_amr:--disable-amr_nb --disable-amr_wb} \
-%{?with_amr:--enable-amr_nb --enable-amr_wb} \
+%{!?with_amr:--disable-libamr_nb --disable-libamr_wb} \
+%{?with_amr:--enable-libamr_nb --enable-libamr_wb} \
 %{?with_directfb:--enable-directfb} \
 %{!?with_directfb:--disable-directfb} \
 %{!?with_dxr3:--disable-dxr3} \
 %{!?with_ggi:--disable-ggi} \
-%{?with_live:--enable-live --with-livelibdir=%{_libdir}/liveMedia --with-extraincdir=/usr/include/liveMedia} \
+%{?with_live:--enable-live --with-extraincdir=/usr/include/liveMedia} \
 %{!?with_live:--disable-live} \
 %{!?with_lzo:--disable-liblzo} \
 %{!?with_nas:--disable-nas} \
@@ -436,11 +452,13 @@ set -x
 	--enable-dynamic-plugins \
 	--enable-largefiles \
 	--language=all \
-	--with-codecsdir=%{_libdir}/codecs \
+	--codecsdir=%{_libdir}/codecs \
+	--win32codecsdir=%{_libdir}/codecs \
+	--xanimcodecsdir=%{_libdir}/codecs \
 	--with-xvmclib=XvMCW \
 	"$@"
 
-	%{__make}
+	%{__make} -j1
 }
 
 %if %{with gui}
@@ -488,10 +506,6 @@ ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}
 
 %if %{with gui}
 ln -s Blue $RPM_BUILD_ROOT%{_datadir}/%{name}/Skin/default
-%endif
-
-# X-files
-%if %{with gui}
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 %endif
 install %{SOURCE8} $RPM_BUILD_ROOT%{_desktopdir}
@@ -506,7 +520,7 @@ install DOCS/man/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
 install DOCS/man/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 install DOCS/man/it/*.1 $RPM_BUILD_ROOT%{_mandir}/it/man1
 install DOCS/man/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
-install DOCS/man/sv/*.1 $RPM_BUILD_ROOT%{_mandir}/sv/man1
+#install DOCS/man/sv/*.1 $RPM_BUILD_ROOT%{_mandir}/sv/man1
 install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
 
 %clean
@@ -557,8 +571,8 @@ umask 022
 %lang(hu) %doc DOCS/HTML/hu
 %lang(pl) %doc DOCS/HTML/pl
 %lang(ru) %doc DOCS/HTML/ru
-%lang(zh_CN) %doc DOCS/zh
-%doc AUTHORS ChangeLog README
+#%lang(zh_CN) %doc DOCS/zh
+%doc AUTHORS README
 
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/*.conf
@@ -570,7 +584,7 @@ umask 022
 %lang(hu) %{_mandir}/hu/man1/*
 %lang(it) %{_mandir}/it/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
-%lang(sv) %{_mandir}/sv/man1/*
+#%lang(sv) %{_mandir}/sv/man1/*
 %lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/mplayer.desktop
 %{_pixmapsdir}/mplayer.png
