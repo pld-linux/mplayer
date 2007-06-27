@@ -558,12 +558,13 @@ umask 022
 
 %files common
 %defattr(644,root,root,755)
-# HTML and XML-generated docs
-%doc DOCS/HTML/en
 %doc DOCS/tech
 %if %{with win32}
 %doc etc/codecs.win32.conf
 %endif
+%if %{with doc}
+# HTML and XML-generated docs
+%doc DOCS/HTML/en
 %lang(cs) %doc DOCS/HTML/cs
 %lang(de) %doc DOCS/HTML/de
 %lang(es) %doc DOCS/HTML/es
@@ -572,6 +573,7 @@ umask 022
 %lang(pl) %doc DOCS/HTML/pl
 %lang(ru) %doc DOCS/HTML/ru
 #%lang(zh_CN) %doc DOCS/zh
+%endif
 %doc AUTHORS README
 
 %dir %{_sysconfdir}/%{name}
