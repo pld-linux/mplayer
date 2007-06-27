@@ -463,7 +463,7 @@ set -x
 
 %if %{with gui}
 # build GUI version
-build --enable-gui
+build --enable-gui --disable-mencoder
 mv -f mplayer gmplayer
 %{__make} distclean
 %endif
