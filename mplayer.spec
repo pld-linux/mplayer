@@ -426,7 +426,7 @@ set -x
 --%{?with_runtime:en}%{!?with_runtime:dis}able-runtime-cpudetection \
 %{!?with_select:--disable-select} \
 %{!?with_smb:--disable-smb} \
-%{!?with_win32:--disable-win32} \
+%{!?with_win32:--disable-win32dll} \
 %{!?with_vorbis:--disable-vorbis} \
 %{?with_osd:--enable-menu} \
 %{!?with_theora:--disable-theora} \
