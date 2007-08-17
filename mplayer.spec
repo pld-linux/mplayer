@@ -453,8 +453,6 @@ set -x
 	--enable-largefiles \
 	--language=all \
 	--codecsdir=%{_libdir}/codecs \
-	--win32codecsdir=%{_libdir}/codecs \
-	--xanimcodecsdir=%{_libdir}/codecs \
 	--with-xvmclib=XvMCW \
 	"$@"
 
