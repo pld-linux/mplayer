@@ -76,7 +76,7 @@
 %define		snap		%{nil}
 
 %define		_rc	rc1
-%define		_rel	6
+%define		_rel	7
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
