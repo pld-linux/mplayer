@@ -76,7 +76,7 @@
 %define		sname		MPlayer
 %define		snap		%{nil}
 
-%define		_rel	0.1
+%define		_rel	0.2
 %define		_snap	2007-06-26
 %define		snap	%(echo %{_snap} | tr -d -)
 
