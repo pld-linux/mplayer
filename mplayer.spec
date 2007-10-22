@@ -109,21 +109,16 @@ Patch2:		%{name}-codec.patch
 Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
-#Patch6:		%{name}-system-amr.patch # outdated via ffmpeg
+#Patch6:		%{name}-system-amr.patch # outdated via ffmpeg?
 Patch8:		%{name}-altivec.patch
 Patch10:	%{name}-pcmsplit.patch
-#Patch11:	ffmpeg-x264-symbol.patch # outdated
-#Patch12:	%{name}-pulse.patch # outdated
 Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 #http://www.openchrome.org/snapshots/mplayer/
 Patch15:	%{name}-xvmc.patch
-#Patch16:	%{name}-kill-mabi_altivec.patch # outdated
 Patch17:	%{name}-auto-expand.patch
 #Patch18:	%{name}-gnome-screensaver.patch # update
 Patch19:	%{name}-on2flix.patch
-#Patch20:	http://www.mplayerhq.hu/MPlayer/patches/asmrules_fix_20061231.diff
-#Patch21:	http://www.mplayerhq.hu/MPlayer/patches/cddb_fix_20070605.diff
 Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-live.patch
 URL:		http://www.mplayerhq.hu/
@@ -320,14 +315,11 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 #%patch6 -p1 # - try ffmpeg
 %patch8 -p1
 #%%patch10 -p1
-#%patch11 -p1
-#%patch12 -p0
 #%patch13 -p1	# TODO
 %if %{with shared}
 %patch14 -p1
 %endif
 #%patch15 -p0	# TODO
-#%patch16 -p1
 %patch17 -p1
 %if %{with gnomess}
 #%patch18 -p1
@@ -341,8 +333,6 @@ for a in mencoder-on2flixenglinux/*.diff; do
 	patch -p0 < $a
 done
 
-#%patch20 -p0
-#%patch21 -p0
 %patch22 -p1
 %patch23 -p1
 
