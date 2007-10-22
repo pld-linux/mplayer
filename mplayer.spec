@@ -84,7 +84,7 @@ Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	4.%{_rc}.%{_rel}
+Release:	5.%{_rc}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -102,8 +102,8 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 Source7:	%{name}.png
 Source8:	%{name}.desktop
 # http://www.on2.com/gpl/mplayer/
-Source9:	http://www.on2.com/gpl/mplayer/2007-06-21-mencoder-on2flixenglinux.tar.bz2
-# Source9-md5:	e0fa8507405842046a6ea8370ef43144
+Source9:	http://www.on2.com/gpl/mplayer/2007-10-09-mencoder-on2flixenglinux.tar.bz2
+# Source9-md5:	2361e56b40f52dfc20131e458e2aed38
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
 Patch3:		%{name}-home_etc.patch
@@ -337,12 +337,9 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 cp -a mencoder-on2flixenglinux/new_files/libmpdemux/* libmpdemux
 rm -f mencoder-on2flixenglinux/version.diff
 %patch19 -p1
-%if 0
-# TODO
 for a in mencoder-on2flixenglinux/*.diff; do
 	patch -p0 < $a
 done
-%endif
 
 #%patch20 -p0
 #%patch21 -p0
