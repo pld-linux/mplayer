@@ -73,12 +73,8 @@
 %define        _suf    32
 %endif
 
-%define		sname		MPlayer
-%define		snap		%{nil}
-
-%define		_rel	0.2
-%define		_snap	2007-06-26
-%define		snap	%(echo %{_snap} | tr -d -)
+%define		_rel	0.1
+%define		_rc	rc2
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -88,7 +84,7 @@ Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	4.%{snap}.%{_rel}
+Release:	4.%{_rc}.%{_rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -96,9 +92,8 @@ Release:	4.%{snap}.%{_rel}
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
-#Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/%{sname}-%{version}%{_rc}.tar.bz2
-Source0:	http://www1.mplayerhq.hu/MPlayer/releases/%{name}-export-snapshot.tar.bz2
-# Source0-md5:	978dc6eb4da302e4cf666201a0ba7f0d
+Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/MPlayer-%{version}%{_rc}.tar.bz2
+# Source0-md5:	7e27e535c2d267637df34898f1b91707
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -315,8 +310,7 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-#%setup -q -n %{sname}-%{version}%{_rc} -a3 -a6 -a9
-%setup -q -n %{name}-export-%{_snap} -a3 -a6 -a9
+%setup -q -n MPlayer-%{version}%{_rc} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch1 -p0
 ##%patch2 -p1
@@ -343,9 +337,12 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 cp -a mencoder-on2flixenglinux/new_files/libmpdemux/* libmpdemux
 rm -f mencoder-on2flixenglinux/version.diff
 %patch19 -p1
+%if 0
+# TODO
 for a in mencoder-on2flixenglinux/*.diff; do
 	patch -p0 < $a
 done
+%endif
 
 #%patch20 -p0
 #%patch21 -p0
@@ -369,6 +366,7 @@ set -x
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
 	--with-extraincdir=%{_includedir}/xvid \
+	--with-extralibdir=%{_x_libraries} \
 	--enable-menu \
 	--disable-libavutil_a \
 	--disable-libavcodec_a \
@@ -436,7 +434,8 @@ set -x
 %{!?with_vidix:--disable-vidix-external --disable-vidix-internal} \
 %{?with_vidix:--disable-vidix-internal} \
 %{!?with_mencoder:--disable-mencoder} \
-	--enable-dga \
+	--enable-dga1 \
+	--enable-dga2 \
 	--enable-fbdev \
 	--enable-gl \
 	--enable-mga \
