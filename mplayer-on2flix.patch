@@ -1,36 +1,8 @@
---- MPlayer-1.0rc1/mencoder-on2flixenglinux/add_ogg_mux_demux.diff~	2006-10-16 21:18:07.000000000 +0300
-+++ MPlayer-1.0rc1/mencoder-on2flixenglinux/add_ogg_mux_demux.diff	2006-12-09 15:31:25.231011265 +0200
-@@ -109,10 +109,10 @@
-  uint64_t get_uint64 (const void *buf)
-  {
-    uint64_t      ret;
--@@ -395,6 +413,42 @@
-+@@ -411,6 +411,42 @@
-+ #endif /* HAVE_OGGTHEORA */
-    } else if (os->flac) {
-       /* we pass complete packets to flac, mustn't strip the header! */
-- #endif /* HAVE_FLAC */
- +  } else if (os->pcm) {
- +    data = pack->packet;
- +    *flags = 1;
---- MPlayer-1.0rc1/mencoder-on2flixenglinux/version.diff~	2006-10-16 21:21:12.000000000 +0300
-+++ MPlayer-1.0rc1/mencoder-on2flixenglinux/version.diff	2006-12-09 15:32:18.792217093 +0200
-@@ -1,14 +1,6 @@
- --- ../mplayer/version.sh	2006-09-26 09:52:52.000000000 -0400
- +++ version.sh	2006-10-11 10:34:17.000000000 -0400
--@@ -5,9 +5,9 @@
-- svn_revision=`LC_ALL=C svn info 2> /dev/null | grep Revision | cut -d' ' -f2`
-- test $svn_revision || svn_revision=`grep revision .svn/entries | \
--                                     cut -d '"' -f2 2> /dev/null`
---test $svn_revision || svn_revision=UNKNOWN
--+test $svn_revision || svn_revision=`cat svn_snapshot_id`-snapshot
-- 
---NEW_REVISION="#define VERSION \"dev-SVN-r${svn_revision}${extra}\""
--+NEW_REVISION="#define VERSION \"on2-SVN-${svn_revision}${extra}\""
-- OLD_REVISION=`cat version.h 2> /dev/null`
-- 
-- # Update version.h only on revision changes to avoid spurious rebuilds
-+@@ -1,2 +1,2 @@
-+ #!/bin/sh
-+-echo "#define VERSION \"1.0rc1-$1\"" > version.h
-++echo "#define VERSION \"1.0rc1-on2-$1\"" > version.h
+--- MPlayer-1.0rc2/version.sh~	2007-10-23 01:00:05.000000000 +0300
++++ MPlayer-1.0rc2/version.sh	2007-10-23 01:01:55.117037453 +0300
+@@ -1,3 +1,3 @@
+ #!/bin/sh
+-echo "#define VERSION \"1.0rc2-$1\"" > version.h
+-echo "#define MP_TITLE \"MPlayer 1.0rc2-$1 (C) 2000-2007 MPlayer Team\"" >> version.h
++echo "#define VERSION \"1.0rc2-on2-$1\"" > version.h
++echo "#define MP_TITLE \"MPlayer 1.0rc2-on2-$1 (C) 2000-2007 MPlayer Team\"" >> version.h
