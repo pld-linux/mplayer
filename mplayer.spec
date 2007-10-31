@@ -121,6 +121,7 @@ Patch17:	%{name}-auto-expand.patch
 Patch19:	%{name}-on2flix.patch
 Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-live.patch
+Patch24:	%{name}-fontconfig_sub.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -335,6 +336,7 @@ done
 
 %patch22 -p1
 %patch23 -p1
+%patch24 -p0
 
 %build
 %if %{with shared}
