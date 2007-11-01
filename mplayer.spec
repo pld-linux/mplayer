@@ -272,7 +272,6 @@ Summary(pl.UTF-8):	MPlayer z graficznym interfejsem GTK+
 Group:		X11/Applications/Multimedia
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	%{name}-skin
-Requires:	%{name}-skin-Blue
 Provides:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gmplayer
