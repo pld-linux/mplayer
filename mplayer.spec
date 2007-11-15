@@ -73,7 +73,7 @@
 %define        _suf    32
 %endif
 
-%define		_rel	0.2
+%define		_rel	0.3
 %define		_rc	rc2
 
 Summary:	MPlayer - THE Movie Player for UN*X
