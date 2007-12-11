@@ -458,7 +458,7 @@ mv -f mplayer gmplayer
 build --disable-gui
 
 %if %{with doc}
-%{__make} -C DOCS/xml
+%{__make} -j1 -C DOCS/xml
 %endif
 
 %install
