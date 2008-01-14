@@ -73,7 +73,7 @@
 %define        _suf    32
 %endif
 
-%define		_rel	0.3
+%define		_rel	0.4
 %define		_rc	rc2
 
 Summary:	MPlayer - THE Movie Player for UN*X
@@ -466,7 +466,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
 	$RPM_BUILD_ROOT%{_mandir}/{cs,de,es,fr,hu,it,pl,sv,zh_CN,}/man1 \
-	$RPM_BUILD_ROOT%{_datadir}/mplayer/Skin \
+	$RPM_BUILD_ROOT%{_datadir}/mplayer/skins \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
 # default config files
@@ -491,7 +491,7 @@ cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 
 %if %{with gui}
-ln -s Blue $RPM_BUILD_ROOT%{_datadir}/%{name}/Skin/default
+ln -s Blue $RPM_BUILD_ROOT%{_datadir}/%{name}/skins/default
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 %endif
 install %{SOURCE8} $RPM_BUILD_ROOT%{_desktopdir}
@@ -529,8 +529,8 @@ umask 022
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gmplayer*
 %{_desktopdir}/gmplayer.desktop
-%dir %{_datadir}/%{name}/Skin
-%ghost %{_datadir}/%{name}/Skin/default
+%dir %{_datadir}/%{name}/skins
+%ghost %{_datadir}/%{name}/skins/default
 %endif
 
 %if %{with mencoder}
