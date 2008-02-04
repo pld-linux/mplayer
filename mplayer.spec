@@ -73,8 +73,8 @@
 %define        _suf    32
 %endif
 
-%define		_rel	0.4
-%define		_rc	rc2
+%define		rel		2
+%define		subver	rc2
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -84,7 +84,7 @@ Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.0
-Release:	5.%{_rc}.%{_rel}
+Release:	5.%{subver}.%{rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -92,7 +92,7 @@ Release:	5.%{_rc}.%{_rel}
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/MPlayer-%{version}%{_rc}.tar.bz2
+Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/MPlayer-%{version}%{subver}.tar.bz2
 # Source0-md5:	7e27e535c2d267637df34898f1b91707
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -105,23 +105,24 @@ Source8:	%{name}.desktop
 Source9:	http://www.on2.com/gpl/mplayer/2007-10-09-mencoder-on2flixenglinux.tar.bz2
 # Source9-md5:	2361e56b40f52dfc20131e458e2aed38
 Patch1:		%{name}-cp1250-fontdesc.patch
-Patch2:		%{name}-codec.patch
-Patch3:		%{name}-home_etc.patch
+#Patch2:		%{name}-codec.patch
+#Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
 #Patch6:		%{name}-system-amr.patch # outdated via ffmpeg?
 Patch8:		%{name}-altivec.patch
-Patch10:	%{name}-pcmsplit.patch
-Patch13:	%{name}-mythtv.patch
+#Patch10:	%{name}-pcmsplit.patch
+#Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 #http://www.openchrome.org/snapshots/mplayer/
-Patch15:	%{name}-xvmc.patch
+#Patch15:	%{name}-xvmc.patch
 Patch17:	%{name}-auto-expand.patch
 #Patch18:	%{name}-gnome-screensaver.patch # update
 Patch19:	%{name}-on2flix.patch
 Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-live.patch
 Patch24:	%{name}-fontconfig_sub.patch
+Patch25:	http://www.mplayerhq.hu/MPlayer/patches/stream_cddb_fix_20080120.diff
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -306,10 +307,10 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-%setup -q -n MPlayer-%{version}%{_rc} -a3 -a6 -a9
+%setup -q -n MPlayer-%{version}%{subver} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch1 -p0
-##%patch2 -p1
+#%patch2 -p1
 ##%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
 %patch5 -p1
@@ -337,6 +338,9 @@ done
 %patch22 -p1
 %patch23 -p1
 %patch24 -p0
+cd stream
+%patch25 -p0
+cd -
 
 %build
 %if %{with shared}
