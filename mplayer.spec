@@ -153,6 +153,7 @@ BuildRequires:	fribidi-devel
 %{?with_gif:BuildRequires:	giflib-devel}
 %if %{with gui}
 BuildRequires:	gtk+2-devel
+Requires:	mplayer-skin-Blue
 %endif
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
