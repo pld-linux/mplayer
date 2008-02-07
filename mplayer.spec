@@ -123,6 +123,7 @@ Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-live.patch
 Patch24:	%{name}-fontconfig_sub.patch
 Patch25:	http://www.mplayerhq.hu/MPlayer/patches/stream_cddb_fix_20080120.diff
+Patch26:	%{name}-check-byteswap.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -336,6 +337,7 @@ done
 cd stream
 %patch25 -p0
 cd -
+%patch26 -p1
 
 %build
 %if %{with shared}
