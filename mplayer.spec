@@ -156,6 +156,7 @@ BuildRequires:	gtk+2-devel
 %endif
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
+%{?with_jack:%requires_eq    jack-audio-connection-kit-libs}
 BuildRequires:	lame-libs-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
