@@ -63,7 +63,7 @@
 %undefine	with_vidix
 %endif
 
-%ifarch %{x8664} sparc sparc64
+%ifnarch %{ix86} %{x8664} ppc ppc64
 %undefine	with_runtime
 %endif
 
