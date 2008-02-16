@@ -105,21 +105,21 @@ Source8:	%{name}.desktop
 Source9:	http://www.on2.com/gpl/mplayer/2007-10-09-mencoder-on2flixenglinux.tar.bz2
 # Source9-md5:	2361e56b40f52dfc20131e458e2aed38
 Patch1:		%{name}-cp1250-fontdesc.patch
-Patch2:		%{name}-codec.patch
-Patch3:		%{name}-home_etc.patch
+#Patch2:		%{name}-codec.patch
+#Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
 # outdated via ffmpeg?
 Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
-Patch10:	%{name}-pcmsplit.patch
-Patch13:	%{name}-mythtv.patch
+#Patch10:	%{name}-pcmsplit.patch
+#Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 #http://www.openchrome.org/snapshots/mplayer/
-Patch15:	%{name}-xvmc.patch
+#Patch15:	%{name}-xvmc.patch
 Patch17:	%{name}-auto-expand.patch
 # update
-Patch18:	%{name}-gnome-screensaver.patch
+#Patch18:	%{name}-gnome-screensaver.patch
 Patch19:	%{name}-on2flix.patch
 Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-live.patch
@@ -315,7 +315,7 @@ MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 %setup -q -n MPlayer-%{version}%{subver} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch1 -p0
-#%patch2 -p1
+#%patch2 -p1 -- still needed?
 ##%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
 %patch5 -p1
