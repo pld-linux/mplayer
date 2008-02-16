@@ -74,7 +74,7 @@
 %endif
 
 %define		subver	rc2
-%define		rel		5
+%define		rel		5.5
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -105,25 +105,28 @@ Source8:	%{name}.desktop
 Source9:	http://www.on2.com/gpl/mplayer/2007-10-09-mencoder-on2flixenglinux.tar.bz2
 # Source9-md5:	2361e56b40f52dfc20131e458e2aed38
 Patch1:		%{name}-cp1250-fontdesc.patch
-#Patch2:		%{name}-codec.patch
-#Patch3:		%{name}-home_etc.patch
+Patch2:		%{name}-codec.patch
+Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
 Patch5:		%{name}-configure.patch
-#Patch6:		%{name}-system-amr.patch # outdated via ffmpeg?
+# outdated via ffmpeg?
+Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
-#Patch10:	%{name}-pcmsplit.patch
-#Patch13:	%{name}-mythtv.patch
+Patch10:	%{name}-pcmsplit.patch
+Patch13:	%{name}-mythtv.patch
 Patch14:	%{name}-shared.patch
 #http://www.openchrome.org/snapshots/mplayer/
-#Patch15:	%{name}-xvmc.patch
+Patch15:	%{name}-xvmc.patch
 Patch17:	%{name}-auto-expand.patch
-#Patch18:	%{name}-gnome-screensaver.patch # update
+# update
+Patch18:	%{name}-gnome-screensaver.patch
 Patch19:	%{name}-on2flix.patch
 Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-live.patch
 Patch24:	%{name}-fontconfig_sub.patch
 Patch25:	http://www.mplayerhq.hu/MPlayer/patches/stream_cddb_fix_20080120.diff
 Patch26:	%{name}-check-byteswap.patch
+Patch27:	http://www.mplayerhq.hu/MPlayer/patches/demux_mov_fix_20080129.diff
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -344,6 +347,7 @@ cd stream
 %patch25 -p0
 cd -
 %patch26 -p1
+%patch27 -p0
 
 %build
 %if %{with shared}
