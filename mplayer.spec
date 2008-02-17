@@ -315,21 +315,21 @@ MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 %setup -q -n MPlayer-%{version}%{subver} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch1 -p0
-#%patch2 -p1 -- still needed?
-##%patch3 -p1	-- old home_etc behavior
+#%%patch2 -p1 -- still needed?
+##%%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
 %patch5 -p1
-#%patch6 -p1 # - try ffmpeg
+#%%patch6 -p1 # - try ffmpeg
 %patch8 -p1
 #%%patch10 -p1
-#%patch13 -p1	# TODO
+#%%patch13 -p1	# TODO
 %if %{with shared}
 %patch14 -p1
 %endif
-#%patch15 -p0	# TODO
+#%%patch15 -p0	# TODO
 %patch17 -p1
 %if %{with gnomess}
-#%patch18 -p1
+#%%patch18 -p1
 %endif
 
 # on2flix
@@ -349,6 +349,9 @@ cd -
 %patch26 -p1
 %patch27 -p0
 
+sed -e '/Delete this default/d' etc/example.conf > etc/mplayer.conf
+rm -f font-*/runme
+
 %build
 %if %{with shared}
 CFLAGS="%{rpmcflags} -fPIC"
@@ -366,7 +369,7 @@ set -x
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
 	--with-extraincdir=%{_includedir}/xvid \
-	--with-extralibdir=%{_x_libraries} \
+	--with-extralibdir=%{?_x_libraries}%{!?_x_libraries:%{_libdir}} \
 	--enable-menu \
 	--disable-libavutil_a \
 	--disable-libavcodec_a \
@@ -387,53 +390,53 @@ set -x
 %endif
 	%{!?with_ssse3:--disable-ssse3} \
 %ifarch ppc
-%{!?with_altivec:--disable-altivec} \
+	%{!?with_altivec:--disable-altivec} \
 %endif
-%{!?with_amr:--disable-libamr_nb --disable-libamr_wb} \
-%{?with_amr:--enable-libamr_nb --enable-libamr_wb} \
-%{?with_directfb:--enable-directfb} \
-%{!?with_directfb:--disable-directfb} \
-%{!?with_dxr3:--disable-dxr3} \
-%{!?with_ggi:--disable-ggi} \
-%{?with_live:--enable-live --with-extraincdir=/usr/include/liveMedia} \
-%{!?with_live:--disable-live} \
-%{!?with_lzo:--disable-liblzo} \
-%{!?with_nas:--disable-nas} \
-%{!?with_svga:--disable-svga} \
-%{!?with_aalib:--disable-aa} \
-%{!?with_jack:--disable-jack} \
-%{!?with_alsa:--disable-alsa} \
-%{?with_alsa:--enable-alsa --disable-select} \
-%{!?with_arts:--disable-arts} \
-%{!?with_caca:--disable-caca} \
-%{!?with_cdparanoia:--disable-cdparanoia} \
-%{!?with_dshow:--disable-dshow} \
-%{!?with_enca:--disable-enca} \
-%{!?with_esd:--disable-esd} \
-%{!?with_faad:--disable-faad-external --disable-faad-internal} \
-%{?with_faad:--disable-faad-internal} \
-%{!?with_gif:--disable-gif} \
-%{?with_joystick:--enable-joystick} \
-%{!?with_libdv:--disable-libdv} \
-%{!?with_libdts:--disable-libdts} \
---%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
-%{!?with_mad:--disable-mad} \
-%{!?with_pulseaudio:--disable-pulse} \
-%{!?with_quicktime:--disable-qtx} \
-%{!?with_real:--disable-real} \
---%{?with_runtime:en}%{!?with_runtime:dis}able-runtime-cpudetection \
-%{!?with_select:--disable-select} \
-%{!?with_smb:--disable-smb} \
-%{!?with_win32:--disable-win32dll} \
-%{!?with_vorbis:--disable-vorbis} \
-%{?with_osd:--enable-menu} \
-%{!?with_theora:--disable-theora} \
-%{!?with_x264:--disable-x264} \
-%{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
-%{!?with_xvid:--disable-xvid} \
-%{!?with_vidix:--disable-vidix-external --disable-vidix-internal} \
-%{?with_vidix:--disable-vidix-internal} \
-%{!?with_mencoder:--disable-mencoder} \
+	%{!?with_amr:--disable-libamr_nb --disable-libamr_wb} \
+	%{?with_amr:--enable-libamr_nb --enable-libamr_wb} \
+	%{?with_directfb:--enable-directfb} \
+	%{!?with_directfb:--disable-directfb} \
+	%{!?with_dxr3:--disable-dxr3} \
+	%{!?with_ggi:--disable-ggi} \
+	%{?with_live:--enable-live --with-extraincdir=/usr/include/liveMedia} \
+	%{!?with_live:--disable-live} \
+	%{!?with_lzo:--disable-liblzo} \
+	%{!?with_nas:--disable-nas} \
+	%{!?with_svga:--disable-svga} \
+	%{!?with_aalib:--disable-aa} \
+	%{!?with_jack:--disable-jack} \
+	%{!?with_alsa:--disable-alsa} \
+	%{?with_alsa:--enable-alsa --disable-select} \
+	%{!?with_arts:--disable-arts} \
+	%{!?with_caca:--disable-caca} \
+	%{!?with_cdparanoia:--disable-cdparanoia} \
+	%{!?with_dshow:--disable-dshow} \
+	%{!?with_enca:--disable-enca} \
+	%{!?with_esd:--disable-esd} \
+	%{!?with_faad:--disable-faad-external --disable-faad-internal} \
+	%{?with_faad:--disable-faad-internal} \
+	%{!?with_gif:--disable-gif} \
+	%{?with_joystick:--enable-joystick} \
+	%{!?with_libdv:--disable-libdv} \
+	%{!?with_libdts:--disable-libdts} \
+	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
+	%{!?with_mad:--disable-mad} \
+	%{!?with_pulseaudio:--disable-pulse} \
+	%{!?with_quicktime:--disable-qtx} \
+	%{!?with_real:--disable-real} \
+	--%{?with_runtime:en}%{!?with_runtime:dis}able-runtime-cpudetection \
+	%{!?with_select:--disable-select} \
+	%{!?with_smb:--disable-smb} \
+	%{!?with_win32:--disable-win32dll} \
+	%{!?with_vorbis:--disable-vorbis} \
+	%{?with_osd:--enable-menu} \
+	%{!?with_theora:--disable-theora} \
+	%{!?with_x264:--disable-x264} \
+	%{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
+	%{!?with_xvid:--disable-xvid} \
+	%{!?with_vidix:--disable-vidix-external --disable-vidix-internal} \
+	%{?with_vidix:--disable-vidix-internal} \
+	%{!?with_mencoder:--disable-mencoder} \
 	--enable-dga1 \
 	--enable-dga2 \
 	--enable-fbdev \
@@ -481,7 +484,6 @@ install -d \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
 # default config files
-sed -e '/Delete this default/d' etc/example.conf > etc/mplayer.conf
 install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
 
 # executables
@@ -497,12 +499,11 @@ ln -sf gmplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
 %endif
 
 # fonts
-rm -f font-*/runme
 cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 
 %if %{with gui}
-ln -s Blue $RPM_BUILD_ROOT%{_datadir}/%{name}/skins/default
+touch $RPM_BUILD_ROOT%{_datadir}/%{name}/skins/default
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 %endif
 install %{SOURCE8} $RPM_BUILD_ROOT%{_desktopdir}
@@ -541,7 +542,7 @@ umask 022
 %attr(755,root,root) %{_bindir}/gmplayer*
 %{_desktopdir}/gmplayer.desktop
 %dir %{_datadir}/%{name}/skins
-#%ghost %{_datadir}/%{name}/skins/default
+%ghost %{_datadir}/%{name}/skins/default
 %endif
 
 %if %{with mencoder}
