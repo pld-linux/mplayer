@@ -56,6 +56,7 @@
 %bcond_with	amr		# enable 3GPP Adaptive Multi Rate (AMR) speech codec support
 %bcond_without	gnomess		# disable controling gnome screensaver
 %bcond_with	ssse3	# sse3 optimizations (needs binutils >= 2.16.92)
+%bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (needs more work or mplayer snapshot)
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -74,7 +75,7 @@
 %endif
 
 %define		subver	rc2
-%define		rel		5.5
+%define		rel		6
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -147,7 +148,7 @@ BuildRequires:	amrwb-devel >= 5.3.0
 %{?with_esd:BuildRequires:	esound-devel}
 BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
-BuildRequires:	ffmpeg-devel >= 0.4.9-3.20070626.1.1
+%{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-3.20070626.1.1}
 BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
 %{?with_vidix:BuildRequires:	vidix-devel}
@@ -340,7 +341,7 @@ for a in mencoder-on2flixenglinux/*.diff; do
 	patch -p0 < $a
 done
 
-%patch22 -p1
+%{?with_system_ffmpeg:%patch22 -p1}
 %patch23 -p1
 %patch24 -p0
 cd stream
@@ -351,6 +352,11 @@ cd -
 
 sed -e '/Delete this default/d' etc/example.conf > etc/mplayer.conf
 rm -f font-*/runme
+
+%if %{with system_ffmpeg}
+# using external ffmpeg, but mplayer adds these to includepath
+rm -rf libavcodec libavdevice libavformat libavutil libpostproc libswscale
+%endif
 
 %build
 %if %{with shared}
@@ -371,6 +377,7 @@ set -x
 	--with-extraincdir=%{_includedir}/xvid \
 	--with-extralibdir=%{?_x_libraries}%{!?_x_libraries:%{_libdir}} \
 	--enable-menu \
+%if %{with system_ffmpeg}
 	--disable-libavutil_a \
 	--disable-libavcodec_a \
 	--disable-libavformat_a \
@@ -379,6 +386,7 @@ set -x
 	--enable-libavcodec_so \
 	--enable-libavformat_so \
 	--enable-libpostproc_so \
+%endif
 %ifnarch %{ix86} %{x8664}
 	--disable-mmx \
 	--disable-mmxext \
