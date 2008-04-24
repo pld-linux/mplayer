@@ -63,18 +63,18 @@
 %undefine	with_vidix
 %endif
 
-%ifarch %{x8664} sparc sparc64
+%ifnarch %{ix86} %{x8664} ppc ppc64
 %undefine	with_runtime
 %endif
 
 %if %{_lib} == "lib64"
-%define		_suf	64
+%define        _suf    64
 %else
-%define		_suf	32
+%define        _suf    32
 %endif
 
 %define		subver	rc2
-%define		rel		3
+%define		rel		4
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -123,6 +123,7 @@ Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-live.patch
 Patch24:	%{name}-fontconfig_sub.patch
 Patch25:	http://www.mplayerhq.hu/MPlayer/patches/stream_cddb_fix_20080120.diff
+Patch26:	%{name}-check-byteswap.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -154,9 +155,10 @@ BuildRequires:	fribidi-devel
 %if %{with gui}
 BuildRequires:	gtk+2-devel
 %endif
+BuildRequires:	XFree86-devel >= 4.0.2
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
-%{?with_jack:%requires_eq	jack-audio-connection-kit-libs}
+%{?with_jack:%requires_eq    jack-audio-connection-kit-libs}
 BuildRequires:	lame-libs-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
@@ -184,13 +186,6 @@ BuildRequires:	pkgconfig
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
-BuildRequires:	xorg-lib-libX11-devel
-BuildRequires:	xorg-lib-libXext-devel
-BuildRequires:	xorg-lib-libXinerama-devel
-BuildRequires:	xorg-lib-libXv-devel
-BuildRequires:	xorg-lib-libXvMC-devel
-BuildRequires:	xorg-lib-libXxf86dga-devel
-BuildRequires:	xorg-lib-libXxf86vm-devel
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 BuildRequires:	zlib-devel
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
@@ -274,7 +269,6 @@ Summary(pl.UTF-8):	MPlayer z graficznym interfejsem GTK+
 Group:		X11/Applications/Multimedia
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	%{name}-skin
-Provides:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gmplayer
 MPlayer with GUI GTK+ interface.
@@ -342,6 +336,7 @@ done
 cd stream
 %patch25 -p0
 cd -
+%patch26 -p1
 
 %build
 %if %{with shared}
