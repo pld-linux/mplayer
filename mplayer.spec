@@ -75,7 +75,7 @@
 %endif
 
 %define		subver	rc2
-%define		rel		6
+%define		rel		7
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -279,7 +279,6 @@ Summary(pl.UTF-8):	MPlayer z graficznym interfejsem GTK+
 Group:		X11/Applications/Multimedia
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	%{name}-skin
-Provides:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gmplayer
 MPlayer with GUI GTK+ interface.
