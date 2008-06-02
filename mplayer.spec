@@ -75,7 +75,7 @@
 %endif
 
 %define		subver	rc2
-%define		rel		8
+%define		rel		9
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -343,11 +343,12 @@ done
 %{?with_system_ffmpeg:%patch22 -p1}
 %patch23 -p1
 %patch24 -p0
-cd stream
 %patch25 -p0
-cd -
 %patch26 -p1
 %patch27 -p0
+
+# recent dvdnav-config doesn't support --minilibs.
+sed -i 's:--minilibs:--libs:g' configure
 
 sed -e '/Delete this default/d' etc/example.conf > etc/mplayer.conf
 rm -f font-*/runme
@@ -446,6 +447,7 @@ set -x
 	%{!?with_mencoder:--disable-mencoder} \
 	--enable-dga1 \
 	--enable-dga2 \
+	--enable-dvdnav \
 	--enable-fbdev \
 	--enable-gl \
 	--enable-mga \
