@@ -36,7 +36,7 @@
 %bcond_with	live		# without LIVE555 libraries
 %bcond_without	lzo		# with LZO support (requires lzo 2.x)
 %bcond_without	mad		# without mad (audio MPEG) support
-%bcond_without	pulseaudio		# without pulseaudio output
+%bcond_without	pulseaudio	# without pulseaudio output
 %bcond_without	quicktime	# without binary quicktime dll support
 %bcond_without	real		# without Real* 8/9 codecs support
 %bcond_without	runtime		# disable runtime cpu detection, just detect CPU
@@ -55,7 +55,7 @@
 %bcond_with	shared		# experimental libmplayer.so support
 %bcond_with	amr		# enable 3GPP Adaptive Multi Rate (AMR) speech codec support
 %bcond_without	gnomess		# disable controling gnome screensaver
-%bcond_with	ssse3	# sse3 optimizations (needs binutils >= 2.16.92)
+%bcond_with	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
 %bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (needs more work or mplayer snapshot)
 
 %ifnarch %{ix86}
@@ -429,7 +429,7 @@ set -x
 	%{!?with_libdts:--disable-libdts} \
 	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
 	%{!?with_mad:--disable-mad} \
-	%{!?with_pulseaudio:--disable-pulse} \
+	%{!?with_pulseaudio:--disable-polyp} \
 	%{!?with_quicktime:--disable-qtx} \
 	%{!?with_real:--disable-real} \
 	--%{?with_runtime:en}%{!?with_runtime:dis}able-runtime-cpudetection \
