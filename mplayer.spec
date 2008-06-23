@@ -23,7 +23,6 @@
 %bcond_without	arts		# without arts audio output
 %bcond_without	caca		# without libcaca video output
 %bcond_without	cdparanoia	# without cdparanoia support
-%bcond_without	dshow		# disable DirectShow support
 %bcond_without	enca		# disable using ENCA charset oracle library
 %bcond_without	esd		# disable EsounD sound support
 %bcond_without	faad		# disable FAAD2 (AAC) support
@@ -173,7 +172,6 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
-%{?with_dshow:BuildRequires:	libstdc++-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 # tremor is used by default, internal as we don't have system one
 #%{?with_vorbis:BuildRequires:	libvorbis-devel}
@@ -418,7 +416,6 @@ set -x
 	%{!?with_arts:--disable-arts} \
 	%{!?with_caca:--disable-caca} \
 	%{!?with_cdparanoia:--disable-cdparanoia} \
-	%{!?with_dshow:--disable-dshow} \
 	%{!?with_enca:--disable-enca} \
 	%{!?with_esd:--disable-esd} \
 	%{!?with_faad:--disable-faad-external --disable-faad-internal} \
