@@ -1,7 +1,5 @@
-Index: stream_cddb.c
-===================================================================
---- stream_cddb.c	(revision 24724)
-+++ stream_cddb.c	(working copy)
+--- stream/stream_cddb.c	(revision 24724)
++++ stream/stream_cddb.c	(working copy)
 @@ -53,6 +53,7 @@
  #include "version.h"
  #include "stream.h"
