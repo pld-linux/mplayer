@@ -128,6 +128,8 @@ Patch25:	http://www.mplayerhq.hu/MPlayer/patches/stream_cddb_fix_20080120.diff
 Patch26:	%{name}-check-byteswap.patch
 Patch27:	http://www.mplayerhq.hu/MPlayer/patches/demux_mov_fix_20080129.diff
 URL:		http://www.mplayerhq.hu/
+# http://securitytracker.com/alerts/2008/Sep/1020952.html
+BuildRequires:	security(CVE-2008-3827)
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
 BuildRequires:	OpenGL-devel
