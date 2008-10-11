@@ -13,7 +13,7 @@
 %bcond_with	ggi		# with ggi video output
 %bcond_with	nas		# with NAS audio output
 %bcond_with	svga		# with svgalib video output
-%bcond_with	osd		# with osd menu support
+%bcond_without	osd		# with osd menu support
 %bcond_without	altivec		# without altivec support
 %bcond_without	x264		# without x264 support
 %bcond_with	xmms		# with XMMS inputplugin support
@@ -74,7 +74,7 @@
 %endif
 
 %define		subver	rc2
-%define		rel		12
+%define		rel	13
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -376,7 +376,6 @@ set -x
 	--confdir=%{_sysconfdir}/mplayer \
 	--with-extraincdir=%{_includedir}/xvid \
 	--with-extralibdir=%{?_x_libraries}%{!?_x_libraries:%{_libdir}} \
-	--enable-menu \
 %if %{with system_ffmpeg}
 	--disable-libavutil_a \
 	--disable-libavcodec_a \
