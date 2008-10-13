@@ -127,9 +127,8 @@ Patch24:	%{name}-fontconfig_sub.patch
 Patch25:	http://www.mplayerhq.hu/MPlayer/patches/stream_cddb_fix_20080120.diff
 Patch26:	%{name}-check-byteswap.patch
 Patch27:	http://www.mplayerhq.hu/MPlayer/patches/demux_mov_fix_20080129.diff
+Patch28:	http://www.ocert.org/patches/2008-013/mplayer_demux_real.patch
 URL:		http://www.mplayerhq.hu/
-# http://securitytracker.com/alerts/2008/Sep/1020952.html
-BuildRequires:	security(CVE-2008-3827)
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
 BuildRequires:	OpenGL-devel
@@ -346,6 +345,7 @@ done
 %patch25 -p0
 %patch26 -p1
 %patch27 -p0
+%patch28 -p0
 
 # recent dvdnav-config doesn't support --minilibs.
 sed -i 's:--minilibs:--libs:g' configure
