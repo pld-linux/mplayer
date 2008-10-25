@@ -74,7 +74,7 @@
 %endif
 
 %define		subver	rc2
-%define		rel	14
+%define		rel	15
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -128,6 +128,7 @@ Patch25:	http://www.mplayerhq.hu/MPlayer/patches/stream_cddb_fix_20080120.diff
 Patch26:	%{name}-check-byteswap.patch
 Patch27:	http://www.mplayerhq.hu/MPlayer/patches/demux_mov_fix_20080129.diff
 Patch28:	http://www.ocert.org/patches/2008-013/mplayer_demux_real.patch
+Patch29:	%{name}-x264.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -176,7 +177,7 @@ BuildRequires:	libpng-devel
 %{?with_theora:BuildRequires:	libtheora-devel}
 # tremor is used by default, internal as we don't have system one
 #%{?with_vorbis:BuildRequires:	libvorbis-devel}
-%{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20060828_2245.1}
+%{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20081023_2245.1}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live}
@@ -346,6 +347,7 @@ done
 %patch26 -p1
 %patch27 -p0
 %patch28 -p0
+%patch29 -p1
 
 # recent dvdnav-config doesn't support --minilibs.
 sed -i 's:--minilibs:--libs:g' configure
