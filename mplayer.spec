@@ -74,7 +74,7 @@
 %endif
 
 %define		subver	rc2
-%define		rel	13
+%define		rel	14
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
