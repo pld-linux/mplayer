@@ -144,6 +144,7 @@ BuildRequires:	amrwb-devel >= 5.3.0
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
 %{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
+%{?with_doc:BuildRequires:	docbook-dtd412-xml}
 %{?with_dxr3:BuildRequires:	em8300-devel}
 %{?with_enca:BuildRequires:	enca-devel}
 %{?with_esd:BuildRequires:	esound-devel}
