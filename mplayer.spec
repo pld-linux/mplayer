@@ -23,6 +23,7 @@
 %bcond_without	arts		# without arts audio output
 %bcond_without	caca		# without libcaca video output
 %bcond_without	cdparanoia	# without cdparanoia support
+%bcond_with	dvdnav		# without dvdnav support
 %bcond_without	enca		# disable using ENCA charset oracle library
 %bcond_without	esd		# disable EsounD sound support
 %bcond_without	faad		# disable FAAD2 (AAC) support
@@ -54,8 +55,8 @@
 %bcond_with	shared		# experimental libmplayer.so support
 %bcond_with	amr		# enable 3GPP Adaptive Multi Rate (AMR) speech codec support
 %bcond_without	gnomess		# disable controling gnome screensaver
-%bcond_with	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
-%bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (needs more work or mplayer snapshot)
+%bcond_without	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
+%bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
 
 %ifnarch %{ix86}
 %undefine	with_win32
@@ -74,6 +75,7 @@
 %endif
 
 %define		subver	rc2
+%define		svnver	27725
 %define		rel	15
 
 Summary:	MPlayer - THE Movie Player for UN*X
@@ -92,8 +94,8 @@ Release:	5.%{subver}.%{rel}
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/MPlayer-%{version}%{subver}.tar.bz2
-# Source0-md5:	7e27e535c2d267637df34898f1b91707
+Source0:	http://distfiles.gentoo.org/distfiles/mplayer-%{version}_%{subver}_p%{svnver}.tar.bz2
+# Source0-md5:	d89e86d9183d1a52a7a754d9a3c74724
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -102,8 +104,8 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 Source7:	%{name}.png
 Source8:	%{name}.desktop
 # http://www.on2.com/gpl/mplayer/
-Source9:	http://www.on2.com/gpl/mplayer/2007-10-09-mencoder-on2flixenglinux.tar.bz2
-# Source9-md5:	2361e56b40f52dfc20131e458e2aed38
+Source9:	http://support.on2.com/gpl/mplayer/2008-09-30-mencoder-on2flixenglinux.tar.bz2
+# Source9-md5:	a8a078c38eda90dff980f9bf1768960f
 Patch1:		%{name}-cp1250-fontdesc.patch
 #Patch2:		%{name}-codec.patch
 #Patch3:		%{name}-home_etc.patch
@@ -122,13 +124,8 @@ Patch17:	%{name}-auto-expand.patch
 #Patch18:	%{name}-gnome-screensaver.patch
 Patch19:	%{name}-on2flix.patch
 Patch22:	%{name}-ffmpeg.patch
-Patch23:	%{name}-live.patch
 Patch24:	%{name}-fontconfig_sub.patch
-Patch25:	http://www.mplayerhq.hu/MPlayer/patches/stream_cddb_fix_20080120.diff
 Patch26:	%{name}-check-byteswap.patch
-Patch27:	http://www.mplayerhq.hu/MPlayer/patches/demux_mov_fix_20080129.diff
-Patch28:	http://www.ocert.org/patches/2008-013/mplayer_demux_real.patch
-Patch29:	%{name}-x264.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -150,7 +147,7 @@ BuildRequires:	amrwb-devel >= 5.3.0
 %{?with_esd:BuildRequires:	esound-devel}
 BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
-%{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-3.20070626.1.1}
+%{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-4.20081024.3}
 BuildRequires:	freetype-devel
 BuildRequires:	fribidi-devel
 %{?with_vidix:BuildRequires:	vidix-devel}
@@ -168,7 +165,7 @@ BuildRequires:	lame-libs-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel}
-BuildRequires:	libdvdnav-devel
+%{?with_dvdnav:BuildRequires:	libdvdnav-devel >= 4.1.3}
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libjpeg-devel
 %{?with_mad:BuildRequires:	libmad-devel}
@@ -313,7 +310,7 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-%setup -q -n MPlayer-%{version}%{subver} -a3 -a6 -a9
+%setup -q -n mplayer-%{version}_%{subver}_p%{svnver} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch1 -p0
 #%%patch2 -p1 -- still needed?
@@ -334,24 +331,23 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %endif
 
 # on2flix
-cp -a mencoder-on2flixenglinux/new_files/libmpdemux/* libmpdemux
-rm -f mencoder-on2flixenglinux/version.diff
+mv mencoder-on2flixenglinux{-*-*-*,}
+cp -a mencoder-on2flixenglinux/patch/new_files/libmpdemux/* libmpdemux
+#rm -f mencoder-on2flixenglinux/patch/version.diff
 %patch19 -p1
-for a in mencoder-on2flixenglinux/*.diff; do
+for a in mencoder-on2flixenglinux/patch/*.diff; do
 	patch -p0 < $a
 done
 
 %{?with_system_ffmpeg:%patch22 -p1}
-%patch23 -p1
 %patch24 -p0
-%patch25 -p0
 %patch26 -p1
-%patch27 -p0
-%patch28 -p0
-%patch29 -p1
 
 # recent dvdnav-config doesn't support --minilibs.
 sed -i 's:--minilibs:--libs:g' configure
+
+# Set version #
+%{__sed} -i s/UNKNOWN/%{svnver}/ version.sh
 
 sed -e '/Delete this default/d' etc/example.conf > etc/mplayer.conf
 rm -f font-*/runme
@@ -443,12 +439,11 @@ set -x
 	%{!?with_x264:--disable-x264} \
 	%{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
 	%{!?with_xvid:--disable-xvid} \
-	%{!?with_vidix:--disable-vidix-external --disable-vidix-internal} \
-	%{?with_vidix:--disable-vidix-internal} \
+	%{!?with_vidix:--disable-vidix} \
 	%{!?with_mencoder:--disable-mencoder} \
 	--enable-dga1 \
 	--enable-dga2 \
-	--enable-dvdnav \
+	--%{!?with_dvdnav:dis}%{?with_dvdnav:en}able-dvdnav \
 	--enable-fbdev \
 	--enable-gl \
 	--enable-mga \
