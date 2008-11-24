@@ -23,7 +23,7 @@
 %bcond_without	arts		# without arts audio output
 %bcond_without	caca		# without libcaca video output
 %bcond_without	cdparanoia	# without cdparanoia support
-%bcond_with	dvdnav		# without dvdnav support
+%bcond_without	dvdnav		# without dvdnav support
 %bcond_without	enca		# disable using ENCA charset oracle library
 %bcond_without	esd		# disable EsounD sound support
 %bcond_without	faad		# disable FAAD2 (AAC) support
