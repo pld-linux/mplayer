@@ -1,5 +1,5 @@
---- MPlayer-1.0pre2/configure.orig	2003-11-23 00:09:38.000000000 +0100
-+++ MPlayer-1.0pre2/configure	2003-11-23 00:20:52.337674440 +0100
+--- mplayer-1.0_rc2_p27725/configure~	2008-11-23 19:53:55.000000000 +0200
++++ mplayer-1.0_rc2_p27725/configure	2008-11-23 20:03:15.844840283 +0200
 @@ -1173,6 +1173,7 @@
  _vstream=auto
  _pthreads=yes
@@ -17,12 +17,12 @@
    --enable-armv5te) _armv5te=yes ;;
    --disable-armv5te) _armv5te=no ;;
    --enable-iwmmxt) _iwmmxt=yes ;;
-@@ -1623,7 +1624,7 @@
+@@ -2391,7 +2391,7 @@
  
-     _altivec_gcc_flags=''
  
--    if test "$_altivec" = yes -o "$_runtime_cpudetection" = yes ; then
-+    if test "$_altivec" = yes -o "$_runtime_cpudetection" = yes -a "$_disable_altivec" != "yes"; then
-         echocheck "GCC altivec support"
-         
-         p=''
+ #FIXME: This should happen before the check for CFLAGS..
+-if ppc && ( test "$_altivec" = yes || test "$_runtime_cpudetection" = yes ) ; then
++if ppc && ( test "$_altivec" = yes || test "$_runtime_cpudetection" = yes) && test "$_disable_altivec" != "yes"; then
+ 
+     # check if AltiVec is supported by the compiler, and how to enable it
+     echocheck "GCC AltiVec flags"
