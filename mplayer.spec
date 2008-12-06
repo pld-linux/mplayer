@@ -76,7 +76,7 @@
 
 %define		subver	rc2
 %define		svnver	27725
-%define		rel	16
+%define		rel		17
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -104,8 +104,8 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 Source7:	%{name}.png
 Source8:	%{name}.desktop
 # http://www.on2.com/gpl/mplayer/
-Source9:	http://support.on2.com/gpl/mplayer/2008-09-30-mencoder-on2flixenglinux.tar.bz2
-# Source9-md5:	a8a078c38eda90dff980f9bf1768960f
+Source9:	http://support.on2.com/gpl/mplayer/2008-11-25-mencoder-on2flixenglinux.tar.bz2
+# Source9-md5:	7dd9c22d9d7207c0b42fa530b4f3fc5d
 Patch1:		%{name}-cp1250-fontdesc.patch
 #Patch2:		%{name}-codec.patch
 #Patch3:		%{name}-home_etc.patch
@@ -347,7 +347,7 @@ done
 sed -i 's:--minilibs:--libs:g' configure
 
 # Set version #
-%{__sed} -i s/UNKNOWN/%{svnver}/ version.sh
+echo %{svnver} > svn_snapshot_id
 
 sed -e '/Delete this default/d' etc/example.conf > etc/mplayer.conf
 rm -f font-*/runme
