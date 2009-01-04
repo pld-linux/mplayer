@@ -373,7 +373,7 @@ set -x
 	%{?debug:--enable-debug=3} \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
-	--with-extraincdir=%{_includedir}/xvid \
+	--with-extraincdir=%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb} \
 	--with-extralibdir=%{?_x_libraries}%{!?_x_libraries:%{_libdir}} \
 %if %{with system_ffmpeg}
 	--disable-libavutil_a \
