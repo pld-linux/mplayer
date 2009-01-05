@@ -126,6 +126,7 @@ Patch19:	%{name}-on2flix.patch
 Patch22:	%{name}-ffmpeg.patch
 Patch24:	%{name}-fontconfig_sub.patch
 Patch26:	%{name}-check-byteswap.patch
+Patch27:	%{name}-release_directfb.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -342,6 +343,7 @@ done
 %{?with_system_ffmpeg:%patch22 -p1}
 %patch24 -p0
 %patch26 -p1
+%patch27 -p1
 
 # recent dvdnav-config doesn't support --minilibs.
 sed -i 's:--minilibs:--libs:g' configure
