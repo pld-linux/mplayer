@@ -76,7 +76,7 @@
 
 %define		subver	rc2
 %define		svnver	27725
-%define		rel	17
+%define		rel	18
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -548,8 +548,6 @@ umask 022
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gmplayer*
 %{_desktopdir}/gmplayer.desktop
-%dir %{_datadir}/%{name}/skins
-%ghost %{_datadir}/%{name}/skins/default
 %endif
 
 %if %{with mencoder}
@@ -597,3 +595,5 @@ umask 022
 %{_pixmapsdir}/mplayer.png
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/font*
+%dir %{_datadir}/%{name}/skins
+%ghost %{_datadir}/%{name}/skins/default
