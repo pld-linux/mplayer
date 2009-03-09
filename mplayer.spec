@@ -56,8 +56,7 @@
 %bcond_with	amr		# enable 3GPP Adaptive Multi Rate (AMR) speech codec support
 %bcond_without	gnomess		# disable controling gnome screensaver
 %bcond_with	ssse3	# sse3 optimizations (needs binutils >= 2.16.92)
-%bcond_without dshowserver      # disable directshow codecs server
-#%{?without_dshowserver: %without_win32}
+
 %ifnarch %{ix86}
 %undefine	with_win32
 %undefine	with_quicktime
@@ -74,7 +73,7 @@
 %define        _suf    32
 %endif
 
-%define		_rel	0.1wk
+%define		_rel	0.1
 %define		_rc	rc2
 
 Summary:	MPlayer - THE Movie Player for UN*X
@@ -104,7 +103,6 @@ Source7:	%{name}.png
 Source8:	%{name}.desktop
 # http://www.on2.com/gpl/mplayer/
 Source9:	http://www.on2.com/gpl/mplayer/2007-10-09-mencoder-on2flixenglinux.tar.bz2
-%{!?without_dshowserver:Source50:	coreserve}
 # Source9-md5:	2361e56b40f52dfc20131e458e2aed38
 Patch1:		%{name}-cp1250-fontdesc.patch
 Patch2:		%{name}-codec.patch
@@ -123,7 +121,6 @@ Patch17:	%{name}-auto-expand.patch
 Patch19:	%{name}-on2flix.patch
 Patch22:	%{name}-ffmpeg.patch
 Patch23:	%{name}-live.patch
-%{!?without_dshowserver:Patch50: %{name}-dshowserver.patch}
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -338,7 +335,6 @@ done
 
 %patch22 -p1
 %patch23 -p1
-%{!?without_dshowserver:%patch50 -p1}
 
 %build
 %if %{with shared}
@@ -492,14 +488,12 @@ rm -f font-*/runme
 cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 
-
 %if %{with gui}
 ln -s Blue $RPM_BUILD_ROOT%{_datadir}/%{name}/Skin/default
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 %endif
 install %{SOURCE8} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
-%{!?without_dshowserver:install %{SOURCE50} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/codecs}
 
 # man pages
 install DOCS/man/cs/*.1 $RPM_BUILD_ROOT%{_mandir}/cs/man1
