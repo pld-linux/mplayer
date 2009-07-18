@@ -24,7 +24,7 @@
 %bcond_without	libdts		# disable libdts support
 %bcond_without	libdv		# disable libdv en/decoding support
 %bcond_without	lirc		# without lirc support
-%bcond_with	live		# without LIVE555 libraries
+%bcond_without	live		# without LIVE555 libraries
 %bcond_without	lzo		# with LZO support (requires lzo 2.x)
 %bcond_without	mad		# without mad (audio MPEG) support
 %bcond_without	pulseaudio	# without pulseaudio output
@@ -67,7 +67,7 @@
 
 %define		subver	rc2
 %define		svnver	27725
-%define		rel	19
+%define		rel	20
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -118,6 +118,7 @@ Patch22:	%{name}-ffmpeg.patch
 Patch24:	%{name}-fontconfig_sub.patch
 Patch26:	%{name}-check-byteswap.patch
 Patch27:	%{name}-release_directfb.patch
+Patch28:	%{name}-shared_live.patch
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -170,7 +171,7 @@ BuildRequires:	libpng-devel
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20081023_2245.1}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_live:BuildRequires:	live-static}
+%{?with_live:BuildRequires:	live-devel}
 %{?with_lzo:BuildRequires:	lzo-devel >= 2.0}
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
@@ -335,6 +336,7 @@ done
 %patch24 -p0
 %patch26 -p1
 %patch27 -p1
+%patch28 -p1
 
 # recent dvdnav-config doesn't support --minilibs.
 sed -i 's:--minilibs:--libs:g' configure
@@ -397,7 +399,7 @@ set -x
 	%{!?with_directfb:--disable-directfb} \
 	%{!?with_dxr3:--disable-dxr3} \
 	%{!?with_ggi:--disable-ggi} \
-	%{?with_live:--enable-live --with-extraincdir=/usr/include/liveMedia} \
+	%{?with_live:--with-extraincdir=/usr/include/liveMedia} \
 	%{!?with_live:--disable-live} \
 	%{!?with_lzo:--disable-liblzo} \
 	%{!?with_nas:--disable-nas} \
