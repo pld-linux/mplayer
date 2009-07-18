@@ -1,12 +1,3 @@
-# TODO:
-# - nut support (http://www.nut.hu/ - currently down, but see svn.mplayerhq.hu/nut/)
-# - update for lzo 2
-# - try to use external lrmi and few other libs:
-#   http://www.cyberlink.com/english/products/powercinema/pcm-linux/license/mplayer-10_copyright.htm
-# - segfaults on amd64:
-#   mencoder -oac pcm -af dummy -ovc raw -vf format=yv12 -of ogg -mc 0 -quiet -o /tmp/out1 l.avi
-#   avi: RIFF (little-endian) data, AVI, 480 x 360, 25.00 fps, video: XviD, audio: MPEG-1 Layer 3 (stereo, 48000 Hz)
-#
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
 %bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
@@ -179,7 +170,7 @@ BuildRequires:	libpng-devel
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20081023_2245.1}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_live:BuildRequires:	live}
+%{?with_live:BuildRequires:	live-static}
 %{?with_lzo:BuildRequires:	lzo-devel >= 2.0}
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
