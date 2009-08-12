@@ -336,7 +336,9 @@ done
 %patch24 -p0
 %patch26 -p1
 %patch27 -p1
+%if %{with live}
 %patch28 -p1
+%endif
 
 # recent dvdnav-config doesn't support --minilibs.
 sed -i 's:--minilibs:--libs:g' configure
