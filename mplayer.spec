@@ -37,6 +37,7 @@
 %bcond_without	smb		# disable Samba (SMB) input support
 %bcond_without	theora		# without theora support
 %bcond_without	win32		# without win32 codecs support
+%bcond_without	vdpau		# disable vdpau
 %bcond_without	vidix		# disable vidix
 %bcond_without	vorbis		# without Ogg-Vorbis audio support
 %bcond_without	xvid		# disable XviD codec
@@ -44,7 +45,7 @@
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	shared		# experimental libmplayer.so support
-%bcond_with	amr		# enable 3GPP Adaptive Multi Rate (AMR) speech codec support
+%bcond_with	amr		# enable Adaptive Multi Rate (AMR) speech codec support
 %bcond_without	gnomess		# disable controling gnome screensaver
 %bcond_without	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
 %bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
@@ -65,9 +66,9 @@
 %define		_suf	32
 %endif
 
-%define		subver	rc2
-%define		svnver	27725
-%define		rel	21
+%define		subver	rc4
+%define		svnver	29930
+%define		rel	0.1
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -85,8 +86,8 @@ Release:	5.%{subver}_svn%{svnver}.%{rel}
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://distfiles.gentoo.org/distfiles/mplayer-%{version}_%{subver}_p%{svnver}.tar.bz2
-# Source0-md5:	d89e86d9183d1a52a7a754d9a3c74724
+Source0:	mplayer-r%{svnver}.tar.xz
+# Source0-md5:	b3261cc2e8cb2240131e58e0ce734f8a
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -95,13 +96,12 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 Source7:	%{name}.png
 Source8:	%{name}.desktop
 # http://www.on2.com/gpl/mplayer/
-Source9:	http://support.on2.com/gpl/mplayer/2008-11-25-mencoder-on2flixenglinux.tar.bz2
-# Source9-md5:	7dd9c22d9d7207c0b42fa530b4f3fc5d
+Source9:	http://support.on2.com/gpl/mplayer/2009-10-08-mencoder-on2flixenglinux.tar.bz2
+# Source9-md5:	07774a2663a8fda07c308df0c6569b56
 Patch1:		%{name}-cp1250-fontdesc.patch
 #Patch2:		%{name}-codec.patch
 #Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
-Patch5:		%{name}-configure.patch
 # outdated via ffmpeg?
 Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
@@ -127,8 +127,7 @@ BuildRequires:	OpenGL-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %if %{with amr}
-BuildRequires:	amrnb-devel
-BuildRequires:	amrwb-devel >= 5.3.0
+BuildRequires:	opencore-amr
 %endif
 %{?with_arts:BuildRequires:	artsc-devel}
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
@@ -169,6 +168,7 @@ BuildRequires:	libpng-devel
 # tremor is used by default, internal as we don't have system one
 #%{?with_vorbis:BuildRequires:	libvorbis-devel}
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20081023_2245.1}
+%{?with_vdpau:BuildRequires:	libvdpau-devel}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live-devel}
@@ -303,13 +303,12 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-%setup -q -n mplayer-%{version}_%{subver}_p%{svnver} -a3 -a6 -a9
+%setup -q -n mplayer-r%{svnver} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch1 -p0
 #%%patch2 -p1 -- still needed?
 ##%%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
-%patch5 -p1
 #%%patch6 -p1 # - try ffmpeg
 %patch8 -p1
 #%%patch10 -p1
@@ -325,12 +324,10 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # on2flix
 mv mencoder-on2flixenglinux{-*-*-*,}
-cp -a mencoder-on2flixenglinux/patch/new_files/libmpdemux/* libmpdemux
-#rm -f mencoder-on2flixenglinux/patch/version.diff
-%patch19 -p1
-for a in mencoder-on2flixenglinux/patch/*.diff; do
-	patch -p0 < $a
-done
+#cp -a mencoder-on2flixenglinux/patch/new_files/libmpdemux/* libmpdemux
+#for a in mencoder-on2flixenglinux/patch/*.diff; do
+#	patch -p0 < $a
+#done
 
 %{?with_system_ffmpeg:%patch22 -p1}
 %patch24 -p0
@@ -340,38 +337,42 @@ done
 %patch28 -p1
 %endif
 
+# sparky: works again ?
 # recent dvdnav-config doesn't support --minilibs.
-sed -i 's:--minilibs:--libs:g' configure
+#sed -i 's:--minilibs:--libs:g' configure
 
 # Set version #
-echo %{svnver} > svn_snapshot_id
+%if "x%{svnver}" != "x%{nil}"
+	echo "SVN-r%{svnver}" > VERSION
+%endif
 
-sed -e '/Delete this default/d' etc/example.conf > etc/mplayer.conf
-rm -f font-*/runme
+cat etc/example.conf > etc/mplayer.conf
 
 %if %{with system_ffmpeg}
 # using external ffmpeg, but mplayer adds these to includepath
-rm -rf libavcodec libavdevice libavformat libavutil libpostproc libswscale
+rm -r libavcodec libavdevice libavformat libavutil libpostproc libswscale
 %endif
 
+# hot fixes
+sed 's/STREAM_NONCACHEABLE/STREAM_NON_CACHEABLE/' -i stream/stream_live555.c
+sed 's/=MAX(/=FFMAX(/' -i libmpcodecs/vf_expand.c
+
 %build
-%if %{with shared}
-CFLAGS="%{rpmcflags} -fPIC"
-%else
-CFLAGS="%{rpmcflags}"
-%endif
-CC="%{__cc}"
-LDFLAGS="%{rpmldflags}"
-export CC CFLAGS LDFLAGS
+CFLAGS="%{rpmcflags} %{?with_shared:-fPIC}"
+CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb}"
+%{?with_live:CFLAGS="$CFLAGS -I/usr/include/liveMedia"}
+
 
 build() {
 set -x
+
 	./configure \
 	%{?debug:--enable-debug=3} \
 	--prefix=%{_prefix} \
 	--confdir=%{_sysconfdir}/mplayer \
-	--with-extraincdir=%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb} \
-	--with-extralibdir=%{?_x_libraries}%{!?_x_libraries:%{_libdir}} \
+	--cc="%{__cc}" \
+	--extra-cflags="$CFLAGS" \
+	--extra-ldflags="%{rpmldflags} %{?_x_libraries:-L%{_x_libraries}}" \
 %if %{with system_ffmpeg}
 	--disable-libavutil_a \
 	--disable-libavcodec_a \
@@ -395,13 +396,11 @@ set -x
 %ifarch ppc
 	%{!?with_altivec:--disable-altivec} \
 %endif
-	%{!?with_amr:--disable-libamr_nb --disable-libamr_wb} \
-	%{?with_amr:--enable-libamr_nb --enable-libamr_wb} \
-	%{?with_directfb:--enable-directfb} \
-	%{!?with_directfb:--disable-directfb} \
+	%{!?with_amr:--disable-libopencore_amrnb --disable-libopencore_amrwb} \
+	%{?with_amr:--enable-libopencore_amrnb --enable-libopencore_amrwb} \
+	--%{?with_directfb:--en}%{!?with_directfb:dis}able-directfb \
 	%{!?with_dxr3:--disable-dxr3} \
 	%{!?with_ggi:--disable-ggi} \
-	%{?with_live:--with-extraincdir=/usr/include/liveMedia} \
 	%{!?with_live:--disable-live} \
 	%{!?with_lzo:--disable-liblzo} \
 	%{!?with_nas:--disable-nas} \
@@ -437,6 +436,7 @@ set -x
 	%{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
 	%{!?with_xvid:--disable-xvid} \
 	%{!?with_vidix:--disable-vidix} \
+	%{!?with_vdpau:--disable-vdpau} \
 	%{!?with_mencoder:--disable-mencoder} \
 	--enable-dga1 \
 	--enable-dga2 \
@@ -521,7 +521,7 @@ install DOCS/man/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 install DOCS/man/it/*.1 $RPM_BUILD_ROOT%{_mandir}/it/man1
 install DOCS/man/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
 #install DOCS/man/sv/*.1 $RPM_BUILD_ROOT%{_mandir}/sv/man1
-install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
+#install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -585,7 +585,7 @@ umask 022
 %lang(it) %{_mandir}/it/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 #%lang(sv) %{_mandir}/sv/man1/*
-%lang(zh_CN) %{_mandir}/zh_CN/man1/*
+#%lang(zh_CN) %{_mandir}/zh_CN/man1/*
 %{_desktopdir}/mplayer.desktop
 %{_pixmapsdir}/mplayer.png
 %dir %{_datadir}/%{name}
