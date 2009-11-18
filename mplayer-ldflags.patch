@@ -1,0 +1,59 @@
+--- mplayer-r29930/configure~	2009-11-18 23:39:45.454305454 +0100
++++ mplayer-r29930/configure	2009-11-18 23:57:29.464192117 +0100
+@@ -481,7 +481,8 @@
+ 
+ Use these options if autodetection fails:
+   --extra-cflags=FLAGS        extra CFLAGS
+-  --extra-ldflags=FLAGS       extra LDFLAGS
++  --real-ldflags=FLAGS        LDFLAGS
++  --extra-ldflags=FLAGS       extra LIBS !
+   --extra-libs=FLAGS          extra linker flags
+   --extra-libs-mplayer=FLAGS  extra linker flags for MPlayer
+   --extra-libs-mencoder=FLAGS extra linker flags for MEncoder
+@@ -819,6 +820,9 @@
+   --extra-cflags=*)
+     extra_cflags=$(echo $ac_option | cut -d '=' -f 2-)
+     ;;
++  --real-ldflags=*)
++    real_ldflags=$(echo $ac_option | cut -d '=' -f 2-)
++    ;;
+   --extra-ldflags=*)
+     extra_ldflags=$(echo $ac_option | cut -d '=' -f 2-)
+     ;;
+@@ -8000,7 +8000,7 @@
+ int main(void) { return 0; }
+ EOF
+ if cc_check -Wl,-z,noexecstack ; then
+-  extra_ldflags="-Wl,-z,noexecstack $extra_ldflags"
++  real_ldflags="-Wl,-z,noexecstack $real_ldflags"
+   echores "yes"
+ else
+   echores "no"
+@@ -8217,6 +8221,7 @@
+ CFLAGS_TREMOR_LOW = $cflags_tremor_low
+ YASMFLAGS = $YASMFLAGS
+ 
++LDFLAGS = $real_ldflags
+ EXTRALIBS = $extra_ldflags $_ld_static $_ld_lm $extra_libs
+ EXTRALIBS_MPLAYER = $libs_mplayer
+ EXTRALIBS_MENCODER = $libs_mencoder
+--- mplayer-r29930/Makefile~	2009-11-17 23:59:50.000000000 +0100
++++ mplayer-r29930/Makefile	2009-11-19 00:07:17.952054067 +0100
+@@ -838,7 +838,7 @@
+ mplayer$(EXESUF): $(MPLAYER_DEPS)
+ mplayer$(EXESUF): EXTRALIBS += $(EXTRALIBS_MPLAYER)
+ mencoder$(EXESUF) mplayer$(EXESUF):
+-	$(CC) -o $@ $^ $(EXTRALIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(EXTRALIBS)
+ 
+ codec-cfg$(EXESUF): codec-cfg.c help_mp.h
+ 	$(HOST_CC) -O -DCODECS2HTML -I. -o $@ $<
+@@ -1045,7 +1045,7 @@
+ TOOLS/netstream$(EXESUF): TOOLS/netstream.c
+ TOOLS/vivodump$(EXESUF): TOOLS/vivodump.c
+ TOOLS/netstream$(EXESUF) TOOLS/vivodump$(EXESUF): $(subst mplayer.o,mplayer-nomain.o,$(OBJS_MPLAYER)) $(filter-out %mencoder.o,$(OBJS_MENCODER)) $(OBJS_COMMON) $(COMMON_LIBS)
+-	$(CC) $(CFLAGS) -o $@ $^ $(EXTRALIBS_MPLAYER) $(EXTRALIBS_MENCODER) $(EXTRALIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(EXTRALIBS_MPLAYER) $(EXTRALIBS_MENCODER) $(EXTRALIBS)
+ 
+ REAL_SRCS    = $(wildcard TOOLS/realcodecs/*.c)
+ REAL_TARGETS = $(REAL_SRCS:.c=.so.6.0)
