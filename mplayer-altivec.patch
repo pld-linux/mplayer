@@ -1,28 +1,38 @@
---- mplayer-1.0_rc2_p27725/configure~	2008-11-23 19:53:55.000000000 +0200
-+++ mplayer-1.0_rc2_p27725/configure	2008-11-23 20:03:15.844840283 +0200
-@@ -1173,6 +1173,7 @@
- _vstream=auto
- _pthreads=yes
+--- mplayer/configure.orig	2009-11-17 23:59:50.000000000 +0100
++++ mplayer/configure	2009-11-18 02:23:19.760319977 +0100
+@@ -742,6 +742,7 @@
+ _w32threads=auto
+ _ass=auto
  _rpath=no
 +_disable_altivec=no
  _asmalign_pot=auto
- for ac_option do
-   case "$ac_option" in
-@@ -1483,7 +1484,7 @@
-   --enable-3dnowex) _3dnow=yes _3dnowex=yes ;;
-   --disable-3dnowex) _3dnowex=no ;;
+ _stream_cache=yes
+ _priority=no
+@@ -1315,7 +1316,7 @@
+   --enable-fast-cmov) _fast_cmov=yes ;;
+   --disable-fast-cmov) _fast_cmov=no ;;
    --enable-altivec) _altivec=yes ;;
 -  --disable-altivec) _altivec=no ;;
 +  --disable-altivec) _altivec=no; _disable_altivec=yes ;;
    --enable-armv5te) _armv5te=yes ;;
    --disable-armv5te) _armv5te=no ;;
-   --enable-iwmmxt) _iwmmxt=yes ;;
-@@ -2391,7 +2391,7 @@
- 
+   --enable-armv6) _armv6=yes ;;
+@@ -2639,15 +2640,15 @@
  
  #FIXME: This should happen before the check for CFLAGS..
+ def_altivec_h='#define HAVE_ALTIVEC_H 0'
 -if ppc && ( test "$_altivec" = yes || test "$_runtime_cpudetection" = yes ) ; then
-+if ppc && ( test "$_altivec" = yes || test "$_runtime_cpudetection" = yes) && test "$_disable_altivec" != "yes"; then
++if ppc && ( test "$_altivec" = yes || test "$_runtime_cpudetection" = yes ) && test "$_disable_altivec" != "yes"; then
  
      # check if AltiVec is supported by the compiler, and how to enable it
      echocheck "GCC AltiVec flags"
+     cat > $TMPC << EOF
+ int main(void) { return 0; }
+ EOF
+-    if $(cc_check -maltivec -mabi=altivec) ; then
+-    _altivec_gcc_flags="-maltivec -mabi=altivec"
++    if $(cc_check -maltivec) ; then
++    _altivec_gcc_flags="-maltivec"
+     # check if <altivec.h> should be included
+     cat > $TMPC << EOF
+ #include <altivec.h>
