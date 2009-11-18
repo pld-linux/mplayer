@@ -103,17 +103,10 @@ Source8:	%{name}.desktop
 Source9:	http://support.on2.com/gpl/mplayer/2009-10-08-mencoder-on2flixenglinux.tar.bz2
 # Source9-md5:	07774a2663a8fda07c308df0c6569b56
 Patch1:		%{name}-cp1250-fontdesc.patch
-#Patch2:		%{name}-codec.patch
-#Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-350.patch
-# outdated via ffmpeg?
-Patch6:		%{name}-system-amr.patch
 Patch8:		%{name}-altivec.patch
-#Patch10:	%{name}-pcmsplit.patch
-#Patch13:	%{name}-mythtv.patch
+# TODO, but ldflags first
 Patch14:	%{name}-shared.patch
-#http://www.openchrome.org/snapshots/mplayer/
-#Patch15:	%{name}-xvmc.patch
 Patch17:	%{name}-auto-expand.patch
 # update
 #Patch18:	%{name}-gnome-screensaver.patch
@@ -311,17 +304,12 @@ MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 %setup -q -n mplayer-r%{svnver} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch1 -p0
-#%%patch2 -p1 -- still needed?
-##%%patch3 -p1	-- old home_etc behavior
 %patch4 -p1
-#%%patch6 -p1 # - try ffmpeg
 %patch8 -p1
-#%%patch10 -p1
 #%%patch13 -p1	# TODO
 %if %{with shared}
 %patch14 -p1
 %endif
-#%%patch15 -p0	# TODO
 %patch17 -p1
 %if %{with gnomess}
 #%%patch18 -p1
@@ -360,7 +348,6 @@ rm -r libavcodec libavdevice libavformat libavutil libpostproc libswscale
 
 # hot fixes
 sed 's/STREAM_NONCACHEABLE/STREAM_NON_CACHEABLE/' -i stream/stream_live555.c
-sed 's/=MAX(/=FFMAX(/' -i libmpcodecs/vf_expand.c
 
 %build
 CFLAGS="%{rpmcflags} %{?with_shared:-fPIC}"
@@ -456,11 +443,11 @@ set -x
 	--enable-xmga \
 	--enable-xv \
 	--enable-xvmc \
+	--with-xvmclib=XvMCW \
 	--enable-dynamic-plugins \
 	--enable-largefiles \
 	--language=all \
 	--codecsdir=%{_libdir}/codecs \
-	--with-xvmclib=XvMCW \
 	"$@"
 
 	%{__make}
