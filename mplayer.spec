@@ -102,20 +102,29 @@ Source8:	%{name}.desktop
 # http://www.on2.com/gpl/mplayer/
 Source9:	http://support.on2.com/gpl/mplayer/2009-10-08-mencoder-on2flixenglinux.tar.bz2
 # Source9-md5:	07774a2663a8fda07c308df0c6569b56
-Patch1:		%{name}-cp1250-fontdesc.patch
-Patch4:		%{name}-350.patch
-Patch8:		%{name}-altivec.patch
-# TODO, but ldflags first
-Patch14:	%{name}-shared.patch
-Patch17:	%{name}-auto-expand.patch
+
+# build (configure / Makefile) related:
+Patch10:	%{name}-ldflags.patch
+Patch11:	%{name}-altivec.patch
+Patch12:	%{name}-check-byteswap.patch
+Patch13:	%{name}-ffmpeg.patch
+Patch14:	%{name}-shared_live.patch
+# TODO
+Patch15:	%{name}-shared.patch
+
+# codecs, outputs, demuxers:
+Patch20:	%{name}-auto-expand.patch
+Patch21:	%{name}-release_directfb.patch
+
+# goodies:
+Patch30:	%{name}-cp1250-fontdesc.patch
+Patch31:	%{name}-fontconfig_sub.patch
+Patch32:	%{name}-350.patch
 # update
-#Patch18:	%{name}-gnome-screensaver.patch
-Patch19:	%{name}-on2flix.patch
-Patch22:	%{name}-ffmpeg.patch
-Patch24:	%{name}-fontconfig_sub.patch
-Patch26:	%{name}-check-byteswap.patch
-Patch27:	%{name}-release_directfb.patch
-Patch28:	%{name}-shared_live.patch
+#Patch33:	%{name}-gnome-screensaver.patch
+
+Patch100:	%{name}-on2flix.patch
+
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
 BuildRequires:	OpenAL-devel
@@ -303,38 +312,38 @@ MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 %prep
 %setup -q -n mplayer-r%{svnver} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
-%patch1 -p0
-%patch4 -p1
-%patch8 -p1
-#%%patch13 -p1	# TODO
-%if %{with shared}
-%patch14 -p1
-%endif
-%patch17 -p1
-%if %{with gnomess}
-#%%patch18 -p1
-%endif
+
+# build (configure / Makefile) related:
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%{?with_system_ffmpeg:%patch13 -p1}
+%{?with_live:%patch14 -p1}
+%{?with_shared:%patch15 -p1}
+
+# codecs, outputs, demuxers:
+%patch20 -p1
+%patch21 -p1
+
+# goodies:
+%patch30 -p0
+%patch31 -p0
+%patch32 -p1
+#%{with_gnomess:%patch18 -p1}
 
 # on2flix
 mv mencoder-on2flixenglinux{-*-*-*,}
+#%%patch100 -p1
 #cp -a mencoder-on2flixenglinux/patch/new_files/libmpdemux/* libmpdemux
 #for a in mencoder-on2flixenglinux/patch/*.diff; do
 #	patch -p0 < $a
 #done
 
-%{?with_system_ffmpeg:%patch22 -p1}
-%patch24 -p0
-%patch26 -p1
-%patch27 -p1
-%if %{with live}
-%patch28 -p1
-%endif
-
 # sparky: works again ?
 # recent dvdnav-config doesn't support --minilibs.
 #sed -i 's:--minilibs:--libs:g' configure
 
-# Set version #
+# Set version
 %if "x%{svnver}" != "x%{nil}"
 	echo "SVN-r%{svnver}" > VERSION
 %endif
@@ -364,7 +373,8 @@ set -x
 	--confdir=%{_sysconfdir}/mplayer \
 	--cc="%{__cc}" \
 	--extra-cflags="$CFLAGS" \
-	--extra-ldflags="%{rpmldflags} %{?_x_libraries:-L%{_x_libraries}}" \
+	--real-ldflags="%{rpmldflags}" \
+	--extra-ldflags="%{?_x_libraries:-L%{_x_libraries}}" \
 %if %{with system_ffmpeg}
 	--disable-libavutil_a \
 	--disable-libavcodec_a \
