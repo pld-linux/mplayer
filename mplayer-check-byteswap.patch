@@ -12,9 +12,9 @@
 +_byteswap=no
 +cc_check && _byteswap=yes
 +if cc_check ; then
-+  _def_byteswap='#define HAVE_BYTESWAP_H 1'
++  def_byteswap='#define HAVE_BYTESWAP_H 1'
 +else
-+  _def_byteswap='#undef HAVE_BYTESWAP_H'
++  def_byteswap='#undef HAVE_BYTESWAP_H'
 +fi
 +echores "$_byteswap"
 +
@@ -22,13 +22,11 @@
  echocheck "mman.h"
  cat > $TMPC << EOF
  #include <sys/types.h>
-@@ -7949,6 +7964,9 @@
- /* Define this if your system has the "alloca.h" header file */
- $_def_alloca
- 
-+/* yes, we have byteswap.h */
-+$_def_byteswap
-+
- /* Define this if your system has the "sys/mman.h" header file */
- $_def_mman
- $_def_mman_has_map_failed
+@@ -8568,6 +8568,7 @@
+ $def_alsa_asoundlib_h
+ $def_altivec_h
+ $def_malloc_h
++$def_byteswap
+ $def_mman_h
+ $def_mman_has_map_failed
+ $def_soundcard_h
