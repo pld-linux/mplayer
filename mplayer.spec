@@ -50,6 +50,10 @@
 %bcond_without	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
 %bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
 
+%if %{with alsa}
+%undefine	with_select
+%endif
+
 %ifnarch %{ix86}
 %undefine	with_win32
 %undefine	with_quicktime
@@ -177,6 +181,7 @@ BuildRequires:	libxslt-progs
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
+BuildRequires:	rpmbuild(macros) >= 1.527
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{?with_xmms:BuildRequires:	xmms-libs}
@@ -392,61 +397,59 @@ set -x
 	--disable-sse2 \
 	--disable-fastmemcpy \
 %endif
-	%{!?with_ssse3:--disable-ssse3} \
+	%{__disable ssse3} \
 %ifarch ppc
-	%{!?with_altivec:--disable-altivec} \
+	%{__disable altivec} \
 %endif
-	%{!?with_amr:--disable-libopencore_amrnb --disable-libopencore_amrwb} \
-	%{?with_amr:--enable-libopencore_amrnb --enable-libopencore_amrwb} \
-	--%{?with_directfb:--en}%{!?with_directfb:dis}able-directfb \
-	%{!?with_dxr3:--disable-dxr3} \
-	%{!?with_ggi:--disable-ggi} \
-	%{!?with_live:--disable-live} \
-	%{!?with_lzo:--disable-liblzo} \
-	%{!?with_nas:--disable-nas} \
-	%{!?with_svga:--disable-svga} \
-	%{!?with_aalib:--disable-aa} \
-	%{!?with_jack:--disable-jack} \
-	%{!?with_alsa:--disable-alsa} \
-	%{?with_alsa:--enable-alsa --disable-select} \
-	%{!?with_arts:--disable-arts} \
-	%{!?with_caca:--disable-caca} \
-	%{!?with_cdparanoia:--disable-cdparanoia} \
-	%{!?with_enca:--disable-enca} \
-	%{!?with_esd:--disable-esd} \
-	%{!?with_faad:--disable-faad-external --disable-faad-internal} \
-	%{?with_faad:--disable-faad-internal} \
-	%{!?with_gif:--disable-gif} \
-	%{?with_joystick:--enable-joystick} \
-	%{!?with_libdv:--disable-libdv} \
-	%{!?with_libdts:--disable-libdts} \
-	--%{?with_lirc:en}%{!?with_lirc:dis}able-lirc \
-	%{!?with_mad:--disable-mad} \
-	%{!?with_pulseaudio:--disable-polyp} \
-	%{!?with_quicktime:--disable-qtx} \
-	%{!?with_real:--disable-real} \
-	--%{?with_runtime:en}%{!?with_runtime:dis}able-runtime-cpudetection \
-	%{!?with_select:--disable-select} \
-	%{!?with_smb:--disable-smb} \
-	%{!?with_win32:--disable-win32dll} \
-	%{!?with_vorbis:--disable-vorbis} \
-	%{?with_osd:--enable-menu} \
-	%{!?with_theora:--disable-theora} \
-	%{!?with_x264:--disable-x264} \
+	%{__enable_disable amr libopencore_amrnb} %{__enable_disable amr libopencore_amrwb} \
+	%{__enable_disable directfb} \
+	%{__disable dxr3} \
+	%{__disable ggi} \
+	%{__disable live} \
+	%{__disable lzo liblzo} \
+	%{__disable nas} \
+	%{__disable svga} \
+	%{__disable aalib aa} \
+	%{__disable jack} \
+	%{__enable_disable alsa} \
+	%{__disable arts} \
+	%{__disable caca} \
+	%{__disable cdparanoia} \
+	%{__disable enca} \
+	%{__disable esd} \
+	--disable-faad-internal \
+	%{__disable faad} \
+	%{__disable gif} \
+	%{__enable joystick} \
+	%{__disable libdv} \
+	%{__disable libdts libdca} \
+	%{__enable_disable lirc} \
+	%{__disable mad} \
+	%{__disable pulseaudio pulse} \
+	%{__disable quicktime qtx} \
+	%{__disable real} \
+	%{__enable_disable runtime runtime-cpudetection} \
+	%{__disable select} \
+	%{__disable smb} \
+	%{__disable win32 win32dll} \
+	%{__disable vorbis libvorbis} \
+	%{__enable osd menu} \
+	%{__disable theora} \
+	%{__disable x264} \
 	%{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
-	%{!?with_xvid:--disable-xvid} \
-	%{!?with_vidix:--disable-vidix} \
-	%{!?with_vdpau:--disable-vdpau} \
-	%{!?with_mencoder:--disable-mencoder} \
+	%{__disable xvid} \
+	%{__disable vidix} \
+	%{__disable vdpau} \
+	%{__disable mencoder} \
 	--enable-dga1 \
 	--enable-dga2 \
-	--%{!?with_dvdnav:dis}%{?with_dvdnav:en}able-dvdnav \
+	%{__enable_disable dvdnav} \
 	--enable-fbdev \
 	--enable-gl \
 	--enable-mga \
 	--enable-radio \
 	--enable-radio-capture \
-	--%{?with_sdl:en}%{!?with_sdl:dis}able-sdl \
+	%{__enable_disable sdl} \
 	--enable-tdfxfb \
 	--enable-vm \
 	--enable-x11 \
@@ -482,7 +485,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
 	$RPM_BUILD_ROOT%{_mandir}/{cs,de,es,fr,hu,it,pl,sv,zh_CN,}/man1 \
-	$RPM_BUILD_ROOT%{_datadir}/mplayer/skins \
+	$RPM_BUILD_ROOT%{_datadir}/%{name}/skins \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
 # default config files
@@ -505,9 +508,9 @@ cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
 
 %if %{with gui}
-touch $RPM_BUILD_ROOT%{_datadir}/%{name}/skins/default
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 %endif
+touch $RPM_BUILD_ROOT%{_datadir}/%{name}/skins/default
 install %{SOURCE8} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE7} $RPM_BUILD_ROOT%{_pixmapsdir}
 
