@@ -1,17 +1,15 @@
 --- ./configure.org	2009-07-18 20:21:38.732115145 +0200
 +++ ./configure	2009-07-18 20:26:09.698517432 +0200
-@@ -6379,12 +6379,8 @@ EOF
-   for I in $_inc_extra "-I$_libdir/live" "-I/usr/lib/live" "-I/usr/local/live" "-I/usr/local/lib/live" ; do
+@@ -6913,11 +6913,7 @@
+   for I in $extra_cflags "-I$_libdir/live" "-I/usr/lib/live" "-I/usr/lib64/live" "-I/usr/local/live" "-I/usr/local/lib/live" ; do
      cxx_check $I/liveMedia/include $I/UsageEnvironment/include \
-       $I/groupsock/include && _livelibdir=`echo $I| sed s/-I//` && \
--      _ld_extra="$_livelibdir/liveMedia/libliveMedia.a \
+       $I/groupsock/include && _livelibdir=$(echo $I| sed s/-I//) && \
+-      extra_ldflags="$_livelibdir/liveMedia/libliveMedia.a \
 -                 $_livelibdir/groupsock/libgroupsock.a \
 -                 $_livelibdir/UsageEnvironment/libUsageEnvironment.a \
 -                 $_livelibdir/BasicUsageEnvironment/libBasicUsageEnvironment.a \
--                 $_ld_extra  -lstdc++" \
--      _inc_extraxx="-I$_livelibdir/liveMedia/include \
-+	_ld_extra="$_ld_extra -lliveMedia -lgroupsock -lUsageEnvironment -lBasicUsageEnvironment -lstdc++"
-+	_inc_extraxx="-I$_livelibdir/liveMedia/include \
+-                 $extra_ldflags  -lstdc++" \
++      extra_ldflags="-lliveMedia -lgroupsock -lUsageEnvironment -lBasicUsageEnvironment $extra_ldflags -lstdc++" && \
+       extra_cxxflags="-I$_livelibdir/liveMedia/include \
                    -I$_livelibdir/UsageEnvironment/include \
                    -I$_livelibdir/BasicUsageEnvironment/include \
-                   -I$_livelibdir/groupsock/include" && \
