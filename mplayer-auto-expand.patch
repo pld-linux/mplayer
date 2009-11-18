@@ -6,14 +6,14 @@ diff -urN MPlayer-1.0pre8.orig/libmpcodecs/vf_expand.c MPlayer-1.0pre8/libmpcode
  #else
      if ( vf->priv->exp_w == -1 ) vf->priv->exp_w=width;
 -      else if (vf->priv->exp_w < -1 ) vf->priv->exp_w=width - vf->priv->exp_w;
-+    else if ( vf->priv->exp_w == -2 ) vf->priv->exp_w=MAX(width, height*4.0/3);
-+    else if ( vf->priv->exp_w == -3 ) vf->priv->exp_w=MAX(width, height*16.0/9);
++    else if ( vf->priv->exp_w == -2 ) vf->priv->exp_w=FFMAX(width, height*4.0/3);
++    else if ( vf->priv->exp_w == -3 ) vf->priv->exp_w=FFMAX(width, height*16.0/9);
 +      else if (vf->priv->exp_w < -3 ) vf->priv->exp_w=width - vf->priv->exp_w;
          else if ( vf->priv->exp_w<width ) vf->priv->exp_w=width;
      if ( vf->priv->exp_h == -1 ) vf->priv->exp_h=height;
 -      else if ( vf->priv->exp_h < -1 ) vf->priv->exp_h=height - vf->priv->exp_h;
-+    else if ( vf->priv->exp_h == -2 ) vf->priv->exp_h=MAX(height, width*3.0/4);
-+    else if ( vf->priv->exp_h == -3 ) vf->priv->exp_h=MAX(height, width*9.0/16);
++    else if ( vf->priv->exp_h == -2 ) vf->priv->exp_h=FFMAX(height, width*3.0/4);
++    else if ( vf->priv->exp_h == -3 ) vf->priv->exp_h=FFMAX(height, width*9.0/16);
 +      else if ( vf->priv->exp_h < -3 ) vf->priv->exp_h=height - vf->priv->exp_h;
          else if( vf->priv->exp_h<height ) vf->priv->exp_h=height;
  #endif
