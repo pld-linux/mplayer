@@ -12,9 +12,9 @@
 +_byteswap=no
 +cc_check && _byteswap=yes
 +if cc_check ; then
-+  def_byteswap='#define HAVE_BYTESWAP_H 1'
++  def_byteswap_h='#define HAVE_BYTESWAP_H 1'
 +else
-+  def_byteswap='#undef HAVE_BYTESWAP_H'
++  def_byteswap_h='#undef HAVE_BYTESWAP_H'
 +fi
 +echores "$_byteswap"
 +
@@ -26,7 +26,7 @@
  $def_alsa_asoundlib_h
  $def_altivec_h
  $def_malloc_h
-+$def_byteswap
++$def_byteswap_h
  $def_mman_h
  $def_mman_has_map_failed
  $def_soundcard_h
