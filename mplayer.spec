@@ -6,7 +6,7 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_without	osd		# with osd menu support
 %bcond_without	altivec		# without altivec support
-%bcond_without	x264		# without x264 support
+%bcond_with	x264		# without x264 support
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -72,7 +72,7 @@
 
 %define		subver	rc4
 %define		svnver	29930
-%define		rel	0.4
+%define		rel	0.5
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -132,21 +132,19 @@ BuildRequires:	OpenGL-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.1.7}
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
-%if %{with amr}
-BuildRequires:	opencore-amr
-%endif
 %{?with_arts:BuildRequires:	artsc-devel}
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
 %{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_doc:BuildRequires:	docbook-dtd412-xml}
+BuildRequires:	dirac-devel
 %{?with_dxr3:BuildRequires:	em8300-devel}
 %{?with_enca:BuildRequires:	enca-devel}
 %{?with_esd:BuildRequires:	esound-devel}
 BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
 %{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-4.20081024.3}
-BuildRequires:	freetype-devel
+BuildRequires:	freetype-devel >= 2.0.9
 BuildRequires:	fribidi-devel
 %{?with_vidix:BuildRequires:	vidix-devel}
 %ifarch ppc
@@ -162,18 +160,19 @@ BuildRequires:	gtk+2-devel
 BuildRequires:	lame-libs-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
-%{?with_libdv:BuildRequires:	libdv-devel}
+%{?with_libdv:BuildRequires:	libdv-devel > 0.9.5}
 %{?with_dvdnav:BuildRequires:	libdvdnav-devel >= 4.1.3}
 %{?with_ggi:BuildRequires:	libggi-devel}
 BuildRequires:	libjpeg-devel
 %{?with_mad:BuildRequires:	libmad-devel}
+BuildRequires:	libmng-devel
 BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 # tremor is used by default, internal as we don't have system one
 #%{?with_vorbis:BuildRequires:	libvorbis-devel}
-%{?with_x264:BuildRequires:	libx264-devel >= 0.1.2-1.20081023_2245.1}
+%{?with_x264:BuildRequires:	libx264-devel >= update-to-build-78}
 %{?with_vdpau:BuildRequires:	libvdpau-devel}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
@@ -181,13 +180,17 @@ BuildRequires:	libxslt-progs
 %{?with_lzo:BuildRequires:	lzo-devel >= 2.0}
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
+%{?with_amr:BuildRequires:	opencore-amr}
 BuildRequires:	pkgconfig
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
 BuildRequires:	rpmbuild(macros) >= 1.527
+BuildRequires:	schroedinger-devel
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
-%{?with_xmms:BuildRequires:	xmms-libs}
+BuildRequires:	twolame-devel
+%{?with_xmms:BuildRequires:	xmms-devel}
 BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXv-devel
@@ -195,6 +198,9 @@ BuildRequires:	xorg-lib-libXvMC-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
+%ifarch %{ix86} %{x8664}
+BuildRequires:	yasm
+%endif
 BuildRequires:	zlib-devel
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
@@ -288,6 +294,7 @@ MPlayer z graficznym interfejsem GTK+.
 Summary:	Configuration files and documentation for MPlayer
 Summary(pl.UTF-8):	Pliki konfiguracyjne i dokumentacja dla MPlayera
 Group:		Applications/Multimedia
+Suggests:	unrar
 Obsoletes:	mplayer-vidix
 
 %description common
@@ -330,7 +337,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch30 -p0
 %patch31 -p0
 %patch32 -p1
-#%{with_gnomess:%patch18 -p1}
+#%{with_gnomess:%patch33 -p1}
 
 # on2flix
 mv mencoder-on2flixenglinux{-*-*-*,}
@@ -340,33 +347,38 @@ mv mencoder-on2flixenglinux{-*-*-*,}
 #	patch -p0 < $a
 #done
 
-# sparky: works again ?
-# recent dvdnav-config doesn't support --minilibs.
-#sed -i 's:--minilibs:--libs:g' configure
-
 # Set version
 %if "x%{svnver}" != "x%{nil}"
 	echo "SVN-r%{svnver}" > VERSION
 %endif
 
 cat etc/example.conf > etc/mplayer.conf
+cat <<'CONFIGADD' >> etc/mplayer.conf
+
+# Standard PLD location
+unrarexec = /usr/bin/unrar
+CONFIGADD
 
 %if %{with system_ffmpeg}
 # using external ffmpeg, but mplayer adds these to includepath
 rm -r libavcodec libavdevice libavformat libavutil libpostproc libswscale
 %endif
 
-# hot fixes
+# *** HOT FIXES ***
+
+# typo, fixed in recent svn
 sed 's/STREAM_NONCACHEABLE/STREAM_NON_CACHEABLE/' -i stream/stream_live555.c
+
+# mjpeg encoder is required for Zoran hardware
+sed '/_libavencoders="MPEG/s/"$/ MJPEG_ENCODER"/' -i configure
 
 %build
 CFLAGS="%{rpmcflags} -fvisibility=hidden %{?with_shared:-fvisibility=default -fPIC}"
 CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb}"
 %{?with_live:CFLAGS="$CFLAGS -I/usr/include/liveMedia"}
 
-
 build() {
-set -x
+	set -x
 
 	./configure \
 	%{?debug:--enable-debug=3} \
@@ -455,6 +467,8 @@ set -x
 	--enable-xv \
 	--enable-xvmc \
 	--with-xvmclib=XvMCW \
+	--enable-zr \
+	--enable-unrarexec \
 	--enable-dynamic-plugins \
 	--enable-largefiles \
 	--language=all \
