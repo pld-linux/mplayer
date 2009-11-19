@@ -6,7 +6,7 @@
 %bcond_with	svga		# with svgalib video output
 %bcond_without	osd		# with osd menu support
 %bcond_without	altivec		# without altivec support
-%bcond_with	x264		# without x264 support
+%bcond_without	x264		# without x264 support
 %bcond_with	xmms		# with XMMS inputplugin support
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
@@ -171,7 +171,7 @@ BuildRequires:	libpng-devel
 %{?with_theora:BuildRequires:	libtheora-devel}
 # tremor is used by default, internal as we don't have system one
 #%{?with_vorbis:BuildRequires:	libvorbis-devel}
-%{?with_x264:BuildRequires:	libx264-devel >= update-to-build-78}
+%{?with_x264:BuildRequires:	libx264-devel >= 0.1.3}
 %{?with_vdpau:BuildRequires:	libvdpau-devel}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
