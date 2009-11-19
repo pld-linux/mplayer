@@ -118,10 +118,9 @@ Patch21:	%{name}-release_directfb.patch
 
 # goodies:
 Patch30:	%{name}-cp1250-fontdesc.patch
-Patch31:	%{name}-fontconfig_sub.patch
-Patch32:	%{name}-350.patch
+Patch31:	%{name}-350.patch
 # update
-#Patch33:	%{name}-gnome-screensaver.patch
+#Patch32:	%{name}-gnome-screensaver.patch
 
 Patch100:	%{name}-on2flix.patch
 
@@ -335,9 +334,8 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # goodies:
 %patch30 -p0
-%patch31 -p0
-%patch32 -p1
-#%{with_gnomess:%patch33 -p1}
+%patch31 -p1
+#%{with_gnomess:%patch32 -p1}
 
 # on2flix
 mv mencoder-on2flixenglinux{-*-*-*,}
@@ -355,8 +353,22 @@ mv mencoder-on2flixenglinux{-*-*-*,}
 cat etc/example.conf > etc/mplayer.conf
 cat <<'CONFIGADD' >> etc/mplayer.conf
 
-# Standard PLD location
-unrarexec = /usr/bin/unrar
+################
+# PLD Defaults #
+################
+[default]
+
+# alternate solution for CP1250-encoded subtitles
+fontconfig = yes
+subcp = cp1250
+
+# ...or if you prefer native bitmap fonts shipped with mplayer
+#fontconfig = no
+#subcp = iso-8859-1
+
+# Standard location
+unrarexec = "%{_bindir}/unrar"
+
 CONFIGADD
 
 %if %{with system_ffmpeg}
