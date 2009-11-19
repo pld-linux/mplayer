@@ -72,7 +72,7 @@
 
 %define		subver	rc4
 %define		svnver	29930
-%define		rel	0.1
+%define		rel	0.4
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -107,10 +107,10 @@ Source9:	http://support.on2.com/gpl/mplayer/2009-10-08-mencoder-on2flixenglinux.
 Patch10:	%{name}-ldflags.patch
 Patch11:	%{name}-altivec.patch
 Patch12:	%{name}-check-byteswap.patch
-Patch13:	%{name}-ffmpeg.patch
-Patch14:	%{name}-shared_live.patch
-# TODO
-Patch15:	%{name}-shared.patch
+Patch13:	%{name}-visibility-hidden-fix.patch
+Patch14:	%{name}-ffmpeg.patch
+Patch15:	%{name}-shared_live.patch
+Patch16:	%{name}-shared.patch
 
 # codecs, outputs, demuxers:
 Patch20:	%{name}-auto-expand.patch
@@ -317,9 +317,10 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
-%{?with_system_ffmpeg:%patch13 -p1}
-%{?with_live:%patch14 -p1}
-%{?with_shared:%patch15 -p1}
+%patch13 -p1
+%{?with_system_ffmpeg:%patch14 -p1}
+%{?with_live:%patch15 -p1}
+%{?with_shared:%patch16 -p1}
 
 # codecs, outputs, demuxers:
 %patch20 -p1
@@ -359,7 +360,7 @@ rm -r libavcodec libavdevice libavformat libavutil libpostproc libswscale
 sed 's/STREAM_NONCACHEABLE/STREAM_NON_CACHEABLE/' -i stream/stream_live555.c
 
 %build
-CFLAGS="%{rpmcflags} %{?with_shared:-fPIC}"
+CFLAGS="%{rpmcflags} -fvisibility=hidden %{?with_shared:-fvisibility=default -fPIC}"
 CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb}"
 %{?with_live:CFLAGS="$CFLAGS -I/usr/include/liveMedia"}
 
@@ -500,6 +501,11 @@ install gmplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer%{_suf}
 ln -sf gmplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
 %endif
 
+%if %{with shared}
+install -d $RPM_BUILD_ROOT%{_libdir}
+install libmplayer.so $RPM_BUILD_ROOT%{_libdir}
+%endif
+
 # fonts
 cp -r font-* $RPM_BUILD_ROOT%{_datadir}/mplayer
 ln -sf font-arial-iso-8859-2/font-arial-24-iso-8859-2 $RPM_BUILD_ROOT%{_datadir}/mplayer/font
@@ -557,6 +563,7 @@ umask 022
 %files common
 %defattr(644,root,root,755)
 %doc DOCS/tech
+%{?with_shared:%attr(755,root,root) %{_libdir}/libmplayer.so}
 %if %{with win32}
 %doc etc/codecs.win32.conf
 %endif
