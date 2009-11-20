@@ -354,7 +354,7 @@ cat etc/example.conf > etc/mplayer.conf
 cat <<'CONFIGADD' >> etc/mplayer.conf
 
 ################
-# PLD Defaults #
+# PLD Linux Defaults #
 ################
 [default]
 
