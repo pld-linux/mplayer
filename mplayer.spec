@@ -40,6 +40,7 @@
 %bcond_without	vdpau		# disable vdpau
 %bcond_without	vidix		# disable vidix
 %bcond_without	vorbis		# without Ogg-Vorbis audio support
+%bcond_with	system_vorbis	# use system libvorbis instead of internal tremor
 %bcond_without	xvid		# disable XviD codec
 %bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
 %bcond_without	sdl		# disable SDL
@@ -49,9 +50,14 @@
 %bcond_without	gnomess		# disable controling gnome screensaver
 %bcond_without	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
 %bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
+%bcond_with	on2		# with patches from On2 Flix Engine for Linux
 
 %if %{with alsa}
 %undefine	with_select
+%endif
+
+%if %{without vorbis}
+%undefine	with_system_vorbis
 %endif
 
 %ifnarch %{ix86}
@@ -119,7 +125,8 @@ Patch21:	%{name}-release_directfb.patch
 # goodies:
 Patch30:	%{name}-cp1250-fontdesc.patch
 Patch31:	%{name}-350.patch
-# update
+# update, hard to fix right now because of gnome bug 579430:
+# https://bugzilla.gnome.org/show_bug.cgi?id=579430
 #Patch32:	%{name}-gnome-screensaver.patch
 
 Patch100:	%{name}-on2flix.patch
@@ -150,9 +157,7 @@ BuildRequires:	fribidi-devel
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
 %{?with_gif:BuildRequires:	giflib-devel}
-%if %{with gui}
-BuildRequires:	gtk+2-devel
-%endif
+%{?with_gui:BuildRequires:	gtk+2-devel}
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 %{?with_jack:%requires_eq	jack-audio-connection-kit-libs}
@@ -169,8 +174,7 @@ BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
-# tremor is used by default, internal as we don't have system one
-#%{?with_vorbis:BuildRequires:	libvorbis-devel}
+%{?with_system_vorbis:BuildRequires:	libvorbis-devel}
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.3}
 %{?with_vdpau:BuildRequires:	libvdpau-devel}
 BuildRequires:	libxslt-progs
@@ -339,23 +343,37 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # on2flix
 mv mencoder-on2flixenglinux{-*-*-*,}
+%if %{with on2}
 #%%patch100 -p1
-#cp -a mencoder-on2flixenglinux/patch/new_files/libmpdemux/* libmpdemux
-#for a in mencoder-on2flixenglinux/patch/*.diff; do
-#	patch -p0 < $a
-#done
+cp -a mencoder-on2flixenglinux/patch/new_files/libmpdemux/* libmpdemux
+# remove broken patches:
+# - first set does not apply
+# - second set beakes build
+for PATCH in	asf-correct_movielength avi_check_idxflags \
+		demux_lavf-add_dv_mts_preferred demux_lavf-probe_small_files \
+		mencoder_07_demux_update_pts mencoder_10_correct_pts \
+		mpegvideo-revert_r18381 \
+		\
+		reduce_spurious_logging
+do
+	rm mencoder-on2flixenglinux/patch/$PATCH.diff
+done
+for a in mencoder-on2flixenglinux/patch/*.diff; do
+	patch -p0 < $a
+done
+%endif
 
 # Set version
 %if "x%{svnver}" != "x%{nil}"
-	echo "SVN-r%{svnver}" > VERSION
+	echo "SVN-r%{svnver}%{?with_on2:-on2}" > VERSION
 %endif
 
 cat etc/example.conf > etc/mplayer.conf
 cat <<'CONFIGADD' >> etc/mplayer.conf
 
-################
+######################
 # PLD Linux Defaults #
-################
+######################
 [default]
 
 # alternate solution for CP1250-encoded subtitles
@@ -454,7 +472,8 @@ build() {
 	%{__disable select} \
 	%{__disable smb} \
 	%{__disable win32 win32dll} \
-	%{__disable vorbis libvorbis} \
+	%{__disable vorbis tremor-internal} --disable-tremor %{__disable vorbis libvorbis} \
+	%{__disable_if system_vorbis tremor-internal} \
 	%{__enable osd menu} \
 	%{__disable theora} \
 	%{__disable x264} \
