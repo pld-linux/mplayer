@@ -46,7 +46,7 @@
 %bcond_without	sdl		# disable SDL
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	shared		# experimental libmplayer.so support
-%bcond_with	amr		# enable Adaptive Multi Rate (AMR) speech codec support
+%bcond_without	amr		# enable Adaptive Multi Rate (AMR) speech codec support
 %bcond_without	gnomess		# disable controling gnome screensaver
 %bcond_without	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
 %bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
@@ -183,7 +183,7 @@ BuildRequires:	libxslt-progs
 %{?with_lzo:BuildRequires:	lzo-devel >= 2.0}
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
-%{?with_amr:BuildRequires:	opencore-amr}
+%{?with_amr:BuildRequires:	opencore-amr-devel}
 BuildRequires:	pkgconfig
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
 BuildRequires:	rpmbuild(macros) >= 1.527
