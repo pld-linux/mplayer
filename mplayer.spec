@@ -1,3 +1,4 @@
+#
 # Conditional build:
 %bcond_with	directfb	# with DirectFB video output
 %bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
@@ -78,7 +79,7 @@
 
 %define		subver	rc4
 %define		svnver	29930
-%define		rel	1
+%define		rel	2
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
