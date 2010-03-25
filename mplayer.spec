@@ -12,7 +12,7 @@
 %bcond_without	aalib		# without aalib video output
 %bcond_without	jack		# without JACKD support
 %bcond_without	alsa		# without ALSA audio output
-%bcond_without	arts		# without arts audio output
+%bcond_with	arts		# with arts audio output
 %bcond_without	caca		# without libcaca video output
 %bcond_without	cdparanoia	# without cdparanoia support
 %bcond_without	dvdnav		# without dvdnav support
@@ -79,7 +79,7 @@
 
 %define		subver	rc4
 %define		svnver	29930
-%define		rel	4
+%define		rel	5
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
