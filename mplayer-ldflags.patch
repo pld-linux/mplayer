@@ -29,13 +29,13 @@
    echores "yes"
  else
    echores "no"
-@@ -8217,6 +8221,7 @@
- CFLAGS_TREMOR_LOW = $cflags_tremor_low
- YASMFLAGS = $YASMFLAGS
+@@ -8463,6 +8463,7 @@
+ CFLAGS_SVGALIB_HELPER    = $cflags_svgalib_helper
+ CFLAGS_TREMOR_LOW        = $cflags_tremor_low
  
-+LDFLAGS = $real_ldflags
- EXTRALIBS = $extra_ldflags $_ld_static $_ld_lm $extra_libs
- EXTRALIBS_MPLAYER = $libs_mplayer
++LDFLAGS            = $real_ldflags
+ EXTRALIBS          = $extra_ldflags $_ld_static $_ld_lm $extra_libs
+ EXTRALIBS_MPLAYER  = $libs_mplayer
  EXTRALIBS_MENCODER = $libs_mencoder
 --- mplayer-r29930/Makefile~	2009-11-17 23:59:50.000000000 +0100
 +++ mplayer-r29930/Makefile	2009-11-19 00:07:17.952054067 +0100

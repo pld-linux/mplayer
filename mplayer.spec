@@ -78,8 +78,8 @@
 %endif
 
 %define		subver	rc4
-%define		svnver	29930
-%define		rel	6
+%define		svnver	31097
+%define		rel	1
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -97,6 +97,8 @@ Release:	5.%{subver}_svn%{svnver}.%{rel}
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
+# svn co svn://svn.mplayerhq.hu/mplayer/trunk mplayer-rXXX
+# tar --exclude-vcs -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
 Source0:	mplayer-r%{svnver}.tar.xz
 # Source0-md5:	b3261cc2e8cb2240131e58e0ce734f8a
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
