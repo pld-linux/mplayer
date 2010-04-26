@@ -100,7 +100,7 @@ Group:		Applications/Multimedia
 # svn co svn://svn.mplayerhq.hu/mplayer/trunk mplayer-rXXX
 # tar --exclude-vcs -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
 Source0:	mplayer-r%{svnver}.tar.xz
-# Source0-md5:	b3261cc2e8cb2240131e58e0ce734f8a
+# Source0-md5:	7e70fb6582890c60329b8fb5f34423d5
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
