@@ -17,7 +17,7 @@
 %bcond_without	cdparanoia	# without cdparanoia support
 %bcond_without	dvdnav		# without dvdnav support
 %bcond_without	enca		# disable using ENCA charset oracle library
-%bcond_without	esd		# disable EsounD sound support
+%bcond_with	esd		# enable EsounD sound support
 %bcond_without	faad		# disable FAAD2 (AAC) support
 %bcond_without	gif		# disable GIF support
 %bcond_without	gui		# without GTK+ GUI
@@ -79,7 +79,7 @@
 
 %define		subver	rc4
 %define		svnver	31097
-%define		rel	1
+%define		rel	2
 
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
