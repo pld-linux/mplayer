@@ -155,6 +155,7 @@ BuildRequires:	faac-devel
 %{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-4.20081024.3}
 BuildRequires:	freetype-devel >= 2.0.9
 BuildRequires:	fribidi-devel
+BuildRequires:	tar >= 1:1.22
 %{?with_vidix:BuildRequires:	vidix-devel}
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
