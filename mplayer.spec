@@ -52,6 +52,11 @@
 %bcond_without	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
 %bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
 %bcond_with	on2		# with patches from On2 Flix Engine for Linux
+%if "%{pld_release}" == "ac"
+%bcond_with		hidden_visibility	# no gcc hidden visibility
+%else
+%bcond_without	hidden_visibility	# no gcc hidden visibility
+%endif
 
 %if %{with alsa}
 %undefine	with_select
@@ -99,7 +104,7 @@ License:	GPL
 Group:		Applications/Multimedia
 # svn co svn://svn.mplayerhq.hu/mplayer/trunk mplayer-rXXX
 # tar --exclude-vcs -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
-Source0:	mplayer-r%{svnver}.tar.xz
+Source0:	%{name}-r%{svnver}.tar.xz
 # Source0-md5:	7e70fb6582890c60329b8fb5f34423d5
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -144,9 +149,9 @@ BuildRequires:	OpenGL-devel
 %{?with_arts:BuildRequires:	artsc-devel}
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
 %{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
-%{?with_doc:BuildRequires:	docbook-style-xsl}
-%{?with_doc:BuildRequires:	docbook-dtd412-xml}
 BuildRequires:	dirac-devel
+%{?with_doc:BuildRequires:	docbook-dtd412-xml}
+%{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_dxr3:BuildRequires:	em8300-devel}
 %{?with_enca:BuildRequires:	enca-devel}
 %{?with_esd:BuildRequires:	esound-devel}
@@ -160,9 +165,9 @@ BuildRequires:	tar >= 1:1.22
 %ifarch ppc
 %{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
 %endif
+%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_gif:BuildRequires:	giflib-devel}
 %{?with_gui:BuildRequires:	gtk+2-devel}
-%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 %{?with_jack:%requires_eq	jack-audio-connection-kit-libs}
 BuildRequires:	lame-libs-devel
@@ -178,9 +183,9 @@ BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
+%{?with_vdpau:BuildRequires:	libvdpau-devel}
 %{?with_system_vorbis:BuildRequires:	libvorbis-devel}
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.3}
-%{?with_vdpau:BuildRequires:	libvdpau-devel}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live-devel}
@@ -190,12 +195,21 @@ BuildRequires:	ncurses-devel
 %{?with_amr:BuildRequires:	opencore-amr-devel}
 BuildRequires:	pkgconfig
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
+BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.527
 BuildRequires:	schroedinger-devel
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	twolame-devel
 %{?with_xmms:BuildRequires:	xmms-devel}
+%{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
+%ifarch %{ix86} %{x8664}
+BuildRequires:	yasm
+%endif
+BuildRequires:	zlib-devel
+%if "%{pld_release}" == "ac"
+BuildRequires:	XFree86-devel >= 4.0.2
+%else
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -204,11 +218,7 @@ BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXvMC-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-%{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
-%ifarch %{ix86} %{x8664}
-BuildRequires:	yasm
 %endif
-BuildRequires:	zlib-devel
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -324,7 +334,7 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-%setup -q -n mplayer-r%{svnver} -a3 -a6 -a9
+%setup -q -n %{name}-r%{svnver} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # build (configure / Makefile) related:
@@ -407,7 +417,7 @@ sed 's/STREAM_NONCACHEABLE/STREAM_NON_CACHEABLE/' -i stream/stream_live555.c
 sed '/_libavencoders="MPEG/s/"$/ MJPEG_ENCODER"/' -i configure
 
 %build
-CFLAGS="%{rpmcflags} -fvisibility=hidden %{?with_shared:-fvisibility=default -fPIC}"
+CFLAGS="%{rpmcflags} %{?with_hidden_visibility:-fvisibility=hidden} %{?with_shared:-fvisibility=default -fPIC}"
 CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb}"
 %{?with_live:CFLAGS="$CFLAGS -I/usr/include/liveMedia"}
 
