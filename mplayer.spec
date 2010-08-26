@@ -76,6 +76,10 @@
 %undefine	with_runtime
 %endif
 
+%ifnarch %{ix86} %{x8664}
+%undefine	with_vdpau
+%endif
+
 %if %{_lib} == "lib64"
 %define		_suf	64
 %else
@@ -84,8 +88,7 @@
 
 %define		subver	rc4
 %define		svnver	31097
-%define		rel	3
-
+%define		rel	4
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
