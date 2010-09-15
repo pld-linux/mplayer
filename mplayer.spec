@@ -80,6 +80,10 @@
 %undefine	with_vdpau
 %endif
 
+%ifnarch ppc
+%undefine	with_altivec
+%endif
+
 %if %{_lib} == "lib64"
 %define		_suf	64
 %else
@@ -165,9 +169,7 @@ BuildRequires:	freetype-devel >= 2.0.9
 BuildRequires:	fribidi-devel
 BuildRequires:	tar >= 1:1.22
 %{?with_vidix:BuildRequires:	vidix-devel}
-%ifarch ppc
-%{?with_altivec:BuildRequires:	gcc >= 5:3.3.2-3}
-%endif
+%{?with_altivec:BuildRequires:	gcc >= 5:4.1}
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_gif:BuildRequires:	giflib-devel}
 %{?with_gui:BuildRequires:	gtk+2-devel}
