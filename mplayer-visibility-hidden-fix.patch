@@ -1,0 +1,57 @@
+--- mplayer-r29930/libdvdread4/dvdread/dvd_reader.h~	2009-11-19 14:23:23.231276231 +0100
++++ mplayer-r29930/libdvdread4/dvdread/dvd_reader.h	2009-11-19 14:25:48.524614054 +0100
+@@ -74,6 +74,8 @@
+  */
+ typedef struct dvd_stat_s dvd_stat_t;
+ 
++#pragma GCC visibility push(default)
++
+ /**
+  * Opens a block device of a DVD-ROM file, or an image file, or a directory
+  * name for a mounted DVD or HD copy of a DVD.
+@@ -305,6 +307,8 @@
+  */
+ int DVDUDFCacheLevel( dvd_reader_t *, int );
+ 
++#pragma GCC visibility pop
++
+ #ifdef __cplusplus
+ };
+ #endif
+--- mplayer-r29930/libdvdread4/dvdread/ifo_read.h~	2009-11-19 14:23:00.545070443 +0100
++++ mplayer-r29930/libdvdread4/dvdread/ifo_read.h	2009-11-19 14:26:19.125441477 +0100
+@@ -29,6 +29,7 @@
+ extern "C" {
+ #endif
+ 
++#pragma GCC visibility push(default)
+ /**
+  * handle = ifoOpen(dvd, title);
+  *
+@@ -226,6 +227,8 @@
+ void ifoFree_TITLE_VOBU_ADMAP(ifo_handle_t *);
+ void ifoFree_TXTDT_MGI(ifo_handle_t *);
+ 
++#pragma GCC visibility pop
++
+ #ifdef __cplusplus
+ };
+ #endif
+--- mplayer-r29930/libdvdread4/dvdread/nav_read.h~	2009-11-18 00:00:29.000000000 +0100
++++ mplayer-r29930/libdvdread4/dvdread/nav_read.h	2009-11-19 14:27:13.724600811 +0100
+@@ -31,6 +31,7 @@
+ extern "C" {
+ #endif
+ 
++#pragma GCC visibility push(default)
+ /**
+  * Reads the PCI packet data pointed to into th pci struct.
+  *
+@@ -46,6 +47,7 @@
+  * @param bufffer Pointer to the buffer of the on disc DSI data.
+  */
+ void navRead_DSI(dsi_t *, unsigned char *);
++#pragma GCC visibility pop
+ 
+ #ifdef __cplusplus
+ };

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=GUI MPlayer
+Comment=The Movie Player for Linux
+Comment[pl]=Odtwarzacz filmów pod Linuksa
+Exec=gmplayer -nofs
+Icon=mplayer
+Terminal=false
+Type=Application
+MimeType=video/3gpp;video/mp4;video/mpeg;video/quicktime;video/x-flic;video/x-matroska;video/x-mng;video/x-ms-asf;video/x-ms-wmp;video/x-ms-wmv;video/x-msvideo;video/x-ogm;video/x-theora;
+Categories=AudioVideo;Player;
+# vi: encoding=utf-8

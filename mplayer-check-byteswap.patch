@@ -1,0 +1,32 @@
+--- MPlayer-1.0rc2/configure~	2008-02-07 13:58:05.000000000 +0200
++++ MPlayer-1.0rc2/configure	2008-02-07 13:58:10.395099351 +0200
+@@ -2998,6 +2998,21 @@
+ echores "$_alloca"
+ 
+ 
++echocheck "byteswap.h"
++cat > $TMPC << EOF
++#include <byteswap.h>
++int main(void) { (void) bswap_16(0); (void) bswap_32(0); (void) bswap_64(0); return 0; }
++EOF
++_byteswap=no
++cc_check && _byteswap=yes
++if cc_check ; then
++  def_byteswap_h='#define HAVE_BYTESWAP_H 1'
++else
++  def_byteswap_h='#undef HAVE_BYTESWAP_H'
++fi
++echores "$_byteswap"
++
++
+ echocheck "mman.h"
+ cat > $TMPC << EOF
+ #include <sys/types.h>
+@@ -8568,6 +8568,7 @@
+ $def_alsa_asoundlib_h
+ $def_altivec_h
+ $def_malloc_h
++$def_byteswap_h
+ $def_mman_h
+ $def_mman_has_map_failed
+ $def_soundcard_h

@@ -1,0 +1,12 @@
+--- mplayer-export-2007-06-26/Makefile~	2007-06-27 00:38:01.436453184 +0300
++++ mplayer-export-2007-06-26/Makefile	2007-06-27 00:38:04.506522197 +0300
+@@ -69,6 +75,9 @@
+ COMMON_LIBS-$(DVDCSS_INTERNAL)    += libdvdcss/libdvdcss.a
+ COMMON_LIBS-$(ASS)                += libass/libass.a
+ 
++# tried -- but more link reference errors occour
++COMMON_LIBS-$(STREAMING_LIVE555)  += /usr/lib/liveMedia/BasicUsageEnvironment/libBasicUsageEnvironment.a /usr/lib/liveMedia/UsageEnvironment/libUsageEnvironment.a /usr/lib/liveMedia/groupsock/libgroupsock.a /usr/lib/liveMedia/liveMedia/libliveMedia.a
++
+ LIBS_MPLAYER = libvo/libvo.a \
+                libao2/libao2.a \
+                input/libinput.a \

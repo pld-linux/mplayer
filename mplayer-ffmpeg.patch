@@ -1,0 +1,42 @@
+--- mplayer-r29930/configure.orig	2010-01-12 22:58:31.541952835 +0100
++++ mplayer-r29930/configure	2010-01-12 23:50:32.521942542 +0100
+@@ -544,19 +544,19 @@
+ _libavcodec_a=auto
+ _libopencore_amrnb=auto
+ _libopencore_amrwb=auto
+-_libavdecoders_all=$(sed -n 's/^[^#]*DEC.*(.*, *\(.*\)).*/\1_decoder/p' libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
++_libavdecoders_all=$(s$ffmpeg_config --decoders || sed -n 's/^[^#]*DEC.*(.*, *\(.*\)).*/\1_decoder/p' libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
+ _libavdecoders=$(echo $_libavdecoders_all | sed -e 's/ LIB[A-Z0-9_]*_DECODER//g' -e s/MPEG4AAC_DECODER//)
+-_libavencoders_all=$(sed -n 's/^[^#]*ENC.*(.*, *\(.*\)).*/\1_encoder/p' libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
++_libavencoders_all=$(s$ffmpeg_config --encoders || sed -n 's/^[^#]*ENC.*(.*, *\(.*\)).*/\1_encoder/p' libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
+ _libavencoders=$(echo $_libavencoders_all | sed -e 's/ LIB[A-Z0-9_]*_ENCODER//g' -e s/AAC_ENCODER//)
+-_libavparsers_all=$(sed -n 's/^[^#]*PARSER.*(.*, *\(.*\)).*/\1_parser/p' libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
++_libavparsers_all=$($ffmpeg_config --parsers || sed -n 's/^[^#]*PARSER.*(.*, *\(.*\)).*/\1_parser/p' libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
+ _libavparsers=$_libavparsers_all
+-_libavbsfs_all=$(sed -n 's/^[^#]*BSF.*(.*, *\(.*\)).*/\1_bsf/p' libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
++_libavbsfs_all=$($ffmpeg_config --bsfs || sed -n 's/^[^#]*BSF.*(.*, *\(.*\)).*/\1_bsf/p' libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
+ _libavbsfs=$_libavbsfs_all
+-_libavdemuxers_all=$(sed -n 's/^[^#]*DEMUX.*(.*, *\(.*\)).*/\1_demuxer/p' libavformat/allformats.c | tr '[a-z]' '[A-Z]')
++_libavdemuxers_all=$($ffmpeg_config --demuxers || sed -n 's/^[^#]*DEMUX.*(.*, *\(.*\)).*/\1_demuxer/p' libavformat/allformats.c | tr '[a-z]' '[A-Z]')
+ _libavdemuxers=$(echo $_libavdemuxers_all | sed -e 's/ LIB[A-Z0-9_]*_DEMUXER//g' -e s/REDIR_DEMUXER// -e s/RTSP_DEMUXER// -e s/SDP_DEMUXER// -e s/AVISYNTH_DEMUXER//)
+-_libavmuxers_all=$(sed -n 's/^[^#]*_MUX.*(.*, *\(.*\)).*/\1_muxer/p' libavformat/allformats.c | tr '[a-z]' '[A-Z]')
++_libavmuxers_all=$($ffmpeg_config --muxers || sed -n 's/^[^#]*_MUX.*(.*, *\(.*\)).*/\1_muxer/p' libavformat/allformats.c | tr '[a-z]' '[A-Z]')
+ _libavmuxers=$(echo $_libavmuxers_all | sed -e 's/ LIB[A-Z0-9_]*_MUXER//g' -e s/RTP_MUXER//)
+-_libavprotocols_all=$(sed -n 's/^[^#]*PROTOCOL.*(.*, *\(.*\)).*/\1_protocol/p' libavformat/allformats.c | tr '[a-z]' '[A-Z]')
++_libavprotocols_all=$($ffmpeg_config --protocols || sed -n 's/^[^#]*PROTOCOL.*(.*, *\(.*\)).*/\1_protocol/p' libavformat/allformats.c | tr '[a-z]' '[A-Z]')
+ _libavprotocols=""
+ _libavcodec_so=auto
+ _libavformat_a=auto
+--- mplayer-r29930/Makefile.orig	2010-01-12 22:58:23.544432761 +0100
++++ mplayer-r29930/Makefile	2010-01-12 23:10:19.701953264 +0100
+@@ -792,10 +792,6 @@
+ ADD_ALL_EXESUFS = $(1) $(call ADDSUFFIXES,$(EXESUFS_ALL),$(1))
+ 
+ FFMPEGPARTS = libavcodec \
+-              libavformat \
+-              libavutil \
+-              libpostproc \
+-              libswscale \
+ 
+ FFMPEGLIBS  = $(foreach part, $(FFMPEGPARTS), $(part)/$(part).a)
+ FFMPEGFILES = $(foreach part, $(FFMPEGPARTS), $(wildcard $(part)/*.[chS] $(part)/*/*.[chS]))

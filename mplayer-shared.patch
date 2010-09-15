@@ -1,0 +1,43 @@
+--- mplayer-r29930/Makefile.orig	2009-11-19 12:35:34.062218530 +0100
++++ mplayer-r29930/Makefile	2009-11-19 12:37:01.221820848 +0100
+@@ -833,12 +833,17 @@
+ 	$(MAKE) -C $(@D)
+ 	touch $@
+ 
+-mencoder$(EXESUF): $(MENCODER_DEPS)
++SHARED_OBJS = $(sort $(OBJS_COMMON))
++
++libmplayer.so: $(SHARED_OBJS) $(COMMON_LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ -shared -avoid-version $^ $(EXTRALIBS) $(EXTRALIBS_MENCODER) $(EXTRALIBS_MPLAYER)
++
++mencoder$(EXESUF): $(OBJS_MENCODER) libmplayer.so
+ mencoder$(EXESUF): EXTRALIBS += $(EXTRALIBS_MENCODER)
+-mplayer$(EXESUF): $(MPLAYER_DEPS)
++mplayer$(EXESUF): $(OBJS_MPLAYER) libmplayer.so
+ mplayer$(EXESUF): EXTRALIBS += $(EXTRALIBS_MPLAYER)
+ mencoder$(EXESUF) mplayer$(EXESUF):
+-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(EXTRALIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ libavutil/libavutil.a $(EXTRALIBS)
+ 
+ codec-cfg$(EXESUF): codec-cfg.c help_mp.h
+ 	$(HOST_CC) -O -DCODECS2HTML -I. -o $@ $<
+@@ -1044,7 +1049,7 @@
+ 
+ TOOLS/netstream$(EXESUF): TOOLS/netstream.c
+ TOOLS/vivodump$(EXESUF): TOOLS/vivodump.c
+-TOOLS/netstream$(EXESUF) TOOLS/vivodump$(EXESUF): $(subst mplayer.o,mplayer-nomain.o,$(OBJS_MPLAYER)) $(filter-out %mencoder.o,$(OBJS_MENCODER)) $(OBJS_COMMON) $(COMMON_LIBS)
++TOOLS/netstream$(EXESUF) TOOLS/vivodump$(EXESUF): $(subst mplayer.o,mplayer-nomain.o,$(OBJS_MPLAYER)) $(filter-out %mencoder.o,$(OBJS_MENCODER)) libmplayer.so
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(EXTRALIBS_MPLAYER) $(EXTRALIBS_MENCODER) $(EXTRALIBS)
+ 
+ REAL_SRCS    = $(wildcard TOOLS/realcodecs/*.c)
+--- mplayer-r29930/libavutil/mem.h.orig	2009-11-17 23:59:52.000000000 +0100
++++ mplayer-r29930/libavutil/mem.h	2009-11-19 12:37:44.429409470 +0100
+@@ -32,7 +32,7 @@
+     #define DECLARE_ALIGNED(n,t,v)      t v __attribute__ ((aligned (n)))
+     #define DECLARE_ASM_CONST(n,t,v)    const t __attribute__ ((aligned (n))) v
+ #elif defined(__GNUC__)
+-    #define DECLARE_ALIGNED(n,t,v)      t v __attribute__ ((aligned (n)))
++    #define DECLARE_ALIGNED(n,t,v)      t v __attribute__ ((aligned (n)))  __attribute__ ((visibility ("hidden")))
+     #define DECLARE_ASM_CONST(n,t,v)    static const t v attribute_used __attribute__ ((aligned (n)))
+ #elif defined(_MSC_VER)
+     #define DECLARE_ALIGNED(n,t,v)      __declspec(align(n)) t v

@@ -1,0 +1,29 @@
+--- mplayer-1.0_rc2_p27725/libvo/vo_directfb2.c.old	2009-01-05 09:47:17.000000000 +0100
++++ mplayer-1.0_rc2_p27725/libvo/vo_directfb2.c	2009-01-05 09:48:15.000000000 +0100
+@@ -987,12 +987,11 @@ static void uninit(void)
+   /*
+    * (Release)
+    */
+-/*
+   mp_msg(MSGT_VO, MSGL_INFO,"DirectFB: Releasing buffer\n");
+   if (buffer) buffer->Release (buffer);
+   mp_msg(MSGT_VO, MSGL_INFO,"DirectFB: Releasing keyboard\n");
+   if (keyboard) keyboard->Release (keyboard);
+-*/
++
+   if (frame) {
+     mp_msg(MSGT_VO, MSGL_DBG2,"DirectFB: Releasing frame\n");
+     frame->Release (frame);
+@@ -1015,10 +1014,10 @@ static void uninit(void)
+   }
+ 
+ 
+-/*  mp_msg(MSGT_VO, MSGL_INFO,"DirectFB: Releasing DirectFB library\n");
++  mp_msg(MSGT_VO, MSGL_INFO,"DirectFB: Releasing DirectFB library\n");
+ 
+   dfb->Release (dfb);
+-*/
++
+   //mp_msg(MSGT_VO, MSGL_INFO,"DirectFB: Uninit done.\n");
+ }
+ 
