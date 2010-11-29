@@ -145,6 +145,7 @@ Patch31:	%{name}-350.patch
 #Patch32:	%{name}-gnome-screensaver.patch
 
 Patch100:	%{name}-on2flix.patch
+Patch101:	%{name}-link.patch
 
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -387,6 +388,8 @@ for a in mencoder-on2flixenglinux/patch/*.diff; do
 	patch -p0 < $a
 done
 %endif
+
+%patch101 -p1
 
 # Set version
 %if "x%{svnver}" != "x%{nil}"
