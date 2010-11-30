@@ -1,11 +1,11 @@
---- mplayer-r31097/Makefile.orig	2010-11-28 14:02:59.000000000 +0100
-+++ mplayer-r31097/Makefile	2010-11-28 19:19:48.898402624 +0100
-@@ -740,7 +740,7 @@
+--- mplayer-r32669/Makefile.orig	2010-11-30 09:29:43.000000000 +0100
++++ mplayer-r32669/Makefile	2010-11-30 09:31:08.071501256 +0100
+@@ -734,7 +734,7 @@
  OBJS_MPLAYER   += $(OBJS_MPLAYER-yes)
  
  MENCODER_DEPS = $(OBJS_MENCODER) $(OBJS_COMMON) $(COMMON_LIBS)
 -MPLAYER_DEPS  = $(OBJS_MPLAYER)  $(OBJS_COMMON) $(COMMON_LIBS)
 +MPLAYER_DEPS  = $(OBJS_MPLAYER)  $(OBJS_COMMON) $(COMMON_LIBS) -lXext -lX11
- DEPS = $(filter-out %.S,$(patsubst %.cpp,%.d,$(patsubst %.c,%.d,$(SRCS_COMMON) $(SRCS_MPLAYER:.m=.d) $(SRCS_MENCODER))))
+ DEP_FILES = $(SRCS_COMMON) $(SRCS_MPLAYER) $(SRCS_MENCODER)
+ $(foreach suffix,.c .cpp .m .S,$(eval DEP_FILES := $(DEP_FILES:$(suffix)=.d)))
  
- ALL_PRG-$(MPLAYER)  += mplayer$(EXESUF)

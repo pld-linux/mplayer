@@ -1,23 +1,23 @@
---- mplayer/configure.orig	2009-11-17 23:59:50.000000000 +0100
-+++ mplayer/configure	2009-11-18 02:23:19.760319977 +0100
-@@ -742,6 +742,7 @@
- _w32threads=auto
+--- mplayer-r32669/configure.orig	2010-11-30 09:25:22.955081286 +0100
++++ mplayer-r32669/configure	2010-11-30 09:28:43.457857573 +0100
+@@ -790,6 +790,7 @@
  _ass=auto
+ ass_internal=auto
  _rpath=no
 +_disable_altivec=no
  _asmalign_pot=auto
  _stream_cache=yes
  _priority=no
-@@ -1315,7 +1316,7 @@
-   --enable-fast-cmov) _fast_cmov=yes ;;
-   --disable-fast-cmov) _fast_cmov=no ;;
+@@ -1356,7 +1357,7 @@
+   --enable-fast-clz) _fast_clz=yes ;;
+   --disable-fast-clz) _fast_clz=no ;;
    --enable-altivec) _altivec=yes ;;
 -  --disable-altivec) _altivec=no ;;
 +  --disable-altivec) _altivec=no; _disable_altivec=yes ;;
    --enable-armv5te) _armv5te=yes ;;
    --disable-armv5te) _armv5te=no ;;
    --enable-armv6) _armv6=yes ;;
-@@ -2639,15 +2640,15 @@
+@@ -2762,12 +2763,12 @@
  
  #FIXME: This should happen before the check for CFLAGS..
  def_altivec_h='#define HAVE_ALTIVEC_H 0'
@@ -26,13 +26,9 @@
  
      # check if AltiVec is supported by the compiler, and how to enable it
      echocheck "GCC AltiVec flags"
-     cat > $TMPC << EOF
- int main(void) { return 0; }
- EOF
--    if $(cc_check -maltivec -mabi=altivec) ; then
+     if $(cflag_check -maltivec -mabi=altivec) ; then
 -    _altivec_gcc_flags="-maltivec -mabi=altivec"
-+    if $(cc_check -maltivec) ; then
 +    _altivec_gcc_flags="-maltivec"
      # check if <altivec.h> should be included
-     cat > $TMPC << EOF
- #include <altivec.h>
+         if $(header_check altivec.h $_altivec_gcc_flags) ; then
+             def_altivec_h='#define HAVE_ALTIVEC_H 1'
