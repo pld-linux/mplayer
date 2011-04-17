@@ -92,7 +92,7 @@
 
 %define		subver	rc5
 %define		svnver	32923
-%define		rel	1
+%define		rel	2
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -176,7 +176,6 @@ BuildRequires:	tar >= 1:1.22
 %{?with_gif:BuildRequires:	giflib-devel}
 %{?with_gui:BuildRequires:	gtk+2-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
-%{?with_jack:%requires_eq	jack-audio-connection-kit-libs}
 BuildRequires:	lame-libs-devel
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
