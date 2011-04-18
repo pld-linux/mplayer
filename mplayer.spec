@@ -52,6 +52,7 @@
 %bcond_without	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
 %bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
 %bcond_with	on2		# with patches from On2 Flix Engine for Linux
+%bcond_with	zr		# enable ZR360[56]7/ZR36060 video output (needs deprecated V4L1 linux headers)
 %if "%{pld_release}" == "ac"
 %bcond_with		hidden_visibility	# no gcc hidden visibility
 %else
@@ -92,7 +93,7 @@
 
 %define		subver	rc5
 %define		svnver	32923
-%define		rel	2
+%define		rel	3
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -525,7 +526,7 @@ build() {
 	--enable-xv \
 	--enable-xvmc \
 	--with-xvmclib=XvMCW \
-	--enable-zr \
+	%{__enable_disable zr} \
 	--enable-unrarexec \
 	--enable-dynamic-plugins \
 	--enable-largefiles \
