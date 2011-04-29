@@ -170,8 +170,6 @@ BuildRequires:	faac-devel
 %{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-4.20081024.3}
 BuildRequires:	freetype-devel >= 1:2.2.1
 BuildRequires:	fribidi-devel
-BuildRequires:	tar >= 1:1.22
-%{?with_vidix:BuildRequires:	vidix-devel}
 %{?with_altivec:BuildRequires:	gcc >= 5:4.1}
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_gif:BuildRequires:	giflib-devel}
@@ -208,7 +206,9 @@ BuildRequires:	rpmbuild(macros) >= 1.527
 BuildRequires:	schroedinger-devel
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	twolame-devel
+%{?with_vidix:BuildRequires:	vidix-devel}
 %{?with_xmms:BuildRequires:	xmms-devel}
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 %ifarch %{ix86} %{x8664}
