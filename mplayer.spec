@@ -168,7 +168,7 @@ BuildRequires:	dirac-devel
 BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
 %{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-4.20081024.3}
-BuildRequires:	freetype-devel >= 2.0.9
+BuildRequires:	freetype-devel >= 1:2.2.1
 BuildRequires:	fribidi-devel
 BuildRequires:	tar >= 1:1.22
 %{?with_vidix:BuildRequires:	vidix-devel}
@@ -178,6 +178,7 @@ BuildRequires:	tar >= 1:1.22
 %{?with_gui:BuildRequires:	gtk+2-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lame-libs-devel
+BuildRequires:	libass-devel >= 0.9.10
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel > 0.9.5}
