@@ -158,6 +158,7 @@ BuildRequires:	OpenGL-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
+BuildRequires:	bzip2-devel
 %{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 BuildRequires:	dirac-devel
 %{?with_doc:BuildRequires:	docbook-dtd412-xml}
@@ -185,12 +186,12 @@ BuildRequires:	libass-devel >= 0.9.10
 BuildRequires:	libjpeg-devel
 %{?with_mad:BuildRequires:	libmad-devel}
 BuildRequires:	libmng-devel
-BuildRequires:	libmpcdec-devel >= 1.2.1
 BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vdpau:BuildRequires:	libvdpau-devel}
 %{?with_system_vorbis:BuildRequires:	libvorbis-devel}
+BuildRequires:	libvpx-devel
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.3}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
