@@ -1,0 +1,10 @@
+--- mplayer-r33917/help/help_mp-en.h~	2011-07-25 11:28:45.000000000 +0200
++++ mplayer-r33917/help/help_mp-en.h	2011-07-25 11:38:03.007928282 +0200
+@@ -1973,6 +1973,7 @@
+ #define MSGTR_RADIO_AudioInInitFailed "[radio] audio_in_init failed.\n"
+ #define MSGTR_RADIO_AudioInSetupFailed "[radio] audio_in_setup call failed: %s\n"
+ #define MSGTR_RADIO_ClearBufferFailed "[radio] Clearing buffer failed: %s\n"
++#define MSGTR_RADIO_SelectedChannel "[radio] Selected channel: %d - %s (freq: %.2f)\n"
+ #define MSGTR_RADIO_StreamEnableCacheFailed "[radio] Call to stream_enable_cache failed: %s\n"
+ #define MSGTR_RADIO_DriverUnknownStr "[radio] Unknown driver name: %s\n"
+ #define MSGTR_RADIO_DriverV4L2 "[radio] Using V4Lv2 radio interface.\n"

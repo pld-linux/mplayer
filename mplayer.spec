@@ -92,8 +92,8 @@
 %endif
 
 %define		subver	rc5
-%define		svnver	32923
-%define		rel	5
+%define		svnver	33917
+%define		rel	1
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -111,10 +111,10 @@ Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
 # svn export svn://svn.mplayerhq.hu/mplayer/trunk mplayer-rXXX
+# cd mplayer-rXXX && git clone git://git.videolan.org/ffmpeg.git
 # tar -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
-# for ffmpeg git://git.videolan.org/ffmpeg.git
-Source0:	http://carme.pld-linux.org/~cactus/snaps/mplayer/%{name}-r%{svnver}.tar.xz
-# Source0-md5:	8de311873d5a9342387197b0a16c7756
+Source0:	%{name}-r%{svnver}.tar.xz
+# Source0-md5:	312105f44f5828432a52955b69f2ed00
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -148,6 +148,7 @@ Patch31:	%{name}-350.patch
 
 Patch100:	%{name}-on2flix.patch
 Patch101:	%{name}-link.patch
+Patch102:	%{name}-build.patch
 
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -393,6 +394,7 @@ done
 %endif
 
 %patch101 -p1
+%patch102 -p1
 
 # Set version
 %if "x%{svnver}" != "x%{nil}"
@@ -531,7 +533,6 @@ build() {
 	%{__enable_disable zr} \
 	--enable-unrarexec \
 	--enable-dynamic-plugins \
-	--enable-largefiles \
 	--language=all \
 	--codecsdir=%{_libdir}/codecs \
 	"$@"

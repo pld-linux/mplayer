@@ -34,7 +34,7 @@
  CFLAGS_TREMOR_LOW        = $cflags_tremor_low
  
 +LDFLAGS            = $real_ldflags
- EXTRALIBS          = $extra_ldflags $_ld_static $_ld_lm $extra_libs
+ EXTRALIBS          = $extra_ldflags $_ld_static $extra_libs
  EXTRALIBS_MPLAYER  = $libs_mplayer
  EXTRALIBS_MENCODER = $libs_mencoder
 --- mplayer-r32669/Makefile.orig	2010-10-27 19:55:45.000000000 +0200
