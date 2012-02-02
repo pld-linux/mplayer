@@ -93,7 +93,7 @@
 
 %define		subver	rc5
 %define		svnver	33917
-%define		rel	2
+%define		rel	3
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -335,6 +335,13 @@ Configuration files, man page and HTML documentation for MPlayer.
 
 %description common -l pl.UTF-8
 Pliki konfiguracyjne, strona manuala i dokumentacja HTML dla MPlayera.
+
+%package doc
+Summary:	HTML documentation for %{name}
+Group:		Documentation
+
+%description doc
+HTML Documentation for %{name}.
 
 %package -n mencoder
 Summary:	MEncoder - a movie encoder for Linux
@@ -636,14 +643,9 @@ umask 022
 %attr(755,root,root) %{_bindir}/mencoder*
 %endif
 
-%files common
-%defattr(644,root,root,755)
-%doc DOCS/tech
-%{?with_shared:%attr(755,root,root) %{_libdir}/libmplayer.so}
-%if %{with win32}
-%doc etc/codecs.win32.conf
-%endif
 %if %{with doc}
+%files doc
+%doc DOCS/tech
 # HTML and XML-generated docs
 %doc DOCS/HTML/en
 %lang(cs) %doc DOCS/HTML/cs
@@ -655,7 +657,14 @@ umask 022
 %lang(ru) %doc DOCS/HTML/ru
 #%lang(zh_CN) %doc DOCS/zh
 %endif
+
+%files common
+%defattr(644,root,root,755)
 %doc AUTHORS README
+%{?with_shared:%attr(755,root,root) %{_libdir}/libmplayer.so}
+%if %{with win32}
+%doc etc/codecs.win32.conf
+%endif
 
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/*.conf
