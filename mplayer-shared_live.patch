@@ -1,16 +1,15 @@
---- ./configure.org	2011-02-17 12:15:19.000000000 +0100
-+++ ./configure	2011-02-18 00:49:43.984157326 +0100
-@@ -6778,11 +6778,7 @@
+--- mplayer-r34805/configure.orig	2012-03-10 12:22:12.000000000 +0000
++++ mplayer-r34805/configure	2012-03-10 12:24:33.000000000 +0000
+@@ -6671,11 +6671,7 @@
      _livelibdir=$(echo $I| sed s/-I//)
      test -e "$_livelibdir/BasicUsageEnvironment/libBasicUsageEnvironment.a" &&
-         cxx_check $I/liveMedia/include $I/UsageEnvironment/include $I/BasicUsageEnvironment/include $I/groupsock/include $_livelibdir/BasicUsageEnvironment/libBasicUsageEnvironment.a $_livelibdir/UsageEnvironment/libUsageEnvironment.a $_livelibdir/groupsock/libgroupsock.a $_ld_sock &&
+         cxx_check $I/liveMedia/include $I/UsageEnvironment/include $I/BasicUsageEnvironment/include $I/groupsock/include $_livelibdir/BasicUsageEnvironment/libBasicUsageEnvironment.a $_livelibdir/UsageEnvironment/libUsageEnvironment.a $_livelibdir/groupsock/libgroupsock.a $ld_sock &&
 -      extra_ldflags="$_livelibdir/liveMedia/libliveMedia.a \
 -                 $_livelibdir/UsageEnvironment/libUsageEnvironment.a \
 -                 $_livelibdir/BasicUsageEnvironment/libBasicUsageEnvironment.a \
 -                 $_livelibdir/groupsock/libgroupsock.a \
--                 $extra_ldflags  -lstdc++ $_ld_sock" \
+-                 $extra_ldflags  -lstdc++ $ld_sock" \
 +      extra_ldflags="-lliveMedia -lgroupsock -lUsageEnvironment -lBasicUsageEnvironment $extra_ldflags -lstdc++" && \
        extra_cxxflags="-I$_livelibdir/liveMedia/include \
                    -I$_livelibdir/UsageEnvironment/include \
                    -I$_livelibdir/BasicUsageEnvironment/include \
-

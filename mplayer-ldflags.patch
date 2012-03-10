@@ -1,6 +1,6 @@
---- mplayer-r32669/configure.orig	2010-11-03 09:12:22.000000000 +0100
-+++ mplayer-r32669/configure	2010-11-30 09:21:10.000406064 +0100
-@@ -523,7 +523,8 @@
+--- mplayer-r32669/configure.orig	2012-03-03 23:31:28.000000000 +0000
++++ mplayer-r32669/configure	2012-03-10 12:19:51.000000000 +0000
+@@ -593,7 +593,8 @@
  
  Use these options if autodetection fails:
    --extra-cflags=FLAGS        extra CFLAGS
@@ -10,7 +10,7 @@
    --extra-libs=FLAGS          extra linker flags
    --extra-libs-mplayer=FLAGS  extra linker flags for MPlayer
    --extra-libs-mencoder=FLAGS extra linker flags for MEncoder
-@@ -853,6 +854,9 @@
+@@ -929,6 +930,9 @@
    --extra-cflags=*)
      extra_cflags=$(echo $ac_option | cut -d '=' -f 2-)
      ;;
@@ -20,7 +20,7 @@
    --extra-ldflags=*)
      extra_ldflags=$(echo $ac_option | cut -d '=' -f 2-)
      ;;
-@@ -7802,7 +7806,7 @@
+@@ -7590,7 +7594,7 @@
  
  echocheck "compiler support for noexecstack"
  if cflag_check -Wl,-z,noexecstack ; then
@@ -29,12 +29,13 @@
    echores "yes"
  else
    echores "no"
-@@ -8023,6 +8027,7 @@
+@@ -7988,6 +7992,8 @@
  CFLAGS_SVGALIB_HELPER    = $cflags_svgalib_helper
  CFLAGS_TREMOR_LOW        = $cflags_tremor_low
  
 +LDFLAGS            = $real_ldflags
- EXTRALIBS          = $extra_ldflags $_ld_static $extra_libs
++
+ EXTRALIBS          = $extra_ldflags $ld_static $extra_libs
  EXTRALIBS_MPLAYER  = $libs_mplayer
  EXTRALIBS_MENCODER = $libs_mencoder
 --- mplayer-r32669/Makefile.orig	2010-10-27 19:55:45.000000000 +0200
