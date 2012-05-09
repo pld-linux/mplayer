@@ -13,6 +13,7 @@
 %bcond_without	jack		# without JACKD support
 %bcond_without	alsa		# without ALSA audio output
 %bcond_with	arts		# with arts audio output
+%bcond_without  blueray         # disable Blue-ray support
 %bcond_without	caca		# without libcaca video output
 %bcond_without	cdparanoia	# without cdparanoia support
 %bcond_without	dvdnav		# without dvdnav support
@@ -92,8 +93,8 @@
 %endif
 
 %define		subver	rc5
-%define		svnver	34805
-%define		rel	2
+%define		svnver	34894
+%define		rel	1
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -114,7 +115,7 @@ Group:		Applications/Multimedia
 # cd mplayer-rXXX && git clone git://git.videolan.org/ffmpeg.git
 # tar -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
 Source0:	%{name}-r%{svnver}.tar.xz
-# Source0-md5:	a6e32c2659c9f964c2aca2932bc8770b
+# Source0-md5:	86409e811285d9e8796d4034cd6f9bb8
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -179,6 +180,7 @@ BuildRequires:	fribidi-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lame-libs-devel
 BuildRequires:	libass-devel >= 0.9.10
+%{?with_blueray:BuildRequires:	libbluray-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel > 0.9.5}
@@ -500,6 +502,7 @@ build() {
 	%{__disable faad} \
 	%{__disable gif} \
 	%{__enable joystick} \
+	%{__disable blueray} \
 	%{__disable libdv} \
 	%{__disable libdts libdca} \
 	%{__enable_disable lirc} \
