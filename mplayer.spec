@@ -92,9 +92,6 @@
 %define		_suf	32
 %endif
 
-%define		subver	rc5
-%define		svnver	34894
-%define		rel	1
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -102,8 +99,8 @@ Summary(ko.UTF-8):	리눅스용 미디어플레이어
 Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
-Version:	1.0
-Release:	5.%{subver}_svn%{svnver}.%{rel}
+Version:	1.1
+Release:	0.1
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -114,8 +111,8 @@ Group:		Applications/Multimedia
 # svn export svn://svn.mplayerhq.hu/mplayer/trunk mplayer-rXXX
 # cd mplayer-rXXX && git clone git://git.videolan.org/ffmpeg.git
 # tar -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
-Source0:	%{name}-r%{svnver}.tar.xz
-# Source0-md5:	86409e811285d9e8796d4034cd6f9bb8
+Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
+# Source0-md5:	ac7bf1cfedc1c5c24bfc83107eefb1d9
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -162,6 +159,7 @@ BuildRequires:	OpenGL-devel
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
 BuildRequires:	bzip2-devel
 %{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
+%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 BuildRequires:	dirac-devel
 %{?with_doc:BuildRequires:	docbook-dtd412-xml}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
@@ -174,7 +172,6 @@ BuildRequires:	faac-devel
 BuildRequires:	freetype-devel >= 1:2.2.1
 BuildRequires:	fribidi-devel
 %{?with_altivec:BuildRequires:	gcc >= 5:4.1}
-%{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_gif:BuildRequires:	giflib-devel}
 %{?with_gui:BuildRequires:	gtk+2-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
@@ -359,7 +356,7 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-%setup -q -n %{name}-r%{svnver} -a3 -a6 -a9
+%setup -q -n MPlayer-%{version} -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # build (configure / Makefile) related:
@@ -368,6 +365,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch12 -p1
 %patch13 -p1
 %{?with_system_ffmpeg:%patch14 -p1}
+# patch15 updated, but possibly no longer needed
 %{?with_live:%patch15 -p1}
 %{?with_shared:%patch16 -p1}
 
@@ -406,7 +404,7 @@ done
 %patch102 -p1
 
 # Set version
-%if "x%{svnver}" != "x%{nil}"
+%if "x%{?svnver}" != "x%{nil}"
 	echo "SVN-r%{svnver}%{?with_on2:-on2}" > VERSION
 %endif
 
@@ -648,6 +646,7 @@ umask 022
 
 %if %{with doc}
 %files doc
+%defattr(644,root,root,755)
 %doc DOCS/tech
 # HTML and XML-generated docs
 %doc DOCS/HTML/en
