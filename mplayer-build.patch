@@ -8,3 +8,25 @@
  #define MSGTR_RADIO_StreamEnableCacheFailed "[radio] Call to stream_enable_cache failed: %s\n"
  #define MSGTR_RADIO_DriverUnknownStr "[radio] Unknown driver name: %s\n"
  #define MSGTR_RADIO_DriverV4L2 "[radio] Using V4Lv2 radio interface.\n"
+--- m/gui/interface.c~	2012-05-21 20:46:25.000000000 +0200
++++ m/gui/interface.c	2012-11-04 16:30:43.831294291 +0100
+@@ -1168,7 +1168,7 @@
+     vsnprintf(msg, sizeof(msg), format, va);
+     va_end(va);
+ 
+-    mp_msg(mod, lev, msg);
++    mp_msg(mod, lev, "%s", msg);
+ 
+     if (mp_msg_test(mod, lev))
+         gtkMessageBox(GTK_MB_FATAL, msg);
+--- m/stream/stream_radio.c~	2011-07-25 01:55:34.000000000 +0200
++++ m/stream/stream_radio.c	2012-11-04 16:31:53.339743343 +0100
+@@ -1138,7 +1138,7 @@
+     mp_msg(MSGT_RADIO,MSGL_V,"\n");
+ 
+     if(priv->driver)
+-        mp_msg(MSGT_RADIO, MSGL_INFO, priv->driver->info);
++        mp_msg(MSGT_RADIO, MSGL_INFO, "%s", priv->driver->info);
+     else{
+         mp_msg(MSGT_RADIO, MSGL_INFO, MSGTR_RADIO_DriverUnknownStr,priv->radio_param->driver);
+         close_s(stream);
