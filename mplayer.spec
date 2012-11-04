@@ -13,7 +13,7 @@
 %bcond_without	jack		# without JACKD support
 %bcond_without	alsa		# without ALSA audio output
 %bcond_with	arts		# with arts audio output
-%bcond_without  blueray         # disable Blue-ray support
+%bcond_without  bluray          # disable Blu-ray support
 %bcond_without	caca		# without libcaca video output
 %bcond_without	cdparanoia	# without cdparanoia support
 %bcond_without	dvdnav		# without dvdnav support
@@ -177,7 +177,7 @@ BuildRequires:	fribidi-devel
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 BuildRequires:	lame-libs-devel
 BuildRequires:	libass-devel >= 0.9.10
-%{?with_blueray:BuildRequires:	libbluray-devel}
+%{?with_bluray:BuildRequires:	libbluray-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel > 0.9.5}
@@ -500,7 +500,7 @@ build() {
 	%{__disable faad} \
 	%{__disable gif} \
 	%{__enable joystick} \
-	%{__disable blueray} \
+	%{__disable bluray} \
 	%{__disable libdv} \
 	%{__disable libdts libdca} \
 	%{__enable_disable lirc} \
