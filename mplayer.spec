@@ -63,7 +63,6 @@
 %if %{with alsa}
 %undefine	with_select
 %endif
-
 %if %{without vorbis}
 %undefine	with_system_vorbis
 %endif
@@ -73,23 +72,20 @@
 %undefine	with_quicktime
 %undefine	with_vidix
 %endif
-
 %ifnarch %{ix86} %{x8664} ppc ppc64
 %undefine	with_runtime
 %endif
-
 %ifnarch %{ix86} %{x8664}
 %undefine	with_vdpau
 %endif
-
 %ifnarch ppc
 %undefine	with_altivec
 %endif
 
 %if %{_lib} == "lib64"
-%define		_suf	64
+%define		binsuf	64
 %else
-%define		_suf	32
+%define		binsuf	32
 %endif
 
 Summary:	MPlayer - THE Movie Player for UN*X
@@ -108,10 +104,11 @@ Release:	3
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
-# svn export svn://svn.mplayerhq.hu/mplayer/trunk mplayer-rXXX
-# cd mplayer-rXXX && git clone git://git.videolan.org/ffmpeg.git
-# tar -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
-Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
+# for snapshots:
+#   svn export svn://svn.mplayerhq.hu/mplayer/trunk mplayer-rXXX
+#   cd mplayer-rXXX && git clone git://git.videolan.org/ffmpeg.git
+#   tar -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
+Source0:	http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
 # Source0-md5:	ac7bf1cfedc1c5c24bfc83107eefb1d9
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
@@ -130,7 +127,7 @@ Patch11:	%{name}-altivec.patch
 Patch12:	%{name}-check-byteswap.patch
 Patch13:	%{name}-visibility-hidden-fix.patch
 Patch14:	%{name}-ffmpeg.patch
-Patch15:	%{name}-shared_live.patch
+Patch15:	%{name}-live.patch
 Patch16:	%{name}-shared.patch
 
 # codecs, outputs, demuxers:
@@ -365,8 +362,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch12 -p1
 %patch13 -p1
 %{?with_system_ffmpeg:%patch14 -p1}
-# patch15 updated, but possibly no longer needed
-%{?with_live:%patch15 -p1}
+%patch15 -p1
 %{?with_shared:%patch16 -p1}
 
 # codecs, outputs, demuxers:
@@ -403,11 +399,6 @@ done
 %patch101 -p1
 %patch102 -p1
 
-# Set version
-%if "x%{?svnver}" != "x%{nil}"
-	echo "SVN-r%{svnver}%{?with_on2:-on2}" > VERSION
-%endif
-
 cat etc/example.conf > etc/mplayer.conf
 cat <<'CONFIGADD' >> etc/mplayer.conf
 
@@ -431,21 +422,12 @@ CONFIGADD
 
 %if %{with system_ffmpeg}
 # using external ffmpeg, but mplayer adds these to includepath
-rm -r libavcodec libavdevice libavformat libavutil libpostproc libswscale
+%{__rm} -r libavcodec libavdevice libavformat libavutil libpostproc libswscale
 %endif
-
-# *** HOT FIXES ***
-
-# typo, fixed in recent svn
-sed 's/STREAM_NONCACHEABLE/STREAM_NON_CACHEABLE/' -i stream/stream_live555.c
-
-# mjpeg encoder is required for Zoran hardware
-sed '/_libavencoders="MPEG/s/"$/ MJPEG_ENCODER"/' -i configure
 
 %build
 CFLAGS="%{rpmcflags} %{?with_hidden_visibility:-fvisibility=hidden} %{?with_shared:-fvisibility=default -fPIC}"
 CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb}"
-%{?with_live:CFLAGS="$CFLAGS -I/usr/include/liveMedia"}
 
 build() {
 	set -x
@@ -576,13 +558,13 @@ install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysc
 # executables
 %if %{with mencoder}
 install mencoder $RPM_BUILD_ROOT%{_bindir}/mencoder%{_suf}
-ln -sf mencoder%{_suf} $RPM_BUILD_ROOT%{_bindir}/mencoder
+ln -sf mencoder%{binsuf} $RPM_BUILD_ROOT%{_bindir}/mencoder
 %endif
 install mplayer $RPM_BUILD_ROOT%{_bindir}/mplayer%{_suf}
-ln -sf mplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/mplayer
+ln -sf mplayer%{binsuf} $RPM_BUILD_ROOT%{_bindir}/mplayer
 %if %{with gui}
 install gmplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer%{_suf}
-ln -sf gmplayer%{_suf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
+ln -sf gmplayer%{binsuf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
 %endif
 
 %if %{with shared}
