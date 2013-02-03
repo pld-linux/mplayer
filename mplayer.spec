@@ -1,61 +1,77 @@
+# TODO:
+# - libnemesi >= 0.6.3
+# - vstream-client (http://code.google.com/p/vstream-client/)
+# - libbs2b >= 3.0.0
+# - dxr2 (http://sourceforge.net/projects/dxr2/)
+# - s3fb, tdfxvid, wii?
 #
 # Conditional build:
-%bcond_with	directfb	# with DirectFB video output
+%bcond_without	altivec		# PPC altivec support
+%bcond_without	crystalhd	# CrystalHD support
+%bcond_with	directfb	# DirectFB video output
 %bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
-%bcond_with	ggi		# with ggi video output
-%bcond_with	nas		# with NAS audio output
-%bcond_with	svga		# with svgalib video output
-%bcond_without	osd		# with osd menu support
-%bcond_without	altivec		# without altivec support
-%bcond_without	x264		# without x264 support
-%bcond_with	xmms		# with XMMS inputplugin support
-%bcond_without	aalib		# without aalib video output
-%bcond_without	jack		# without JACKD support
-%bcond_without	alsa		# without ALSA audio output
-%bcond_with	arts		# with arts audio output
-%bcond_without  bluray          # disable Blu-ray support
-%bcond_without	caca		# without libcaca video output
-%bcond_without	cdparanoia	# without cdparanoia support
-%bcond_without	dvdnav		# without dvdnav support
+%bcond_with	ggi		# GGI video output
+%bcond_with	nas		# NAS audio output
+%bcond_with	svga		# svgalib video output
+%bcond_without	osd		# osd menu support
+%bcond_without	x264		# x264 support
+%bcond_with	xmms		# XMMS inputplugin support
+%bcond_without	aalib		# aalib video output
+%bcond_without	jack		# JACKD support
+%bcond_without	alsa		# ALSA audio output
+%bcond_with	arts		# aRts audio output
+%bcond_without  bluray          # Blu-ray support
+%bcond_without	caca		# libcaca video output
+%bcond_without	cdio		# libcdio support
+%bcond_without	cdparanoia	# cdparanoia support (when libcdio not enabled)
+%bcond_without	dvdnav		# dvdnav support
+%bcond_without	system_dvdcss	# system libdvdcss library (instead of internal copy)
+%bcond_without	system_dvdread	# system libdvdread library (instead of internal copy)
 %bcond_without	enca		# disable using ENCA charset oracle library
-%bcond_with	esd		# enable EsounD sound support
-%bcond_without	faad		# disable FAAD2 (AAC) support
-%bcond_without	gif		# disable GIF support
+%bcond_with	esd		# EsounD sound support
+%bcond_without	faad		# FAAD2 (AAC) support
+%bcond_without	gif		# GIF support
 %bcond_without	gui		# without GTK+ GUI
-%bcond_without	joystick	# disable joystick support
-%bcond_without	libdts		# disable libdts support
-%bcond_without	libdv		# disable libdv en/decoding support
-%bcond_without	lirc		# without lirc support
-%bcond_without	live		# without LIVE555 libraries
-%bcond_without	lzo		# with LZO support (requires lzo 2.x)
-%bcond_without	mad		# without mad (audio MPEG) support
-%bcond_without	pulseaudio	# without pulseaudio output
-%bcond_without	quicktime	# without binary quicktime dll support
-%bcond_without	real		# without Real* 8/9 codecs support
+%bcond_without	joystick	# joystick support
+%bcond_without	ladspa		# LADSPA plugin support
+%bcond_without	libdts		# libdts support
+%bcond_without	libdv		# libdv en/decoding support
+%bcond_with	system_libmpeg2	# system libmpeg2 library (instead of internal copy with some quantizer modifications)
+%bcond_without	lirc		# lirc support
+%bcond_without	live		# LIVE555 Streaming Media support
+%bcond_without	lzo		# LZO support (requires lzo 2.x)
+%bcond_without	mad		# mad (audio MPEG) support
+%bcond_without	mpg123		# libmpg123 MP3 decoding support
+%bcond_with	musepack	# libmpcdec support (derecated in favour of libavcodec)
+%bcond_without	openjpeg	# OpenJPEG (JPEG2000) input/output support
+%bcond_without	pulseaudio	# pulseaudio output
+%bcond_without	quicktime	# binary quicktime dll support
+%bcond_without	real		# Real* 8/9 codecs support
+%bcond_without	rtmp		# RTMPDump Streaming Media support
 %bcond_without	runtime		# disable runtime cpu detection, just detect CPU
 				#  in compile time (advertised by mplayer authors as working faster); in this case
 				#  mplayer may not work on machine other then where it was compiled
-%bcond_without	select		# disable audio select() support (for example required this option ALSA or Vortex2 driver)
-%bcond_without	smb		# disable Samba (SMB) input support
-%bcond_without	theora		# without theora support
-%bcond_without	win32		# without win32 codecs support
-%bcond_without	vdpau		# disable vdpau
-%bcond_without	vidix		# disable vidix
-%bcond_without	vorbis		# without Ogg-Vorbis audio support
+%bcond_without	select		# audio select() support (required e.g. for ALSA or Vortex2 driver)
+%bcond_without	smb		# Samba (SMB) input support
+%bcond_without	theora		# Ogg Theora video support
+%bcond_without	win32		# Win32 codecs support
+%bcond_without	vdpau		# VDPAU acceleration
+%bcond_without	vidix		# VIDIX video drivers
+%bcond_without	vorbis		# Ogg Vorbis audio support (both tremor and libvorbis)
 %bcond_with	system_vorbis	# use system libvorbis instead of internal tremor
-%bcond_without	xvid		# disable XviD codec
-%bcond_without	mencoder	# disable mencoder (a/v encoder) compilation
-%bcond_without	sdl		# disable SDL
+%bcond_without	xvid		# XviD codec
+%bcond_without	mencoder	# mencoder (a/v encoder) compilation
+%bcond_without	sdl		# SDL video output
 %bcond_without	doc		# don't build docs (slow)
 %bcond_with	shared		# experimental libmplayer.so support
-%bcond_without	amr		# enable Adaptive Multi Rate (AMR) speech codec support
-%bcond_without	gnomess		# disable controling gnome screensaver
-%bcond_without	ssse3		# sse3 optimizations (needs binutils >= 2.16.92)
+%bcond_without	amr		# Adaptive Multi Rate (AMR) speech codec support
+%bcond_with	gnomess		# controling gnome screensaver [patch not updated]
+%bcond_without	ssse3		# SSSE3 optimizations (needs binutils >= 2.16.92)
 %bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
-%bcond_with	on2		# with patches from On2 Flix Engine for Linux
-%bcond_with	zr		# enable ZR360[56]7/ZR36060 video output (needs deprecated V4L1 linux headers)
+%bcond_with	on2		# patches from On2 Flix Engine for Linux
+%bcond_with	zr		# ZR360[56]7/ZR36060 video output (needs deprecated V4L1 linux headers)
 %if "%{pld_release}" == "ac"
-%bcond_with		hidden_visibility	# no gcc hidden visibility
+%bcond_with	hidden_visibility	# gcc hidden visibility
 %else
 %bcond_without	hidden_visibility	# no gcc hidden visibility
 %endif
@@ -128,7 +144,10 @@ Patch12:	%{name}-check-byteswap.patch
 Patch13:	%{name}-visibility-hidden-fix.patch
 Patch14:	%{name}-ffmpeg.patch
 Patch15:	%{name}-live.patch
-Patch16:	%{name}-shared.patch
+Patch16:	%{name}-libcdio.patch
+Patch17:	%{name}-gsm.patch
+Patch18:	%{name}-openjpeg.patch
+Patch19:	%{name}-shared.patch
 
 # codecs, outputs, demuxers:
 Patch20:	%{name}-auto-expand.patch
@@ -150,6 +169,7 @@ URL:		http://www.mplayerhq.hu/
 BuildRequires:	OpenAL-devel
 BuildRequires:	OpenGL-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.1.7}
+BuildRequires:	a52dec-libs-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
@@ -166,24 +186,36 @@ BuildRequires:	dirac-devel
 BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
 %{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-4.20081024.3}
+BuildRequires:	fontconfig-devel >= 1:2.4.2
 BuildRequires:	freetype-devel >= 1:2.2.1
 BuildRequires:	fribidi-devel
 %{?with_altivec:BuildRequires:	gcc >= 5:4.1}
 %{?with_gif:BuildRequires:	giflib-devel}
 %{?with_gui:BuildRequires:	gtk+2-devel}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
+%{?with_ladspa:BuildRequires:	ladspa-devel}
 BuildRequires:	lame-libs-devel
 BuildRequires:	libass-devel >= 0.9.10
 %{?with_bluray:BuildRequires:	libbluray-devel}
 %{?with_caca:BuildRequires:	libcaca-devel}
+%{?with_cdio:BuildRequires:	libcdio-paranoia-devel}
+%{?with_crystalhd:BuildRequires:	libcrystalhd-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel > 0.9.5}
+%{?with_system_dvdcss:BuildRequires:	libdvdcss-devel}
 %{?with_dvdnav:BuildRequires:	libdvdnav-devel >= 4.1.3}
+%{?with_system_dvdread:BuildRequires:	libdvdread-devel >= 4.1}
 %{?with_ggi:BuildRequires:	libggi-devel}
+%{?with_ggi:BuildRequires:	libggiwmh-devel}
+BuildRequires:	libgsm-devel
 BuildRequires:	libjpeg-devel
 %{?with_mad:BuildRequires:	libmad-devel}
 BuildRequires:	libmng-devel
+%{?with_musepack:BuildRequires:	libmpcdec-devel >= 1.2.1}
+%{?with_system_libmpeg2:BuildRequires:	libmpeg2-devel}
+%{?with_mpg123:BuildRequires:	libmpg123-devel >= 1.14}
 BuildRequires:	libpng-devel
+%{?with_rtmp:BuildRequires:	librtmp-devel}
 %{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vdpau:BuildRequires:	libvdpau-devel}
@@ -197,6 +229,7 @@ BuildRequires:	libxslt-progs
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 %{?with_amr:BuildRequires:	opencore-amr-devel}
+%{?with_openjpeg:BuildRequires:	openjpeg-devel}
 BuildRequires:	pkgconfig
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
 BuildRequires:	rpm >= 4.4.9-56
@@ -333,11 +366,15 @@ Configuration files, man page and HTML documentation for MPlayer.
 Pliki konfiguracyjne, strona manuala i dokumentacja HTML dla MPlayera.
 
 %package doc
-Summary:	HTML documentation for %{name}
+Summary:	HTML documentation for MPlayer
+Summary(pl.UTF-8):	Dokumentacja do MPlayera w formacie HTML
 Group:		Documentation
 
 %description doc
-HTML Documentation for %{name}.
+HTML Documentation for MPlayer.
+
+%description doc -l pl.UTF-8
+Dokumentacja do MPlayera w formacie HTML.
 
 %package -n mencoder
 Summary:	MEncoder - a movie encoder for Linux
@@ -363,7 +400,10 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch13 -p1
 %{?with_system_ffmpeg:%patch14 -p1}
 %patch15 -p1
-%{?with_shared:%patch16 -p1}
+%patch16 -p1
+%patch17 -p1
+%patch18 -p1
+%{?with_shared:%patch19 -p1}
 
 # codecs, outputs, demuxers:
 %patch20 -p1
@@ -429,17 +469,22 @@ CONFIGADD
 CFLAGS="%{rpmcflags} %{?with_hidden_visibility:-fvisibility=hidden} %{?with_shared:-fvisibility=default -fPIC}"
 CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb}"
 
+# NOTE:
+# - lircc refers to obsolete liblircc library (used in LIRCCD < 0.9)
+# - toolame is obsolete predecessor of twolame
 build() {
 	set -x
 
 	./configure \
 	%{?debug:--enable-debug=3} \
 	--prefix=%{_prefix} \
+	--codecsdir=%{_libdir}/codecs \
 	--confdir=%{_sysconfdir}/mplayer \
 	--cc="%{__cc}" \
 	--extra-cflags="$CFLAGS" \
 	--real-ldflags="%{rpmldflags}" \
 	--extra-ldflags="%{?_x_libraries:-L%{_x_libraries}}" \
+	--language=all \
 %if %{with system_ffmpeg}
 	--disable-libavutil_a \
 	--disable-libavcodec_a \
@@ -451,80 +496,90 @@ build() {
 	--enable-libpostproc_so \
 %endif
 %ifnarch %{ix86} %{x8664}
-	--disable-mmx \
-	--disable-mmxext \
 	--disable-3dnow \
 	--disable-3dnowext \
+	--disable-fastmemcpy \
+	--disable-mmx \
+	--disable-mmxext \
 	--disable-sse \
 	--disable-sse2 \
-	--disable-fastmemcpy \
 %endif
 	%{__disable ssse3} \
 %ifarch ppc
 	%{__disable altivec} \
 %endif
-	%{__enable_disable amr libopencore_amrnb} %{__enable_disable amr libopencore_amrwb} \
-	%{__enable_disable directfb} \
-	%{__disable dxr3} \
-	%{__disable ggi} \
-	%{__disable live} \
-	%{__disable lzo liblzo} \
-	%{__disable nas} \
-	%{__disable svga} \
 	%{__disable aalib aa} \
-	%{__disable jack} \
 	%{__enable_disable alsa} \
 	%{__disable arts} \
+	%{__disable bluray} \
 	%{__disable caca} \
 	%{__disable cdparanoia} \
+	--enable-dga1 \
+	--enable-dga2 \
+	%{__enable_disable directfb} \
+	%{__enable_disable dvdnav} \
+	%{__disable system_dvdread dvdread-internal} \
+	%{__disable dxr3} \
+	--enable-dynamic-plugins \
 	%{__disable enca} \
 	%{__disable esd} \
 	%{__disable faad} \
+	--enable-fbdev \
 	%{__disable gif} \
+	--enable-gl \
+	%{__disable ggi} \
+	%{__disable jack} \
 	%{__enable joystick} \
-	%{__disable bluray} \
-	%{__disable libdv} \
+	%{__disable cdio libcdio} \
+	%{__disable ladspa} \
 	%{__disable libdts libdca} \
+	%{__disable libdv} \
+	%{__disable system_dvdcss libdvdcss-internal} \
+	%{__disable lzo liblzo} \
+	%{__disable system_libmpeg2 libmpeg2-internal} \
+	%{__enable_disable amr libopencore_amrnb} %{__enable_disable amr libopencore_amrwb} \
+	%{__disable openjpeg} \
+	%{__disable rtmp librtmp} \
+	%{__disable vorbis libvorbis} \
 	%{__enable_disable lirc} \
+	--disable-lircc \
+	%{__disable live} \
 	%{__disable mad} \
+	%{__disable mencoder} \
+	%{__enable osd menu} \
+	--enable-mga \
+	%{__disable mpg123} \
+	%{__enable musepack} \
+	%{__disable nas} \
 	%{__disable pulseaudio pulse} \
 	%{__disable quicktime qtx} \
-	%{__disable real} \
-	%{__enable_disable runtime runtime-cpudetection} \
-	%{__disable select} \
-	%{__disable smb} \
-	%{__disable win32 win32dll} \
-	%{__disable vorbis tremor-internal} --disable-tremor %{__disable vorbis libvorbis} \
-	%{__disable_if system_vorbis tremor-internal} \
-	%{__enable osd menu} \
-	%{__disable theora} \
-	%{__disable x264} \
-	%{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
-	%{__disable xvid} \
-	%{__disable vidix} \
-	%{__disable vdpau} \
-	%{__disable mencoder} \
-	--enable-dga1 \
-	--enable-dga2 \
-	%{__enable_disable dvdnav} \
-	--enable-fbdev \
-	--enable-gl \
-	--enable-mga \
 	--enable-radio \
 	--enable-radio-capture \
+	%{__disable real} \
+	%{__enable_disable runtime runtime-cpudetection} \
 	%{__enable_disable sdl} \
+	%{__disable select} \
+	%{__disable smb} \
+	%{__disable svga} \
 	--enable-tdfxfb \
-	--enable-vm \
-	--enable-x11 \
-	--enable-xmga \
-	--enable-xv \
-	--enable-xvmc \
-	--with-xvmclib=XvMCW \
-	%{__enable_disable zr} \
+	%{__disable theora} \
+	--disable-toolame \
+	--disable-tremor \
+	%{__disable vorbis tremor-internal} \
+	%{__disable_if system_vorbis tremor-internal} \
 	--enable-unrarexec \
-	--enable-dynamic-plugins \
-	--language=all \
-	--codecsdir=%{_libdir}/codecs \
+	%{__disable vdpau} \
+	%{__disable vidix} \
+	--enable-vm \
+	%{__disable win32 win32dll} \
+	--enable-x11 \
+	%{__disable x264} \
+	--enable-xmga \
+	%{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
+	--enable-xv \
+	%{__disable xvid} \
+	--enable-xvmc --with-xvmclib=XvMCW \
+	%{__enable_disable zr} \
 	"$@"
 
 	%{__make}
