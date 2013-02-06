@@ -6,75 +6,80 @@
 # - s3fb, tdfxvid, wii?
 #
 # Conditional build:
+# - CPU optimization:
 %bcond_without	altivec		# PPC altivec support
-%bcond_without	crystalhd	# CrystalHD support
-%bcond_with	directfb	# DirectFB video output
-%bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
-%bcond_with	ggi		# GGI video output
-%bcond_with	nas		# NAS audio output
-%bcond_with	svga		# svgalib video output
-%bcond_without	osd		# osd menu support
-%bcond_without	x264		# x264 support
-%bcond_with	xmms		# XMMS inputplugin support
-%bcond_without	aalib		# aalib video output
-%bcond_without	jack		# JACKD support
-%bcond_without	alsa		# ALSA audio output
-%bcond_with	arts		# aRts audio output
-%bcond_without  bluray          # Blu-ray support
-%bcond_without	caca		# libcaca video output
-%bcond_without	cdio		# libcdio support
-%bcond_without	cdparanoia	# cdparanoia support (when libcdio not enabled)
-%bcond_without	dvdnav		# dvdnav support
-%bcond_without	system_dvdcss	# system libdvdcss library (instead of internal copy)
-%bcond_without	system_dvdread	# system libdvdread library (instead of internal copy)
-%bcond_without	enca		# disable using ENCA charset oracle library
-%bcond_with	esd		# EsounD sound support
-%bcond_without	faad		# FAAD2 (AAC) support
-%bcond_without	gif		# GIF support
-%bcond_without	gui		# without GTK+ GUI
-%bcond_without	joystick	# joystick support
-%bcond_without	ladspa		# LADSPA plugin support
-%bcond_without	libdts		# libdts support
-%bcond_without	libdv		# libdv en/decoding support
-%bcond_with	system_libmpeg2	# system libmpeg2 library (instead of internal copy with some quantizer modifications)
-%bcond_without	lirc		# lirc support
-%bcond_without	live		# LIVE555 Streaming Media support
-%bcond_without	lzo		# LZO support (requires lzo 2.x)
-%bcond_without	mad		# mad (audio MPEG) support
-%bcond_without	mpg123		# libmpg123 MP3 decoding support
-%bcond_with	musepack	# libmpcdec support (derecated in favour of libavcodec)
-%bcond_without	openjpeg	# OpenJPEG (JPEG2000) input/output support
-%bcond_without	pulseaudio	# pulseaudio output
-%bcond_without	quicktime	# binary quicktime dll support
-%bcond_without	real		# Real* 8/9 codecs support
-%bcond_without	rtmp		# RTMPDump Streaming Media support
+%bcond_without	ssse3		# SSSE3 optimizations (needs binutils >= 2.16.92)
 %bcond_without	runtime		# disable runtime cpu detection, just detect CPU
 				#  in compile time (advertised by mplayer authors as working faster); in this case
 				#  mplayer may not work on machine other then where it was compiled
-%bcond_without	select		# audio select() support (required e.g. for ALSA or Vortex2 driver)
-%bcond_without	smb		# Samba (SMB) input support
-%bcond_without	theora		# Ogg Theora video support
-%bcond_without	win32		# Win32 codecs support
-%bcond_without	vdpau		# VDPAU acceleration
-%bcond_without	vidix		# VIDIX video drivers
-%bcond_without	vorbis		# Ogg Vorbis audio support (both tremor and libvorbis)
-%bcond_with	system_vorbis	# use system libvorbis instead of internal tremor
-%bcond_without	xvid		# XviD codec
-%bcond_without	mencoder	# mencoder (a/v encoder) compilation
-%bcond_without	sdl		# SDL video output
-%bcond_without	doc		# don't build docs (slow)
-%bcond_with	shared		# experimental libmplayer.so support
-%bcond_without	amr		# Adaptive Multi Rate (AMR) speech codec support
-%bcond_with	gnomess		# controling gnome screensaver [patch not updated]
-%bcond_without	ssse3		# SSSE3 optimizations (needs binutils >= 2.16.92)
-%bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
-%bcond_with	on2		# patches from On2 Flix Engine for Linux
-%bcond_with	zr		# ZR360[56]7/ZR36060 video output (needs deprecated V4L1 linux headers)
 %if "%{pld_release}" == "ac"
 %bcond_with	hidden_visibility	# gcc hidden visibility
 %else
 %bcond_without	hidden_visibility	# no gcc hidden visibility
 %endif
+# - general features:
+%bcond_without	bluray		# Blu-ray support
+%bcond_without	cdio		# libcdio support
+%bcond_without	cdparanoia	# cdparanoia support (when libcdio not enabled)
+%bcond_without	doc		# don't build docs (slow)
+%bcond_without	dvdnav		# dvdnav support
+%bcond_without	system_dvdcss	# system libdvdcss library (instead of internal copy)
+%bcond_without	system_dvdread	# system libdvdread library (instead of internal copy)
+%bcond_without	enca		# disable using ENCA charset oracle library
+%bcond_without	gui		# without GTK+ GUI
+%bcond_without	joystick	# joystick support
+%bcond_without	lirc		# lirc support
+%bcond_without	live		# LIVE555 Streaming Media support
+%bcond_without	mencoder	# mencoder (a/v encoder) compilation
+%bcond_with	on2		# patches from On2 Flix Engine for Linux
+%bcond_without	osd		# osd menu support
+%bcond_without	rtmp		# RTMPDump Streaming Media support
+%bcond_with	shared		# experimental libmplayer.so support
+%bcond_without	smb		# Samba (SMB) input support
+# - codecs:
+%bcond_without	amr		# Adaptive Multi Rate (AMR) speech codec support
+%bcond_without	crystalhd	# CrystalHD support
+%bcond_without	faad		# FAAD2 (AAC) support
+%bcond_without	gif		# GIF support
+%bcond_without	ladspa		# LADSPA plugin support
+%bcond_without	libdts		# libdts support
+%bcond_without	libdv		# libdv en/decoding support
+%bcond_without	lzo		# LZO support (requires lzo 2.x)
+%bcond_without	mad		# mad (audio MPEG) support
+%bcond_without	mpg123		# libmpg123 MP3 decoding support
+%bcond_with	musepack	# libmpcdec support (derecated in favour of libavcodec)
+%bcond_without	openjpeg	# OpenJPEG (JPEG2000) input/output support
+%bcond_without	quicktime	# binary quicktime dll support
+%bcond_without	real		# Real* 8/9 codecs support
+%bcond_without	vorbis		# Ogg Vorbis audio support (both tremor and libvorbis)
+%bcond_with	system_vorbis	# use system libvorbis instead of internal tremor
+%bcond_without	theora		# Ogg Theora video support
+%bcond_without	win32		# Win32 codecs support
+%bcond_without	x264		# x264 support
+%bcond_with	xmms		# XMMS inputplugin support
+%bcond_without	xvid		# XviD codec
+%bcond_with	system_libmpeg2	# system libmpeg2 library (instead of internal copy with some quantizer modifications)
+%bcond_with	system_ffmpeg	# use ffmpeg-devel, rather bundled sources (likely needs ffmpeg from same svn revision than mplayer)
+# - video output:
+%bcond_without	aalib		# aalib video output
+%bcond_without	caca		# libcaca video output
+%bcond_with	directfb	# DirectFB video output
+%bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
+%bcond_with	ggi		# GGI video output
+%bcond_without	sdl		# SDL video output
+%bcond_with	svga		# svgalib video output
+%bcond_without	vdpau		# VDPAU acceleration
+%bcond_without	vidix		# VIDIX video drivers
+%bcond_with	zr		# ZR360[56]7/ZR36060 video output (needs deprecated V4L1 linux headers)
+%bcond_with	gnomess		# controling gnome screensaver [patch not updated]
+# - audio output:
+%bcond_without	alsa		# ALSA audio output
+%bcond_with	arts		# aRts audio output
+%bcond_with	esd		# EsounD sound support
+%bcond_without	jack		# JACKD support
+%bcond_with	nas		# NAS audio output
+%bcond_without	pulseaudio	# pulseaudio output
+%bcond_without	select		# audio select() support (required e.g. for ALSA or Vortex2 driver)
 
 %if %{with alsa}
 %undefine	with_select
@@ -214,6 +219,7 @@ BuildRequires:	libmng-devel
 %{?with_musepack:BuildRequires:	libmpcdec-devel >= 1.2.1}
 %{?with_system_libmpeg2:BuildRequires:	libmpeg2-devel}
 %{?with_mpg123:BuildRequires:	libmpg123-devel >= 1.14}
+BuildRequires:	libnut-devel
 BuildRequires:	libpng-devel
 %{?with_rtmp:BuildRequires:	librtmp-devel}
 %{?with_smb:BuildRequires:	libsmbclient-devel}
