@@ -1,9 +1,4 @@
-# TODO:
-# - libnemesi >= 0.6.3
-# - vstream-client (http://code.google.com/p/vstream-client/)
-# - libbs2b >= 3.0.0
-# - dxr2 (http://sourceforge.net/projects/dxr2/)
-# - s3fb, tdfxvid, wii?
+# TODO: fix vstream detection
 #
 # Conditional build:
 # - CPU optimization:
@@ -31,13 +26,16 @@
 %bcond_without	lirc		# lirc support
 %bcond_without	live		# LIVE555 Streaming Media support
 %bcond_without	mencoder	# mencoder (a/v encoder) compilation
+%bcond_without	nemesi		# NeMeSi Streaming Media support
 %bcond_with	on2		# patches from On2 Flix Engine for Linux
 %bcond_without	osd		# osd menu support
 %bcond_without	rtmp		# RTMPDump Streaming Media support
 %bcond_with	shared		# experimental libmplayer.so support
 %bcond_without	smb		# Samba (SMB) input support
+%bcond_without	vstream		# TiVo vstream client support
 # - codecs:
 %bcond_without	amr		# Adaptive Multi Rate (AMR) speech codec support
+%bcond_without	bs2b		# BS2B audio filter support
 %bcond_without	crystalhd	# CrystalHD support
 %bcond_without	faad		# FAAD2 (AAC) support
 %bcond_without	gif		# GIF support
@@ -64,7 +62,8 @@
 %bcond_without	aalib		# aalib video output
 %bcond_without	caca		# libcaca video output
 %bcond_with	directfb	# DirectFB video output
-%bcond_with	dxr3		# enable use of DXR3/H+ hardware MPEG decoder
+%bcond_with	dxr2		# DXR2 (hardware MPEG decoder) video output
+%bcond_with	dxr3		# DXR3/H+ (hardware MPEG decoder) video output
 %bcond_with	ggi		# GGI video output
 %bcond_without	sdl		# SDL video output
 %bcond_with	svga		# svgalib video output
@@ -185,6 +184,7 @@ BuildRequires:	bzip2-devel
 BuildRequires:	dirac-devel
 %{?with_doc:BuildRequires:	docbook-dtd412-xml}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
+%{?with_dxr2:BuildRequires:	dxr2-driver-devel}
 %{?with_dxr3:BuildRequires:	em8300-devel}
 %{?with_enca:BuildRequires:	enca-devel}
 %{?with_esd:BuildRequires:	esound-devel}
@@ -202,6 +202,7 @@ BuildRequires:	fribidi-devel
 BuildRequires:	lame-libs-devel
 BuildRequires:	libass-devel >= 0.9.10
 %{?with_bluray:BuildRequires:	libbluray-devel}
+%{?with_bs2b:BuildRequires:	libbs2b-devel >= 3.0.0}
 %{?with_caca:BuildRequires:	libcaca-devel}
 %{?with_cdio:BuildRequires:	libcdio-paranoia-devel}
 %{?with_crystalhd:BuildRequires:	libcrystalhd-devel}
@@ -219,6 +220,7 @@ BuildRequires:	libmng-devel
 %{?with_musepack:BuildRequires:	libmpcdec-devel >= 1.2.1}
 %{?with_system_libmpeg2:BuildRequires:	libmpeg2-devel}
 %{?with_mpg123:BuildRequires:	libmpg123-devel >= 1.14}
+%{?with_nemesi:BuildRequires:	libnemesi-devel >= 0.6.3}
 BuildRequires:	libnut-devel
 BuildRequires:	libpng-devel
 %{?with_rtmp:BuildRequires:	librtmp-devel}
@@ -246,6 +248,7 @@ BuildRequires:	speex-devel >= 1.1
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	twolame-devel
 %{?with_vidix:BuildRequires:	vidix-devel}
+%{?with_vstream:BuildRequires:	vstream-client-devel}
 %{?with_xmms:BuildRequires:	xmms-devel}
 %{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
 %ifarch %{ix86} %{x8664}
@@ -525,6 +528,7 @@ build() {
 	%{__enable_disable directfb} \
 	%{__enable_disable dvdnav} \
 	%{__disable system_dvdread dvdread-internal} \
+	%{__disable dxr2} \
 	%{__disable dxr3} \
 	--enable-dynamic-plugins \
 	%{__disable enca} \
@@ -538,11 +542,13 @@ build() {
 	%{__enable joystick} \
 	%{__disable cdio libcdio} \
 	%{__disable ladspa} \
+	%{__disable bs2b libbs2b} \
 	%{__disable libdts libdca} \
 	%{__disable libdv} \
 	%{__disable system_dvdcss libdvdcss-internal} \
 	%{__disable lzo liblzo} \
 	%{__disable system_libmpeg2 libmpeg2-internal} \
+	%{__disable nemesi} \
 	%{__enable_disable amr libopencore_amrnb} %{__enable_disable amr libopencore_amrwb} \
 	%{__disable openjpeg} \
 	%{__disable rtmp librtmp} \
@@ -565,9 +571,11 @@ build() {
 	%{__enable_disable runtime runtime-cpudetection} \
 	%{__enable_disable sdl} \
 	%{__disable select} \
+	--enable-s3fb \
 	%{__disable smb} \
 	%{__disable svga} \
 	--enable-tdfxfb \
+	--enable-tdfxvid \
 	%{__disable theora} \
 	--disable-toolame \
 	--disable-tremor \
@@ -576,7 +584,11 @@ build() {
 	--enable-unrarexec \
 	%{__disable vdpau} \
 	%{__disable vidix} \
+	%{__disable vstream} \
 	--enable-vm \
+%ifarch ppc
+	--enable-wii \
+%endif
 	%{__disable win32 win32dll} \
 	--enable-x11 \
 	%{__disable x264} \
