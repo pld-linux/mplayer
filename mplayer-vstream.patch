@@ -1,0 +1,20 @@
+--- MPlayer-1.1/configure.orig	2013-02-24 19:30:58.149114471 +0100
++++ MPlayer-1.1/configure	2013-02-24 19:44:59.449079165 +0100
+@@ -7435,7 +7435,7 @@
+ if test "$_vstream" = yes ; then
+   def_vstream='#define CONFIG_VSTREAM 1'
+   inputmodules="vstream $inputmodules"
+-  extra_ldflags="$extra_ldflags -lvstream-client"
++  ndextra_ldflags="$ndextra_ldflags -lvstream-client"
+ else
+   noinputmodules="vstream $noinputmodules"
+   def_vstream='#undef CONFIG_VSTREAM'
+@@ -8048,7 +8048,7 @@
+ 
+ LDFLAGS            = $real_ldflags
+ 
+-EXTRALIBS          = $extra_ldflags $ld_static $extra_libs
++EXTRALIBS          = $extra_ldflags $ndextra_ldflags $ld_static $extra_libs
+ EXTRALIBS_MPLAYER  = $libs_mplayer
+ EXTRALIBS_MENCODER = $libs_mencoder
+ 

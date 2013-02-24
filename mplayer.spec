@@ -152,10 +152,11 @@ Patch16:	%{name}-libcdio.patch
 Patch17:	%{name}-gsm.patch
 Patch18:	%{name}-openjpeg.patch
 Patch19:	%{name}-shared.patch
+Patch20:	%{name}-vstream.patch
 
 # codecs, outputs, demuxers:
-Patch20:	%{name}-auto-expand.patch
-Patch21:	%{name}-release_directfb.patch
+Patch21:	%{name}-auto-expand.patch
+Patch22:	%{name}-release_directfb.patch
 
 # goodies:
 Patch30:	%{name}-cp1250-fontdesc.patch
@@ -413,10 +414,11 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch17 -p1
 %patch18 -p1
 %{?with_shared:%patch19 -p1}
+%patch20 -p1
 
 # codecs, outputs, demuxers:
-%patch20 -p1
 %patch21 -p1
+%patch22 -p1
 
 # goodies:
 %patch30 -p0
