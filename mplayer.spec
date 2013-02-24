@@ -1,4 +1,3 @@
-# TODO: fix vstream detection
 #
 # Conditional build:
 # - CPU optimization:
