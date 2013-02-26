@@ -631,13 +631,13 @@ install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysc
 
 # executables
 %if %{with mencoder}
-install mencoder $RPM_BUILD_ROOT%{_bindir}/mencoder%{_suf}
+install mencoder $RPM_BUILD_ROOT%{_bindir}/mencoder%{binsuf}
 ln -sf mencoder%{binsuf} $RPM_BUILD_ROOT%{_bindir}/mencoder
 %endif
-install mplayer $RPM_BUILD_ROOT%{_bindir}/mplayer%{_suf}
+install mplayer $RPM_BUILD_ROOT%{_bindir}/mplayer%{binsuf}
 ln -sf mplayer%{binsuf} $RPM_BUILD_ROOT%{_bindir}/mplayer
 %if %{with gui}
-install gmplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer%{_suf}
+install gmplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer%{binsuf}
 ln -sf gmplayer%{binsuf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
 %endif
 
