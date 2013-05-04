@@ -11,6 +11,7 @@
 %else
 %bcond_without	hidden_visibility	# no gcc hidden visibility
 %endif
+%bcond_without	verbose		# disable verbose build
 # - general features:
 %bcond_without	bluray		# Blu-ray support
 %bcond_without	cdio		# libcdio support
@@ -601,7 +602,7 @@ build() {
 	%{__enable_disable zr} \
 	"$@"
 
-	%{__make}
+	%{__make} %{?with_verbose:V=1}
 }
 
 %if %{with gui}
