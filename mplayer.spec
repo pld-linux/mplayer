@@ -6,11 +6,7 @@
 %bcond_without	runtime		# disable runtime cpu detection, just detect CPU
 				#  in compile time (advertised by mplayer authors as working faster); in this case
 				#  mplayer may not work on machine other then where it was compiled
-%if "%{pld_release}" == "ac"
-%bcond_with	hidden_visibility	# gcc hidden visibility
-%else
 %bcond_without	hidden_visibility	# no gcc hidden visibility
-%endif
 %bcond_without	verbose		# disable verbose build
 # - general features:
 %bcond_without	bluray		# Blu-ray support
@@ -256,9 +252,6 @@ BuildRequires:	twolame-devel
 BuildRequires:	yasm
 %endif
 BuildRequires:	zlib-devel
-%if "%{pld_release}" == "ac"
-BuildRequires:	XFree86-devel >= 4.0.2
-%else
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -267,7 +260,6 @@ BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXvMC-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
-%endif
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -276,12 +268,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		specflags_ia32	-fomit-frame-pointer
 %if %{with altivec}
 %define		specflags_ppc	-maltivec
-%endif
-
-%if "%{pld_release}" == "ac"
-%ifarch ppc
-%define		__cc	gcc4
-%endif
 %endif
 
 %description
