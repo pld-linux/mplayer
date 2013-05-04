@@ -455,6 +455,9 @@ subcp = cp1250
 # Standard location
 unrarexec = "%{_bindir}/unrar"
 
+# Joystick input is disabled because of issues on some laptops (thinkpad, macbook pro).
+joystick=no
+
 CONFIGADD
 
 %if %{with system_ffmpeg}
