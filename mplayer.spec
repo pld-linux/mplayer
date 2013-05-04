@@ -149,6 +149,7 @@ Patch17:	%{name}-gsm.patch
 Patch18:	%{name}-openjpeg.patch
 Patch19:	%{name}-shared.patch
 Patch20:	%{name}-vstream.patch
+Patch23:	vstream-format-security.patch
 
 # codecs, outputs, demuxers:
 Patch21:	%{name}-auto-expand.patch
@@ -401,6 +402,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch18 -p1
 %{?with_shared:%patch19 -p1}
 %patch20 -p1
+%patch23 -p0
 
 # codecs, outputs, demuxers:
 %patch21 -p1

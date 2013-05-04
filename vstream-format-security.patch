@@ -1,0 +1,14 @@
+http://devel.mplayer2.org/ticket/163
+http://devel.mplayer2.org/changeset/8cd71527ade21ea27ea24cdcc66dc71dca460f85/
+
+Index: stream/stream_vstream.c
+===================================================================
+--- stream/stream_vstream.c	(revision 1888e57af7e1ce51517ad9bdc2d201eaf84a98d2)
++++ stream/stream_vstream.c	(revision 8cd71527ade21ea27ea24cdcc66dc71dca460f85)
+@@ -57,5 +57,5 @@
+     vsnprintf(buf, 1024, format, va);
+     va_end(va);
+-    mp_msg(MSGT_STREAM, MSGL_ERR, buf);
++    mp_msg(MSGT_STREAM, MSGL_ERR, "%s", buf);
+ }
+ 
