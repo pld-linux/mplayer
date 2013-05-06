@@ -464,7 +464,7 @@ CONFIGADD
 
 %if %{with system_ffmpeg}
 # using external ffmpeg, but mplayer adds these to includepath
-%{__rm} -r libavcodec libavdevice libavformat libavutil libpostproc libswscale
+%{__rm} -r ffmpeg
 %endif
 
 %build
