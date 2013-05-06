@@ -111,8 +111,8 @@ Summary(ko.UTF-8):	리눅스용 미디어플레이어
 Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
-Version:	1.1
-Release:	3
+Version:	1.1.1
+Release:	1
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -125,7 +125,7 @@ Group:		Applications/Multimedia
 #   cd mplayer-rXXX && git clone git://git.videolan.org/ffmpeg.git
 #   tar -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
 Source0:	http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
-# Source0-md5:	ac7bf1cfedc1c5c24bfc83107eefb1d9
+# Source0-md5:	39dd55f30eb5403f219a606e79a6648a
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -248,11 +248,6 @@ BuildRequires:	twolame-devel
 %{?with_vidix:BuildRequires:	vidix-devel}
 %{?with_vstream:BuildRequires:	vstream-client-devel}
 %{?with_xmms:BuildRequires:	xmms-devel}
-%{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
-%ifarch %{ix86} %{x8664}
-BuildRequires:	yasm
-%endif
-BuildRequires:	zlib-devel
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -261,6 +256,12 @@ BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXvMC-devel
 BuildRequires:	xorg-lib-libXxf86dga-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
+%{?with_xvid:BuildRequires:	xvid-devel >= 1:0.9.0}
+BuildRequires:	xz
+%ifarch %{ix86} %{x8664}
+BuildRequires:	yasm
+%endif
+BuildRequires:	zlib-devel
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	OpenGL
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
