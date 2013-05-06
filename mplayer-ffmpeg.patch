@@ -1,6 +1,18 @@
---- MPlayer-1.1/configure~	2013-05-06 16:37:01.000000000 +0300
-+++ MPlayer-1.1/configure	2013-05-06 16:44:41.394467719 +0300
-@@ -666,22 +666,22 @@
+--- MPlayer-1.1/configure	2013-05-06 16:44:41.394467719 +0300
++++ MPlayer-1.1.1/configure	2013-05-06 22:22:22.804625607 +0300
+@@ -626,6 +626,11 @@
+ # GOTCHA: the variables below defines the default behavior for autodetection
+ # and have - unless stated otherwise - at least 2 states : yes no
+ # If autodetection is available then the third state is: auto
++
++# XXX this is in wrong place anyway
++ffmpeg_config=false
++test -x /usr/bin/ffmpeg-avconfig && ffmpeg_config=/usr/bin/ffmpeg-avconfig
++
+ _mmx=auto
+ _3dnow=auto
+ _3dnowext=auto
+@@ -666,22 +671,22 @@
  _libopencore_amrnb=auto
  _libopencore_amrwb=auto
  libopenjpeg=auto
