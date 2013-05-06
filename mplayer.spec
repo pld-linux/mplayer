@@ -177,7 +177,7 @@ BuildRequires:	a52dec-libs-devel
 %{?with_arts:BuildRequires:	artsc-devel}
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
 BuildRequires:	bzip2-devel
-%{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
+#%{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
 BuildRequires:	dirac-devel
 %{?with_doc:BuildRequires:	docbook-dtd412-xml}
@@ -206,7 +206,7 @@ BuildRequires:	libass-devel >= 0.9.10
 %{?with_crystalhd:BuildRequires:	libcrystalhd-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel > 0.9.5}
-%{?with_system_dvdcss:BuildRequires:	libdvdcss-devel}
+#%{?with_system_dvdcss:BuildRequires:	libdvdcss-devel}
 %{?with_dvdnav:BuildRequires:	libdvdnav-devel >= 4.1.3}
 %{?with_system_dvdread:BuildRequires:	libdvdread-devel >= 4.1}
 %{?with_ggi:BuildRequires:	libggi-devel}
