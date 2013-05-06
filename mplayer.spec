@@ -97,6 +97,9 @@
 %ifnarch ppc
 %undefine	with_altivec
 %endif
+%ifnarch i686 pentium4 athlon %{x8664}
+%undefine	with_crystalhd
+%endif
 
 %if %{_lib} == "lib64"
 %define		binsuf	64
