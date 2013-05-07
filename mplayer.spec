@@ -33,6 +33,7 @@
 %bcond_without	amr		# Adaptive Multi Rate (AMR) speech codec support
 %bcond_without	bs2b		# BS2B audio filter support
 %bcond_without	crystalhd	# CrystalHD support
+%bcond_without	dirac		# Dirac in libavcodec
 %bcond_without	faad		# FAAD2 (AAC) support
 %bcond_without	gif		# GIF support
 %bcond_without	ladspa		# LADSPA plugin support
@@ -41,11 +42,12 @@
 %bcond_without	lzo		# LZO support (requires lzo 2.x)
 %bcond_without	mad		# mad (audio MPEG) support
 %bcond_without	mpg123		# libmpg123 MP3 decoding support
-%bcond_with	musepack	# libmpcdec support (derecated in favour of libavcodec)
+%bcond_with	musepack	# libmpcdec support (deprecated in favour of libavcodec)
 %bcond_without	openjpeg	# OpenJPEG (JPEG2000) input/output support
 %bcond_without	quicktime	# binary quicktime dll support
 %bcond_without	real		# Real* 8/9 codecs support
 %bcond_without	vorbis		# Ogg Vorbis audio support (both tremor and libvorbis)
+%bcond_without	schroedinger	# Dirac in libavcodec (Schroedinger decoder)
 %bcond_with	system_vorbis	# use system libvorbis instead of internal tremor
 %bcond_without	theora		# Ogg Theora video support
 %bcond_without	win32		# Win32 codecs support
@@ -75,6 +77,16 @@
 %bcond_with	nas		# NAS audio output
 %bcond_without	pulseaudio	# pulseaudio output
 %bcond_without	select		# audio select() support (required e.g. for ALSA or Vortex2 driver)
+
+%if %{with system_ffmpeg}
+# ffmpeg (static) is required by libopencore_amrwb, sorry
+# ffmpeg (static) is required by libopencore_amrnb, sorry
+# ffmpeg (static) is required by libdirac, sorry
+# ffmpeg (static) is required by libschroedinger, sorry
+%undefine	amr
+%undefine	dirac
+%undefine	schroedinger
+%endif
 
 %if %{with alsa}
 %undefine	with_select
@@ -115,7 +127,7 @@ Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.1.1
-Release:	1
+Release:	0.1
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -182,7 +194,7 @@ BuildRequires:	a52dec-libs-devel
 BuildRequires:	bzip2-devel
 #%{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
-BuildRequires:	dirac-devel
+%{?with_lavc:BuildRequires:	dirac-devel}
 %{?with_doc:BuildRequires:	docbook-dtd412-xml}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_dxr2:BuildRequires:	dxr2-driver-devel}
@@ -191,7 +203,7 @@ BuildRequires:	dirac-devel
 %{?with_esd:BuildRequires:	esound-devel}
 BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
-%{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-4.20081024.3}
+%{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.11.3}
 BuildRequires:	fontconfig-devel >= 1:2.4.2
 BuildRequires:	freetype-devel >= 1:2.2.1
 BuildRequires:	fribidi-devel
@@ -243,7 +255,7 @@ BuildRequires:	pkgconfig
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.527
-BuildRequires:	schroedinger-devel
+%{?with_schroedinger:BuildRequires:	schroedinger-devel}
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	tar >= 1:1.22
@@ -469,6 +481,9 @@ CONFIGADD
 %if %{with system_ffmpeg}
 # using external ffmpeg, but mplayer adds these to includepath
 %{__rm} -r ffmpeg
+install -d ffmpeg
+ln -s /usr/include/libavutil ffmpeg/libavutil
+ln -s /usr/include/libpostproc ffmpeg/libpostproc
 %endif
 
 %build
@@ -492,14 +507,8 @@ build() {
 	--extra-ldflags="%{?_x_libraries:-L%{_x_libraries}}" \
 	--language=all \
 %if %{with system_ffmpeg}
-	--disable-libavutil_a \
-	--disable-libavcodec_a \
-	--disable-libavformat_a \
-	--disable-libpostproc_a \
-	--enable-libavutil_so \
-	--enable-libavcodec_so \
-	--enable-libavformat_so \
-	--enable-libpostproc_so \
+	--disable-ffmpeg_a \
+	--enable-ffmpeg_so \
 %endif
 %ifnarch %{ix86} %{x8664}
 	--disable-3dnow \
@@ -522,8 +531,10 @@ build() {
 	%{__disable cdparanoia} \
 	--enable-dga1 \
 	--enable-dga2 \
+	%{__enable_disable dirac libdirac-lavc} \
 	%{__enable_disable directfb} \
 	%{__enable_disable dvdnav} \
+	%{__disable schroedinger libschroedinger-lavc}
 	%{__disable system_dvdread dvdread-internal} \
 	%{__disable dxr2} \
 	%{__disable dxr3} \

@@ -1,5 +1,5 @@
---- MPlayer-1.1/configure	2013-05-06 16:44:41.394467719 +0300
-+++ MPlayer-1.1.1/configure	2013-05-06 22:22:22.804625607 +0300
+--- MPlayer-1.1.1/configure	2013-05-06 22:22:22.804625607 +0300
++++ MPlayer-1.1.1/configure	2013-05-06 23:00:55.448905205 +0300
 @@ -626,6 +626,11 @@
  # GOTCHA: the variables below defines the default behavior for autodetection
  # and have - unless stated otherwise - at least 2 states : yes no
@@ -12,7 +12,7 @@
  _mmx=auto
  _3dnow=auto
  _3dnowext=auto
-@@ -666,22 +671,22 @@
+@@ -666,25 +671,25 @@
  _libopencore_amrnb=auto
  _libopencore_amrwb=auto
  libopenjpeg=auto
@@ -28,7 +28,8 @@
 -libavbsfs_all=$(sed -n 's/^[^#]*BSF.*(.*, *\(.*\)).*/\1_bsf/p' ffmpeg/libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
 +libavbsfs_all=$($ffmpeg_config --bsfs || sed -n 's/^[^#]*BSF.*(.*, *\(.*\)).*/\1_bsf/p' ffmpeg/libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
  libavbsfs=$libavbsfs_all
- libavhwaccels_all=$(sed -n 's/^[^#]*HWACCEL.*(.*, *\(.*\)).*/\1_hwaccel/p' ffmpeg/libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
+-libavhwaccels_all=$(sed -n 's/^[^#]*HWACCEL.*(.*, *\(.*\)).*/\1_hwaccel/p' ffmpeg/libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
++libavhwaccels_all=$($ffmpeg_config --hwaccels || sed -n 's/^[^#]*HWACCEL.*(.*, *\(.*\)).*/\1_hwaccel/p' ffmpeg/libavcodec/allcodecs.c | tr '[a-z]' '[A-Z]')
  # Disable all hardware accelerators for now.
  libavhwaccels=
 -libavdemuxers_all=$(sed -n 's/^[^#]*DEMUX.*(.*, *\(.*\)).*/\1_demuxer/p' ffmpeg/libavformat/allformats.c | tr '[a-z]' '[A-Z]')
@@ -41,7 +42,11 @@
 +libavprotocols_all=$($ffmpeg_config --protocols || sed -n 's/^[^#]*PROTOCOL.*(.*, *\(.*\)).*/\1_protocol/p' ffmpeg/libavformat/allformats.c | tr '[a-z]' '[A-Z]')
  libavprotocols=$libavprotocols_all
  libavprotocols=$(echo $libavprotocols | sed -e s/HTTPS_PROTOCOL// -e s/TLS_PROTOCOL// -e s/BLURAY_PROTOCOL//)
- libavfilters_all=$(sed -n 's/^[^#]*FILTER.*(.*, *\(.*\),.*).*/\1_filter/p' ffmpeg/libavfilter/allfilters.c | tr '[a-z]' '[A-Z]')
+-libavfilters_all=$(sed -n 's/^[^#]*FILTER.*(.*, *\(.*\),.*).*/\1_filter/p' ffmpeg/libavfilter/allfilters.c | tr '[a-z]' '[A-Z]')
++libavfilters_all=$($ffmpeg_config --filters || sed -n 's/^[^#]*FILTER.*(.*, *\(.*\),.*).*/\1_filter/p' ffmpeg/libavfilter/allfilters.c | tr '[a-z]' '[A-Z]')
+ libavfilters=$(echo $libavfilters_all | sed -e 's/ LIB[A-Z0-9_]*_FILTER//g' -e 's/ FREI0R[A-Z0-9_]*_FILTER//g' -e 's/ OCV_FILTER//g' -e 's/ MP_FILTER//g')
+ _mencoder=yes
+ _mplayer=yes
 --- MPlayer-1.1/Makefile~	2013-05-06 16:37:01.000000000 +0300
 +++ MPlayer-1.1/Makefile	2013-05-06 16:45:59.221182150 +0300
 @@ -689,7 +689,7 @@
