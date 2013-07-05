@@ -1,0 +1,69 @@
+Patch taken from:
+http://code.google.com/p/gecko-mediaplayer/issues/detail?id=170
+http://patches.libav.org/patch/18621/
+
+--- mplayer/libmpdemux/demux_lavf.c.bak	2013-07-05 03:03:36.684099781 +0200
++++ mplayer/libmpdemux/demux_lavf.c	2013-07-05 03:04:40.447433846 +0200
+@@ -105,8 +105,13 @@
+         pos += stream->end_pos;
+     else if(whence == SEEK_SET)
+         pos += stream->start_pos;
+-    else if(whence == AVSEEK_SIZE && stream->end_pos > 0)
++    else if(whence == AVSEEK_SIZE && stream->end_pos > 0) {
++		off_t size;
++		stream_control(demuxer->stream, STREAM_CTRL_GET_SIZE, &size);
++			if (size > stream->end_pos)
++				stream->end_pos = size;
+         return stream->end_pos - stream->start_pos;
++	}
+     else
+         return -1;
+ 
+--- mplayer/stream/cache2.c.bak	2013-07-05 03:00:03.010763995 +0200
++++ mplayer/stream/cache2.c	2013-07-05 03:03:18.380766237 +0200
+@@ -91,7 +91,7 @@
+   // callback
+   stream_t* stream;
+   volatile int control;
+-  volatile unsigned control_uint_arg;
++  volatile uint64_t control_uint_arg;
+   volatile double control_double_arg;
+   volatile struct stream_lang_req control_lang_arg;
+   volatile int control_res;
+@@ -264,6 +264,7 @@
+ static int cache_execute_control(cache_vars_t *s) {
+   double double_res;
+   unsigned uint_res;
++  unsigned uint64_res;
+   int needs_flush = 0;
+   static unsigned last;
+   int quit = s->control == -2;
+@@ -316,6 +317,10 @@
+       s->control_res = s->stream->control(s->stream, s->control, &uint_res);
+       s->control_uint_arg = uint_res;
+       break;
++	case STREAM_CTRL_GET_SIZE:
++	  s->control_res = s->stream->control(s->stream, s->control, &uint64_res);
++	  s->control_uint_arg = uint64_res;
++	  break;
+     case STREAM_CTRL_GET_LANG:
+       s->control_res = s->stream->control(s->stream, s->control, (void *)&s->control_lang_arg);
+       break;
+@@ -640,6 +645,7 @@
+     case STREAM_CTRL_GET_ASPECT_RATIO:
+     case STREAM_CTRL_GET_NUM_ANGLES:
+     case STREAM_CTRL_GET_ANGLE:
++	case STREAM_CTRL_GET_SIZE:
+     case -2:
+       s->control = cmd;
+       break;
+@@ -680,6 +686,9 @@
+     case STREAM_CTRL_GET_ANGLE:
+       *(unsigned *)arg = s->control_uint_arg;
+       break;
++	case STREAM_CTRL_GET_SIZE:
++	  *(off_t *)arg = s->control_uint_arg;
++	  break;
+     case STREAM_CTRL_GET_LANG:
+       *(struct stream_lang_req *)arg = s->control_lang_arg;
+       break;
