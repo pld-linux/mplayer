@@ -234,9 +234,9 @@ BuildRequires:	libvpx-devel
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.3}
 BuildRequires:	libxslt-progs
 %{?with_lirc:BuildRequires:	lirc-devel}
-%{?with_live:BuildRequires:	live-devel >= 2006.03.03}
+%{?with_live:BuildRequires:	live-devel >= 2:2006.03.03}
 # "synchronous" RTSPClient interface removed finally in 2013.05.30
-%{?with_live:BuildRequires:	live-devel < 2013.05.30}
+%{?with_live:BuildRequires:	live-devel < 2:2013.05.30}
 %{?with_lzo:BuildRequires:	lzo-devel >= 2.0}
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
