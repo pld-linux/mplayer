@@ -1,22 +1,23 @@
 --- mplayer-r32669/Makefile.orig	2010-11-30 09:29:43.000000000 +0100
 +++ mplayer-r32669/Makefile	2010-11-30 09:31:08.071501256 +0100
-@@ -734,7 +734,7 @@
- OBJS_MPLAYER   += $(OBJS_MPLAYER-yes)
+@@ -687,7 +687,7 @@
+ OBJS_MPLAYER                  += $(OBJS_MPLAYER-yes)
  
  MENCODER_DEPS = $(OBJS_MENCODER) $(OBJS_COMMON) $(COMMON_LIBS)
 -MPLAYER_DEPS  = $(OBJS_MPLAYER)  $(OBJS_COMMON) $(COMMON_LIBS)
 +MPLAYER_DEPS  = $(OBJS_MPLAYER)  $(OBJS_COMMON) $(COMMON_LIBS) -lXext -lX11
- DEP_FILES = $(SRCS_COMMON) $(SRCS_MPLAYER) $(SRCS_MENCODER)
+ DEP_FILES     = $(SRCS_COMMON) $(SRCS_MPLAYER) $(SRCS_MENCODER)
  $(foreach suffix,.c .cpp .m .S,$(eval DEP_FILES := $(DEP_FILES:$(suffix)=.d)))
  
 --- mplayer-r32923/configure.orig	2011-06-28 21:37:44.000000000 +0200
 +++ mplayer-r32923/configure	2011-06-28 21:39:56.738031684 +0200
-@@ -7604,7 +7604,7 @@
+@@ -7869,7 +7869,7 @@
    return exitvar;
  }
  EOF
--    cc_check -lXext && _xshape=yes
-+    cc_check -lXext -lX11 && _xshape=yes
-   fi
-   if test "$_xshape" = yes ; then
-     def_xshape='#define CONFIG_XSHAPE 1'
+-      cc_check -lXext && _xshape=yes
++      cc_check -lXext -lX11 && _xshape=yes
+     fi
+     if test "$_xshape" = yes ; then
+       def_xshape='#define CONFIG_XSHAPE 1'
+

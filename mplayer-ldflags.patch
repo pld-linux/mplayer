@@ -29,13 +29,13 @@
    echores "yes"
  else
    echores "no"
-@@ -7988,6 +7992,8 @@
+@@ -8390,6 +8390,8 @@
+ CFLAGS_STACKREALIGN      = $cflags_stackrealign
  CFLAGS_SVGALIB_HELPER    = $cflags_svgalib_helper
- CFLAGS_TREMOR_LOW        = $cflags_tremor_low
  
 +LDFLAGS            = $real_ldflags
 +
- EXTRALIBS          = $extra_ldflags $ld_static $extra_libs
+ EXTRALIBS          = $extra_ldflags $ld_static $timer_libs $extra_libs
  EXTRALIBS_MPLAYER  = $libs_mplayer
  EXTRALIBS_MENCODER = $libs_mencoder
 --- mplayer-r32669/Makefile.orig	2010-10-27 19:55:45.000000000 +0200

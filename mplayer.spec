@@ -107,6 +107,9 @@
 %define		binsuf	32
 %endif
 
+# date from directory inside of tarball (like mplayer-export-2014-04-29)
+%define	snap	2014-04-29
+%define	ssnap	%(echo %{snap} | tr -d -)
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -115,7 +118,7 @@ Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.1.1
-Release:	6
+Release:	6.%{ssnap}.1
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -123,12 +126,11 @@ Release:	6
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
-# for snapshots:
-#   svn export svn://svn.mplayerhq.hu/mplayer/trunk mplayer-rXXX
-#   cd mplayer-rXXX && git clone git://git.videolan.org/ffmpeg.git
-#   tar -cvJf mplayer-rXXX.tar.xz mplayer-rXXX
-Source0:	http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
-# Source0-md5:	39dd55f30eb5403f219a606e79a6648a
+# Source0:        http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
+Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
+# Source0-md5:	e0183567e23a6c03495cbff696d840c0
+Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
+# Source1-md5:	2e2d3842604047137318880f5b7d8691
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -145,7 +147,7 @@ Patch10:	%{name}-ldflags.patch
 Patch11:	%{name}-altivec.patch
 Patch12:	%{name}-check-byteswap.patch
 Patch13:	%{name}-visibility-hidden-fix.patch
-Patch14:	%{name}-ffmpeg.patch
+
 Patch15:	%{name}-live555-async.patch
 Patch16:	%{name}-libcdio.patch
 Patch17:	%{name}-gsm.patch
@@ -164,11 +166,9 @@ Patch31:	%{name}-350.patch
 # update, hard to fix right now because of gnome bug 579430:
 # https://bugzilla.gnome.org/show_bug.cgi?id=579430
 #Patch32:	%{name}-gnome-screensaver.patch
-Patch33:	%{name}-growing-files.patch
 
 Patch100:	%{name}-on2flix.patch
 Patch101:	%{name}-link.patch
-Patch102:	%{name}-build.patch
 
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel}
@@ -392,7 +392,7 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-%setup -q -n MPlayer-%{version} -a3 -a6 -a9
+%setup -q -n %{name}-export-%{snap} -a1 -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # build (configure / Makefile) related:
@@ -400,7 +400,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
-%{?with_system_ffmpeg:%patch14 -p1}
+
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
@@ -417,7 +417,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch30 -p0
 %patch31 -p1
 #%{with_gnomess:%patch32 -p1}
-%patch33 -p1
 
 # on2flix
 mv mencoder-on2flixenglinux{-*-*-*,}
@@ -442,7 +441,6 @@ done
 %endif
 
 %patch101 -p1
-%patch102 -p1
 
 cat etc/example.conf > etc/mplayer.conf
 cat <<'CONFIGADD' >> etc/mplayer.conf
@@ -470,7 +468,7 @@ CONFIGADD
 
 %if %{with system_ffmpeg}
 # using external ffmpeg, but mplayer adds these to includepath
-%{__rm} -r ffmpeg
+%{__rm} -rf ffmpeg
 %endif
 
 %build
@@ -494,14 +492,7 @@ build() {
 	--extra-ldflags="%{?_x_libraries:-L%{_x_libraries}}" \
 	--language=all \
 %if %{with system_ffmpeg}
-	--disable-libavutil_a \
-	--disable-libavcodec_a \
-	--disable-libavformat_a \
-	--disable-libpostproc_a \
-	--enable-libavutil_so \
-	--enable-libavcodec_so \
-	--enable-libavformat_so \
-	--enable-libpostproc_so \
+	--disable-ffmpeg_a \
 %endif
 %ifnarch %{ix86} %{x8664}
 	--disable-3dnow \

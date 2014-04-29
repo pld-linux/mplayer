@@ -9,12 +9,13 @@
  else
    noinputmodules="vstream $noinputmodules"
    def_vstream='#undef CONFIG_VSTREAM'
-@@ -8048,7 +8048,7 @@
+@@ -8415,7 +8415,7 @@
  
  LDFLAGS            = $real_ldflags
  
--EXTRALIBS          = $extra_ldflags $ld_static $extra_libs
-+EXTRALIBS          = $extra_ldflags $ndextra_ldflags $ld_static $extra_libs
+-EXTRALIBS          = $extra_ldflags $ld_static $timer_libs $extra_libs
++EXTRALIBS          = $extra_ldflags $ndextra_ldflags $ld_static $timer_libs $extra_libs
  EXTRALIBS_MPLAYER  = $libs_mplayer
  EXTRALIBS_MENCODER = $libs_mencoder
  
+
