@@ -108,7 +108,7 @@
 %endif
 
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
-%define	snap	2014-04-29
+%define	snap	2014-09-10
 %define	ssnap	%(echo %{snap} | tr -d -)
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
@@ -128,9 +128,9 @@ License:	GPL
 Group:		Applications/Multimedia
 # Source0:        http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
 Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
-# Source0-md5:	e0183567e23a6c03495cbff696d840c0
+# Source0-md5:	24f283994e54deb1744460b0d70c76c9
 Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
-# Source1-md5:	2e2d3842604047137318880f5b7d8691
+# Source1-md5:	00315d9e593b74430bc4a9a2cde6bd5e
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -473,7 +473,7 @@ CONFIGADD
 
 %build
 CFLAGS="%{rpmcflags} %{?with_hidden_visibility:-fvisibility=hidden} %{?with_shared:-fvisibility=default -fPIC}"
-CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb}"
+CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb} -DHAVE_GSM_H=1"
 
 # NOTE:
 # - lircc refers to obsolete liblircc library (used in LIRCCD < 0.9)

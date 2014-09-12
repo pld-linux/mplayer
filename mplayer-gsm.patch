@@ -9,18 +9,4 @@
  fi
  if test "$_libgsm" = yes ; then
    def_libgsm='#define CONFIG_LIBGSM 1'
---- MPlayer-1.1/ffmpeg/libavcodec/libgsm.c.orig	2012-06-02 20:13:19.000000000 +0200
-+++ MPlayer-1.1/ffmpeg/libavcodec/libgsm.c	2013-02-03 19:07:39.377220838 +0100
-@@ -28,11 +28,7 @@
- // The idiosyncrasies of GSM-in-WAV are explained at http://kbs.cs.tu-berlin.de/~jutta/toast.html
- 
- #include "config.h"
--#if HAVE_GSM_H
- #include <gsm.h>
--#else
--#include <gsm/gsm.h>
--#endif
- 
- #include "libavutil/channel_layout.h"
- #include "libavutil/common.h"
 
