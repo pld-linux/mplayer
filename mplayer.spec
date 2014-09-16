@@ -141,6 +141,7 @@ Source8:	%{name}.desktop
 # http://www.on2.com/gpl/mplayer/
 Source9:	http://support.on2.com/gpl/mplayer/2009-10-08-mencoder-on2flixenglinux.tar.bz2
 # Source9-md5:	07774a2663a8fda07c308df0c6569b56
+Patch0:		%{name}-giflib.patch
 
 # build (configure / Makefile) related:
 Patch10:	%{name}-ldflags.patch
@@ -394,6 +395,7 @@ MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 %prep
 %setup -q -n %{name}-export-%{snap} -a1 -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
+%patch0 -p1
 
 # build (configure / Makefile) related:
 %patch10 -p1
