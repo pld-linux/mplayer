@@ -108,7 +108,7 @@
 %endif
 
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
-%define	snap	2014-09-12
+%define	snap	2014-12-03
 %define	ssnap	%(echo %{snap} | tr -d -)
 %define	rel	3
 Summary:	MPlayer - THE Movie Player for UN*X
@@ -129,9 +129,9 @@ License:	GPL
 Group:		Applications/Multimedia
 # Source0:        http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
 Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
-# Source0-md5:	28b3754f5a1f8d783e422e1bff239a92
+# Source0-md5:	2f37d5e386a7ce98fec54636602e7a58
 Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
-# Source1-md5:	05728909d83ea25c77e2d7912492ba93
+# Source1-md5:	25e00ca99eda7bb54546ce7c10b78464
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -142,7 +142,6 @@ Source8:	%{name}.desktop
 # http://www.on2.com/gpl/mplayer/
 Source9:	http://support.on2.com/gpl/mplayer/2009-10-08-mencoder-on2flixenglinux.tar.bz2
 # Source9-md5:	07774a2663a8fda07c308df0c6569b56
-Patch0:		%{name}-giflib.patch
 
 # build (configure / Makefile) related:
 Patch10:	%{name}-ldflags.patch
@@ -396,7 +395,6 @@ MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 %prep
 %setup -q -n %{name}-export-%{snap} -a1 -a3 -a6 -a9
 cp -f etc/codecs.conf etc/codecs.win32.conf
-%patch0 -p1
 
 # build (configure / Makefile) related:
 %patch10 -p1
