@@ -101,10 +101,14 @@
 %undefine	with_crystalhd
 %endif
 
-%if %{_lib} == "lib64"
-%define		binsuf	64
+%if %{_lib} != "lib"
+%define		binsuf	%(lib=%{_lib} ; echo ${lib#lib})
 %else
+%ifarch	%{ix86} ppc sparc sparcv9 s390
 %define		binsuf	32
+%else
+%define		binsuf	%{nil}
+%endif
 %endif
 
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
@@ -610,7 +614,7 @@ build --disable-gui
 rm -rf $RPM_BUILD_ROOT
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_pixmapsdir},%{_sysconfdir}/mplayer} \
-	$RPM_BUILD_ROOT%{_mandir}/{cs,de,es,fr,hu,it,pl,sv,zh_CN,}/man1 \
+	$RPM_BUILD_ROOT%{_mandir}/{cs,de,es,fr,hu,it,pl,ru,sv,zh_CN,}/man1 \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/skins \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
@@ -618,16 +622,12 @@ install -d \
 install etc/{codecs,mplayer%{?with_osd:,menu},input}.conf $RPM_BUILD_ROOT%{_sysconfdir}/mplayer
 
 # executables
-%if %{with mencoder}
-install mencoder $RPM_BUILD_ROOT%{_bindir}/mencoder%{binsuf}
-ln -sf mencoder%{binsuf} $RPM_BUILD_ROOT%{_bindir}/mencoder
+for prog in mplayer %{?with_mencoder:mencoder} %{?with_gui:gmplayer} ; do
+install $prog $RPM_BUILD_ROOT%{_bindir}/${prog}%{binsuf}
+%if "%{binsuf}" != ""
+ln -sf ${prog}%{binsuf} $RPM_BUILD_ROOT%{_bindir}/$prog
 %endif
-install mplayer $RPM_BUILD_ROOT%{_bindir}/mplayer%{binsuf}
-ln -sf mplayer%{binsuf} $RPM_BUILD_ROOT%{_bindir}/mplayer
-%if %{with gui}
-install gmplayer $RPM_BUILD_ROOT%{_bindir}/gmplayer%{binsuf}
-ln -sf gmplayer%{binsuf} $RPM_BUILD_ROOT%{_bindir}/gmplayer
-%endif
+done
 
 %if %{with shared}
 install -d $RPM_BUILD_ROOT%{_libdir}
@@ -654,8 +654,9 @@ install DOCS/man/fr/*.1 $RPM_BUILD_ROOT%{_mandir}/fr/man1
 install DOCS/man/hu/*.1 $RPM_BUILD_ROOT%{_mandir}/hu/man1
 install DOCS/man/it/*.1 $RPM_BUILD_ROOT%{_mandir}/it/man1
 install DOCS/man/pl/*.1 $RPM_BUILD_ROOT%{_mandir}/pl/man1
+install DOCS/man/ru/*.1 $RPM_BUILD_ROOT%{_mandir}/ru/man1
 #install DOCS/man/sv/*.1 $RPM_BUILD_ROOT%{_mandir}/sv/man1
-#install DOCS/man/zh/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
+install DOCS/man/zh_CN/*.1 $RPM_BUILD_ROOT%{_mandir}/zh_CN/man1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -714,16 +715,17 @@ umask 022
 
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/*.conf
-%{_mandir}/man1/*
-%lang(cs) %{_mandir}/cs/man1/*
-%lang(de) %{_mandir}/de/man1/*
-%lang(es) %{_mandir}/es/man1/*
-%lang(fr) %{_mandir}/fr/man1/*
-%lang(hu) %{_mandir}/hu/man1/*
-%lang(it) %{_mandir}/it/man1/*
-%lang(pl) %{_mandir}/pl/man1/*
-#%lang(sv) %{_mandir}/sv/man1/*
-#%lang(zh_CN) %{_mandir}/zh_CN/man1/*
+%{_mandir}/man1/mplayer.1*
+%lang(cs) %{_mandir}/cs/man1/mplayer.1*
+%lang(de) %{_mandir}/de/man1/mplayer.1*
+%lang(es) %{_mandir}/es/man1/mplayer.1*
+%lang(fr) %{_mandir}/fr/man1/mplayer.1*
+%lang(hu) %{_mandir}/hu/man1/mplayer.1*
+%lang(it) %{_mandir}/it/man1/mplayer.1*
+%lang(pl) %{_mandir}/pl/man1/mplayer.1*
+%lang(ru) %{_mandir}/ru/man1/mplayer.1*
+#%lang(sv) %{_mandir}/sv/man1/mplayer.1*
+%lang(zh_CN) %{_mandir}/zh_CN/man1/mplayer.1*
 %{_desktopdir}/mplayer.desktop
 %{_pixmapsdir}/mplayer.png
 %dir %{_datadir}/%{name}
