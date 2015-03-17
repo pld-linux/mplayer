@@ -8,3 +8,25 @@
 +	vstream_error;
    local: *;
  };
+--- mplayer-export-2015-03-01/configure.orig	2015-03-07 08:20:59.164474600 +0100
++++ mplayer-export-2015-03-01/configure	2015-03-16 20:50:10.356360513 +0100
+@@ -7758,7 +7758,7 @@
+ void vstream_error(const char *format, ... ) {}
+ int main(void) { vstream_start(); return 0; }
+ EOF
+-  cc_check -lvstream-client && _vstream=yes
++  cc_check -fvisibility=default -lvstream-client && _vstream=yes
+ fi
+ if test "$_vstream" = yes ; then
+   def_vstream='#define CONFIG_VSTREAM 1'
+--- mplayer-export-2015-03-01/stream/stream_vstream.c.orig	2014-12-10 23:46:42.000000000 +0100
++++ mplayer-export-2015-03-01/stream/stream_vstream.c	2015-03-17 15:59:21.860133559 +0100
+@@ -51,7 +51,7 @@
+ 
+ #include <vstream-client.h>
+ 
+-void vstream_error(const char *format, ...) {
++void __attribute__((visibility("default"))) vstream_error(const char *format, ...) {
+     char buf[1024];
+     va_list va;
+     va_start(va, format);

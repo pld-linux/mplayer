@@ -41,12 +41,12 @@
 %bcond_without	lzo		# LZO support (requires lzo 2.x)
 %bcond_without	mad		# mad (audio MPEG) support
 %bcond_without	mpg123		# libmpg123 MP3 decoding support
-%bcond_with	musepack	# libmpcdec support (derecated in favour of libavcodec)
+%bcond_with	musepack	# libmpcdec support (deprecated in favour of libavcodec)
 %bcond_without	openjpeg	# OpenJPEG (JPEG2000) input/output support
 %bcond_without	quicktime	# binary quicktime dll support
 %bcond_without	real		# Real* 8/9 codecs support
 %bcond_without	vorbis		# Ogg Vorbis audio support (both tremor and libvorbis)
-%bcond_with	system_vorbis	# use system libvorbis instead of internal tremor
+%bcond_with	tremor		# use tremor instead of libvorbis
 %bcond_without	theora		# Ogg Theora video support
 %bcond_without	win32		# Win32 codecs support
 %bcond_without	x264		# x264 support
@@ -80,7 +80,7 @@
 %undefine	with_select
 %endif
 %if %{without vorbis}
-%undefine	with_system_vorbis
+%undefine	with_tremor
 %endif
 
 %ifnarch %{ix86}
@@ -175,14 +175,18 @@ Patch100:	%{name}-on2flix.patch
 Patch101:	%{name}-link.patch
 
 URL:		http://www.mplayerhq.hu/
-%{?with_directfb:BuildRequires:	DirectFB-devel}
+%{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.22}
+BuildRequires:	EGL-devel
 BuildRequires:	OpenAL-devel
-BuildRequires:	OpenGL-devel
+BuildRequires:	OpenGL-GLX-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.1.7}
+# checked, but seems actually not used
+#%{?with_sdl:BuildRequires:	SDL_image-devel}
 BuildRequires:	a52dec-libs-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 %{?with_arts:BuildRequires:	artsc-devel}
+BuildRequires:	binutils >= 2.10.1
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
 BuildRequires:	bzip2-devel
 #%{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
@@ -202,7 +206,9 @@ BuildRequires:	freetype-devel >= 1:2.2.1
 BuildRequires:	fribidi-devel
 %{?with_altivec:BuildRequires:	gcc >= 5:4.1}
 %{?with_gif:BuildRequires:	giflib-devel}
-%{?with_gui:BuildRequires:	gtk+2-devel}
+%{?with_gui:BuildRequires:	glib2-devel >= 1:2.6.0}
+BuildRequires:	gnutls-devel
+%{?with_gui:BuildRequires:	gtk+2-devel >= 2:2.4.0}
 %{?with_jack:BuildRequires:	jack-audio-connection-kit-devel}
 %{?with_ladspa:BuildRequires:	ladspa-devel}
 BuildRequires:	lame-libs-devel
@@ -233,10 +239,15 @@ BuildRequires:	libpng-devel
 %{?with_smb:BuildRequires:	libsmbclient-devel}
 %{?with_theora:BuildRequires:	libtheora-devel}
 %{?with_vdpau:BuildRequires:	libvdpau-devel}
-%{?with_system_vorbis:BuildRequires:	libvorbis-devel}
+%if %{with vorbis} && %{without tremor}
+BuildRequires:	libvorbis-devel
+%endif
 BuildRequires:	libvpx-devel
+# build >= 118
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.3}
 BuildRequires:	libxslt-progs
+# with v4l2 headers
+BuildRequires:	linux-libc-headers >= 7:2.6.22
 %{?with_lirc:BuildRequires:	lirc-devel}
 %{?with_live:BuildRequires:	live-devel >= 2:2011.01.10}
 %{?with_lzo:BuildRequires:	lzo-devel >= 2.0}
@@ -244,6 +255,7 @@ BuildRequires:	libxslt-progs
 BuildRequires:	ncurses-devel
 %{?with_amr:BuildRequires:	opencore-amr-devel}
 %{?with_openjpeg:BuildRequires:	openjpeg-devel}
+BuildRequires:	opus-devel
 BuildRequires:	pkgconfig
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
 BuildRequires:	rpm >= 4.4.9-56
@@ -252,9 +264,11 @@ BuildRequires:	schroedinger-devel
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	tar >= 1:1.22
+%{?with_tremor:BuildRequires:	tremor-devel}
 BuildRequires:	twolame-devel
 %{?with_vidix:BuildRequires:	vidix-devel}
 %{?with_vstream:BuildRequires:	vstream-client-devel}
+BuildRequires:	webrtc-libilbc-devel
 %{?with_xmms:BuildRequires:	xmms-devel}
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXScrnSaver-devel
@@ -481,6 +495,7 @@ CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb} 
 # NOTE:
 # - lircc refers to obsolete liblircc library (used in LIRCCD < 0.9)
 # - toolame is obsolete predecessor of twolame
+# - libcdio-paranoia is preferred over cdparanoia-III libs
 build() {
 	set -x
 
@@ -571,9 +586,7 @@ build() {
 	--enable-tdfxvid \
 	%{__disable theora} \
 	--disable-toolame \
-	--disable-tremor \
-	%{__disable vorbis tremor-internal} \
-	%{__disable_if system_vorbis tremor-internal} \
+	%{!?with_tremor:--disable-tremor} \
 	--enable-unrarexec \
 	%{__disable vdpau} \
 	%{__disable vidix} \
