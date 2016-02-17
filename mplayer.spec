@@ -112,7 +112,7 @@
 %endif
 
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
-%define	snap	2016-01-17
+%define	snap	2016-02-17
 %define	ssnap	%(echo %{snap} | tr -d -)
 %define	rel	1
 Summary:	MPlayer - THE Movie Player for UN*X
@@ -122,7 +122,7 @@ Summary(ko.UTF-8):	리눅스용 미디어플레이어
 Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
-Version:	1.2
+Version:	1.3
 Release:	1.%{ssnap}.%{rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
@@ -133,9 +133,9 @@ License:	GPL
 Group:		Applications/Multimedia
 # Source0:        http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
 Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
-# Source0-md5:	debe945ed16a7cdffada2468e49a19cc
+# Source0-md5:	0f3d04ef8530daefedb08b08210cd674
 Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
-# Source1-md5:	0551b7c9f38908377b2d584f6e945847
+# Source1-md5:	c7e151581f4d963c9d3e3a1cb1d7adc0
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
