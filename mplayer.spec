@@ -192,7 +192,7 @@ BuildRequires:	bzip2-devel
 #%{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
 BuildRequires:	dirac-devel
-%{?with_doc:BuildRequires:	docbook-dtd412-xml}
+%{?with_doc:BuildRequires:	docbook-dtd45-xml}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_dxr2:BuildRequires:	dxr2-driver-devel}
 %{?with_dxr3:BuildRequires:	em8300-devel}
@@ -436,7 +436,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 #%{with_gnomess:%patch32 -p1}
 
 # on2flix
-mv mencoder-on2flixenglinux{-*-*-*,}
+%{__mv} mencoder-on2flixenglinux{-*-*-*,}
 %if %{with on2}
 #%%patch100 -p1
 cp -a mencoder-on2flixenglinux/patch/new_files/libmpdemux/* libmpdemux
@@ -612,7 +612,7 @@ build() {
 %if %{with gui}
 # build GUI version
 build --enable-gui --disable-mencoder
-mv -f mplayer gmplayer
+%{__mv} mplayer gmplayer
 %{__make} distclean
 %endif
 
@@ -713,9 +713,10 @@ umask 022
 %lang(es) %doc DOCS/HTML/es
 %lang(fr) %doc DOCS/HTML/fr
 %lang(hu) %doc DOCS/HTML/hu
+%lang(it) %doc DOCS/HTML/it
 %lang(pl) %doc DOCS/HTML/pl
 %lang(ru) %doc DOCS/HTML/ru
-#%lang(zh_CN) %doc DOCS/zh
+%lang(zh_CN) %doc DOCS/HTML/zh_CN
 %endif
 
 %files common
