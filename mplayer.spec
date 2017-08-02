@@ -23,7 +23,6 @@
 %bcond_without	live		# LIVE555 Streaming Media support
 %bcond_without	mencoder	# mencoder (a/v encoder) compilation
 %bcond_without	nemesi		# NeMeSi Streaming Media support
-%bcond_with	on2		# patches from On2 Flix Engine for Linux
 %bcond_without	osd		# osd menu support
 %bcond_without	rtmp		# RTMPDump Streaming Media support
 %bcond_with	shared		# experimental libmplayer.so support
@@ -143,9 +142,6 @@ Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.ta
 # Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
-# http://www.on2.com/gpl/mplayer/
-Source9:	http://support.on2.com/gpl/mplayer/2009-10-08-mencoder-on2flixenglinux.tar.bz2
-# Source9-md5:	07774a2663a8fda07c308df0c6569b56
 
 # build (configure / Makefile) related:
 Patch10:	%{name}-ldflags.patch
@@ -171,7 +167,6 @@ Patch31:	%{name}-350.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=579430
 #Patch32:	%{name}-gnome-screensaver.patch
 
-Patch100:	%{name}-on2flix.patch
 Patch101:	%{name}-link.patch
 
 URL:		http://www.mplayerhq.hu/
@@ -410,7 +405,7 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-%setup -q -n %{name}-export-%{snap} -a1 -a3 -a6 -a9
+%setup -q -n %{name}-export-%{snap} -a1 -a3 -a6
 cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # build (configure / Makefile) related:
@@ -434,28 +429,6 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch30 -p0
 %patch31 -p1
 #%{with_gnomess:%patch32 -p1}
-
-# on2flix
-%{__mv} mencoder-on2flixenglinux{-*-*-*,}
-%if %{with on2}
-#%%patch100 -p1
-cp -a mencoder-on2flixenglinux/patch/new_files/libmpdemux/* libmpdemux
-# remove broken patches:
-# - first set does not apply
-# - second set beakes build
-for PATCH in	asf-correct_movielength avi_check_idxflags \
-		demux_lavf-add_dv_mts_preferred demux_lavf-probe_small_files \
-		mencoder_07_demux_update_pts mencoder_10_correct_pts \
-		mpegvideo-revert_r18381 \
-		\
-		reduce_spurious_logging
-do
-	rm mencoder-on2flixenglinux/patch/$PATCH.diff
-done
-for a in mencoder-on2flixenglinux/patch/*.diff; do
-	patch -p0 < $a
-done
-%endif
 
 %patch101 -p1
 
