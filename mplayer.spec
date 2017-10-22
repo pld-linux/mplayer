@@ -111,7 +111,7 @@
 %endif
 
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
-%define	snap	2017-07-09
+%define	snap	2017-10-22
 %define	ssnap	%(echo %{snap} | tr -d -)
 %define	rel	1
 Summary:	MPlayer - THE Movie Player for UN*X
@@ -132,9 +132,9 @@ License:	GPL
 Group:		Applications/Multimedia
 # Source0:        http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
 Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
-# Source0-md5:	d5d7bb7176682afccd64ef855ae65e8d
+# Source0-md5:	22761a792a834f82a87ff7f0a4c7a154
 Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
-# Source1-md5:	20eb6a5caa8fd874e90033b54fc39ac0
+# Source1-md5:	2007a7aa18484b5531f2dc6302023dbc
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -249,7 +249,7 @@ BuildRequires:	linux-libc-headers >= 7:2.6.22
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 %{?with_amr:BuildRequires:	opencore-amr-devel}
-%{?with_openjpeg:BuildRequires:	openjpeg-devel}
+%{?with_openjpeg:BuildRequires:	openjpeg2-devel}
 BuildRequires:	opus-devel
 BuildRequires:	pkgconfig
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
