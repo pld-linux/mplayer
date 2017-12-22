@@ -111,7 +111,7 @@
 %endif
 
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
-%define	snap	2017-12-21
+%define	snap	2017-12-22
 %define	ssnap	%(echo %{snap} | tr -d -)
 %define	rel	1
 Summary:	MPlayer - THE Movie Player for UN*X
@@ -132,7 +132,7 @@ License:	GPL
 Group:		Applications/Multimedia
 # Source0:        http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
 Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
-# Source0-md5:	19002ff25bbb7efc7329d64ba7c8392a
+# Source0-md5:	abd2055c8839a0c55360fb1927441bbd
 Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
 # Source1-md5:	6f543d16f2c61e5f41d8e754c5ddbda8
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
