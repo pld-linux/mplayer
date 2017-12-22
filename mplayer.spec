@@ -111,9 +111,9 @@
 %endif
 
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
-%define	snap	2017-10-22
+%define	snap	2017-12-21
 %define	ssnap	%(echo %{snap} | tr -d -)
-%define	rel	2
+%define	rel	1
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -132,9 +132,9 @@ License:	GPL
 Group:		Applications/Multimedia
 # Source0:        http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
 Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
-# Source0-md5:	22761a792a834f82a87ff7f0a4c7a154
+# Source0-md5:	19002ff25bbb7efc7329d64ba7c8392a
 Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
-# Source1-md5:	2007a7aa18484b5531f2dc6302023dbc
+# Source1-md5:	6f543d16f2c61e5f41d8e754c5ddbda8
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
@@ -152,7 +152,7 @@ Patch13:	%{name}-visibility-hidden-fix.patch
 Patch15:	%{name}-live555-async.patch
 
 Patch17:	%{name}-gsm.patch
-Patch18:	%{name}-openjpeg.patch
+
 Patch19:	%{name}-shared.patch
 Patch20:	%{name}-vstream.patch
 
@@ -417,7 +417,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch15 -p1
 
 %patch17 -p1
-%patch18 -p1
+
 %{?with_shared:%patch19 -p1}
 %patch20 -p1
 
