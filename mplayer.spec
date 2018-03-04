@@ -113,7 +113,7 @@
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
 %define	snap	2018-03-01
 %define	ssnap	%(echo %{snap} | tr -d -)
-%define	rel	1
+%define	rel	2
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
