@@ -1,0 +1,19 @@
+--- mplayer-export-2018-03-01/configure~	2018-03-04 10:36:57.000000000 +0000
++++ mplayer-export-2018-03-01/configure	2018-03-04 10:37:44.401480707 +0000
+@@ -2861,14 +2861,9 @@
+   warn_cflags=yes
+ fi
+ 
+-CFLAGS="-D_ISOC99_SOURCE -I. -Iffmpeg $CFLAGS"
+-HOSTCFLAGS="-D_ISOC99_SOURCE -I. -Iffmpeg -O3"
++CFLAGS="-I. -Iffmpeg $CFLAGS"
++HOSTCFLAGS="-I. -Iffmpeg -O3"
+ 
+-# On glibc, add some more CPPFLAGS for enabling required functionality.
+-cpp_condition_check features.h "defined __GLIBC__" &&
+-  CFLAGS="-D_POSIX_C_SOURCE=200112 -D_XOPEN_SOURCE=600 $CFLAGS" &&
+-  HOSTCFLAGS="-D_POSIX_C_SOURCE=200112 -D_XOPEN_SOURCE=600 $HOSTCFLAGS"
+-
+ if cygwin; then
+   CFLAGS="-D_XOPEN_SOURCE=600 $CFLAGS"
+ fi

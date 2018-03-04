@@ -148,7 +148,7 @@ Patch10:	%{name}-ldflags.patch
 Patch11:	%{name}-altivec.patch
 Patch12:	%{name}-check-byteswap.patch
 Patch13:	%{name}-visibility-hidden-fix.patch
-
+Patch14:	cflags.patch
 Patch15:	%{name}-live555-async.patch
 
 Patch17:	%{name}-gsm.patch
@@ -413,7 +413,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
-
+%patch14 -p1
 %patch15 -p1
 
 %patch17 -p1
