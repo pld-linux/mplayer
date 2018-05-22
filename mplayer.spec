@@ -134,7 +134,7 @@ Group:		Applications/Multimedia
 Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
 # Source0-md5:	d7447a6838ff3055d5ccb93534b88609
 Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
-# Source1-md5:	82088aed7d78d680fe866dfa16d6c8c0
+# Source1-md5:	b1b71cc56b15da49cee1ede9a7b8134e
 Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
 Source5:	g%{name}.desktop
