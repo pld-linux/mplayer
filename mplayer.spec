@@ -186,7 +186,6 @@ BuildRequires:	binutils >= 2.10.1
 BuildRequires:	bzip2-devel
 #%{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
-BuildRequires:	dirac-devel
 %{?with_doc:BuildRequires:	docbook-dtd45-xml}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
 %{?with_dxr2:BuildRequires:	dxr2-driver-devel}
@@ -249,13 +248,12 @@ BuildRequires:	linux-libc-headers >= 7:2.6.22
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	ncurses-devel
 %{?with_amr:BuildRequires:	opencore-amr-devel}
-%{?with_openjpeg:BuildRequires:	openjpeg2-devel}
+%{?with_openjpeg:BuildRequires:	openjpeg2-devel >= 2.1.0}
 BuildRequires:	opus-devel
 BuildRequires:	pkgconfig
 %{?with_pulseaudio:BuildRequires:	pulseaudio-devel >= 0.9}
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.527
-BuildRequires:	schroedinger-devel
 BuildRequires:	speex-devel >= 1.1
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	tar >= 1:1.22
@@ -280,10 +278,9 @@ BuildRequires:	yasm
 %endif
 BuildRequires:	zlib-devel
 Requires:	%{name}-common = %{epoch}:%{version}-%{release}
-Requires:	OpenGL
+%{?with_openjpeg:Requires:	openjpeg2 >= 2.1.0}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		specflags_ia32	-fomit-frame-pointer
 %if %{with altivec}
 %define		specflags_ppc	-maltivec
