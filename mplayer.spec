@@ -110,10 +110,12 @@
 %endif
 %endif
 
+%if 0
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
 %define	snap	2018-05-22
 %define	ssnap	%(echo %{snap} | tr -d -)
 %define	rel	11
+%endif
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -121,8 +123,8 @@ Summary(ko.UTF-8):	리눅스용 미디어플레이어
 Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
-Version:	1.3
-Release:	1.%{ssnap}.%{rel}
+Version:	1.4
+Release:	1
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -130,16 +132,20 @@ Release:	1.%{ssnap}.%{rel}
 Epoch:		3
 License:	GPL
 Group:		Applications/Multimedia
-# Source0:        http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
-Source0:	ftp://ftp.mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
-# Source0-md5:	d7447a6838ff3055d5ccb93534b88609
+# Source0:	http://mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
+Source0:	http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
+# Source0-md5:	58d39f72bf7f3ddaa9e019224bffcb74
+%if 0
 Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
 # Source1-md5:	b1b71cc56b15da49cee1ede9a7b8134e
-Source3:	ftp://ftp1.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
+%endif
+Source2:	http://mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.tar.bz2
+# Source2-md5:	1ecd31d17b51f16332b1fcc7da36b312
+Source3:	http://mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 # Source3-md5:	7b47904a925cf58ea546ca15f3df160c
+Source4:	http://mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-7.tar.bz2
+# Source4-md5:	956a9d9ea51970e057f0deb7b2e25889
 Source5:	g%{name}.desktop
-Source6:	ftp://ftp2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.tar.bz2
-# Source6-md5:	1ecd31d17b51f16332b1fcc7da36b312
 Source7:	%{name}.png
 Source8:	%{name}.desktop
 
@@ -194,7 +200,7 @@ BuildRequires:	bzip2-devel
 %{?with_esd:BuildRequires:	esound-devel}
 BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
-%{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.4.9-4.20081024.3}
+%{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 4.1}
 BuildRequires:	fontconfig-devel >= 1:2.4.2
 BuildRequires:	freetype-devel >= 1:2.2.1
 BuildRequires:	fribidi-devel
@@ -402,7 +408,11 @@ package.
 MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 
 %prep
-%setup -q -n %{name}-export-%{snap} -a1 -a3 -a6
+%if 0%{?snap:1}
+%setup -q -n %{name}-export-%{snap} -a1 -a2 -a3 -a4
+%else
+%setup -q -n MPlayer-%{version} -a2 -a3 -a4
+%endif
 cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # build (configure / Makefile) related:
@@ -460,7 +470,7 @@ CONFIGADD
 
 %build
 CFLAGS="%{rpmcflags} %{?with_hidden_visibility:-fvisibility=hidden} %{?with_shared:-fvisibility=default -fPIC}"
-CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb::%{_includedir}/directfb} -DHAVE_GSM_H=1"
+CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb: %{_includedir}/directfb} -DHAVE_GSM_H=1"
 
 # NOTE:
 # - lircc refers to obsolete liblircc library (used in LIRCCD < 0.9)
