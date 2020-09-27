@@ -114,8 +114,8 @@
 # date from directory inside of tarball (like mplayer-export-2014-04-29)
 %define	snap	2018-05-22
 %define	ssnap	%(echo %{snap} | tr -d -)
-%define	rel	13
 %endif
+%define	rel	2
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -124,7 +124,7 @@ Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.4
-Release:	2
+Release:	%{rel}
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
