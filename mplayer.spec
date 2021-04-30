@@ -100,7 +100,7 @@
 %undefine	with_crystalhd
 %endif
 
-%if %{_lib} != "lib"
+%if "%{_lib}" != "lib"
 %define		binsuf	%(lib=%{_lib} ; echo ${lib#lib})
 %else
 %ifarch	%{ix86} ppc sparc sparcv9 s390

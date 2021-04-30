@@ -1,6 +1,6 @@
---- MPlayer-1.0rc2/configure~	2008-02-07 13:58:05.000000000 +0200
-+++ MPlayer-1.0rc2/configure	2008-02-07 13:58:10.395099351 +0200
-@@ -2998,6 +2998,21 @@
+--- MPlayer-1.4/configure.orig	2021-04-30 07:15:02.624028723 +0200
++++ MPlayer-1.4/configure	2021-04-30 07:15:53.046668447 +0200
+@@ -3955,6 +3955,21 @@ fi
  echores "$_alloca"
  
  
@@ -19,11 +19,11 @@
 +echores "$_byteswap"
 +
 +
- echocheck "mman.h"
- cat > $TMPC << EOF
- #include <sys/types.h>
-@@ -8568,6 +8568,7 @@
- $def_alsa_asoundlib_h
+ echocheck "fastmemcpy"
+ if test "$_fastmemcpy" = yes ; then
+   def_fastmemcpy='#define CONFIG_FASTMEMCPY 1'
+@@ -8902,6 +8917,7 @@ $def_sys_uio_h
+ $def_alloca_h
  $def_altivec_h
  $def_malloc_h
 +$def_byteswap_h
