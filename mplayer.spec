@@ -115,7 +115,6 @@
 %define	snap	2018-05-22
 %define	ssnap	%(echo %{snap} | tr -d -)
 %endif
-%define	rel	5
 Summary:	MPlayer - THE Movie Player for UN*X
 Summary(de.UTF-8):	MPlayer ist ein unter der freien GPL-Lizenz stehender Media-Player
 Summary(es.UTF-8):	Otro reproductor de películas
@@ -124,7 +123,7 @@ Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.4
-Release:	%{rel}
+Release:	6
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -375,7 +374,7 @@ Summary:	Configuration files and documentation for MPlayer
 Summary(pl.UTF-8):	Pliki konfiguracyjne i dokumentacja dla MPlayera
 Group:		Applications/Multimedia
 Suggests:	unrar
-Obsoletes:	mplayer-vidix
+Obsoletes:	mplayer-vidix < 1.0-3.rc1.2
 
 %description common
 Configuration files, man page and HTML documentation for MPlayer.
