@@ -1,6 +1,6 @@
---- MPlayer-1.4/configure.orig	2021-04-30 07:15:02.624028723 +0200
-+++ MPlayer-1.4/configure	2021-04-30 07:15:53.046668447 +0200
-@@ -3955,6 +3955,21 @@ fi
+--- MPlayer-1.5/configure.orig	2023-04-11 20:43:22.582368374 +0200
++++ MPlayer-1.5/configure	2023-04-11 20:44:20.978718680 +0200
+@@ -4193,6 +4193,21 @@ fi
  echores "$_alloca"
  
  
@@ -22,11 +22,11 @@
  echocheck "fastmemcpy"
  if test "$_fastmemcpy" = yes ; then
    def_fastmemcpy='#define CONFIG_FASTMEMCPY 1'
-@@ -8902,6 +8917,7 @@ $def_sys_uio_h
+@@ -9164,6 +9179,7 @@ $def_sys_uio_h
+ /* system headers */
  $def_alloca_h
  $def_altivec_h
- $def_malloc_h
 +$def_byteswap_h
+ $def_malloc_h
  $def_mman_h
  $def_mman_has_map_failed
- $def_soundcard_h

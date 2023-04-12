@@ -1,6 +1,6 @@
---- MPlayer-1.4/configure.orig	2018-12-15 16:38:24.000000000 +0100
-+++ MPlayer-1.4/configure	2021-04-30 07:14:05.527706286 +0200
-@@ -595,7 +595,8 @@ Advanced options:
+--- MPlayer-1.5/configure.orig	2022-02-27 10:09:00.000000000 +0100
++++ MPlayer-1.5/configure	2023-04-11 20:38:37.187247826 +0200
+@@ -613,7 +613,8 @@ Advanced options:
  
  Use these options if autodetection fails:
    --extra-cflags=FLAGS        extra CFLAGS
@@ -10,7 +10,7 @@
    --extra-libs=FLAGS          extra linker flags
    --extra-libs-mplayer=FLAGS  extra linker flags for MPlayer
    --extra-libs-mencoder=FLAGS extra linker flags for MEncoder
-@@ -930,6 +931,9 @@ for ac_option do
+@@ -952,6 +953,9 @@ for ac_option do
    --extra-cflags=*)
      extra_cflags=$(option_value $ac_option)
      ;;
@@ -20,7 +20,7 @@
    --extra-ldflags=*)
      extra_ldflags=$(option_value $ac_option)
      ;;
-@@ -8024,7 +8028,7 @@ echores "$_crash_debug"
+@@ -8278,7 +8282,7 @@ echores "$_crash_debug"
  
  echocheck "compiler support for noexecstack"
  if cflag_check -Wl,-z,noexecstack ; then
@@ -29,32 +29,32 @@
    echores "yes"
  else
    echores "no"
-@@ -8420,6 +8424,8 @@ CFLAGS_NO_OMIT_LEAF_FRAME_POINTER = $cfl
+@@ -8682,6 +8686,8 @@ CFLAGS_NO_OMIT_LEAF_FRAME_POINTER = $cfl
  CFLAGS_STACKREALIGN      = $cflags_stackrealign
  CFLAGS_SVGALIB_HELPER    = $cflags_svgalib_helper
  
 +LDFLAGS            = $real_ldflags
 +
- EXTRALIBS          = $ld_static $extra_ldflags $timer_libs $extra_libs
- EXTRALIBS_MPLAYER  = $libs_mplayer
- EXTRALIBS_MENCODER = $libs_mencoder
---- MPlayer-1.4/Makefile.orig	2018-04-11 12:26:39.000000000 +0200
-+++ MPlayer-1.4/Makefile	2021-04-30 07:14:33.362496825 +0200
-@@ -744,7 +744,7 @@ mencoder$(EXESUF): EXTRALIBS += $(EXTRAL
+ EXTRALIBS          = $($filter_flags $ld_static $extra_ldflags $timer_libs $extra_libs)
+ EXTRALIBS_MPLAYER  = $($filter_flags $libs_mplayer)
+ EXTRALIBS_MENCODER = $($filter_flags $libs_mencoder)
+--- MPlayer-1.5/Makefile.orig	2023-04-11 20:36:49.897829062 +0200
++++ MPlayer-1.5/Makefile	2023-04-11 20:41:46.636221492 +0200
+@@ -748,7 +748,7 @@ mencoder$(EXESUF): EXTRALIBS += $(EXTRAL
  mplayer$(EXESUF): $(MPLAYER_DEPS)
  mplayer$(EXESUF): EXTRALIBS += $(EXTRALIBS_MPLAYER)
  mencoder$(EXESUF) mplayer$(EXESUF):
--	$(CC) -o $@ $^ $(EXTRALIBS)
-+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(EXTRALIBS)
+-	$(CC) $(CC_LINK_O) $^ $(EXTRALIBS)
++	$(CC) $(LDFLAGS) $(CC_LINK_O) $^ $(EXTRALIBS)
  
  codec-cfg-test$(EXESUF): HOSTCFLAGS := $(HOSTCFLAGS) -DTESTING
  codec-cfg$(EXESUF) codecs2html$(EXESUF):  HOSTCFLAGS := $(HOSTCFLAGS) -DCODECS2HTML
-@@ -1028,7 +1028,7 @@ mplayer-nomain.o: mplayer.c
- TOOLS/netstream$(EXESUF): TOOLS/netstream.c
- TOOLS/vivodump$(EXESUF): TOOLS/vivodump.c
- TOOLS/netstream$(EXESUF) TOOLS/vivodump$(EXESUF): $(subst mplayer.o,mplayer-nomain.o,$(OBJS_MPLAYER)) $(filter-out %mencoder.o,$(OBJS_MENCODER)) $(OBJS_COMMON) $(COMMON_LIBS)
--	$(CC) $(CC_DEPFLAGS) $(CFLAGS) -o $@ $^ $(EXTRALIBS_MPLAYER) $(EXTRALIBS_MENCODER) $(EXTRALIBS)
-+	$(CC) $(CC_DEPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(EXTRALIBS_MPLAYER) $(EXTRALIBS_MENCODER) $(EXTRALIBS)
+@@ -790,7 +790,7 @@ version.h: version.sh $(wildcard .svn/en
+ 	./$< `$(CC) -dumpversion`
  
- REAL_SRCS    = $(wildcard TOOLS/realcodecs/*.c)
- REAL_TARGETS = $(REAL_SRCS:.c=.so.6.0)
+ %$(EXESUF): %.c
+-	$(CC) $(CC_DEPFLAGS) $(CFLAGS) $(CC_LINK_O) $^ $(LIBS)
++	$(CC) $(LDFLAGS) $(CC_DEPFLAGS) $(CFLAGS) $(CC_LINK_O) $^ $(LIBS)
+ 
+ %.ho: %.h
+ 	$(CC) $(CFLAGS) -Wno-unused -c $(CC_O) -x c $<

@@ -122,8 +122,8 @@ Summary(ko.UTF-8):	리눅스용 미디어플레이어
 Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
-Version:	1.4
-Release:	8
+Version:	1.5
+Release:	1
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -133,7 +133,7 @@ License:	GPL
 Group:		Applications/Multimedia
 # Source0:	http://mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
 Source0:	http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
-# Source0-md5:	58d39f72bf7f3ddaa9e019224bffcb74
+# Source0-md5:	0419b64db24b6db0943dbc6afece7c44
 %if 0
 Source1:	http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
 # Source1-md5:	b1b71cc56b15da49cee1ede9a7b8134e
@@ -155,7 +155,7 @@ Patch12:	%{name}-check-byteswap.patch
 Patch13:	%{name}-visibility-hidden-fix.patch
 Patch14:	cflags.patch
 Patch15:	%{name}-live555-async.patch
-
+Patch16:	%{name}-live555-config.patch
 Patch17:	%{name}-gsm.patch
 
 Patch19:	%{name}-shared.patch
@@ -185,11 +185,13 @@ BuildRequires:	OpenGL-GLX-devel
 BuildRequires:	a52dec-libs-devel
 %{?with_aalib:BuildRequires:	aalib-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
+BuildRequires:	aom-devel
 %{?with_arts:BuildRequires:	artsc-devel}
 BuildRequires:	binutils >= 2.10.1
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
 BuildRequires:	bzip2-devel
 #%{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
+BuildRequires:	dav1d-devel
 %{?with_gnomess:BuildRequires:	dbus-glib-devel}
 %{?with_doc:BuildRequires:	docbook-dtd45-xml}
 %{?with_doc:BuildRequires:	docbook-style-xsl}
@@ -199,7 +201,7 @@ BuildRequires:	bzip2-devel
 %{?with_esd:BuildRequires:	esound-devel}
 BuildRequires:	faac-devel
 %{?with_faad:BuildRequires:	faad2-devel >= 2.0}
-%{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 4.1}
+%{?with_system_ffmpeg:BuildRequires:	ffmpeg-devel >= 5.1}
 BuildRequires:	fontconfig-devel >= 1:2.4.2
 BuildRequires:	freetype-devel >= 1:2.2.1
 BuildRequires:	fribidi-devel
@@ -244,6 +246,7 @@ BuildRequires:	libvorbis-devel
 BuildRequires:	libvpx-devel
 # build >= 118
 %{?with_x264:BuildRequires:	libx264-devel >= 0.1.3}
+BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	libxslt-progs
 # with v4l2 headers
 BuildRequires:	linux-libc-headers >= 7:2.6.22
@@ -421,7 +424,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
-
+%patch16 -p1
 %patch17 -p1
 
 %{?with_shared:%patch19 -p1}
@@ -469,7 +472,7 @@ CONFIGADD
 
 %build
 CFLAGS="%{rpmcflags} %{?with_hidden_visibility:-fvisibility=hidden} %{?with_shared:-fvisibility=default -fPIC}"
-CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb: %{_includedir}/directfb} -DHAVE_GSM_H=1"
+CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb: -I%{_includedir}/directfb} -DHAVE_GSM_H=1"
 
 # NOTE:
 # - lircc refers to obsolete liblircc library (used in LIRCCD < 0.9)
@@ -532,6 +535,7 @@ build() {
 	%{__disable bs2b libbs2b} \
 	%{__disable libdts libdca} \
 	%{__disable libdv} \
+	%{__enable_disable live} \
 	%{__disable system_dvdcss libdvdcss-internal} \
 	%{__disable lzo liblzo} \
 	%{__disable system_libmpeg2 libmpeg2-internal} \

@@ -1,6 +1,6 @@
---- MPlayer-1.1/configure.orig	2013-02-24 19:30:58.149114471 +0100
-+++ MPlayer-1.1/configure	2013-02-24 19:44:59.449079165 +0100
-@@ -7435,7 +7435,7 @@
+--- MPlayer-1.5/configure.orig	2023-04-11 20:46:25.264712032 +0200
++++ MPlayer-1.5/configure	2023-04-11 20:47:41.344299874 +0200
+@@ -8106,7 +8106,7 @@ fi
  if test "$_vstream" = yes ; then
    def_vstream='#define CONFIG_VSTREAM 1'
    inputmodules="vstream $inputmodules"
@@ -9,11 +9,12 @@
  else
    noinputmodules="vstream $noinputmodules"
    def_vstream='#undef CONFIG_VSTREAM'
-@@ -8344,6 +8344,7 @@ CFLAGS_SVGALIB_HELPER    = $cflags_svgal
+@@ -8699,7 +8699,7 @@ CFLAGS_SVGALIB_HELPER    = $cflags_svgal
+ 
  LDFLAGS            = $real_ldflags
  
- EXTRALIBS          = $ld_static $extra_ldflags $timer_libs $extra_libs
-+EXTRALIBS          = $extra_ldflags $ndextra_ldflags $ld_static $timer_libs $extra_libs
- EXTRALIBS_MPLAYER  = $libs_mplayer
- EXTRALIBS_MENCODER = $libs_mencoder
+-EXTRALIBS          = $($filter_flags $ld_static $extra_ldflags $timer_libs $extra_libs)
++EXTRALIBS          = $($filter_flags $extra_ldflags $ndextra_ldflags $ld_static $timer_libs $extra_libs)
+ EXTRALIBS_MPLAYER  = $($filter_flags $libs_mplayer)
+ EXTRALIBS_MENCODER = $($filter_flags $libs_mencoder)
  
