@@ -172,6 +172,7 @@ Patch31:	%{name}-350.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=579430
 #Patch32:	%{name}-gnome-screensaver.patch
 Patch33:	binutils2.41.patch
+Patch34:	po-charset.patch
 
 Patch101:	%{name}-link.patch
 
@@ -440,6 +441,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch31 -p1
 #%{with_gnomess:%patch32 -p1}
 %patch33 -p1 -d ffmpeg
+%patch34 -p1
 
 %patch101 -p1
 

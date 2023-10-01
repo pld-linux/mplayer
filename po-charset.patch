@@ -1,0 +1,12 @@
+--- MPlayer-1.5/help/help_create_po.pl.orig	2021-03-04 15:43:07.000000000 +0100
++++ MPlayer-1.5/help/help_create_po.pl	2023-10-01 21:35:19.055900995 +0200
+@@ -56,6 +56,9 @@
+ open(po, "> $ARGV[1]") or die "Cannot open $ARGV[1]";
+ 
+ print po "# DO NOT EDIT - this file is generated from $ARGV[0]\n";
++print po "msgid \"\"\n";
++print po "msgstr \"\"\n";
++print po '"Content-Type: text/plain; charset=UTF-8\n"';
+ 
+ foreach my $id (keys %podefs)
+ {
