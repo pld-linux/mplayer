@@ -188,7 +188,7 @@ BuildRequires:	a52dec-libs-devel
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	aom-devel
 %{?with_arts:BuildRequires:	artsc-devel}
-BuildRequires:	binutils >= 2.10.1
+BuildRequires:	binutils >= 1:2.10.1
 %{?with_ssse3:BuildRequires:	binutils >= 3:2.16.92}
 BuildRequires:	bzip2-devel
 #%{?with_cdparanoia:BuildRequires:	cdparanoia-III-devel}
