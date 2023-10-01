@@ -171,6 +171,7 @@ Patch31:	%{name}-350.patch
 # update, hard to fix right now because of gnome bug 579430:
 # https://bugzilla.gnome.org/show_bug.cgi?id=579430
 #Patch32:	%{name}-gnome-screensaver.patch
+Patch33:	binutils2.41.patch
 
 Patch101:	%{name}-link.patch
 
@@ -438,6 +439,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch30 -p0
 %patch31 -p1
 #%{with_gnomess:%patch32 -p1}
+%patch33 -p1 -d ffmpeg
 
 %patch101 -p1
 
