@@ -21,6 +21,7 @@
 %bcond_without	joystick	# joystick support
 %bcond_without	lirc		# lirc support
 %bcond_without	live		# LIVE555 Streaming Media support
+%bcond_without	live_cpp20	# LIVE555 library with C++20 atomic_flag
 %bcond_without	mencoder	# mencoder (a/v encoder) compilation
 %bcond_without	nemesi		# NeMeSi Streaming Media support
 %bcond_without	osd		# osd menu support
@@ -474,6 +475,12 @@ CONFIGADD
 %{__rm} -rf ffmpeg
 %endif
 
+%if %{with live_cpp20}
+%{__sed} -i -e 's/-std=c++98/-std=c++20/' configure
+%else
+%{__sed} -i -e 's/-std=c++98/& -DNO_STD_LIB/' configure
+%endif
+
 %build
 CFLAGS="%{rpmcflags} %{?with_hidden_visibility:-fvisibility=hidden} %{?with_shared:-fvisibility=default -fPIC}"
 CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb: -I%{_includedir}/directfb} -DHAVE_GSM_H=1"
@@ -539,7 +546,6 @@ build() {
 	%{__disable bs2b libbs2b} \
 	%{__disable libdts libdca} \
 	%{__disable libdv} \
-	%{__enable_disable live} \
 	%{__disable system_dvdcss libdvdcss-internal} \
 	%{__disable lzo liblzo} \
 	%{__disable system_libmpeg2 libmpeg2-internal} \
@@ -550,7 +556,7 @@ build() {
 	%{__disable vorbis libvorbis} \
 	%{__enable_disable lirc} \
 	--disable-lircc \
-	%{__disable live} \
+	%{__enable_disable live} \
 	%{__disable mad} \
 	%{__disable mencoder} \
 	%{__enable osd menu} \
