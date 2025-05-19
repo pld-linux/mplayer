@@ -130,7 +130,7 @@ Release:	6
 # PS: $ rpmvercmp pre7try2 pre7
 # pre7try2 > pre7
 Epoch:		3
-License:	GPL
+License:	GPL v2
 Group:		Applications/Multimedia
 # Source0:	http://mplayerhq.hu/MPlayer/releases/mplayer-export-snapshot.tar.bz2
 Source0:	http://mplayerhq.hu/MPlayer/releases/MPlayer-%{version}.tar.xz
