@@ -421,30 +421,30 @@ MEncoder to koder filmów dla Linuksa będący częścią pakietu MPlayer.
 cp -f etc/codecs.conf etc/codecs.win32.conf
 
 # build (configure / Makefile) related:
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
+%patch -P10 -p1
+%patch -P11 -p1
+%patch -P12 -p1
+%patch -P13 -p1
+%patch -P14 -p1
+%patch -P15 -p1
+%patch -P16 -p1
+%patch -P17 -p1
 
 %{?with_shared:%patch19 -p1}
-%patch20 -p1
+%patch -P20 -p1
 
 # codecs, outputs, demuxers:
-%patch21 -p1
-%patch22 -p1
+%patch -P21 -p1
+%patch -P22 -p1
 
 # goodies:
-%patch30 -p0
-%patch31 -p1
+%patch -P30 -p0
+%patch -P31 -p1
 #%{with_gnomess:%patch32 -p1}
-%patch33 -p1 -d ffmpeg
-%patch34 -p1
+%patch -P33 -p1 -d ffmpeg
+%patch -P34 -p1
 
-%patch101 -p1
+%patch -P101 -p1
 
 cat etc/example.conf > etc/mplayer.conf
 cat <<'CONFIGADD' >> etc/mplayer.conf
