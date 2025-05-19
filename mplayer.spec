@@ -165,6 +165,7 @@ Patch20:	%{name}-vstream.patch
 # codecs, outputs, demuxers:
 Patch21:	%{name}-auto-expand.patch
 Patch22:	%{name}-release_directfb.patch
+Patch23:	%{name}-live555-update.patch
 
 # goodies:
 Patch30:	%{name}-cp1250-fontdesc.patch
@@ -436,6 +437,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 # codecs, outputs, demuxers:
 %patch -P21 -p1
 %patch -P22 -p1
+%patch -P23 -p1
 
 # goodies:
 %patch -P30 -p0

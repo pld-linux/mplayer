@@ -1,0 +1,20 @@
+--- MPlayer-1.5/libmpdemux/demux_rtp.cpp.orig	2025-05-19 18:41:48.735824442 +0200
++++ MPlayer-1.5/libmpdemux/demux_rtp.cpp	2025-05-19 18:49:17.116764229 +0200
+@@ -48,7 +48,7 @@ public:
+   demuxer_t* ourDemuxer() const { return fOurDemuxer; }
+   char const* tag() const { return fTag; }
+ 
+-  char blockingFlag; // used to implement synchronous reads
++  EventLoopWatchVariable blockingFlag; // used to implement synchronous reads
+ 
+   // For A/V synchronization:
+   Boolean prevPacketWasSynchronized;
+@@ -107,7 +107,7 @@ static char* openURL_sip(SIPClient* clie
+ extern AVCodecContext *avcctx;
+ #endif
+ 
+-static char fWatchVariableForSyncInterface;
++static EventLoopWatchVariable fWatchVariableForSyncInterface;
+ static char* fResultString;
+ static int fResultCode;
+ 
