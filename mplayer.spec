@@ -442,7 +442,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 # goodies:
 %patch -P30 -p0
 %patch -P31 -p1
-#%{with_gnomess:%patch32 -p1}
+#%{with_gnomess:%%patch32 -p1}
 %patch -P33 -p1 -d ffmpeg
 %patch -P34 -p1
 
