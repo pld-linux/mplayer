@@ -177,6 +177,7 @@ Patch33:	binutils2.41.patch
 Patch34:	po-charset.patch
 
 Patch101:	%{name}-link.patch
+Patch102:	%{name}-types.patch
 
 URL:		http://www.mplayerhq.hu/
 %{?with_directfb:BuildRequires:	DirectFB-devel >= 0.9.22}
@@ -447,6 +448,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch -P34 -p1
 
 %patch -P101 -p1
+%patch -P102 -p1
 
 cat etc/example.conf > etc/mplayer.conf
 cat <<'CONFIGADD' >> etc/mplayer.conf
