@@ -14,8 +14,7 @@
 %bcond_without	cdparanoia	# cdparanoia support (when libcdio not enabled)
 %bcond_without	doc		# don't build docs (slow)
 %bcond_without	dvdnav		# dvdnav support
-%bcond_without	system_dvdcss	# system libdvdcss library (instead of internal copy)
-%bcond_without	system_dvdread	# system libdvdread library (instead of internal copy)
+%bcond_without	dvdread		# libdvdread support
 %bcond_without	enca		# disable using ENCA charset oracle library
 %bcond_without	gui		# without GTK+ GUI
 %bcond_without	joystick	# joystick support
@@ -226,9 +225,9 @@ BuildRequires:	libass-devel >= 0.9.10
 %{?with_crystalhd:BuildRequires:	libcrystalhd-devel}
 %{?with_libdts:BuildRequires:	libdts-devel}
 %{?with_libdv:BuildRequires:	libdv-devel > 0.9.5}
-#%{?with_system_dvdcss:BuildRequires:	libdvdcss-devel}
+BuildRequires:	libdvdcss-devel
 %{?with_dvdnav:BuildRequires:	libdvdnav-devel >= 4.1.3}
-%{?with_system_dvdread:BuildRequires:	libdvdread-devel >= 4.1}
+%{?with_dvdread:BuildRequires:	libdvdread-devel >= 4.1}
 %{?with_ggi:BuildRequires:	libggi-devel}
 %{?with_ggi:BuildRequires:	libggiwmh-devel}
 BuildRequires:	libgsm-devel
@@ -518,87 +517,86 @@ build() {
 	--disable-sse \
 	--disable-sse2 \
 %endif
-	%{__disable ssse3} \
+	%{__enable_disable ssse3} \
 %ifarch ppc
-	%{__disable altivec} \
+	%{__enable_disable altivec} \
 %endif
-	%{__disable aalib aa} \
+	%{__enable_disable aalib aa} \
 	%{__enable_disable alsa} \
-	%{__disable arts} \
-	%{__disable bluray} \
-	%{__disable caca} \
-	%{__disable cdparanoia} \
+	%{__enable_disable arts} \
+	%{__enable_disable bluray} \
+	%{__enable_disable caca} \
+	%{__enable_disable cdparanoia} \
 	--enable-dga1 \
 	--enable-dga2 \
 	%{__enable_disable directfb} \
 	%{__enable_disable dvdnav} \
-	%{__disable system_dvdread dvdread-internal} \
-	%{__disable dxr2} \
-	%{__disable dxr3} \
+	%{__enable_disable dvdread dvdread} \
+	%{__enable_disable dxr2} \
+	%{__enable_disable dxr3} \
 	--enable-dynamic-plugins \
-	%{__disable enca} \
-	%{__disable esd} \
-	%{__disable faad} \
+	%{__enable_disable enca} \
+	%{__enable_disable esd} \
+	%{__enable_disable faad} \
 	--enable-fbdev \
-	%{__disable gif} \
+	%{__enable_disable gif} \
 	--enable-gl \
-	%{__disable ggi} \
-	%{__disable jack} \
-	%{__enable joystick} \
-	%{__disable cdio libcdio} \
-	%{__disable ladspa} \
-	%{__disable bs2b libbs2b} \
-	%{__disable libdts libdca} \
-	%{__disable libdv} \
-	%{__disable system_dvdcss libdvdcss-internal} \
-	%{__disable lzo liblzo} \
-	%{__disable system_libmpeg2 libmpeg2-internal} \
-	%{__disable nemesi} \
+	%{__enable_disable ggi} \
+	%{__enable_disable jack} \
+	%{__enable_disable joystick} \
+	%{__enable_disable cdio libcdio} \
+	%{__enable_disable ladspa} \
+	%{__enable_disable bs2b libbs2b} \
+	%{__enable_disable libdts libdca} \
+	%{__enable_disable libdv} \
+	%{__enable_disable lzo liblzo} \
+	%{__enable_disable system_libmpeg2 libmpeg2-internal} \
+	%{__enable_disable nemesi} \
 	%{__enable_disable amr libopencore_amrnb} %{__enable_disable amr libopencore_amrwb} \
-	%{__disable openjpeg} \
-	%{__disable rtmp librtmp} \
-	%{__disable vorbis libvorbis} \
+	%{__enable_disable openjpeg libopenjpeg} \
+	%{__enable_disable rtmp librtmp} \
+	%{__enable_disable vorbis libvorbis} \
 	%{__enable_disable lirc} \
 	--disable-lircc \
 	%{__enable_disable live} \
-	%{__disable mad} \
-	%{__disable mencoder} \
-	%{__enable osd menu} \
+	%{__enable_disable mad} \
+	%{__enable_disable mencoder} \
+	%{__enable_disable osd menu} \
 	--enable-mga \
-	%{__disable mpg123} \
-	%{__enable musepack} \
-	%{__disable nas} \
-	%{__disable pulseaudio pulse} \
-	%{__disable quicktime qtx} \
+	%{__enable_disable mpg123} \
+	%{__enable_disable musepack} \
+	%{__enable_disable nas} \
+	%{__enable_disable pulseaudio pulse} \
+	%{__enable_disable quicktime qtx} \
 	--enable-radio \
 	--enable-radio-capture \
-	%{__disable real} \
+	%{__enable_disable real} \
 	%{__enable_disable runtime runtime-cpudetection} \
 	%{__enable_disable sdl} \
-	%{__disable select} \
+	%{__enable_disable select} \
 	--enable-s3fb \
-	%{__disable smb} \
-	%{__disable svga} \
+	%{__enable_disable smb} \
+	%{__enable_disable svga} \
 	--enable-tdfxfb \
 	--enable-tdfxvid \
-	%{__disable theora} \
+	%{__enable_disable theora} \
 	--disable-toolame \
 	%{!?with_tremor:--disable-tremor} \
 	--enable-unrarexec \
-	%{__disable vdpau} \
-	%{__disable vidix} \
-	%{__disable vstream} \
+	%{__enable_disable vdpau} \
+	%{__enable_disable vidix} \
+	%{__enable_disable vstream} \
 	--enable-vm \
 %ifarch ppc
 	--enable-wii \
 %endif
-	%{__disable win32 win32dll} \
+	%{__enable_disable win32 win32dll} \
 	--enable-x11 \
-	%{__disable x264} \
+	%{__enable_disable x264} \
 	--enable-xmga \
 	%{?with_xmms:--enable-xmms --with-xmmsplugindir=%{_libdir}/xmms/Input --with-xmmslibdir=%{_libdir}} \
 	--enable-xv \
-	%{__disable xvid} \
+	%{__enable_disable xvid} \
 	--enable-xvmc --with-xvmclib=XvMCW \
 	%{__enable_disable zr} \
 	"$@"
