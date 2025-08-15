@@ -1,0 +1,10 @@
+--- MPlayer-1.5/libvo/vo_gif89a.c~	2021-01-23 19:22:13.000000000 +0100
++++ MPlayer-1.5/libvo/vo_gif89a.c	2025-08-15 11:42:32.216659586 +0200
+@@ -50,6 +50,7 @@
+ #include <unistd.h>
+ 
+ #include <gif_lib.h>
++#include <gif_util.h>
+ 
+ #include "config.h"
+ #include "subopt-helper.h"

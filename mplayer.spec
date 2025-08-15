@@ -157,7 +157,7 @@ Patch14:	cflags.patch
 Patch15:	%{name}-live555-async.patch
 Patch16:	%{name}-live555-config.patch
 Patch17:	%{name}-gsm.patch
-
+Patch18:	giflib-5.2.patch
 Patch19:	%{name}-shared.patch
 Patch20:	%{name}-vstream.patch
 
@@ -430,6 +430,7 @@ cp -f etc/codecs.conf etc/codecs.win32.conf
 %patch -P15 -p1
 %patch -P16 -p1
 %patch -P17 -p1
+%patch -P18 -p1
 
 %{?with_shared:%patch19 -p1}
 %patch -P20 -p1
