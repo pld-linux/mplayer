@@ -490,7 +490,7 @@ CFLAGS="%{rpmcflags} %{?with_hidden_visibility:-fvisibility=hidden} %{?with_shar
 CFLAGS="$CFLAGS -I%{_includedir}/xvid%{?with_directfb: -I%{_includedir}/directfb} -DHAVE_GSM_H=1"
 %{?with_bs2b:CFLAGS="$CFLAGS -I%{_includedir}/bs2b"}
 %{?with_smb:CFLAGS="$CFLAGS $(pkg-config --cflags smbclient)"}
-%{?with_openjpeg:CFLAGS="$CFLAGS pkg-config --cflags libopenjp2)"}
+%{?with_openjpeg:CFLAGS="$CFLAGS $(pkg-config --cflags libopenjp2)"}
 
 # NOTE:
 # - lircc refers to obsolete liblircc library (used in LIRCCD < 0.9)

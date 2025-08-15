@@ -20,6 +20,70 @@
    --extra-ldflags=*)
      extra_ldflags=$(option_value $ac_option)
      ;;
+@@ -6486,6 +6486,13 @@
+ echores "$_bluray"
+ 
+ echocheck "dvdread"
++if test "$_dvdread" = yes ; then
++    _dvdreadcflags=$($_dvdreadconfig --cflags 2> /dev/null)
++    _dvdreadlibs=$($_dvdreadconfig --libs 2> /dev/null)
++    extra_cflags="$extra_cflags $_dvdreadcflags"
++    extra_ldflags="$extra_ldflags $_dvdreadlibs"
++fi
++echocheck "dvdread"
+ if test "$_dvdread" = auto ; then
+   _dvdread=no
+     _dvdreadcflags=$($_dvdreadconfig --cflags 2> /dev/null)
+@@ -6939,6 +6939,9 @@
+   extra_ldflags="$extra_ldflags -logg -lvorbisidec"
+ elif test "$_libvorbis" = yes ; then
+   _vorbis=yes
++  for vorbislibs in '-lvorbisenc -lvorbis -logg' '-lvorbis -logg' ; do
++    statement_check vorbis/vorbisenc.h 'vorbis_encode_ctl(0, 0, 0); ogg_stream_clear(0)' $vorbislibs && _libvorbis=yes && break
++  done
+   def_vorbis='#define CONFIG_OGGVORBIS 1'
+   codecmodules="libvorbis $codecmodules"
+   res_comment="libvorbis"
+@@ -7023,11 +7023,12 @@
+ if test "$_mpg123" = auto; then
+   _mpg123=no
+   statement_check mpg123.h 'mpg123_param(NULL, MPG123_RESYNC_LIMIT, -1, 0.)' -lmpg123 &&
+-      _mpg123=yes && extra_ldflags="$extra_ldflags -lmpg123"
++      _mpg123=yes
+ fi
+ if test "$_mpg123" = yes ; then
+   def_mpg123='#define CONFIG_MPG123 1'
+   codecmodules="mpg123 $codecmodules"
++  extra_ldflags="$extra_ldflags -lmpg123"
+ else
+   nocodecmodules="mpg123 $nocodecmodules"
+ fi
+@@ -7038,11 +7039,12 @@
+ if test "$_liba52" = auto ; then
+   _liba52=no
+   statement_check_broken inttypes.h a52dec/a52.h 'a52_state_t *testHand; testHand=a52_init(0)' -la52 &&
+-    _liba52=yes && extra_ldflags="$extra_ldflags -la52"
++    _liba52=yes
+ fi
+ if test "$_liba52" = yes ; then
+   def_liba52='#define CONFIG_LIBA52 1'
+   codecmodules="liba52 $codecmodules"
++  extra_ldflags="$extra_ldflags -la52"
+ else
+   nocodecmodules="liba52 $nocodecmodules"
+ fi
+@@ -7066,7 +7068,10 @@
+ if test "$_libmpeg2" = auto ; then
+   _libmpeg2=no
+   header_check_broken stdint.h mpeg2dec/mpeg2.h -lmpeg2 &&
+-    _libmpeg2=yes && extra_ldflags="$extra_ldflags -lmpeg2"
++    _libmpeg2=yes
++fi
++if test "$_libmpeg2" = yes ; then
++    extra_ldflags="$extra_ldflags -lmpeg2"
+ fi
+ 
+ def_libmpeg2='#undef CONFIG_LIBMPEG2'
 @@ -8278,7 +8282,7 @@ echores "$_crash_debug"
  
  echocheck "compiler support for noexecstack"
