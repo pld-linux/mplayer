@@ -43,12 +43,12 @@
 %bcond_without	mpg123		# libmpg123 MP3 decoding support
 %bcond_with	musepack	# libmpcdec support (deprecated in favour of libavcodec)
 %bcond_without	openjpeg	# OpenJPEG (JPEG2000) input/output support
-%bcond_without	quicktime	# binary quicktime dll support
+%bcond_with	quicktime	# binary quicktime dll support
 %bcond_without	real		# Real* 8/9 codecs support
 %bcond_without	vorbis		# Ogg Vorbis audio support (both tremor and libvorbis)
 %bcond_with	tremor		# use tremor instead of libvorbis
 %bcond_without	theora		# Ogg Theora video support
-%bcond_without	win32		# Win32 codecs support
+%bcond_with	win32		# Win32 codecs support
 %bcond_without	x264		# x264 support
 %bcond_with	xmms		# XMMS inputplugin support
 %bcond_without	xvid		# XviD codec
@@ -84,8 +84,6 @@
 %endif
 
 %ifnarch %{ix86}
-%undefine	with_win32
-%undefine	with_quicktime
 %undefine	with_vidix
 %endif
 %ifnarch %{ix86} %{x8664} ppc ppc64

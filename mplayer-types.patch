@@ -383,3 +383,14 @@
  {
  	int size;
  	xvid_enc_stats_t stats;
+--- MPlayer-1.5/libmpcodecs/ve_nuv.c~	2025-08-16 02:13:08.000000000 +0200
++++ MPlayer-1.5/libmpcodecs/ve_nuv.c	2025-08-16 02:18:42.389992964 +0200
+@@ -125,7 +125,7 @@
+   uint8_t* data = vf->priv->buffer + FRAMEHEADERSIZE;
+   uint8_t* zdata = vf->priv->zbuffer + FRAMEHEADERSIZE;
+   int len = 0, r;
+-  size_t zlen = 0;
++  lzo_uint zlen = 0;
+ 
+   memset(header, 0, FRAMEHEADERSIZE); // Reset the header
+   if(vf->priv->lzo)
