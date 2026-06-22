@@ -122,7 +122,7 @@ Summary(pl.UTF-8):	Odtwarzacz filmów dla systemów uniksowych
 Summary(pt_BR.UTF-8):	Reprodutor de filmes
 Name:		mplayer
 Version:	1.5
-Release:	14
+Release:	15
 # DO NOT increase epoch unless it's really neccessary!
 # especially such changes like pre7->pre7try2, increase Release instead!
 # PS: $ rpmvercmp pre7try2 pre7
@@ -718,7 +718,9 @@ umask 022
 %files common
 %defattr(644,root,root,755)
 %doc AUTHORS README
-%{?with_shared:%attr(755,root,root) %{_libdir}/libmplayer.so}
+%if %{with shared}
+%{_libdir}/libmplayer.so
+%endif
 %if %{with win32}
 %doc etc/codecs.win32.conf
 %endif
