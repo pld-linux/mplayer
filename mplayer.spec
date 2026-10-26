@@ -288,7 +288,7 @@ BuildRequires:	xz
 BuildRequires:	yasm
 %endif
 BuildRequires:	zlib-devel
-Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+Requires:	%{name}-common%{?_isa} = %{epoch}:%{version}-%{release}
 %{?with_openjpeg:Requires:	openjpeg2 >= 2.1.0}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -366,7 +366,7 @@ escolhidos, incluindo SDL, SVGALib, frame buffer, aalib, X11 e outros.
 Summary:	MPlayer with GTK+ GUI interface
 Summary(pl.UTF-8):	MPlayer z graficznym interfejsem GTK+
 Group:		X11/Applications/Multimedia
-Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+Requires:	%{name}-common%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:	%{name}-skin
 
 %description -n gmplayer
@@ -403,7 +403,7 @@ Dokumentacja do MPlayera w formacie HTML.
 Summary:	MEncoder - a movie encoder for Linux
 Summary(pl.UTF-8):	MEncoder - koder filmów dla Linuksa
 Group:		Applications/Multimedia
-Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+Requires:	%{name}-common%{?_isa} = %{epoch}:%{version}-%{release}
 
 %description -n mencoder
 MEncoder is a movie encoder for Linux and is a part of the MPlayer
